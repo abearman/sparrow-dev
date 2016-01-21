@@ -2,6 +2,8 @@
 
 ### Logo:
 
+![alt tag](https://github.com/cs210/sap-team-2/blob/master/photos/logo.png)
+
 ### Team Members:
 | Amy Bearman | Catherine Dong | Andrew Lim | Pavitra Rengarajan | Andrei Terentiev |
 | ----------- | -------------- | ---------- | ------------------ | ---------------- |
