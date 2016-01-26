@@ -1,5 +1,9 @@
 # Sparrow
 
+###Upcoming:
+
+***Liaison Meeting (Feb 2):*** Our meeting is scheduled for **4:30pm - 5:30pm** in the **Loft**.
+
 ### Logo:
 
 ![alt tag](https://github.com/cs210/sap-team-2/blob/master/photos/logo.png)
