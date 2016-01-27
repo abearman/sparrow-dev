@@ -18,9 +18,10 @@
 In many warehouses or open ports, retailers and companies have difficulty managing inventory and must frequently  clear out inventory to perform stocktaking. Current procedures are primarily manual with workers walking around warehouses and taking down counts for inventory. Drone-based solutions may be able to automate this process and maintain inventory data in a more reliable and timely manner. Our project aims to explore the potential for such a solution and implement a proof of concept drone inventory management solution. Partnering with SAP, our goal is to deploy and evaluate the system in a real world warehouse environment.
 
 ### Team Communication:
-+ Slack: cs210
++ Slack: <a href="https://cs210.slack.com"> cs210.slack.com </a>
 + Drive: https://drive.google.com/open?id=0B-vX402F_3nLbVJhQzFQSVhOWlE
 + Email: abearman@stanford.edu, cdong@stanford.edu, alim16@stanford.edu, pavitrar@stanford.edu, andreit1@stanford.edu
++ Twitter: <a href="https://twitter.com/SparrowEng"> @SparrowEng </a>
 
 ### Team Skills:
 Member | Skills | Personal Traits | Desired Growth | Weaknesses
