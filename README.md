@@ -20,7 +20,8 @@ In many warehouses or open ports, retailers and companies have difficulty managi
 ### Team Communication:
 + Slack: <a href="https://cs210.slack.com"> cs210.slack.com </a>
 + Drive: https://drive.google.com/open?id=0B-vX402F_3nLbVJhQzFQSVhOWlE
-+ Email: abearman@stanford.edu, cdong@stanford.edu, alim16@stanford.edu, pavitrar@stanford.edu, andreit1@stanford.edu
++ Team email: sparrowteam@lists.stanford.edu
++ Individual emails: abearman@stanford.edu, cdong@stanford.edu, alim16@stanford.edu, pavitrar@stanford.edu, andreit1@stanford.edu
 + Twitter: <a href="https://twitter.com/SparrowEng"> @SparrowEng </a>
 
 ### Team Skills:
