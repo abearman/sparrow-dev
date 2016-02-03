@@ -2,7 +2,7 @@
 
 ###Upcoming:
 
-***Liaison Meeting (Feb 2):*** Our meeting is scheduled for **4:30pm - 5:30pm** in **Gates Room 167**.
+***Liaison Meeting (Feb 2):*** Our meeting is scheduled for **4:30pm - 5:30pm** in **Gates Loft, Room 505**.
 
 ### Logo:
 
