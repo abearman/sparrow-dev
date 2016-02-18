@@ -2,7 +2,8 @@
 
 ###Upcoming:
 
-***Liaison Meeting (Feb 2):*** Our meeting is scheduled for **4:30pm - 5:30pm** in **Gates Loft, Room 505**.
+***Rapid Protoyping Presentation (Feb 18)***
+***Meeting with SAP and Nestle (Feb 18)*** 
 
 ### Logo:
 
