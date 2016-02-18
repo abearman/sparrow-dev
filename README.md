@@ -3,6 +3,7 @@
 ###Upcoming:
 
 ***Rapid Protoyping Presentation (Feb 18)***
+
 ***Meeting with SAP and Nestle (Feb 18)*** 
 
 ### Logo:
