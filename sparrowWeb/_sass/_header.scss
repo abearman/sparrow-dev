@@ -1,0 +1,50 @@
+
+.site-header {
+	margin:0;
+	.header-container {
+		background-color:$brand-color-navy;
+		height: $header-height;
+		font-family:'Oswald', sans-serif;
+
+		.header-nav-logo {
+			float:left;
+			width:$header-height * 0.75;
+			height:$header-height * 0.75;
+			padding:$header-height * 0.2;
+			img {
+				width:$header-height * 0.6;
+				height:$header-height * 0.6;
+			}
+		}
+
+		.header-nav-container {
+			float:right;
+		}
+
+		.header-nav-list {
+			list-style-type:none;
+		    margin:0;
+		    padding:$header-height * 0.2;
+		    float:right;
+
+			li {
+	    		float:left;
+	    		padding-left:$header-height * 0.2;
+	    		padding-right:$header-height * 0.2;
+			}
+
+			a {
+	    		display:block;
+	    		padding:8px;
+	    		font-size:$header-height * 0.3;
+	    		text-align:center;
+	    		text-decoration: none;
+	    		color:white;
+	    		font: Oswald;
+	    		font-size:20px;
+	    		font-weight:100;
+			}
+		}
+	}
+}
+
