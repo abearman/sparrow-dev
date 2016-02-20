@@ -1,0 +1,30 @@
+h1{
+	text-align: center;
+}
+hr{
+	width: 15px;
+}
+.team-photos-wrapper{
+	text-align: center;
+	.team-photos{
+		display: inline-block;
+		.team-photo{
+			display: inline-block;
+	    width: 150px;
+	    height: 150px;
+	  	img{
+	  		border-radius: 50%;
+	  	}
+		}
+		:after{
+			content: '';
+	    display: inline-block;
+	    width: 100%;
+		}
+	}
+}
+.team-description{
+	text-align: center;
+	width: 60%;
+	margin: 0 auto;
+}
