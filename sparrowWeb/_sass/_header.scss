@@ -5,6 +5,7 @@
 		background-color:$brand-color-navy;
 		height: $header-height;
 		font-family:'Oswald', sans-serif;
+		overflow-y:hidden;
 
 		.header-nav-logo {
 			float:left;
@@ -40,7 +41,6 @@
 	    		text-align:center;
 	    		text-decoration: none;
 	    		color:white;
-	    		font: Oswald;
 	    		font-size:20px;
 	    		font-weight:100;
 			}
