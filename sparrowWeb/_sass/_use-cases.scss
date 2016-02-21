@@ -1,0 +1,28 @@
+.use-case-row-left{
+		.left-col{
+			img{
+				max-height: 300px;
+				width: 100%;
+			}
+		}
+		.right-col{
+			img{
+				max-height: 300px;
+			}
+		}
+	}
+
+.use-case-row-right{
+		.right-col{
+			img{
+				max-height: 300px;
+				width: 100%;
+			}
+		}
+		.left-col{
+			img{
+				max-height: 300px;
+				width: 100%;
+			}
+		}
+	}
