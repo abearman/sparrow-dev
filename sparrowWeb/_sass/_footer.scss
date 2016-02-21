@@ -1,0 +1,34 @@
+footer {
+	background-color:$brand-color-navy;
+	overflow: auto;
+	margin: 0;
+	width: 100%;
+	h1{
+		color: #FFFFFF;
+	}
+	.contact-form{
+		float:right;
+		margin-right: 100px;
+		.form-container{
+			width: 150px;
+			clear: both;
+			.form-box{
+				width: 100%;
+				clear: both;
+				background-color: $brand-color-teal;
+				border: none;
+				margin-bottom: 10px;
+				height: 25px;
+			}
+		}
+	}
+	p{
+		clear: both;
+		text-align: center;
+		color: #FFFFFF;
+	}
+	.brand-name{
+		color:#FFFFFF;
+		text-align: center;
+	}
+}
