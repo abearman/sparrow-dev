@@ -153,6 +153,18 @@ footer {
   position: relative;
   height: 400px;
   background-image: url("../webAssets/mine_small.png"); }
+  .use-case-row-left .right-col .overlay-text {
+    position: absolute;
+    z-index: 10;
+    text-align: center;
+    color: #FFFFFF;
+    width: 50%;
+    height: 50%;
+    margin: auto;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0; }
   .use-case-row-left .right-col .overlay {
     position: absolute;
     top: 0;
@@ -160,12 +172,26 @@ footer {
     width: 100%;
     height: 100%;
     background-color: black;
-    opacity: 0.6; }
+    opacity: 0.7;
+    z-index: 0; }
 
 .use-case-row-right .left-col {
   position: relative;
   height: 400px;
   background-image: url("../webAssets/mine_small.png"); }
+  .use-case-row-right .left-col .overlay-text {
+    position: absolute;
+    z-index: 10;
+    text-align: center;
+    color: #FFFFFF;
+    width: 50%;
+    width: 50%;
+    height: 50%;
+    margin: auto;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0; }
   .use-case-row-right .left-col .overlay {
     position: absolute;
     top: 0;
@@ -173,7 +199,7 @@ footer {
     width: 100%;
     height: 100%;
     background-color: black;
-    opacity: 0.6; }
+    opacity: 0.7; }
 .use-case-row-right .right-col {
   position: relative;
   height: 400px;
