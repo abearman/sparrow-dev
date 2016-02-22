@@ -1,5 +1,6 @@
 footer {
-	background-color:$brand-color-navy;
+	background-image:url(../webAssets/map.png);
+	background-size: cover;
 	overflow: auto;
 	margin: 0;
 	width: 100%;
@@ -7,18 +8,20 @@ footer {
 		color: #FFFFFF;
 	}
 	.contact-form{
+		font-family:'Oswald', sans-serif;
 		float:right;
 		margin-right: 100px;
 		.form-container{
-			width: 150px;
+			width: 225px;
 			clear: both;
 			.form-box{
 				width: 100%;
 				clear: both;
 				background-color: $brand-color-teal;
 				border: none;
-				margin-bottom: 10px;
-				height: 25px;
+				margin-bottom: 25px;
+				height: 30px;
+				padding: 8px;
 			}
 		}
 	}
@@ -31,4 +34,17 @@ footer {
 		color:#FFFFFF;
 		text-align: center;
 	}
+	button{
+		font-family:'Oswald', sans-serif;
+		color: $brand-color-teal;
+		padding: 5px;
+		background-color: transparent;
+		background-repeat: no-repeat;
+		border: 2px solid $brand-color-teal;
+		cursor: pointer;
+		overflow: hidden;
+	}
+}
+#inquiry{
+	height: 100px;
 }
