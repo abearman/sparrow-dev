@@ -63,7 +63,7 @@ def arm_and_takeoff(aTargetAltitude):
 			break
 		time.sleep(1)
 
-arm_and_takeoff(5)
+arm_and_takeoff(3)
 
 def send_ned_velocity(velocity_x, velocity_y, velocity_z, duration):
     """
@@ -88,23 +88,13 @@ def send_ned_velocity(velocity_x, velocity_y, velocity_z, duration):
 # move in a square
 print "Local location (after takeoff, starting point): ", vehicle.location.local_frame
 
-send_ned_velocity(1,0,0,0.01) # first move in x direction at 1 m/s for 3 s
-print "Local location (point 1): ", vehicle.location.local_frame
-
-send_ned_velocity(0,1,0,3)
-#print "Local location (point 2): ", vehicle.location.local_frame
-
-send_ned_velocity(-1,0,0,3)
-#print "Local location (point 3): ", vehicle.location.local_frame
-
-send_ned_velocity(0,-1,0,3)
-#print "Local location (point 4): ", vehicle.location.local_frame
-
-
-# land at current location
-time.sleep(10)
-vehicle.mode = VehicleMode("LAND")
+send_ned_velocity(0, -1, 0, 5)
+#send_ned_velocity(0, 1, 0, 10)
 time.sleep(100)
+
+
+# land at current location)
+vehicle.mode = VehicleMode("LAND")
 print "Local location (after landing): ", vehicle.location.local_frame
 
 
