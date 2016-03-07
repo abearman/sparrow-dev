@@ -22,4 +22,8 @@ public class PoseData {
 	this.rotation = rotation.clone();
     }
 
+    // Getters
+    public double[] getTranslation() { return this.translation; }
+    public double[] getRotation() { return this.rotation; }
+
 };
