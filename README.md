@@ -2,9 +2,7 @@
 
 ###Upcoming:
 
-***Rapid Protoyping Presentation (Feb 18)***
-
-***Meeting with SAP and Nestle (Feb 18)*** 
+***Software Demo Presentation (March 10)***
 
 ### Logo:
 
