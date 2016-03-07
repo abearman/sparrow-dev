@@ -42,4 +42,14 @@ public class Utils {
         return normVec;
     }
 
+    // check if the currXYZ coordinates are within a certain radius from the center XYZ coordinates
+    public boolean checkInRadius(double[] centerXYZ, double[] currXYZ, double radius) {
+        double dist = getDist(centerXYZ, currXYZ);
+        if (dist <= radius) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
 }

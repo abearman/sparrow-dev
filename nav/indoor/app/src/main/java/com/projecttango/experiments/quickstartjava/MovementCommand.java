@@ -5,10 +5,12 @@
 
 package com.projecttango.experiments.quickstartjava;
 
+/*
+    MovementCommand encapsulates velocity_x, velocity_y, velocity_z, duration.
+     These parameters can be used by the send_ned_velocity command in the DroneKit API.
+ */
 public class MovementCommand {
 
-    // command encapsulates velocity_x, velocity_y, velocity_z, duration
-    // these parameters can be used by send_ned_velocity
     private double velocity_x;
     private double velocity_y;
     private double velocity_z;
