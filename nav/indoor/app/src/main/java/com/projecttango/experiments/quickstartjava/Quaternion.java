@@ -47,11 +47,17 @@ public class Quaternion {
         return new Quaternion(w/d, -x/d, -y/d, -z/d);
     }
 
-
     // return a / b
     // we use the definition a * b^-1 (as opposed to b^-1 a)
     public Quaternion divides(Quaternion q) {
         return this.times(q.inverse());
+    }
+
+    // transformation from current quaternion position to new one: q2*q1^(-1)
+    // definition: inverse of q1 * q2 - inverse of q1 will rotate object back 
+    // to original frame, transform by q2 to rotate to new orientation  
+    public Quaternion transformTo(Quaternion q) {
+        return q.times(this.inverse());
     }
 
 }
