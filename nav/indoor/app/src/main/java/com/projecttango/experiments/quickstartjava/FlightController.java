@@ -5,6 +5,9 @@
 
 package com.projecttango.experiments.quickstartjava;
 
+/*
+    Encapsulation around ArduPilot.
+ */
 public class FlightController {
 
 };
