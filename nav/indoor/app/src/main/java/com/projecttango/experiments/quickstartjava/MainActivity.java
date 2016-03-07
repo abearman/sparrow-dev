@@ -147,7 +147,6 @@ public class MainActivity extends Activity {
 			            tangoPose.rotation[2], tangoPose.rotation[3]);
 
 		        PoseData pose = new PoseData(tangoPose);
-                PoseData targetPose = navigator
 
                 // Output to LogCat
                 String logMsg = translationMsg + " | " + rotationMsg;

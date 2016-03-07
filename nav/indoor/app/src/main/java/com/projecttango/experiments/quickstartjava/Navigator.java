@@ -10,16 +10,16 @@ import com.google.atap.tangoservice.TangoPoseData;
 public class Navigator {
     private Path path;
     private FlightController flightController;
-    private DroneConfig;
+    private DroneConfig droneConfig;
 
     public Navigator(FlightController flightController) {
-	this.flightController = flightController;
+	    this.flightController = flightController;
     }
 
     public Navigator(FlightController flightController,
 		     Path path) {
-	this.flightController(flightController);
-	this.path = path;
+	    this(flightController);
+	    this.path = path;
     }
     
     

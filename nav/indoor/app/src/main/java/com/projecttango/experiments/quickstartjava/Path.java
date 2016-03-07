@@ -5,6 +5,7 @@
 
 package com.projecttango.experiments.quickstartjava;
 
+import java.util.List;
 import java.util.ArrayList;
 
 public class Path {
@@ -17,21 +18,4 @@ public class Path {
     void addPose(PoseData pose) {
 
     }
-
-
-
-    public Navigator(FlightController flightController) {
-	this.flightController = flightController;
-    }
-
-    public Navigator(FlightController flightController,
-		     Path path) {
-	this.flightController(flightController);
-	this.path = path;
-    }
-
-    
-
-    
-    
 };
