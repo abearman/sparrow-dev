@@ -33,6 +33,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.net.Socket;
 
 /**
  * Main Activity for the Tango Java Quickstart. Demonstrates establishing a
@@ -42,6 +43,8 @@ import java.util.ArrayList;
  */
 public class MainActivity extends Activity {
     private static final String TAG = MainActivity.class.getSimpleName();
+    private static final String addr = "000.000.000.000"
+    private static final int port = 8080;
     private static final String sTranslationFormat = "Translation: %f, %f, %f";
     private static final String sRotationFormat = "Rotation: %f, %f, %f, %f";
 
@@ -57,6 +60,8 @@ public class MainActivity extends Activity {
     private Tango mTango;
     private TangoConfig mConfig;
     private boolean mIsTangoServiceConnected;
+
+    private SocketConnection socket;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,6 +80,8 @@ public class MainActivity extends Activity {
         mConfig = mTango.getConfig(TangoConfig.CONFIG_TYPE_CURRENT);
         mConfig.putBoolean(TangoConfig.KEY_BOOLEAN_MOTIONTRACKING, true);
 
+        socket = new SocketConnection(dstAddress, dstPort);
+        socket.send('message here');
     }
 
     @Override
@@ -124,6 +131,7 @@ public class MainActivity extends Activity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        socket.close();
     }
 
     private void setTangoListeners() {
