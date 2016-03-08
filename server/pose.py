@@ -11,8 +11,8 @@ pose = None # String representing tango location/rotation
 def pose_update():
     global pose
     if request.method == "POST":
-        data = request.form
-        print "[/pose/update]: received "  + data.get("pose", None)
+        data = request.json
+        print "[/pose/update]: received "  + data["pose"]
         pose = data["pose"]
         print "[/pose/update]: pose is now " + pose
     return ""
