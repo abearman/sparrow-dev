@@ -81,7 +81,7 @@ msg = vehicle.message_factory.command_long_encode(
     0,          # param 2, yaw speed deg/s
     0,          # param 3, direction -1 ccw, 1 cw
     0, # param 4, relative offset 1, absolute angle 0
-    0, 0, 1)    # param 5 ~ 7 not used
+    0, 0, 10)    # param 5 ~ 7 not used
 # send command to vehicle
 vehicle.send_mavlink(msg)
 
