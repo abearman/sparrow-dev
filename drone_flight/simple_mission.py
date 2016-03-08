@@ -51,7 +51,7 @@ def arm_and_takeoff(aTargetAltitude):
             break
         time.sleep(1)
 
-#arm_and_takeoff(50)
+arm_and_takeoff(10)
 
 
 def send_ned_velocity(velocity_x, velocity_y, velocity_z, duration):
@@ -70,13 +70,13 @@ def send_ned_velocity(velocity_x, velocity_y, velocity_z, duration):
 		print " Altitude: ", vehicle.location.global_relative_frame.alt
 		time.sleep(1)
 
-vehicle.mode = VehicleMode("SPORT")
+vehicle.mode = VehicleMode("AUTO")
 
 
 msg = vehicle.message_factory.command_long_encode(
     0, 0,    # target_system, target_component
     mavutil.mavlink.MAV_CMD_NAV_TAKEOFF, #command
-    0, #confirmation
+    10, #confirmation
     0,    # param 1, yaw in degrees
     0,          # param 2, yaw speed deg/s
     0,          # param 3, direction -1 ccw, 1 cw
@@ -84,10 +84,10 @@ msg = vehicle.message_factory.command_long_encode(
     0, 0, 10)    # param 5 ~ 7 not used
 # send command to vehicle
 vehicle.send_mavlink(msg)
+print "Sent message"
+print vehicle.parameters.keys()
 
-
-
-send_ned_velocity(0, 0, -5, 5)
+#send_ned_velocity(0, 0, -5, 5)
 
 while True:
 	print " Altitude: ", vehicle.location.global_relative_frame.alt
