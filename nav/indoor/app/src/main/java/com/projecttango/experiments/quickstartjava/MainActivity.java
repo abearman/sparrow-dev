@@ -32,8 +32,23 @@ import android.util.Log;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.apache.http.protocol.HTTP;
+import org.apache.http.message.BasicHeader;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.HttpStatus;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.StatusLine;
+import org.json.JSONObject;
+
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.net.Socket;
+import java.net.URI;
 
 /**
  * Main Activity for the Tango Java Quickstart. Demonstrates establishing a
@@ -43,10 +58,10 @@ import java.net.Socket;
  */
 public class MainActivity extends Activity {
     private static final String TAG = MainActivity.class.getSimpleName();
-    private static final String addr = "000.000.000.000"
-    private static final int port = 8080;
-    private static final String sTranslationFormat = "Translation: %f, %f, %f";
-    private static final String sRotationFormat = "Rotation: %f, %f, %f, %f";
+    private static final String addr = "10.34.172.230";
+    private static final int port = 5000;
+    private static final String sTranslationFormat = "x%fy%fz%f";
+    private static final String sRotationFormat = "i%fj%fk%fl%f";
 
     private static final int SECS_TO_MILLISECS = 1000;
     private static final double UPDATE_INTERVAL_MS = 100.0;
@@ -61,7 +76,9 @@ public class MainActivity extends Activity {
     private TangoConfig mConfig;
     private boolean mIsTangoServiceConnected;
 
-    private SocketConnection socket;
+    private HttpClient httpclient;
+
+    //private SocketConnection socket;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,7 +97,9 @@ public class MainActivity extends Activity {
         mConfig = mTango.getConfig(TangoConfig.CONFIG_TYPE_CURRENT);
         mConfig.putBoolean(TangoConfig.KEY_BOOLEAN_MOTIONTRACKING, true);
 
-        socket = new SocketConnection(dstAddress, dstPort);
+        this.httpclient = new DefaultHttpClient();
+
+        //socket = new SocketConnection(dstAddress, dstPort);
     }
 
     @Override
@@ -130,7 +149,7 @@ public class MainActivity extends Activity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        socket.close();
+        //socket.close();
     }
 
     private void setTangoListeners() {
@@ -156,9 +175,25 @@ public class MainActivity extends Activity {
 		        PoseData pose = new PoseData(tangoPose);
 
                 // Output to LogCat
-                String logMsg = translationMsg + " | " + rotationMsg;
+                String logMsg = translationMsg + "_" + rotationMsg;
                 Log.i(TAG, logMsg);
-                socket.send(logMsg);
+                //socket.send(logMsg);
+
+                HttpResponse response;
+                String responseString = null;
+                JSONObject json = new JSONObject();
+                try{
+                    HttpPost post = new HttpPost("http://" + addr + ":" + port + "/pose/update");
+                    json.put("pose", logMsg);
+                        StringEntity se = new StringEntity(json.toString());
+                        se.setContentEncoding(new BasicHeader(HTTP.CONTENT_TYPE, "application/json"));
+                        post.setEntity(se);
+                        response = httpclient.execute(post);
+                        System.out.println(response.getStatusLine().getStatusCode());
+                        response.getEntity().getContent().close();
+                } catch(Exception e){
+                        e.printStackTrace();
+                }
 
                 final double deltaTime = (tangoPose.timestamp - mPreviousTimeStamp)
                         * SECS_TO_MILLISECS;
