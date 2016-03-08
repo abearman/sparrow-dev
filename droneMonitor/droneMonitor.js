@@ -42,6 +42,7 @@ $(document).ready(function(){
 			ctx.beginPath();
 			ctx.moveTo(x1,y1);
 			ctx.lineTo(x2,y2);
+			ctx.strokeStyle="#FF0000";
 			ctx.stroke();
 			console.log(coordList);
 		}
@@ -111,7 +112,7 @@ function animate() {
         ctx.beginPath();
         //ctx.translate(pt.x, pt.y);
         console.log(drone);
-        ctx.drawImage(drone, pt.x, pt.y,80,80);
+        ctx.drawImage(drone, pt.x-40, pt.y-40,80,80);
         return;
         //ctx.rect(-width / 2, -height / 2, 30, 30);
         //ctx.arc(pt.x, pt.y, 10, 0, 2 * Math.PI, false);
