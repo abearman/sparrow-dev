@@ -10,16 +10,15 @@ import java.net.UnknownHostException;
 import android.os.AsyncTask;
 import android.os.Bundle;
 
- public class SocketConnection {
-  
+public class SocketConnection {
   String dstAddress;
   int dstPort;
   Socket socket;
 
   SocketConnection(String addr, int port) {
-   dstAddress = addr;
-   dstPort = port;
-   socket = new Socket(dstAddress, dstPort);
+    dstAddress = addr;
+    dstPort = port;
+    socket = new Socket(dstAddress, dstPort);
   }
 
   public void send(String msg) {

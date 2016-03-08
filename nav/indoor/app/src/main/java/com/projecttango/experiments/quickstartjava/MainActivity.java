@@ -81,7 +81,6 @@ public class MainActivity extends Activity {
         mConfig.putBoolean(TangoConfig.KEY_BOOLEAN_MOTIONTRACKING, true);
 
         socket = new SocketConnection(dstAddress, dstPort);
-        socket.send('message here');
     }
 
     @Override
@@ -159,6 +158,7 @@ public class MainActivity extends Activity {
                 // Output to LogCat
                 String logMsg = translationMsg + " | " + rotationMsg;
                 Log.i(TAG, logMsg);
+                socket.send(logMsg);
 
                 final double deltaTime = (tangoPose.timestamp - mPreviousTimeStamp)
                         * SECS_TO_MILLISECS;
