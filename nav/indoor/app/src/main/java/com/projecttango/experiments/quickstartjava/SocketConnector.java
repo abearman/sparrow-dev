@@ -1,4 +1,6 @@
-package com.projecttango.experiments.quickstartjava;
+// We will use the SocketConnector after we have the Flask socket working.
+
+/*package com.projecttango.experiments.quickstartjava;
 package com.example.androidclient;
 
 import java.io.ByteArrayOutputStream;
@@ -34,3 +36,4 @@ public class SocketConnection {
     socket.close();
   }
 }
+*/
