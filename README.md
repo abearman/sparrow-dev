@@ -1,5 +1,7 @@
 # Sparrow-Dev
 
+Welcome to the Sparrow-Dev!  This is the main entry point to all things Sparrow. Check out the dev branch for our latest code work, and the master branch for more high-level information on Sparrow.
+
 ### Logo:
 
 ![alt tag](https://github.com/cs210/sap-team-2/blob/master/photos/logo.png)
