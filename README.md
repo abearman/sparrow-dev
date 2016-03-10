@@ -1,8 +1,4 @@
-# Sparrow
-
-###Upcoming:
-
-***Software Demo Presentation (March 10)***
+# Sparrow-Dev
 
 ### Logo:
 
