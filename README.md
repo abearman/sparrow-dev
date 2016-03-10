@@ -6,7 +6,7 @@ Welcome to the dev branch of the sparrow-dev repository! This repository tracks 
 
 There are four main components to our development: application, tango, drone, and server. The application deals with everything user-facing, from having the user input a drone path on a 3D map to visualizing the drone path in real-time as it follows the path. The Google Tango device is used for the bulk of the navigation logic, collision avoidance, motion tracking, 3D mapping, and spatial understanding. The drone is jerryrigged to the tango and serves as a vehicle to autonomously move around a space. We have built a server to handle communication between the different components; most significantly, the tango would send movement commands to the drone based on its vision algorithms and computations. The tango, drone, and server will all run on the drone controller's wifi. Here is a graphic depicting this design:
 
-
+![alt tag](https://github.com/cs210/sparrow-dev/blob/dev/images/devOverview.png)
 
 ### Directory Structure
 
