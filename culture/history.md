@@ -31,10 +31,10 @@ Now, three years later, we finally know what our purpose in life is. We were mea
 <img src="https://github.com/cs210/sparrow-dev/blob/master/photos/tbt/12.JPG" height="250">
 <img src="https://github.com/cs210/sparrow-dev/blob/master/photos/tbt/13.JPG" height="250">
 
-And thankfully I’ve stopped wearing that godforsaken lanyard.
+And thankfully, I’ve stopped wearing that godforsaken lanyard.
 
 ![alt tag](https://github.com/cs210/sparrow-dev/blob/master/culture/gifs/laughing_gosling.gif)
 
 **\#tbt**
 
-**-Pavitra (03/12)**
+**-Pavitra (03/10)**
