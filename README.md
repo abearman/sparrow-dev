@@ -1,8 +1,6 @@
 # Sparrow
 
-###Upcoming:
-
-***Software Demo Presentation (March 10)***
+Welcome to the Sparrow-Dev repository!  This is the main entry point to all things Sparrow. Check out the dev branch for the latest on our development progress and for an overview of the code structure. This master branch will contain more high-level information on Sparrow.
 
 ### Logo:
 
