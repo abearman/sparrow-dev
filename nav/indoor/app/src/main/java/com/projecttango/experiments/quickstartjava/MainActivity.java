@@ -78,6 +78,7 @@ public class MainActivity extends Activity {
     private TextView mRotationTextView;
     private TextView mAverageZTextView;
     private TextView mPointCountTextView;
+    private TextView mCollisionTextView;
 
     private Tango mTango;
     private TangoConfig mConfig;
@@ -92,6 +93,8 @@ public class MainActivity extends Activity {
     private double mXyIjPreviousTimeStamp;
     private double mXyzIjTimeToNextUpdate = UPDATE_INTERVAL_MS;
 
+    // collision detector
+    private CollisionDetector collisionDetector;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -102,9 +105,13 @@ public class MainActivity extends Activity {
         mRotationTextView = (TextView) findViewById(R.id.rotation_textview);
         mPointCountTextView = (TextView) findViewById(R.id.point_count_textview);
         mAverageZTextView = (TextView) findViewById(R.id.average_z_textview);
+        mCollisionTextView = (TextView) findViewById(R.id.collision_textview);
 
         // Instantiate Tango client
         mTango = new Tango(this);
+
+        // Instantiate collision detector
+        collisionDetector = new CollisionDetector(1.0);
 
         // Set up Tango configuration for motion tracking
         // If you want to use other APIs, add more appropriate to the config
@@ -262,6 +269,11 @@ public class MainActivity extends Activity {
                             String averageDepthString = "average depth: " + FORMAT_THREE_DECIMAL.format(averageDepth);
                             mAverageZTextView.setText(averageDepthString);
                             System.out.println(averageDepthString);
+                            if (collisionDetector.goingToCollide(averageDepth)) {
+                                mCollisionTextView.setText("You're going to collide!");
+                            } else {
+                                mCollisionTextView.setText("");
+                            }
                         }
                     });
                 }
