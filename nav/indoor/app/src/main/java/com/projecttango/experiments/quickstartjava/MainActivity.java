@@ -46,6 +46,8 @@ import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.nio.FloatBuffer;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.net.Socket;
 import java.net.URI;
@@ -57,20 +59,25 @@ import java.net.URI;
  * {@link TangoConfig}.
  */
 public class MainActivity extends Activity {
+
+
     private static final String TAG = MainActivity.class.getSimpleName();
-    private static final String addr = "10.34.172.230";
+    private static final String addr = "10.34.166.35";
     private static final int port = 5000;
     private static final String sTranslationFormat = "x%fy%fz%f";
     private static final String sRotationFormat = "i%fj%fk%fl%f";
 
     private static final int SECS_TO_MILLISECS = 1000;
     private static final double UPDATE_INTERVAL_MS = 100.0;
+    private static final DecimalFormat FORMAT_THREE_DECIMAL = new DecimalFormat("0.000");
 
     private double mPreviousTimeStamp;
     private double mTimeToNextUpdate = UPDATE_INTERVAL_MS;
 
     private TextView mTranslationTextView;
     private TextView mRotationTextView;
+    private TextView mAverageZTextView;
+    private TextView mPointCountTextView;
 
     private Tango mTango;
     private TangoConfig mConfig;
@@ -80,6 +87,12 @@ public class MainActivity extends Activity {
 
     //private SocketConnection socket;
 
+
+    // for point cloud
+    private double mXyIjPreviousTimeStamp;
+    private double mXyzIjTimeToNextUpdate = UPDATE_INTERVAL_MS;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -87,6 +100,8 @@ public class MainActivity extends Activity {
 
         mTranslationTextView = (TextView) findViewById(R.id.translation_textview);
         mRotationTextView = (TextView) findViewById(R.id.rotation_textview);
+        mPointCountTextView = (TextView) findViewById(R.id.point_count_textview);
+        mAverageZTextView = (TextView) findViewById(R.id.average_z_textview);
 
         // Instantiate Tango client
         mTango = new Tango(this);
@@ -96,6 +111,7 @@ public class MainActivity extends Activity {
         // like: mConfig.putBoolean(TangoConfig.KEY_BOOLEAN_DEPTH, true)
         mConfig = mTango.getConfig(TangoConfig.CONFIG_TYPE_CURRENT);
         mConfig.putBoolean(TangoConfig.KEY_BOOLEAN_MOTIONTRACKING, true);
+        mConfig.putBoolean(TangoConfig.KEY_BOOLEAN_DEPTH, true);
 
         this.httpclient = new DefaultHttpClient();
 
@@ -104,7 +120,6 @@ public class MainActivity extends Activity {
 
     @Override
     protected void onResume() {
-        super.onResume();
         // Lock the Tango configuration and reconnect to the service each time
         // the app
         // is brought to the foreground.
@@ -179,6 +194,8 @@ public class MainActivity extends Activity {
                 Log.i(TAG, logMsg);
                 //socket.send(logMsg);
 
+                // keeping this uncommented for the purpose of testing without server
+                /*
                 HttpResponse response;
                 String responseString = null;
                 JSONObject json = new JSONObject();
@@ -194,6 +211,7 @@ public class MainActivity extends Activity {
                 } catch(Exception e){
                         e.printStackTrace();
                 }
+                */
 
                 final double deltaTime = (tangoPose.timestamp - mPreviousTimeStamp)
                         * SECS_TO_MILLISECS;
@@ -220,8 +238,33 @@ public class MainActivity extends Activity {
             }
 
             @Override
-            public void onXyzIjAvailable(TangoXyzIjData arg0) {
-                // Ignoring XyzIj data
+            public void onXyzIjAvailable(final TangoXyzIjData xyzIj) {
+
+                System.out.println("XYZIJ is available");
+
+                final double currentTimeStamp = xyzIj.timestamp;
+                final double pointCloudFrameDelta = (currentTimeStamp - mXyIjPreviousTimeStamp)
+                        * SECS_TO_MILLISECS;
+                mXyIjPreviousTimeStamp = currentTimeStamp;
+                final double averageDepth = getAveragedDepth(xyzIj.xyz);
+
+                mXyzIjTimeToNextUpdate -= pointCloudFrameDelta;
+
+                if (mXyzIjTimeToNextUpdate < 0.0) {
+                    mXyzIjTimeToNextUpdate = UPDATE_INTERVAL_MS;
+                    final String pointCountString = "point count: " + Integer.toString(xyzIj.xyzCount);
+                    System.out.println(pointCountString);
+
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            mPointCountTextView.setText(pointCountString);
+                            String averageDepthString = "average depth: " + FORMAT_THREE_DECIMAL.format(averageDepth);
+                            mAverageZTextView.setText(averageDepthString);
+                            System.out.println(averageDepthString);
+                        }
+                    });
+                }
             }
 
             @Override
@@ -235,5 +278,26 @@ public class MainActivity extends Activity {
             }
         });
     }
+
+    /**
+     * Calculates the average depth from a point cloud buffer.
+     *
+     * @param pointCloudBuffer
+     * @return Average depth.
+     */
+    private float getAveragedDepth(FloatBuffer pointCloudBuffer) {
+        int pointCount = pointCloudBuffer.capacity() / 3;
+        float totalZ = 0;
+        float averageZ = 0;
+        for (int i = 0; i < pointCloudBuffer.capacity() - 3; i = i + 3) {
+            totalZ = totalZ + pointCloudBuffer.get(i + 2);
+        }
+        if (pointCount != 0) {
+            averageZ = totalZ / pointCount;
+        }
+        return averageZ;
+    }
+
+
 
 }
