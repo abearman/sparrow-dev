@@ -1,2 +1,3 @@
 # Sparrow Research
 
+This directory is meant for documenting the research we have conducted in order to make our development and design decisions. One of the biggest areas of research was deciding how to perform localization of the drone in 3D space; after looking at methodologies including sonar/lidar and stereo vision localization using webcams, we ultimately decided to proceed with the Google Tango, which provides some in-built motion tracking and depth sensing capabilities. We will continue to update this folder as we perform more research on drone flight, navigation, collision avoidance, and error correction.
