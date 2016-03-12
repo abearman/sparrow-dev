@@ -3,7 +3,7 @@
 | Parrot Bebop 2 ($800)                 | DJI Phantom 3 Advanced ($799) | 3DR Solo ($190) | 
 | ----------------------------------    | -----------------------       | --------  |
 | Pros: 														    |	Pros:    								      | Pros:					| 
-
+|
 | * Light-weight (1.1 lb)								| * Longer range (1 km)         | * Advanced features
 
 | * Less sensitive to crashes           | * More sensitive to crashes   | * Best developer's kit, and open source 
