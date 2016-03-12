@@ -8,6 +8,7 @@
 | Easy set-up          						    	|    														| Gimbal bay and accessory bay
 | Wide FOV (180 degrees with panning)		|															  | Best video resolution (4K)
 | Longest range (2 km)									|																| Widest FOV (170 degrees) 
+|
 | **Cons:** 														| **Cons:** 										| **Cons:**
 | Not sturdy 														| More expensive ($799)					| Most expensive ($1.5-2K) 
 | 10-15 min battery life 								| More sensitive to crashes			| Heaviest (3.3 lbs)
