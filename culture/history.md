@@ -4,7 +4,7 @@
 
 It would be remiss of us to describe our present-day culture without describing our past. As Stephen Colbert once said, “There’s an old saying about those who forget history. I don’t remember it, but it’s good.”  We couldn’t agree more.
 
-In the spirit of remembering the past, I have taken it upon myself to throw it back to 2012. This post is particularly fitting since today is a Thursday, and the throwback Thursday hashtag \#tbt is trending worldwide, and we are trendy people. 
+In the spirit of remembering the past, I have taken it upon myself to throw it back to 2012. This post is particularly fitting since today is a Thursday, the throwback Thursday hashtag \#tbt is trending worldwide, and we are trendy people. 
 
 Our story begins on September 17, 2012: the first day of freshman new student orientation. We were all welcomed into our freshman dorm Twain by the staff (including our RCC Alex Popof, fellow CS 210 alum and Warriors lover). We were bright-eyed, bushy-tailed, lanyard-wearing freshman with a questionable sense of style. 
 
