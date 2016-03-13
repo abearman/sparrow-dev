@@ -15,6 +15,7 @@ def wide_angle_upload(json):
     encoded_image = json["image64"]
     decoded_image = base64.b64decode(encoded_image)
     # Save image
+    # TODO: update upload path for saving
     filename = timestamp + "png"
     with open(filename, 'wb') as f:
         f.write(decoded_image)
