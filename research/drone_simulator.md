@@ -34,4 +34,38 @@ Enter the following in your vagrant shell to run the 3DR Solo simulator. This wi
 
 ```
 vagrant ssh -c "sim_vehicle.sh -j 2"
+```
+
+Once the simulation is running, you will start getting information about the vehicle state. For example
+
+```
+GPS lock at 0 meters
+APM: PreArm: RC not calibrated
+APM: Copter V3.3-dev (999710d0)
+APM: Frame: QUAD
+APM: PreArm: RC not calibrated
+```
+
+### Run MAVProxy in your main OS
+You can now connect to the running simulator from your main OS. Just connect to UDP port 14550. The **MAVProxy** command is:
+
+```
+mavproxy.py --master=127.0.0.1:14550
+```
+
+### Shutting down the simulator
+When you are done with the simulator:
+* Press **ctrl-d** in the Vagrant SSH window to exit **MAVProxy**.
+* Suspend the running VM by entering the following in the command prompt:
+
+```
+vagrant suspend
+```
+
+### Restarting the simulator
+When you need the simulator again, you can resume the VM and restart the simulator as shown below. This only takes a few seconds.
+
+```bash
+vagrant up
+vagrant ssh -c "sim_vehicle.sh -j 2"
 ``` 
