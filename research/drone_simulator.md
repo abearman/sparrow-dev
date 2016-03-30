@@ -1,8 +1,11 @@
-## SITL ArduCopter Simulator 
+# SITL ArduCopter Simulator 
+
+## Table of Contents
+1. [Setting up SITL using Vagrant](#Setting up SITL using Vagrant)
+
+## Setting up SITL using Vagrant
 How to use SITL (Software In The Loop) on Mac, using Vagrant.
 This document is a summary of the information we've collected on how to run a Copter simulator through the terminal. For more information, see the links below.
-
-#### Relevant links:
 * [Setting up SITL on Linux](http://ardupilot.org/dev/docs/setting-up-sitl-on-linux.html)
 * [Setting up SITL using Vagrant](http://ardupilot.org/dev/docs/setting-up-sitl-using-vagrant.html)
 
@@ -69,3 +72,6 @@ When you need the simulator again, you can resume the VM and restart the simulat
 vagrant up
 vagrant ssh -c "sim_vehicle.sh -j 2"
 ``` 
+
+# 
+
