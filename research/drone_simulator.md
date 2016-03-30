@@ -74,5 +74,5 @@ vagrant up
 vagrant ssh -c "sim_vehicle.sh -j 2"
 ``` 
 
-## Copter SITL/MAVProxy Tutorial
+## Copter SITL MAVProxy Tutorial
 
