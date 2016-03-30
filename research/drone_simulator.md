@@ -20,7 +20,9 @@ Setting up SITL with Vagrant is much easier and faster than [manually](http://ar
 2. [Download and install Vagrant](https://www.vagrantup.com/downloads.html) for your platform (Windows, OSX, and Linux are supported).
 3. The ArduPilot Github repository is already cloned in the main directory of the **dev** branch (don't need to do anything for this step).
 4. Start a vagrant instance
-	* Open a command prompt and navigate to the directory ``sparrow-dev/ardupilot/ardupilot-solo/Tools/vagrant/``..
+	* Open a command prompt and navigate to the directory ``sparrow-dev/ardupilot/ardupilot-solo/Tools/vagrant/``
 	* Run the command: 
+
         vagrant up
+
 Note: the first time you run the ``vagrant up`` command it will take some time to complete. 
