@@ -27,4 +27,11 @@ Setting up SITL with Vagrant is much easier and faster than [manually](http://ar
 	vagrant up
 	```
 
-Note: the first time you run the ``vagrant up`` command it will take some time to complete. 
+Note: the first time you run the ``vagrant up`` command it will take some time to complete.
+
+### Start running SITL
+Enter the following in your vagrant shell to run the 3DR Solo simulator. This will first build the code (if it has not previously been built) and then run the simulator:
+
+```
+vagrant ssh -c "sim_vehicle.sh -j 2"
+``` 
