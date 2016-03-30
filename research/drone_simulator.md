@@ -21,7 +21,6 @@ Setting up SITL with Vagrant is much easier and faster than [manually](http://ar
 
 #### Set up Vagrant and the virtual machine
 1. Navigate to the **dev** branch of the ``sparrow-dev`` GitHub repo:
-
 ```bash
 git checkout dev
 ```
