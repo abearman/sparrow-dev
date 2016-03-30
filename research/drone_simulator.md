@@ -78,7 +78,7 @@ vagrant ssh -c "sim_vehicle.sh -j 2"
 ## Copter SITL and MAVProxy Tutorial
 This tutorial provides a basic walk-through of how to use SITL and MAVProxy for 3DR Solo testing. It shows how to take off, fly in ``GUIDED`` mode, run missions, set a geofence, and perform a number of other basic testing tasks.
 
-See the [full article](http://ardupilot.org/dev/docs/copter-sitl-mavproxy-tutorial.html), with many more commands (such as changing the flight moe, guiding the vehicle between GPS waypoints, changing the velocity in ``GUIDED`` mode, and setting a geofence). Most of these commands are not useful for our purpose (indoor navigation in GPS-denied environments). 
+See the [these](http://ardupilot.org/dev/docs/copter-sitl-mavproxy-tutorial.html), [two](http://ardupilot.org/dev/docs/using-sitl-for-ardupilot-testing.html) articles, which contain many more commands (such as changing the flight moe, guiding the vehicle between GPS waypoints, changing the velocity in ``GUIDED`` mode, and setting a geofence). Most of these commands are not useful for our purpose (indoor navigation in GPS-denied environments). 
 
 #### Preconditions
 Begin this tutorial by starting SITL using the ``—map`` and ``—console`` options:
