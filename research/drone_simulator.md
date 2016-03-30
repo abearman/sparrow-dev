@@ -28,7 +28,7 @@ Setting up SITL with Vagrant is much easier and faster than [manually](http://ar
 	```
 
 <div style="background:#dbfaf4">
-Note: The first time you run the <code>vagrant up</code> command it will take some time to complete.	
+<p>Note: The first time you run the <code>vagrant up</code> command it will take some time to complete.</p>	
 </div>
 
 ### Start running SITL
