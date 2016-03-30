@@ -81,12 +81,12 @@ This tutorial provides a basic walk-through of how to use SITL and MAVProxy for 
 #### Preconditions
 Begin this tutorial by starting SITL using the ``—map`` and ``—console`` options:
 
-```
+```bash
 cd ~/sparrow-dev/ardupilot/ArduCopter
 sim_vehicle.sh -j4 --map --console
 ```
 
-[SITL windows](http://ardupilot.org/dev/_images/mavproxy_sitl_console_and_map.jpg)
+![SITL windows](http://ardupilot.org/dev/_images/mavproxy_sitl_console_and_map.jpg)
 
 #### Taking off
 This section explains how to take off in GUIDED mode. The main steps are to change to GUIDED mode, arm the throttle, and then call the takeoff command. Takeoff must start within 15 seconds of arming, or the motors will disarm!
