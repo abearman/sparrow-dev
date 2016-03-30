@@ -11,7 +11,7 @@ This document is a summary of the information we've collected on how to run a Co
 * [Setting up SITL using Vagrant](http://ardupilot.org/dev/docs/setting-up-sitl-using-vagrant.html)
 
 #### Overview
-The SITL simulator allows you to run Plane, Copter, or Rover without any hardware. We will be focusing on the 3DR Solo simulator.
+The SITL simulator allows you to run Plane, Copter, or Rover without any hardware. We will be focusing on the Copter simulator.
  
 ![SITL](http://ardupilot.org/dev/_images/SITL_Linux.jpg)
 
@@ -25,7 +25,7 @@ Setting up SITL with Vagrant is much easier and faster than [manually](http://ar
 3. [Download and install Vagrant](https://www.vagrantup.com/downloads.html) for your platform (Windows, OSX, and Linux are supported).
 4. The ArduPilot Github repository is already cloned in the main directory of the **dev** branch (don't need to do anything for this step).
 5. Start a vagrant instance
-	* Open a command prompt and navigate to the directory ``sparrow-dev/ardupilot/ardupilot-solo/Tools/vagrant/``
+	* Open a command prompt and navigate to the directory ``sparrow-dev/ardupilot/ardupilot/Tools/vagrant/``
 	* Run the command: 
 
 	```bash
@@ -35,7 +35,7 @@ Setting up SITL with Vagrant is much easier and faster than [manually](http://ar
 > Note: The first time you run the <code>vagrant up</code> command it will take some time to complete.	
 
 #### Start running SITL
-Enter the following in your vagrant shell to run the 3DR Solo simulator. This will first build the code (if it has not previously been built) and then run the simulator:
+Enter the following in your vagrant shell to run the Copter simulator. This will first build the code (if it has not previously been built) and then run the simulator:
 
 ```bash
 vagrant ssh -c "sim_vehicle.sh -j 2"
@@ -76,4 +76,19 @@ vagrant ssh -c "sim_vehicle.sh -j 2"
 ``` 
 
 ## Copter SITL and MAVProxy Tutorial
+This tutorial provides a basic walk-through of how to use SITL and MAVProxy for 3DR Solo testing. It shows how to take off, fly in GUIDED mode, run missions, set a geofence, and perform a number of other basic testing tasks.
+
+#### Preconditions
+Begin this tutorial by starting SITL using the ``—map`` and ``—console`` options:
+
+```
+cd ~/sparrow-dev/ardupilot/ArduCopter
+sim_vehicle.sh -j4 --map --console
+```
+
+[SITL windows](http://ardupilot.org/dev/_images/mavproxy_sitl_console_and_map.jpg)
+
+#### Taking off
+This section explains how to take off in GUIDED mode. The main steps are to change to GUIDED mode, arm the throttle, and then call the takeoff command. Takeoff must start within 15 seconds of arming, or the motors will disarm!
+
 
