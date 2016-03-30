@@ -20,11 +20,8 @@ SITL runs natively on Linux and Windows. To run SITL on Mac, we need to set up S
 Setting up SITL with Vagrant is much easier and faster than [manually](http://ardupilot.org/dev/docs/setting-up-sitl-on-windows.html#setting-up-sitl-on-windows) setting up a virtual machine to run SITL on Mac OSX or Windows (or Linux).
 
 #### Set up Vagrant and the virtual machine
-1. Navigate to the **dev** branch of the ``sparrow-dev`` GitHub repo:
-```bash
-git checkout dev
-```
-2. [Download and install VirtualBox](https://www.virtualbox.org/wiki/Downloads)
+1. Navigate to the **dev** branch of the ``sparrow-dev`` GitHub repo.
+2. [Download and install VirtualBox](https://www.virtualbox.org/wiki/Downloads).
 3. [Download and install Vagrant](https://www.vagrantup.com/downloads.html) for your platform (Windows, OSX, and Linux are supported).
 4. The ArduPilot Github repository is already cloned in the main directory of the **dev** branch (don't need to do anything for this step).
 5. Start a vagrant instance
