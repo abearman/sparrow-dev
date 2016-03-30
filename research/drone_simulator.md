@@ -4,7 +4,7 @@
 1. [Setting up SITL using Vagrant](#setting-up-sitl-using-vagrant)
 2. [Copter SITL and MAVProxy Tutorial](#copter-sitl-and-mavproxy-tutorial)
 
-### Setting up SITL using Vagrant
+## Setting up SITL using Vagrant
 How to use SITL (Software In The Loop) on Mac, using Vagrant.
 This document is a summary of the information we've collected on how to run a Copter simulator through the terminal. For more information, see the links below.
 * [Setting up SITL on Linux](http://ardupilot.org/dev/docs/setting-up-sitl-on-linux.html)
@@ -74,5 +74,5 @@ vagrant up
 vagrant ssh -c "sim_vehicle.sh -j 2"
 ``` 
 
-### Copter SITL and MAVProxy Tutorial
+## Copter SITL and MAVProxy Tutorial
 
