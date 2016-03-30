@@ -23,6 +23,8 @@ Setting up SITL with Vagrant is much easier and faster than [manually](http://ar
 	* Open a command prompt and navigate to the directory ``sparrow-dev/ardupilot/ardupilot-solo/Tools/vagrant/``
 	* Run the command: 
 
-        vagrant up
+```
+vagrant up
+```
 
 Note: the first time you run the ``vagrant up`` command it will take some time to complete. 
