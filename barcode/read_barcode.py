@@ -47,4 +47,5 @@ pt2 = (bound_rect[0] + bound_rect[2], bound_rect[1] + bound_rect[3])
 cv.Rectangle(imgco, pt1, pt2, cv.CV_RGB(0,255,255), 2)
 
 cv.ShowImage('img',imgco)    
+cv.SaveImage("box.jpg", imgco)
 cv.WaitKey(0)  
