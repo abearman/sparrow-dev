@@ -25,7 +25,6 @@ Setting up SITL with Vagrant is much easier and faster than [manually](http://ar
 ```bash
 git checkout dev
 ```
-
 2. [Download and install VirtualBox](https://www.virtualbox.org/wiki/Downloads)
 3. [Download and install Vagrant](https://www.vagrantup.com/downloads.html) for your platform (Windows, OSX, and Linux are supported).
 4. The ArduPilot Github repository is already cloned in the main directory of the **dev** branch (don't need to do anything for this step).
