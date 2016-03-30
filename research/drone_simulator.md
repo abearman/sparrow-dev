@@ -23,7 +23,7 @@ Setting up SITL with Vagrant is much easier and faster than [manually](http://ar
 	* Open a command prompt and navigate to the directory ``sparrow-dev/ardupilot/ardupilot-solo/Tools/vagrant/``
 	* Run the command: 
 
-	```
+	```bash
 	vagrant up
 	```
 
@@ -32,11 +32,11 @@ Setting up SITL with Vagrant is much easier and faster than [manually](http://ar
 ### Start running SITL
 Enter the following in your vagrant shell to run the 3DR Solo simulator. This will first build the code (if it has not previously been built) and then run the simulator:
 
-```
+```bash
 vagrant ssh -c "sim_vehicle.sh -j 2"
 ```
 
-Once the simulation is running, you will start getting information about the vehicle state. For example
+Once the simulation is running, you will start getting information about the vehicle state. For example:
 
 ```
 GPS lock at 0 meters
@@ -49,7 +49,7 @@ APM: PreArm: RC not calibrated
 ### Run MAVProxy in your main OS
 You can now connect to the running simulator from your main OS. Just connect to UDP port 14550. The **MAVProxy** command is:
 
-```
+```bash
 mavproxy.py --master=127.0.0.1:14550
 ```
 
@@ -58,7 +58,7 @@ When you are done with the simulator:
 * Press **ctrl-d** in the Vagrant SSH window to exit **MAVProxy**.
 * Suspend the running VM by entering the following in the command prompt:
 
-```
+```bash
 vagrant suspend
 ```
 
