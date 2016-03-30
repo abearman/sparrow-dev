@@ -1,6 +1,6 @@
 ## ArduCopter Simulator 
 How to use SITL (Software In The Loop) on Mac, using Vagrant.
-This document is a summary of the information we've collected on how to run a Copter simulator through the terminal. For more information, see the links below.b
+This document is a summary of the information we've collected on how to run a Copter simulator through the terminal. For more information, see the links below.
 
 #### Relevant links:
 * [Setting up SITL on Linux](http://ardupilot.org/dev/docs/setting-up-sitl-on-linux.html)
