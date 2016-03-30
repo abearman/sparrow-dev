@@ -76,7 +76,9 @@ vagrant ssh -c "sim_vehicle.sh -j 2"
 ``` 
 
 ## Copter SITL and MAVProxy Tutorial
-This tutorial provides a basic walk-through of how to use SITL and MAVProxy for 3DR Solo testing. It shows how to take off, fly in GUIDED mode, run missions, set a geofence, and perform a number of other basic testing tasks.
+This tutorial provides a basic walk-through of how to use SITL and MAVProxy for 3DR Solo testing. It shows how to take off, fly in ``GUIDED`` mode, run missions, set a geofence, and perform a number of other basic testing tasks.
+
+See the [full article](http://ardupilot.org/dev/docs/copter-sitl-mavproxy-tutorial.html), with many more commands (such as changing the flight moe, guiding the vehicle between GPS waypoints, changing the velocity in ``GUIDED`` mode, and setting a geofence). Most of these commands are not useful for our purpose (indoor navigation in GPS-denied environments). 
 
 #### Preconditions
 Begin this tutorial by starting SITL using the ``—map`` and ``—console`` options:
@@ -91,4 +93,19 @@ sim_vehicle.sh -j4 --map --console
 #### Taking off
 This section explains how to take off in GUIDED mode. The main steps are to change to GUIDED mode, arm the throttle, and then call the takeoff command. Takeoff must start within 15 seconds of arming, or the motors will disarm!
 
+Enter the following commands in the *MAVProxy Command Prompt*.
 
+```
+mode guided
+arm throttle
+takeoff 40
+```
+
+Copter should take off to an altitude of 40 metres and then hover (while it waits for the next command).
+
+#### Monitoring 
+During takeoff you can watch the altitude increase on the console in the *Alt* field.
+
+Developers may find it useful to graph the takeoff by first entering the ``gtakeoff``command.
+
+![gtakeoff](http://ardupilot.org/dev/_images/MAVProxyGraphCopter_gtakeoff_40.png)
