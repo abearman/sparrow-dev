@@ -2,6 +2,7 @@
 
 ## Table of Contents
 1. [Setting up SITL using Vagrant](#Setting up SITL using Vagrant)
+2. [Copter SITL/MAVProxy Tutorial](#Copter SITL/MAVProxy Tutorial)
 
 ## Setting up SITL using Vagrant
 How to use SITL (Software In The Loop) on Mac, using Vagrant.
@@ -73,5 +74,5 @@ vagrant up
 vagrant ssh -c "sim_vehicle.sh -j 2"
 ``` 
 
-# 
+## Copter SITL/MAVProxy Tutorial
 
