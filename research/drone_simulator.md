@@ -1,4 +1,5 @@
 # SITL ArduCopter Simulator 
+This tutorial shows you how to use the SITL ArduCopter Simulator. This is *different* than the **dronekit-sitl simulator** provided by 3DR. This simulator is helpful for trying out individual MAVProxy commands and viewing their effect with a map and various graphs (i.e., graphing the drone's altitude over time). However, you should use the DroneKit simulator to test on the 3DR Solo drone specifically, and to run longer Python scripts. 
 
 #### Table of Contents
 1. [Setting up SITL using Vagrant](#setting-up-sitl-using-vagrant)
