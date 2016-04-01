@@ -13,3 +13,7 @@ def pose_update(json):
 @socketio.on("path_config", namespace="/pose")
 def path_config(json):
     emit("path_config_ack", json, namespace="/pose")
+
+@socketio.on("pose_current", namespace="/pose")
+def pose_current(json):
+    emit("pose_current_ack", json, namespace="/pose")

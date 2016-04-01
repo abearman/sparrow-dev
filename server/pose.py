@@ -9,7 +9,7 @@ pose = None # String representing tango location/rotation
 path = None
 
 @pose_api.route("/pose/update", methods = ["POST"])
-@auth.requires_auth
+# @auth.requires_auth
 def pose_update():
     global pose
     if request.method == "POST":
@@ -20,7 +20,7 @@ def pose_update():
     return ""
 
 @pose_api.route("/pose/current")
-@auth.requires_auth
+# @auth.requires_auth
 def pose_current():
     if pose == None:
         print "[/pose/current]: current pose is undefined"
