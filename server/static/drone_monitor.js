@@ -55,7 +55,7 @@ $(document).ready(function(){
 		//make post request to server
 		$.ajax({
     	type: 'POST',
-    	url: 'http://localhost:5000/',
+    	url: 'http://localhost:5000/pose/path_config',
     	data: { 
     		coordList
     	},
