@@ -24,6 +24,7 @@ while True:
 
 	# show the frame and record if the user presses a key
 	cv2.imshow("Frame", frame)
+	key = cv2.waitKey(1) & 0xFF
 
 	# obtain image data
 	pil = Image.fromarray(frame).convert('L')
