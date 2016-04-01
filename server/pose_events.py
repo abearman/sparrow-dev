@@ -9,3 +9,7 @@ def pose_update(json):
     # JSON arg should have timestamp and pose string
     print "[socket][pose_update]: " + str(json)
     emit("pose_update_ack", json, namespace="/pose")
+
+@socketio.on("path_config", namespace="/pose")
+def path_config(json):
+    emit("path_config_ack", json, namespace="/pose")
