@@ -9,6 +9,7 @@ $(document).ready(function(){
 	// when mouse button is clicked and held    
 	$('#myCanvas').on('click', function(e){
 	  var pos = getMousePos(canvas, e);
+	  pos['z'] = 5;
 	  coordList.push(pos);
 	  if(x1 === undefined){
 	  	//first click
@@ -51,8 +52,29 @@ $(document).ready(function(){
 		first = coordList[0];
 		last = coordList[coordList.length - 1];
 		drawLineOnCanvas(canvas, last.x, first.x, last.y, first.y);
-		animate();
+		//make post request to server
+		$.ajax({
+    	type: 'POST',
+    	url: 'http://localhost:5000/',
+    	data: { 
+    		coordList
+    	},
+    	success: function(msg){
+        alert('wow' + msg);
+    	}
+		});
 	});
+
+
+
+
+
+
+
+
+
+
+
 
 	window.requestAnimFrame = (function (callback) {
 	    return window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame || window.oRequestAnimationFrame || window.msRequestAnimationFrame || function (callback) {
