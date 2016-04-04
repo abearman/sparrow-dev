@@ -14,6 +14,10 @@
 * six==1.10.0
 * Werkzeug==0.10.4
 * WTForms==1.0.5
+* flask-mongoengine
+
+#####
+install_dependencies.sh now tracks all depedencies, build here to get server running
 
 ##### At the moment, we are using MongoDB for the server's database.
 

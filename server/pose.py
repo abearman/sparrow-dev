@@ -25,13 +25,16 @@ def pose_current():
         print "[/pose/current]: current pose is " + str(pose)
         return "The tango's current pose is: " + str(pose)
 
-@pose_api.route("/pose/path_config")
+@pose_api.route("/pose/path_config", methods = ["POST"])
 def path_config():
     global path
+    print request.get_data()
+    print request.json
     if request.method == "POST":
-        data = request.json
-        print "[/pose/path_config]: received " + str(data["path"])
+        data = request.json['path']
+        #print "[/pose/path_config]: received " + str(data["path"])
         path = []
         for coord_tuple in data:
-            path.append( (coord_tuple[0], coord_tuple[1]) )
+            path.append( (coord_tuple['x'], coord_tuple['y'], coord_tuple['z']) )
+        return "Sucess!"
         

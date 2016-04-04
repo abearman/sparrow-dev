@@ -52,13 +52,12 @@ $(document).ready(function(){
 		first = coordList[0];
 		last = coordList[coordList.length - 1];
 		drawLineOnCanvas(canvas, last.x, first.x, last.y, first.y);
-		//make post request to server
+		path = {"path":coordList};
 		$.ajax({
     	type: 'POST',
-    	url: 'http://localhost:5000/',
-    	data: { 
-    		coordList
-    	},
+    	contentType: 'application/json;charset=UTF-8',
+    	url: '../pose/path_config',
+    	data: JSON.stringify(path, null, '\t'),
     	success: function(msg){
         alert('wow' + msg);
     	}

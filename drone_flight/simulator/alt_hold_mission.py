@@ -18,8 +18,8 @@ import pylab
 
 from dronekit_sitl import SITL
 sitl = SITL()
-#sitl.download('solo', '1.2.0', verbose=True)
-sitl.download('copter', '3.3', verbose=True)
+sitl.download('solo', '1.2.0', verbose=True)
+#sitl.download('copter', '3.3', verbose=True)
 sitl_args = ['-I0', '--model', 'quad', '--home=-35.363261,149.165230,584,353']
 sitl.launch(sitl_args, await_ready=True, restart=True)
 
@@ -54,6 +54,24 @@ def send_channel_pwm(channel_num, pwm):
 	vehicle.flush()
 
 
+def send_ned_velocity(velocity_x, velocity_y, velocity_z, duration):
+    msg = vehicle.message_factory.set_position_target_local_ned_encode(
+        0,       # time_boot_ms (not used)
+        0, 0,    # target system, target component
+        mavutil.mavlink.MAV_FRAME_LOCAL_NED, # frame
+        0b0000111111000111, # type_mask (only speeds enabled)
+        0, 0, 0, # x, y, z positions (not used)
+        velocity_x, velocity_y, velocity_z, # x, y, z velocity in m/s
+        0, 0, 0, # x, y, z acceleration (not supported yet, ignored in GCS_Mavlink)
+        0, 0)    # yaw, yaw_rate (not supported yet, ignored in GCS_Mavlink) 
+
+    # send command to vehicle on 1 Hz cycle
+    for x in range(0,duration):
+        vehicle.send_mavlink(msg)
+        time.sleep(1)
+
+
+
 def calculateDistance2D(location1, location2):
 	dist = math.sqrt((location1.east - location2.east)**2 + (location1.north - location2.north)**2)
 	return dist
@@ -77,18 +95,46 @@ print "Connected to vehicle"
 
 waypoints = [LocationLocal(10, 0, -10.0)]
 
+while not vehicle.is_armable:
+        print " Waiting for vehicle to initialise..."
+        time.sleep(1)
 
+vehicle.mode = VehicleMode("GUIDED")
 vehicle.armed = True
-vehicle.mode = VehicleMode("ALT_HOLD")
-vehicle.channels.overrides['3'] = 1800
+while not vehicle.armed:
+	print " Waiting for arming..."
+	time.sleep(1)
+
+#vehicle.channels.overrides['3'] = 1800
+vehicle.simple_takeoff(10)
 
 # Ascend
 while (vehicle.location.local_frame.down is None) or ((-1 * vehicle.location.local_frame.down) < 10.0):
 	time.sleep(1)
 	print "Still ascending"
 	print "Local location: ", vehicle.location.local_frame
-	#print "Down: ", vehicle.location.local_frame.down
-vehicle.channels.overrides['3'] = 1500
+#vehicle.channels.overrides['3'] = 1500
+print "Finished ascending"
+
+vehicle.mode = VehicleMode("ALT_HOLD")
+vehicle.groundspeed = 7.5
+
+#cmd = Command(0,0,0, mavutil.mavlink.MAV_FRAME_GLOBAL_RELATIVE_ALT,
+#				  mavutil.mavlink.MAV_CMD_DO_CHANGE_SPEED,
+#				  0, 0, # Not supported 
+#				  1, # Param 1: Ground speed
+#				  1, # Param 2: Speed (m/s)
+#				  -1, # Param 3: Throttle
+#				  0, 0, 0, 0)
+#cmds = vehicle.commands
+#cmds.clear()
+#cmds.add(cmd)
+#cmds.upload()
+#print "Sent command"					
+
+while True:
+	print vehicle.location.global_relative_frame
+	time.sleep(1)
 
 k = 1500
 K_inv = np.matrix([[k, k, k, k], [-k, k, -k, k], [-k, -k, k, k], [k, -k, -k, k]]) 
@@ -101,41 +147,41 @@ plt.show()
 plt.xlabel('time (seconds)')
 plt.ylabel('altitude error (meters)')
 
-while True:
-	H_T = 20.0	# target height
-	H_M = -1 * vehicle.location.local_frame.down	# measured height
-	e_H = H_T - H_M
-	e.append(e_H)
-	F = controller_pid(e, delta_T) 
-	print "F: ", F
-	vehicle.channels.overrides['3'] += F
-	print "Thrust: ", vehicle.channels.overrides['3']
-	print "Current loc: ", vehicle.location.local_frame	
+#while True:
+#	H_T = 20.0	# target height
+#	H_M = -1 * vehicle.location.local_frame.down	# measured height
+#	e_H = H_T - H_M
+#	e.append(e_H)
+#	F = controller_pid(e, delta_T) 
+#	print "F: ", F
+#	vehicle.channels.overrides['3'] += F
+#	print "Thrust: ", vehicle.channels.overrides['3']
+#	print "Current loc: ", vehicle.location.local_frame	
 
-	x = np.linspace(0, delta_T *len(e), len(e))
-	ln.set_xdata(x)
-	ln.set_ydata(e)
-	plt.scatter(x, e)
-	plt.draw()	
-	plt.pause(delta_T)
+#	x = np.linspace(0, delta_T *len(e), len(e))
+#	ln.set_xdata(x)
+#	ln.set_ydata(e)
+#	plt.scatter(x, e)
+#	plt.draw()	
+#	plt.pause(delta_T)
 
-	second_product = np.matrix([[0], [0], [0], [F]])
-	ws = np.matrix.dot(K_inv, second_product)		
-	print "ws: ", ws
-	#time.sleep(delta_T)
-
-
-for wp in waypoints:
-	distance = float('inf') 
-	# Update loop
-	while distance > 0.0:
-		print "Distance: ", calculateDistance2D(vehicle.location.local_frame, wp)	
-		print "Current loc: ", vehicle.location.local_frame
-		vehicle.channels.overrides['2'] = 1400
-		time.sleep(0.5)
+#	second_product = np.matrix([[0], [0], [0], [F]])
+#	ws = np.matrix.dot(K_inv, second_product)		
+#	print "ws: ", ws
+#	#time.sleep(delta_T)
 
 
-while True:
+#for wp in waypoints:
+#	distance = float('inf') 
+#	# Update loop
+#	while distance > 0.0:
+#		print "Distance: ", calculateDistance2D(vehicle.location.local_frame, wp)	
+#		print "Current loc: ", vehicle.location.local_frame
+#		vehicle.channels.overrides['2'] = 1400
+#		time.sleep(0.5)
+
+
+#while True:
 	#print "Local location: ", vehicle.location.local_frame
 	#print "Down: ", vehicle.location.local_frame.down
-	time.sleep(1)
+#	time.sleep(1)
