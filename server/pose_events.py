@@ -2,18 +2,32 @@
 
 from flask import session
 from flask.ext.socketio import emit, join_room, leave_room
-from .. import socketio
+from server_state import socketio
 
-@socketio.on("pose_update", namespace="/pose")
+from mission_state import path, pose
+
+POSE_NAMESPACE = "/pose"
+
+@socketio.on('connect', namespace=POSE_NAMESPACE)
+def on_connect():
+    print "[socket][pose][connect]: Connection received"
+
+@socketio.on("pose_update", namespace=POSE_NAMESPACE)
 def pose_update(json):
-    # JSON arg should have timestamp and pose string
+    # JSON arg should have Tango position object
+    global pose
+    pose = json
     print "[socket][pose_update]: " + str(json)
-    emit("pose_update_ack", json, namespace="/pose")
+    emit("pose_update_ack", namespace=POSE_NAMESPACE)
 
-@socketio.on("path_config", namespace="/pose")
+@socketio.on("path_config", namespace=POSE_NAMESPACE)
 def path_config(json):
-    emit("path_config_ack", json, namespace="/pose")
+    global path
+    path = json
+    print "[socket][path_config]: " + str(json)
+    emit("path_config_ack", namespace=POSE_NAMESPACE)
 
-@socketio.on("pose_current", namespace="/pose")
+@socketio.on("pose_current", namespace=POSE_NAMESPACE)
 def pose_current(json):
-    emit("pose_current_ack", json, namespace="/pose")
+    print "[socket][pose_current]: " + str(pose)
+    emit("pose_current_ack", pose, namespace=POSE_NAMESPACE)
