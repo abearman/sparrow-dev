@@ -70,7 +70,33 @@ def send_ned_velocity(velocity_x, velocity_y, velocity_z, duration):
         vehicle.send_mavlink(msg)
         time.sleep(1)
 
+def condition_yaw(heading, relative=False):
+    if relative:
+        is_relative=1 #yaw relative to direction of travel
+    else:
+        is_relative=0 #yaw is an absolute angle
+    # create the CONDITION_YAW command using command_long_encode()
+    msg = vehicle.message_factory.command_long_encode(
+        0, 0,    # target system, target component
+        mavutil.mavlink.MAV_CMD_CONDITION_YAW, #command
+        0, #confirmation
+        0,    # param 1, yaw in degrees (heading)
+        10,          # param 2, yaw speed deg/s
+        1,          # param 3, direction -1 ccw, 1 cw
+        is_relative, # param 4, relative offset 1, absolute angle 0
+        0, 0, 0)    # param 5 ~ 7 not used
+    # send command to vehicle
+    vehicle.send_mavlink(msg)
 
+
+def channel_override():
+	msg = vehicle.message_factory.rc_channels_override_encode(
+		0, 0,  # Target system, target component0,
+		1800,  # Channel 1
+		1800,  # Channel 2
+		1800,  # Channel 3,
+		1800, 1800, 1800, 1800, 1800  # Channels 4-8 
+	)	
 
 def calculateDistance2D(location1, location2):
 	dist = math.sqrt((location1.east - location2.east)**2 + (location1.north - location2.north)**2)
@@ -101,12 +127,24 @@ while not vehicle.is_armable:
 
 vehicle.mode = VehicleMode("GUIDED")
 vehicle.armed = True
+
 while not vehicle.armed:
 	print " Waiting for arming..."
 	time.sleep(1)
+print "Armed!"
 
 #vehicle.channels.overrides['3'] = 1800
-vehicle.simple_takeoff(10)
+#vehicle.simple_takeoff(10)
+
+
+msg = vehicle.message_factory.command_long_encode(
+	0, 0,    # target_system, target_component
+	mavutil.mavlink.MAV_CMD_NAV_TAKEOFF, #command
+	0, #confirmation
+	0, 0, 0, 0, 0, 0,    # param 1 - 6, empty 
+	10)  # param 7: Altitude
+vehicle.send_mavlink(msg)
+
 
 # Ascend
 while (vehicle.location.local_frame.down is None) or ((-1 * vehicle.location.local_frame.down) < 10.0):
@@ -116,21 +154,17 @@ while (vehicle.location.local_frame.down is None) or ((-1 * vehicle.location.loc
 #vehicle.channels.overrides['3'] = 1500
 print "Finished ascending"
 
-vehicle.mode = VehicleMode("ALT_HOLD")
-vehicle.groundspeed = 7.5
+msg = vehicle.message_factory.command_long_encode(
+    0, 0,    # target_system, target_component
+    mavutil.mavlink.MAV_CMD_NAV_LAND, #command
+    0, #confirmation
+    0, # param 1 (empty)
+	 0, # param 2 (empty) 
+	 0, 0, 0, 0, 0)    # param 3 - 7, empty
+# send command to vehicle
+vehicle.send_mavlink(msg)
+print "Received command to land"
 
-#cmd = Command(0,0,0, mavutil.mavlink.MAV_FRAME_GLOBAL_RELATIVE_ALT,
-#				  mavutil.mavlink.MAV_CMD_DO_CHANGE_SPEED,
-#				  0, 0, # Not supported 
-#				  1, # Param 1: Ground speed
-#				  1, # Param 2: Speed (m/s)
-#				  -1, # Param 3: Throttle
-#				  0, 0, 0, 0)
-#cmds = vehicle.commands
-#cmds.clear()
-#cmds.add(cmd)
-#cmds.upload()
-#print "Sent command"					
 
 while True:
 	print vehicle.location.global_relative_frame
