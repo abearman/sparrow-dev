@@ -33,4 +33,5 @@ if (project.hasProperty("Tango.catkin_devel_prefix")) {
 
 dependencies {
     compile fileTree(dir: external_lib_prefix + '/jar', include: ['**/*.jar'])
+    compile 'com.github.nkzawa:socket.io-client:0.3.0'
 }
