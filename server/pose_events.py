@@ -19,6 +19,7 @@ def pose_update(json):
     pose = json
     print "[socket][pose_update]: " + str(json)
     emit("pose_update_ack", namespace=POSE_NAMESPACE)
+    emit('pose_current_ack', pose, broadcast=True)
 
 @socketio.on("path_config", namespace=POSE_NAMESPACE)
 def path_config(json):
