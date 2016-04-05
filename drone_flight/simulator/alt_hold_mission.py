@@ -107,10 +107,10 @@ def calculateDistance2D(location1, location2):
 def controller_pid(error, delta_T):
 	current_error = error[-1]
 	previous_error = error[-2] if len(error) > 1 else 0
-	bias = 1400
-	K_p = 10
-	K_i = 0  # 0.5
-	K_d = 0  # 0.125
+	bias = 1537
+	K_p = 17
+	K_i = 0 
+	K_d = 7  
 	P = K_p * current_error
 	I = K_i * delta_T * sum(error)
 	D = K_d * (current_error - previous_error) / delta_T
@@ -136,18 +136,18 @@ while not vehicle.armed:
 	time.sleep(1)
 print "Armed!"
 
-vehicle.channels.overrides['3'] = 1500
+vehicle.channels.overrides['3'] = 1800
 
 
 # Ascend
-#while (vehicle.location.local_frame.down is None) or ((-1 * vehicle.location.local_frame.down) < 20.0):
-#	time.sleep(1)
-#	print "Still ascending"
-#	print "Local location: ", vehicle.location.local_frame
-#vehicle.channels.overrides['3'] = 1500
-#print "Finished ascending"
+while (vehicle.location.local_frame.down is None) or ((-1 * vehicle.location.local_frame.down) < 20.0):
+	time.sleep(1)
+	print "Still ascending"
+	print "Local location: ", vehicle.location.local_frame
+vehicle.channels.overrides['3'] = 1500
+print "Finished ascending"
 
-def special_function(target_alt=20.0, time_to_break=30.0):
+def special_function(target_east=20.0, time_to_break=30.0):
 	delta_T = 0.05	# seconds (20 Hz)
 	error = []
 	PV = []  # Array of past process variables (i.e., altitudes)
@@ -156,20 +156,20 @@ def special_function(target_alt=20.0, time_to_break=30.0):
 	plt.ion()
 	plt.show()
 	plt.xlabel('time (seconds)')
-	plt.ylabel('current altitude (meters)')
+	plt.ylabel('current displacement east (meters)')
 
 	tme = 0
 	while True:
-		alt_actual = -1 * vehicle.location.local_frame.down	# measured height
-		PV.append(alt_actual)
-		print "alt actual: ", alt_actual
-		current_error = target_alt - alt_actual 
+		east_actual = vehicle.location.local_frame.east 
+		PV.append(east_actual)
+		print "east actual:", east_actual 
+		current_error = target_east - east_actual 
 		error.append(current_error)
 		
 		u_t = controller_pid(error, delta_T) 
-		vehicle.channels.overrides['3'] = max(0.01, u_t) 
+		vehicle.channels.overrides['1'] = max(0.01, u_t) 
 		print "u(t): ", u_t
-		print "Throttle: ", vehicle.channels.overrides['3']
+		print "Roll: ", vehicle.channels.overrides['1']
 		print "Current loc: ", vehicle.location.local_frame	
 
 		x = np.linspace(0, delta_T *len(error), len(error))
@@ -180,12 +180,12 @@ def special_function(target_alt=20.0, time_to_break=30.0):
 		plt.pause(delta_T)
 		tme += 1
 
-		if tme > time_to_break:
-			break
+		#if tme > time_to_break:
+		#	break
 	
-special_function(target_alt=40.0, time_to_break=100)
-special_function(target_alt=50.0, time_to_break=100)
-special_function(target_alt=30.0, time_to_break=100)
+special_function(target_east=20.0, time_to_break=100)
+#special_function(target_alt=50.0, time_to_break=100)
+#special_function(target_alt=30.0, time_to_break=100)
 
 #for wp in waypoints:
 #	distance = float('inf') 
@@ -197,7 +197,6 @@ special_function(target_alt=30.0, time_to_break=100)
 #		time.sleep(0.5)
 
 
-#while True:
-	#print "Local location: ", vehicle.location.local_frame
-	#print "Down: ", vehicle.location.local_frame.down
-#	time.sleep(1)
+while True:
+	print "Local location: ", vehicle.location.local_frame
+	time.sleep(1)
