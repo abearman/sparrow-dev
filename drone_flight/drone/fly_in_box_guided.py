@@ -88,10 +88,11 @@ def send_ned_velocity(velocity_x, velocity_y, velocity_z, duration):
 # move in a square
 print "Local location (after takeoff, starting point): ", vehicle.location.local_frame
 
-send_ned_velocity(0, -1, 0, 5)
-#send_ned_velocity(0, 1, 0, 10)
-time.sleep(100)
-
+for i in range(0, 5):
+	send_ned_velocity(0, -1, 0, 3)
+	send_ned_velocity(1, 0, 0, 3)
+	send_ned_velocity(0, 1, 0, 3)
+	send_ned_velocity(-1, 0, 0, 3)
 
 # land at current location)
 vehicle.mode = VehicleMode("LAND")
