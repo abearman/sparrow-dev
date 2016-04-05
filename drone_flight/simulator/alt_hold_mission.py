@@ -104,14 +104,16 @@ def calculateDistance2D(location1, location2):
 
 
 # delta_T is in seconds
-def controller_pid(e, delta_T):
-	K_p = 0.05
-	K_i = 0
-	K_d = 0
-	p = K_p * e[len(e) - 1]
-	i = K_i * delta_T * sum(e)
-	d = K_d * (e[len(e)-1] - e[len(e)-2]) / delta_T
-	return p + i + d
+def controller_pid(error, delta_T):
+	current_error = error[-1]
+	previous_error = error[-2] if len(error) > 1 else 0
+	K_p = 250 
+	K_i = 0  # 0.5
+	K_d = 0  # 0.125
+	P = K_p * current_error
+	I = K_i * delta_T * sum(error)
+	D = K_d * (current_error - previous_error) / delta_T
+	return P + I + D
 
 
 # Connect to the Vehicle.
@@ -125,7 +127,7 @@ while not vehicle.is_armable:
         print " Waiting for vehicle to initialise..."
         time.sleep(1)
 
-vehicle.mode = VehicleMode("GUIDED")
+vehicle.mode = VehicleMode("STABILIZE")
 vehicle.armed = True
 
 while not vehicle.armed:
@@ -133,77 +135,56 @@ while not vehicle.armed:
 	time.sleep(1)
 print "Armed!"
 
-#vehicle.channels.overrides['3'] = 1800
-#vehicle.simple_takeoff(10)
-
-
-msg = vehicle.message_factory.command_long_encode(
-	0, 0,    # target_system, target_component
-	mavutil.mavlink.MAV_CMD_NAV_TAKEOFF, #command
-	0, #confirmation
-	0, 0, 0, 0, 0, 0,    # param 1 - 6, empty 
-	10)  # param 7: Altitude
-vehicle.send_mavlink(msg)
+vehicle.channels.overrides['3'] = 1500
 
 
 # Ascend
-while (vehicle.location.local_frame.down is None) or ((-1 * vehicle.location.local_frame.down) < 10.0):
-	time.sleep(1)
-	print "Still ascending"
-	print "Local location: ", vehicle.location.local_frame
+#while (vehicle.location.local_frame.down is None) or ((-1 * vehicle.location.local_frame.down) < 20.0):
+#	time.sleep(1)
+#	print "Still ascending"
+#	print "Local location: ", vehicle.location.local_frame
 #vehicle.channels.overrides['3'] = 1500
-print "Finished ascending"
+#print "Finished ascending"
 
-msg = vehicle.message_factory.command_long_encode(
-    0, 0,    # target_system, target_component
-    mavutil.mavlink.MAV_CMD_NAV_LAND, #command
-    0, #confirmation
-    0, # param 1 (empty)
-	 0, # param 2 (empty) 
-	 0, 0, 0, 0, 0)    # param 3 - 7, empty
-# send command to vehicle
-vehicle.send_mavlink(msg)
-print "Received command to land"
+def special_function(target_alt=20.0, time_to_break=30.0):
+	delta_T = 0.05	# seconds (20 Hz)
+	error = []
+	PV = []  # Array of past process variables (i.e., altitudes)
 
+	ln, = plt.plot(error)
+	plt.ion()
+	plt.show()
+	plt.xlabel('time (seconds)')
+	plt.ylabel('current altitude (meters)')
 
-while True:
-	print vehicle.location.global_relative_frame
-	time.sleep(1)
+	tme = 0
+	while True:
+		alt_actual = -1 * vehicle.location.local_frame.down	# measured height
+		PV.append(alt_actual)
+		print "alt actual: ", alt_actual
+		current_error = target_alt - alt_actual 
+		error.append(current_error)
+		
+		u_t = controller_pid(error, delta_T) 
+		vehicle.channels.overrides['3'] = max(0.01, u_t) 
+		print "u(t): ", u_t
+		print "Throttle: ", vehicle.channels.overrides['3']
+		print "Current loc: ", vehicle.location.local_frame	
 
-k = 1500
-K_inv = np.matrix([[k, k, k, k], [-k, k, -k, k], [-k, -k, k, k], [k, -k, -k, k]]) 
-delta_T = 0.05	# seconds
-e = []
+		x = np.linspace(0, delta_T *len(error), len(error))
+		ln.set_xdata(x)
+		ln.set_ydata(PV)
+		plt.scatter(x, PV)
+		plt.draw()	
+		plt.pause(delta_T)
+		tme += 1
 
-ln, = plt.plot(e)
-plt.ion()
-plt.show()
-plt.xlabel('time (seconds)')
-plt.ylabel('altitude error (meters)')
-
-#while True:
-#	H_T = 20.0	# target height
-#	H_M = -1 * vehicle.location.local_frame.down	# measured height
-#	e_H = H_T - H_M
-#	e.append(e_H)
-#	F = controller_pid(e, delta_T) 
-#	print "F: ", F
-#	vehicle.channels.overrides['3'] += F
-#	print "Thrust: ", vehicle.channels.overrides['3']
-#	print "Current loc: ", vehicle.location.local_frame	
-
-#	x = np.linspace(0, delta_T *len(e), len(e))
-#	ln.set_xdata(x)
-#	ln.set_ydata(e)
-#	plt.scatter(x, e)
-#	plt.draw()	
-#	plt.pause(delta_T)
-
-#	second_product = np.matrix([[0], [0], [0], [F]])
-#	ws = np.matrix.dot(K_inv, second_product)		
-#	print "ws: ", ws
-#	#time.sleep(delta_T)
-
+		if tme > time_to_break:
+			break
+	
+special_function(target_alt=20.0, time_to_break=100)
+special_function(target_alt=30.0, time_to_break=100)
+special_function(target_alt=40.0, time_to_break=100)
 
 #for wp in waypoints:
 #	distance = float('inf') 
