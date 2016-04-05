@@ -107,13 +107,14 @@ def calculateDistance2D(location1, location2):
 def controller_pid(error, delta_T):
 	current_error = error[-1]
 	previous_error = error[-2] if len(error) > 1 else 0
-	K_p = 250 
+	bias = 1400
+	K_p = 10
 	K_i = 0  # 0.5
 	K_d = 0  # 0.125
 	P = K_p * current_error
 	I = K_i * delta_T * sum(error)
 	D = K_d * (current_error - previous_error) / delta_T
-	return P + I + D
+	return P + I + D + bias
 
 
 # Connect to the Vehicle.
@@ -182,9 +183,9 @@ def special_function(target_alt=20.0, time_to_break=30.0):
 		if tme > time_to_break:
 			break
 	
-special_function(target_alt=20.0, time_to_break=100)
-special_function(target_alt=30.0, time_to_break=100)
 special_function(target_alt=40.0, time_to_break=100)
+special_function(target_alt=50.0, time_to_break=100)
+special_function(target_alt=30.0, time_to_break=100)
 
 #for wp in waypoints:
 #	distance = float('inf') 
