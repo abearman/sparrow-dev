@@ -70,7 +70,33 @@ def send_ned_velocity(velocity_x, velocity_y, velocity_z, duration):
         vehicle.send_mavlink(msg)
         time.sleep(1)
 
+def condition_yaw(heading, relative=False):
+    if relative:
+        is_relative=1 #yaw relative to direction of travel
+    else:
+        is_relative=0 #yaw is an absolute angle
+    # create the CONDITION_YAW command using command_long_encode()
+    msg = vehicle.message_factory.command_long_encode(
+        0, 0,    # target system, target component
+        mavutil.mavlink.MAV_CMD_CONDITION_YAW, #command
+        0, #confirmation
+        0,    # param 1, yaw in degrees (heading)
+        10,          # param 2, yaw speed deg/s
+        1,          # param 3, direction -1 ccw, 1 cw
+        is_relative, # param 4, relative offset 1, absolute angle 0
+        0, 0, 0)    # param 5 ~ 7 not used
+    # send command to vehicle
+    vehicle.send_mavlink(msg)
 
+
+def channel_override():
+	msg = vehicle.message_factory.rc_channels_override_encode(
+		0, 0,  # Target system, target component0,
+		1800,  # Channel 1
+		1800,  # Channel 2
+		1800,  # Channel 3,
+		1800, 1800, 1800, 1800, 1800  # Channels 4-8 
+	)	
 
 def calculateDistance2D(location1, location2):
 	dist = math.sqrt((location1.east - location2.east)**2 + (location1.north - location2.north)**2)
@@ -78,14 +104,17 @@ def calculateDistance2D(location1, location2):
 
 
 # delta_T is in seconds
-def controller_pid(e, delta_T):
-	K_p = 0.05
-	K_i = 0
-	K_d = 0
-	p = K_p * e[len(e) - 1]
-	i = K_i * delta_T * sum(e)
-	d = K_d * (e[len(e)-1] - e[len(e)-2]) / delta_T
-	return p + i + d
+def controller_pid(error, delta_T):
+	current_error = error[-1]
+	previous_error = error[-2] if len(error) > 1 else 0
+	bias = 1400
+	K_p = 10
+	K_i = 0  # 0.5
+	K_d = 0  # 0.125
+	P = K_p * current_error
+	I = K_i * delta_T * sum(error)
+	D = K_d * (current_error - previous_error) / delta_T
+	return P + I + D + bias
 
 
 # Connect to the Vehicle.
@@ -99,77 +128,64 @@ while not vehicle.is_armable:
         print " Waiting for vehicle to initialise..."
         time.sleep(1)
 
-vehicle.mode = VehicleMode("GUIDED")
+vehicle.mode = VehicleMode("STABILIZE")
 vehicle.armed = True
+
 while not vehicle.armed:
 	print " Waiting for arming..."
 	time.sleep(1)
+print "Armed!"
 
-#vehicle.channels.overrides['3'] = 1800
-vehicle.simple_takeoff(10)
+vehicle.channels.overrides['3'] = 1500
+
 
 # Ascend
-while (vehicle.location.local_frame.down is None) or ((-1 * vehicle.location.local_frame.down) < 10.0):
-	time.sleep(1)
-	print "Still ascending"
-	print "Local location: ", vehicle.location.local_frame
+#while (vehicle.location.local_frame.down is None) or ((-1 * vehicle.location.local_frame.down) < 20.0):
+#	time.sleep(1)
+#	print "Still ascending"
+#	print "Local location: ", vehicle.location.local_frame
 #vehicle.channels.overrides['3'] = 1500
-print "Finished ascending"
+#print "Finished ascending"
 
-vehicle.mode = VehicleMode("ALT_HOLD")
-vehicle.groundspeed = 7.5
+def special_function(target_alt=20.0, time_to_break=30.0):
+	delta_T = 0.05	# seconds (20 Hz)
+	error = []
+	PV = []  # Array of past process variables (i.e., altitudes)
 
-#cmd = Command(0,0,0, mavutil.mavlink.MAV_FRAME_GLOBAL_RELATIVE_ALT,
-#				  mavutil.mavlink.MAV_CMD_DO_CHANGE_SPEED,
-#				  0, 0, # Not supported 
-#				  1, # Param 1: Ground speed
-#				  1, # Param 2: Speed (m/s)
-#				  -1, # Param 3: Throttle
-#				  0, 0, 0, 0)
-#cmds = vehicle.commands
-#cmds.clear()
-#cmds.add(cmd)
-#cmds.upload()
-#print "Sent command"					
+	ln, = plt.plot(error)
+	plt.ion()
+	plt.show()
+	plt.xlabel('time (seconds)')
+	plt.ylabel('current altitude (meters)')
 
-while True:
-	print vehicle.location.global_relative_frame
-	time.sleep(1)
+	tme = 0
+	while True:
+		alt_actual = -1 * vehicle.location.local_frame.down	# measured height
+		PV.append(alt_actual)
+		print "alt actual: ", alt_actual
+		current_error = target_alt - alt_actual 
+		error.append(current_error)
+		
+		u_t = controller_pid(error, delta_T) 
+		vehicle.channels.overrides['3'] = max(0.01, u_t) 
+		print "u(t): ", u_t
+		print "Throttle: ", vehicle.channels.overrides['3']
+		print "Current loc: ", vehicle.location.local_frame	
 
-k = 1500
-K_inv = np.matrix([[k, k, k, k], [-k, k, -k, k], [-k, -k, k, k], [k, -k, -k, k]]) 
-delta_T = 0.05	# seconds
-e = []
+		x = np.linspace(0, delta_T *len(error), len(error))
+		ln.set_xdata(x)
+		ln.set_ydata(PV)
+		plt.scatter(x, PV)
+		plt.draw()	
+		plt.pause(delta_T)
+		tme += 1
 
-ln, = plt.plot(e)
-plt.ion()
-plt.show()
-plt.xlabel('time (seconds)')
-plt.ylabel('altitude error (meters)')
-
-#while True:
-#	H_T = 20.0	# target height
-#	H_M = -1 * vehicle.location.local_frame.down	# measured height
-#	e_H = H_T - H_M
-#	e.append(e_H)
-#	F = controller_pid(e, delta_T) 
-#	print "F: ", F
-#	vehicle.channels.overrides['3'] += F
-#	print "Thrust: ", vehicle.channels.overrides['3']
-#	print "Current loc: ", vehicle.location.local_frame	
-
-#	x = np.linspace(0, delta_T *len(e), len(e))
-#	ln.set_xdata(x)
-#	ln.set_ydata(e)
-#	plt.scatter(x, e)
-#	plt.draw()	
-#	plt.pause(delta_T)
-
-#	second_product = np.matrix([[0], [0], [0], [F]])
-#	ws = np.matrix.dot(K_inv, second_product)		
-#	print "ws: ", ws
-#	#time.sleep(delta_T)
-
+		if tme > time_to_break:
+			break
+	
+special_function(target_alt=40.0, time_to_break=100)
+special_function(target_alt=50.0, time_to_break=100)
+special_function(target_alt=30.0, time_to_break=100)
 
 #for wp in waypoints:
 #	distance = float('inf') 
