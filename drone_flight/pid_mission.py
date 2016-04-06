@@ -8,6 +8,8 @@ import numpy as np
 import matplotlib.pyplot as plt
 import pylab
 from dronekit_sitl import SITL
+import signal
+import cv2
 
 # 1 = Roll
 # 2 = Pitch
@@ -29,19 +31,39 @@ vehicle = None
 
 K_p = {PITCH: -15.0,
 			 ROLL: 17.0,
-			 THROTTLE: 30.0} 
+			 THROTTLE: 15.0} 
 
 K_i = {PITCH: 0.0,
 			 ROLL: 0.0,
-			 THROTTLE: 0.0}
+			 THROTTLE: 0.1}
 
 K_d = {PITCH: -1.0,
 			 ROLL: 7.0,
-			 THROTTLE: 0.0}
+			 THROTTLE: 3.6}
 
 bias = {PITCH: 1536.0,
 				ROLL: 1537.0,
-				THROTTLE: 1590.0}
+				THROTTLE: 1400.0}
+
+
+
+def handler():
+	global vehicle
+	print "Emergency land, clearing RC channels"
+	if '1' in vehicle.channels.overrides:
+		vehicle.channels.overrides['1'] = 0
+	if '2' in vehicle.channels.overrides:
+		vehicle.channels.overrides['2'] = 0
+	if '3' in vehicle.channels.overrides:	
+		vehicle.channels.overrides['3'] = 0
+	if '4' in vehicle.channels.overrides:
+		vehicle.channels.overrides['4'] = 0
+	print "Landing"
+	vehicle.mode = VehicleMode("LAND")
+	while (-1*vehicle.location.local_frame.down) > 0.0:
+		print vehicle.location.local_frame 
+		time.sleep(1)
+	exit()
 
 
 def connect_to_vehicle(is_simulator=True):
@@ -77,6 +99,34 @@ def arm_vehicle(mode):
 	print "Armed!"
 
 
+def takeoff(target_down):
+	global vehicle
+	print "Taking off!"
+	error = []
+	PV = []
+	down_actual = -1 * vehicle.location.local_frame.down
+	
+	while abs(down_actual - target_down) > 0.1:
+		imgfile = cv2.imread("img.jpg")
+		cv2.imshow("Img", imgfile)
+		key = cv2.waitKey(1) & 0xFF
+					
+		down_actual = -1 * vehicle.location.local_frame.down
+		PV.append(down_actual)
+		error.append(target_down - down_actual)
+		u_down = controller_pid(error, THROTTLE)
+		print "u down: ", u_down
+		vehicle.channels.overrides['3'] = u_down
+		time.sleep(DELTA_T)
+		print "Current loc: ", vehicle.location.local_frame
+
+		# if the 'q' key is pressed, stop the loop
+		if key == ord("q"):
+			print "Pressed q"
+			handler()
+	cv2.destroyAllWindows()
+
+
 # targets measured in meters
 def adjust_channels(target_north, target_east, target_down):
 	global vehicle
@@ -87,19 +137,17 @@ def adjust_channels(target_north, target_east, target_down):
 	east_actual = vehicle.location.local_frame.east
 	down_actual = -1 * vehicle.location.local_frame.down
 
-	print "error north: ", abs(north_actual - target_north)
-	print "error east: ", abs(east_actual - target_east)
-	print "error down: ", abs(down_actual - target_down)
-
 	ln, = plt.plot(PV[DOWN])
 	plt.ion()
 	plt.show()
 	plt.xlabel('time (seconds)')
 	plt.ylabel('current altitude (meters)')
 
-#	while (abs(north_actual - target_north) > 0.1) or (abs(east_actual - target_east) > 0.1) or (abs(down_actual - target_down) > 0.1):
-	#while (abs(down_actual - target_down) > 0.1):
-	while True:
+	while (abs(north_actual - target_north) > 0.1) or (abs(east_actual - target_east) > 0.1) or (abs(down_actual - target_down) > 0.1):
+		imgfile = cv2.imread("img.jpg")
+		cv2.imshow("Img", imgfile)
+		key = cv2.waitKey(1) & 0xFF
+					
 		north_actual = vehicle.location.local_frame.north
 		east_actual = vehicle.location.local_frame.east 
 		down_actual = -1 * vehicle.location.local_frame.down
@@ -117,8 +165,8 @@ def adjust_channels(target_north, target_east, target_down):
 		u_down = controller_pid(error[DOWN], THROTTLE)
 		print "u down: ", u_down
 
-		#vehicle.channels.overrides['1'] = max(0.01, u_east)	# roll
-		#vehicle.channels.overrides['2'] = max(0.01, u_north)  # pitch
+		vehicle.channels.overrides['1'] = max(0.01, u_east)	# roll
+		vehicle.channels.overrides['2'] = max(0.01, u_north)  # pitch
 		vehicle.channels.overrides['3'] = max(0.01, u_down)  # throttle
 
 		x = np.linspace(0, DELTA_T*len(error[DOWN]), len(error[DOWN]))
@@ -130,6 +178,12 @@ def adjust_channels(target_north, target_east, target_down):
 
 		time.sleep(DELTA_T)
 		print "Current loc: ", vehicle.location.local_frame	
+
+		# if the 'q' key is pressed, stop the loop
+		if key == ord("q"):
+			print "Pressed q"
+			handler()
+	cv2.destroyAllWindows()
 
 def controller_pid(error, channel):
 	"""Determines the next control variable (roll, pitch, or throttle) using a PID controller.
@@ -149,17 +203,14 @@ def controller_pid(error, channel):
 
 
 def main():
-	waypoints = [(0.0, 0.0, 5.0), (0.0, 0.0, 0.0)]
-	connect_to_vehicle(is_simulator=False)
-	#arm_vehicle("GUIDED")
-	#vehicle.channels.overrides['3'] = 1000
-	vehicle.mode = VehicleMode("LAND")
-	
+	waypoints = [(0.0, 0.0, 20.0), (0.0, 10.0, 15.0)]
+	connect_to_vehicle(is_simulator=True)
+	arm_vehicle("STABILIZE")
+	takeoff(10.0)
 
-	#for wp in waypoints:
-	#	print "Switching waypoint"
-	#	print vehicle.parameters.keys()
-	#	adjust_channels(*wp)	
+	for wp in waypoints:
+		print "Switching waypoint"
+		adjust_channels(*wp)	
 	
 
 if __name__ == "__main__": main()
