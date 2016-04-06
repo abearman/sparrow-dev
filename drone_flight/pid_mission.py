@@ -86,6 +86,10 @@ def connect_to_vehicle(is_simulator=True):
 
 def arm_vehicle(mode):
 	global vehicle
+
+	# Lower throttle
+	vehicle.channels.overrides['3'] = 1000
+
 	while not vehicle.is_armable:
 		print " Waiting for vehicle to initialise..."
 		time.sleep(1)
