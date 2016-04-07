@@ -144,5 +144,56 @@ Continue to hold A, B, and Pause buttons to activate motor shutoff. If activated
 
  
 ## Channel Overrides
+
+#### How does it work?
+The RC transmitter channels are connected to the autopilot and control the vehicle.
+
+The values of the first four channels map to the main flight controls: 1=Roll, 2=Pitch, 3=Throttle, 4=Yaw (the mapping is defined in RCMAP_ parameters in [Copter](http://copter.ardupilot.com/wiki/configuration/arducopter-parameters/#rcmap__parameters)).
+
+You can read the values of the channels using the Vehicle.channels attribute. The values are regularly updated, from the UAV, based on the RC inputs from the transmitter. These can be read either as a set or individually:
+
+```
+# Get all channel values from RC transmitter
+print "Channel values from RC Tx:", vehicle.channels
+
+# Access channels individually
+print "Read channels individually:"
+print " Ch1: %s" % vehicle.channels['1']
+print " Ch2: %s" % vehicle.channels['2']
+```
  
+You can override the values sent to the vehicle by the autopilot using Vehicle.channels.overrides. The overrides can be written individually using an indexing syntax or as a set using a dictionary syntax.
+
+```
+# Set Ch2 override to 1500 using indexing syntax
+vehicle.channels.overrides['2'] = 1500
+# Set Ch3, Ch4 override to 1600, 1700 using dictionary syntax
+vehicle.channels.overrides = {'3':1600, '4':1300}
+```
+
+To clear all overrides, set the attribute to an empty dictionary. To clear an individual override you can set its value to None (or call del on it):
+
+```
+# Clear override by setting channels to None
+# Clear using index syntax
+vehicle.channels.overrides['2'] = None
+
+# Clear using 'del' syntax
+del vehicle.channels.overrides['3']
+
+# Clear using dictionary syntax (and set override at same time!)
+vehicle.channels.overrides = {'5':None, '6':None,'3':1500}
+
+# Clear all overrides by setting an empty dictionary
+vehicle.channels.overrides = {}
+```
+
+Read the channel overrides either as a dictionary or by index. Note: You’ll get a KeyError exception if you read a channel override that has not been set.
+
+```
+# Get all channel overrides
+print " Channel overrides: %s" % vehicle.channels.overrides
+# Print just one channel override
+print " Ch2 override: %s" % vehicle.channels.overrides['2']
+```
 
