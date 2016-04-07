@@ -145,7 +145,6 @@ Continue to hold A, B, and Pause buttons to activate motor shutoff. If activated
  
 ## Channel Overrides
 
-#### How does it work?
 The RC transmitter channels are connected to the autopilot and control the vehicle.
 
 The values of the first four channels map to the main flight controls: 1=Roll, 2=Pitch, 3=Throttle, 4=Yaw (the mapping is defined in RCMAP_ parameters in [Copter](http://copter.ardupilot.com/wiki/configuration/arducopter-parameters/#rcmap__parameters)).
