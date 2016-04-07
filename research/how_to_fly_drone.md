@@ -151,7 +151,7 @@ The values of the first four channels map to the main flight controls: 1=Roll, 2
 
 You can read the values of the channels using the Vehicle.channels attribute. The values are regularly updated, from the UAV, based on the RC inputs from the transmitter. These can be read either as a set or individually:
 
-```
+```python
 # Get all channel values from RC transmitter
 print "Channel values from RC Tx:", vehicle.channels
 
@@ -163,7 +163,7 @@ print " Ch2: %s" % vehicle.channels['2']
  
 You can override the values sent to the vehicle by the autopilot using Vehicle.channels.overrides. The overrides can be written individually using an indexing syntax or as a set using a dictionary syntax.
 
-```
+```python
 # Set Ch2 override to 1500 using indexing syntax
 vehicle.channels.overrides['2'] = 1500
 # Set Ch3, Ch4 override to 1600, 1700 using dictionary syntax
@@ -172,7 +172,7 @@ vehicle.channels.overrides = {'3':1600, '4':1300}
 
 To clear all overrides, set the attribute to an empty dictionary. To clear an individual override you can set its value to None (or call del on it):
 
-```
+```python
 # Clear override by setting channels to None
 # Clear using index syntax
 vehicle.channels.overrides['2'] = None
@@ -189,7 +189,7 @@ vehicle.channels.overrides = {}
 
 Read the channel overrides either as a dictionary or by index. Note: You’ll get a KeyError exception if you read a channel override that has not been set.
 
-```
+```python
 # Get all channel overrides
 print " Channel overrides: %s" % vehicle.channels.overrides
 # Print just one channel override
