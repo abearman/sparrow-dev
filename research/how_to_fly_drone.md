@@ -28,7 +28,9 @@ You should only be doing this from a drone-kit script, and we do this using a PI
 
 
 ## Landing
+When you decide to end your flight, simply hold the Fly button to land Solo at its current location. Landing will work without GPS.
 
+<img src="https://3dr.com/wp-content/uploads/2015/05/land_start-300x222.png" width="300" />
 
 
 ## Joysticks
