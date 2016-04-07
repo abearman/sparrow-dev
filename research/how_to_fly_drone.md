@@ -6,7 +6,9 @@ This article explains how to fly the 3DR Solo from the controller. It also expla
 ### Joysticks
 #### Left Joystick
 The left stick controls Solo’s altitude and rotation.
+
 ![left joystick](https://3dr.com/wp-content/uploads/2015/05/left_stick-300x221.png)
+
 
 |                 Move vertically to control Solo’s altitude and acceleration.                |             Move horizontally to rotate Solo and control orientation.             |
 |:-------------------------------------------------------------------------------------------:|:---------------------------------------------------------------------------------:|
