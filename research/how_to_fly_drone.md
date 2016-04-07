@@ -8,7 +8,7 @@ This article explains how to fly the 3DR Solo from the controller. It also expla
 2. [Guided Takeoff](#guided-takeoff)
 3. [Manual Takeoff](#manual-takeoff)
 4. [Landing](#landing)
-5. [Joysticks](#joysticks)
+5. [Stick Controls](#stick-controls)
 6. [Emergency Commands](#emergency-commands)
 7. [Channel Overrides](#channel-overrides)
 
@@ -37,7 +37,9 @@ When you decide to end your flight, simply hold the Fly button to land Solo at i
 Note: When commanded to land, Solo will land at the current location, wherever it is. Always make sure there is a clear path to a safe landing point directly below Solo before landing.
 
 
-## Joysticks
+## Stick Controls
+The controller’s two joysticks allow you to navigate Solo in flight.
+ 
 #### Left Joystick
 The left stick controls Solo’s altitude and rotation.
 
