@@ -9,7 +9,7 @@ This article explains how to fly the 3DR Solo from the controller. It also expla
 3. [Manual Takeoff](#manual-takeoff)
 4. [Landing](#landing)
 5. [Stick Controls](#stick-controls)
-6. [Emergency Commands](#emergency-commands)
+6. [Panic Buttons](#panic-buttons)
 7. [Channel Overrides](#channel-overrides)
 
 ## Flight Modes
@@ -69,7 +69,35 @@ Move the right stick horizontally to control roll.
 <img src="https://3dr.com/wp-content/uploads/2015/05/right_roll-1024x550.png" width="400" />
 
 
-## Emergency Commands
+## Panic Buttons
+If you experience a problem during one of your flights, the following procedures can help you avoid trouble.
+
+#### Pause Button
+The Pause button freezes Solo mid-air like an emergency air brake. This can be useful to stop Solo from hitting an obstacle or to re-orient Solo for navigation. Pressing Pause during Return Home or Land will also freeze Solo during these maneuvers.
+
+<img src="https://3dr.com/wp-content/uploads/2015/05/conrtoller_pause.jpg" width="300" />
+
+#### Return to Home
+The Return Home button allows you to bring your flight to an end by recalling Solo to its launch location and landing. Keep in mind that Return Home requires enough battery to get back to the launch point, so if you need to end your flight immediately then land manually or hold the Fly button. Return Home requires GPS lock prior to takeoff.
+
+<img src="https://3dr.com/wp-content/uploads/2015/05/fly_home-600x262.jpg" width="300" />
+
+Solo will not avoid obstacles during its journey home, so make sure the return path is clear before activating Return Home.
+
+#### Land
+If you need to immediately, hold the Fly button to land Solo at its current position.
+
+<img src="https://3dr.com/wp-content/uploads/2015/05/fly_button.jpg" width="300" />
+
+#### Motor Shutoff
+In the event that Solo’s motors do not stop after landing or for an emergency in-flight kill switch, Solo includes an emergency motor shutoff procedure. To shut off the motors at any time, either in flight or on the ground, hold the A, B, and Pause buttons at the same time. An initial screen will appear on the controller to confirm the shutoff command.
+
+<img src="https://3dr.com/wp-content/uploads/2015/05/shut_off-600x444.png" width="300" />
+
+Continue to hold A, B, and Pause buttons to activate motor shutoff. If activated during flight, Solo will crash, so use this procedure only in case of emergency.
+
+
+ 
 
 
 ## Channel Overrides
