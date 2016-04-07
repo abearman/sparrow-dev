@@ -66,7 +66,8 @@ public class MainActivity extends Activity {
 
 
     private static final String TAG = MainActivity.class.getSimpleName();
-    private static final String addr = "10.34.165.157";
+
+    private static final String addr = "10.31.54.33";
     private static final int port = 5000;
     private static final String sTranslationFormat = "x%fy%fz%f";
     private static final String sRotationFormat = "i%fj%fk%fl%f";
