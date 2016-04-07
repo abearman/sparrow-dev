@@ -6,6 +6,9 @@ This article explains how to fly the 3DR Solo from the controller. It also expla
 ### Table of Contents
 1. [Flight Modes](#flight-modes)
 2. [Guided Takeoff](#guided-takeoff)
+3. [Manual Takeoff](#manual-takeoff)
+4. [Landing](#landing)
+5. [Joysticks](#joysticks)
 
 ## Flight Modes
 
@@ -20,8 +23,8 @@ With the propellers now spinning, Solo is ready for takeoff. Hold Fly once again
 <img src="https://3dr.com/wp-content/uploads/2015/05/start_takeoff-600x444.png" width="300" />
 
 
-## Manual Take-off
-You should only be doing this from a drone-kit script, and we do this using a PID control loop to override the remote control (RC) channels. See the #Channel Overrides section for more information. 
+## Manual Takeoff
+You should only be doing this from a drone-kit script, and we do this using a PID control loop to override the remote control (RC) channels. See the [Channel Overrides](#channel-overrides) section for more information. 
 
 
 ## Landing
