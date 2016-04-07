@@ -13,6 +13,32 @@ This article explains how to fly the 3DR Solo from the controller. It also expla
 7. [Channel Overrides](#channel-overrides)
 
 ## Flight Modes
+You can set the flight mode either through the remote controller, or through a DroneKit script.
+
+#### Setting the flight mode through the remote controller
+To set the flight mode through the remote controller, from the app home screen, tap Settings and then choose Advanced Settings. Toggle the Enable Advanced Flight Modes option to gain access to Solo’s advanced modes. To access an advanced flight mode, assign one of the five available advanced modes to the controller’s A or B button in the Solo settings section.
+
+#### Setting the flight mode through DroneKit
+
+```
+vehicle.mode = VehicleMode(<arducopter_mode>)
+```
+
+See the list of flight modes below. When setting a flight mode in DroneKit, use the ***ArduCopter*** name for the mode, not the Solo name.
+
+### Flight modes that require GPS:
+Flight modes that use GPS-positioning data require an active GPS lock prior to takeoff. 
+
+#### GUIDED (GUIDED in ArduCopter)
+Guided mode is a capability of Copter to dynamically guide the copter to a target location wirelessly using a telemetry radio module and ground station application. This page provides instructions for using guided mode.
+
+#### Fly:Manual (ALT_HOLD in ArduCopter) 
+Fly:Manual mode is a version of standard flight without GPS lock. In Fly:Manual, the throttle stick controls altitude the same way as standard flight (Fly mode). However, Fly:Manual includes no GPS positioning so that, when you release the right stick, Solo will not hold its position; it will drift according to wind conditions and existing momentum. When flying in Fly:Manual, make constant adjustment to the right stick to control Solo’s position and use the left stick to maintain Solo’s orientation.
+
+
+
+### Flight modes that do not require GPS:
+
 
 
 ## Guided Takeoff
@@ -26,7 +52,7 @@ With the propellers now spinning, Solo is ready for takeoff. Hold Fly once again
 
 
 ## Manual Takeoff
-You should only be doing this from a drone-kit script, and we do this using a PID control loop to override the remote control (RC) channels. See the [Channel Overrides](#channel-overrides) section for more information. 
+You should only be doing this from a DroneKit script, and we do this using a PID control loop to override the remote control (RC) channels. See the [Channel Overrides](#channel-overrides) section for more information. 
 
 
 ## Landing
@@ -98,8 +124,6 @@ Continue to hold A, B, and Pause buttons to activate motor shutoff. If activated
 
 
  
-
-
 ## Channel Overrides
  
 
