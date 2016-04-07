@@ -153,7 +153,7 @@ You can read the values of the channels using the Vehicle.channels attribute. Th
 
 ```python
 # Get all channel values from RC transmitter
-print "Channel values from RC Tx:", vehicle.channels
+print "Channel values from RC: ", vehicle.channels
 
 # Access channels individually
 print "Read channels individually:"
