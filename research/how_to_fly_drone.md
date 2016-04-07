@@ -13,7 +13,7 @@ This article explains how to fly the 3DR Solo from the controller. It also expla
 7. [Channel Overrides](#channel-overrides)
 
 ## Flight Modes
-You can set the flight mode either through the remote controller, or through a DroneKit script.
+You can set the flight mode either through the remote controller, or through a DroneKit script. The most important modes to know here are GUIDED (requires GPS), and STABILIZE, ALT_HOLD, and LAND, (do not require GPS).
 
 #### Setting the flight mode through the remote controller
 To set the flight mode through the remote controller, from the app home screen, tap Settings and then choose Advanced Settings. Toggle the Enable Advanced Flight Modes option to gain access to Solo’s advanced modes. To access an advanced flight mode, assign one of the five available advanced modes to the controller’s A or B button in the Solo settings section.
@@ -29,16 +29,35 @@ See the list of flight modes below. When setting a flight mode in DroneKit, use 
 ### Flight modes that require GPS:
 Flight modes that use GPS-positioning data require an active GPS lock prior to takeoff. 
 
-#### GUIDED (GUIDED in ArduCopter)
-Guided mode is a capability of Copter to dynamically guide the copter to a target location wirelessly using a telemetry radio module and ground station application. This page provides instructions for using guided mode.
+#### Guided ("GUIDED" in ArduCopter)
+Guided mode is a version of standard flight with GPS lock. In Guided, Solo will maintain its altitude and position in the air, unless you control the left and right joysticks. Guided mode uses GPS positioning in order to maintain the position of your Solo. 
 
-#### Fly:Manual (ALT_HOLD in ArduCopter) 
-Fly:Manual mode is a version of standard flight without GPS lock. In Fly:Manual, the throttle stick controls altitude the same way as standard flight (Fly mode). However, Fly:Manual includes no GPS positioning so that, when you release the right stick, Solo will not hold its position; it will drift according to wind conditions and existing momentum. When flying in Fly:Manual, make constant adjustment to the right stick to control Solo’s position and use the left stick to maintain Solo’s orientation.
+#### Drift ("DRIFT" in ArduCopter)
+Drift mode requires GPS lock and provides a plane-like flying experience. Drift is ideal for navigating Solo using the video feed. This is known as first-person view (FPV) and provides an immersive flying experience. In Drift, Solo combines roll, pitch, and yaw onto the controller’s right stick.
 
+To navigate Solo in Drift, move the right stick to initiate a coordinated turn in that direction. Releasing the right stick causes Solo to drift to a stop over a two-second period. Solo does not automatically control altitude in Drift, and requires constant adjustments to the throttle stick when flying in Drift.
 
 
 ### Flight modes that do not require GPS:
 
+#### Fly:Manual ("ALT_HOLD" in ArduCopter)
+Fly:Manual mode is a version of standard flight without GPS lock. In Fly:Manual, the throttle stick controls altitude the same way as standard flight (Fly mode). However, Fly:Manual includes no GPS positioning so that, when you release the right stick, Solo will not hold its position; it will drift according to wind conditions and existing momentum. When flying in Fly:Manual, make constant adjustment to the right stick to control Solo’s position and use the left stick to maintain Solo’s orientation.
+
+#### Stabilize ("STABILIZE" in ArduCopter)
+Stabilize mode provides full manual control without autopilot assistance. In stabilize, the roll and pitch angles are monitored and regulated so that Solo returns to level when you release the right stick. The throttle stick controls power and acceleration directly; it does not correspond to altitude. Stabilize requires fine-tuned control of both the left and right sticks to fly Solo. Stabilize does not require GPS lock.
+
+#### Acro ("ACRO" in ArduCopter)
+Acro is the most advanced of Solo’s flight modes. It provides unrestricted control over Solo’s roll and pitch angles. Acro is intended for performing aerial acrobatics, flips, and maneuvers requiring extreme angles. No altitude or position assistance is available in Acro, so be prepared to make constant adjustment to both sticks.
+
+Acro is a copter-frame oriented mode, meaning that, in Acro, Solo always responds to controls relative to its own orientation. Acro does not require GPS lock.
+
+#### Sport ("SPORT" in ArduCopter)
+Sport mode in a modified version of Acro that includes altitude assistance and earth-frame orientation. With altitude assistance, the throttle stick behaves the same in Sport as it does in standard flight (Fly mode).
+
+Earth-frame orientation differs from copter-frame orientation in that the direction of yaw rotation is in relation to the earth instead of in relation to the copter itself. For example, if Solo is pitched forward in Sport mode and left yaw is applied, Solo maintains the same pitch angle and rotate around the vertical axis. This differs from Acro’s copter-frame orientation, in which, in the same situation, Solo performs a cartwheel. Sport does not require GPS lock.
+
+#### Land ("LAND" in ArduCopter)
+Land Mode attempts to bring the Solo straight down. Upon reaching the ground, Solo will automatically shut-down the motors and disarm the copter if the pilot’s throttle is at minimum.
 
 
 ## Guided Takeoff
