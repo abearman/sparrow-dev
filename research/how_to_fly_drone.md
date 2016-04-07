@@ -8,9 +8,17 @@ This article explains how to fly the 3DR Solo from the controller. It also expla
 
 ## Taking off
 
-Once Solo and the controller are both powered on, (and a GPS connection has been established, if Solo is on a GPS mode), the controller will prompt you to hold the Fly button to start Solo’s motors. Hold Fly to activate the motors.
+Once Solo and the controller are both powered on, and a GPS connection has been established (**NOTE: the takeoff button requires a GPS connection**), the controller will prompt you to hold the Fly button to start Solo’s motors. Hold Fly to activate the motors.
 
 <img src="https://3dr.com/wp-content/uploads/2015/05/fly_screen-300x233.png" width="300" />
+
+With the propellers now spinning, Solo is ready for takeoff. Hold Fly once again, and Solo will ascend to 10 ft. (3 m) and hover in place.
+
+<img src="https://3dr.com/wp-content/uploads/2015/05/start_takeoff-600x444.png" width="300" />
+
+
+## Landing
+
 
 
 ## Joysticks
