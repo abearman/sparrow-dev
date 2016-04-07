@@ -6,6 +6,8 @@ import math
 import inspect
 import numpy as np
 import matplotlib.pyplot as plt
+from mpl_toolkits.mplot3d import Axes3D
+
 import pylab
 from dronekit_sitl import SITL
 import signal
@@ -28,6 +30,7 @@ DOWN = "down"
 DELTA_T = 0.05	# seconds (20 Hz)
 
 vehicle = None
+ax = None
 
 K_p = {PITCH: -15.0,
 			 ROLL: 17.0,
@@ -43,7 +46,7 @@ K_d = {PITCH: -1.0,
 
 bias = {PITCH: 1536.0,
 				ROLL: 1537.0,
-				THROTTLE: 1400.0}
+				THROTTLE: 1402.0}
 
 
 
@@ -103,24 +106,48 @@ def arm_vehicle(mode):
 	print "Armed!"
 
 
+def init_graph():
+	global ax
+	plt.ion()
+	plt.show()
+	fig = plt.figure()
+	ax = fig.add_subplot(111, projection='3d')
+	ax.set_xlabel('east')
+	ax.set_ylabel('north')
+	ax.set_zlabel('down')
+
+
 def takeoff(target_down):
 	global vehicle
 	print "Taking off!"
-	error = []
-	PV = []
+	
+	error = {NORTH: [], EAST: [], DOWN: []}  # Arrays of past errors for each process variable
+	PV = {NORTH: [], EAST: [], DOWN: []}  # Arrays of past values for each process variable (i.e., altitudes)
+
 	down_actual = -1 * vehicle.location.local_frame.down
 	
 	while abs(down_actual - target_down) > 0.1:
 		imgfile = cv2.imread("img.jpg")
 		cv2.imshow("Img", imgfile)
 		key = cv2.waitKey(1) & 0xFF
-					
+		
+		north_actual = vehicle.location.local_frame.north
+		east_actual = vehicle.location.local_frame.east
 		down_actual = -1 * vehicle.location.local_frame.down
-		PV.append(down_actual)
-		error.append(target_down - down_actual)
-		u_down = controller_pid(error, THROTTLE)
+
+		PV[NORTH].append(north_actual)
+		PV[EAST].append(east_actual)
+		PV[DOWN].append(down_actual)
+		
+		error[DOWN].append(target_down - down_actual)
+		u_down = controller_pid(error[DOWN], THROTTLE)
 		print "u down: ", u_down
 		vehicle.channels.overrides['3'] = u_down
+
+		ax.scatter(PV[EAST], PV[NORTH], PV[DOWN])
+		plt.draw()
+		plt.pause(DELTA_T)
+
 		time.sleep(DELTA_T)
 		print "Current loc: ", vehicle.location.local_frame
 
@@ -134,18 +161,14 @@ def takeoff(target_down):
 # targets measured in meters
 def adjust_channels(target_north, target_east, target_down):
 	global vehicle
+	global ax
+	
 	error = {NORTH: [], EAST: [], DOWN: []}  # Arrays of past errors for each process variable
 	PV = {NORTH: [], EAST: [], DOWN: []}	# Arrays of past values for each process variable (i.e., altitudes)
 
 	north_actual = vehicle.location.local_frame.north
 	east_actual = vehicle.location.local_frame.east
 	down_actual = -1 * vehicle.location.local_frame.down
-
-	ln, = plt.plot(PV[DOWN])
-	plt.ion()
-	plt.show()
-	plt.xlabel('time (seconds)')
-	plt.ylabel('current altitude (meters)')
 
 	while (abs(north_actual - target_north) > 0.1) or (abs(east_actual - target_east) > 0.1) or (abs(down_actual - target_down) > 0.1):
 		imgfile = cv2.imread("img.jpg")
@@ -173,11 +196,8 @@ def adjust_channels(target_north, target_east, target_down):
 		vehicle.channels.overrides['2'] = max(0.01, u_north)  # pitch
 		vehicle.channels.overrides['3'] = max(0.01, u_down)  # throttle
 
-		x = np.linspace(0, DELTA_T*len(error[DOWN]), len(error[DOWN]))
-		ln.set_xdata(x)
-		ln.set_ydata(PV[DOWN])
-		plt.scatter(x, PV[DOWN])
-		plt.draw()		 
+		ax.scatter(PV[EAST], PV[NORTH], PV[DOWN]) 
+		plt.draw()
 		plt.pause(DELTA_T)
 
 		time.sleep(DELTA_T)
@@ -188,6 +208,7 @@ def adjust_channels(target_north, target_east, target_down):
 			print "Pressed q"
 			handler()
 	cv2.destroyAllWindows()
+
 
 def controller_pid(error, channel):
 	"""Determines the next control variable (roll, pitch, or throttle) using a PID controller.
@@ -207,9 +228,10 @@ def controller_pid(error, channel):
 
 
 def main():
-	waypoints = [(0.0, 0.0, 20.0), (0.0, 10.0, 15.0)]
+	waypoints = [(0.0, 0.0, 10.0), (0.0, 0.0, 20.0), (0.0, 10.0, 15.0)]
 	connect_to_vehicle(is_simulator=True)
 	arm_vehicle("STABILIZE")
+	init_graph()
 	takeoff(10.0)
 
 	for wp in waypoints:
