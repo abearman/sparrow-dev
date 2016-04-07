@@ -32,6 +32,7 @@ When you decide to end your flight, simply hold the Fly button to land Solo at i
 
 <img src="https://3dr.com/wp-content/uploads/2015/05/land_start-300x222.png" width="300" />
 
+**Note: When commanded to land, Solo will land at the current location, wherever it is. Always make sure there is a clear path to a safe landing point directly below Solo before landing.**
 
 ## Joysticks
 #### Left Joystick
