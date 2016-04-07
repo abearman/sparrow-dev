@@ -11,7 +11,7 @@ The left stick controls Solo’s altitude and rotation.
 
 
 Move vertically to control Solo’s altitude and acceleration.               
-![throttle behaviors](https://3dr.com/wp-content/uploads/2015/05/left_motions-1024x835.png) 
+![throttle behaviors](https://3dr.com/wp-content/uploads/2015/05/left_motions-1024x835.png =250x) 
 
 
 
