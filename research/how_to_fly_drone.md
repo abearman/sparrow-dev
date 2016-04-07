@@ -70,7 +70,7 @@ Move the right stick horizontally to control roll.
 
 
 ## Panic Buttons
-If you experience a problem during one of your flights, the following procedures can help you avoid trouble.
+If you experience a problem during one of your flights, the following procedures can help you avoid trouble. Note: we have discovered that these buttons can behave unpredictably during controller channel overrides. 
 
 #### Pause Button
 The Pause button freezes Solo mid-air like an emergency air brake. This can be useful to stop Solo from hitting an obstacle or to re-orient Solo for navigation. Pressing Pause during Return Home or Land will also freeze Solo during these maneuvers.
@@ -78,7 +78,7 @@ The Pause button freezes Solo mid-air like an emergency air brake. This can be u
 <img src="https://3dr.com/wp-content/uploads/2015/05/conrtoller_pause.jpg" width="300" />
 
 #### Return to Home
-The Return Home button allows you to bring your flight to an end by recalling Solo to its launch location and landing. Keep in mind that Return Home requires enough battery to get back to the launch point, so if you need to end your flight immediately then land manually or hold the Fly button. Return Home requires GPS lock prior to takeoff.
+The Return Home button allows you to bring your flight to an end by recalling Solo to its launch location and landing. Keep in mind that Return Home requires enough battery to get back to the launch point, so if you need to end your flight immediately then land manually or hold the Fly button. Return Home requires GPS lock prior to takeoff. DO NOT use this button during non-GPS modes.
 
 <img src="https://3dr.com/wp-content/uploads/2015/05/fly_home-600x262.jpg" width="300" />
 
