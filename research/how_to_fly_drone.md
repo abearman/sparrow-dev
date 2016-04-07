@@ -13,7 +13,7 @@ This article explains how to fly the 3DR Solo from the controller. It also expla
 7. [Channel Overrides](#channel-overrides)
 
 ## Flight Modes
-You can set the flight mode either through the remote controller, or through a DroneKit script. The most important modes to know here are GUIDED (requires GPS), and STABILIZE, ALT_HOLD, and LAND, (do not require GPS).
+You can set the flight mode either through the remote controller, or through a DroneKit script. The most important modes to know here are GUIDED (requires GPS), and STABILIZE, ALT_HOLD, and LAND (do not require GPS).
 
 #### Setting the flight mode through the remote controller
 To set the flight mode through the remote controller, from the app home screen, tap Settings and then choose Advanced Settings. Toggle the Enable Advanced Flight Modes option to gain access to Solo’s advanced modes. To access an advanced flight mode, assign one of the five available advanced modes to the controller’s A or B button in the Solo settings section.
