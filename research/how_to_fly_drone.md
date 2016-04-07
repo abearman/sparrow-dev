@@ -3,11 +3,14 @@ This article explains how to fly the 3DR Solo from the controller. It also expla
 
 ![Controller](http://www.halo-robotics.com/wp-content/uploads/2015/12/3dr-solo-controller.png)
 
+### Table of Contents
+1. [Flight Modes](#flight-modes)
+2. [Guided Takeoff](#guided-takeoff)
+
 ## Flight Modes
 
 
-## Taking off
-
+## Guided Takeoff
 Once Solo and the controller are both powered on, and a GPS connection has been established (**NOTE: the takeoff button requires a GPS connection**), the controller will prompt you to hold the Fly button to start Solo’s motors. Hold Fly to activate the motors.
 
 <img src="https://3dr.com/wp-content/uploads/2015/05/fly_screen-300x233.png" width="300" />
@@ -15,6 +18,10 @@ Once Solo and the controller are both powered on, and a GPS connection has been 
 With the propellers now spinning, Solo is ready for takeoff. Hold Fly once again, and Solo will ascend to 10 ft. (3 m) and hover in place.
 
 <img src="https://3dr.com/wp-content/uploads/2015/05/start_takeoff-600x444.png" width="300" />
+
+
+## Manual Take-off
+You should only be doing this from a drone-kit script, and we do this using a PID control loop to override the remote control (RC) channels. See the #Channel Overrides section for more information. 
 
 
 ## Landing
