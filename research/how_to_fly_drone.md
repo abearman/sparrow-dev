@@ -3,6 +3,16 @@ This article explains how to fly the 3DR Solo from the controller. It also expla
 
 ![Controller](http://www.halo-robotics.com/wp-content/uploads/2015/12/3dr-solo-controller.png)
 
+## Flight Modes
+
+
+## Taking off
+
+Once Solo and the controller are both powered on, (and a GPS connection has been established, if Solo is on a GPS mode), the controller will prompt you to hold the Fly button to start Solo’s motors. Hold Fly to activate the motors.
+
+<img src="https://3dr.com/wp-content/uploads/2015/05/fly_screen-300x233.png" width="300" />
+
+
 ## Joysticks
 #### Left Joystick
 The left stick controls Solo’s altitude and rotation.
