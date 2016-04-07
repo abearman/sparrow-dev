@@ -3,7 +3,7 @@ This article explains how to fly the 3DR Solo from the controller. It also expla
 
 ![Controller](http://www.halo-robotics.com/wp-content/uploads/2015/12/3dr-solo-controller.png)
 
-### Joysticks
+## Joysticks
 #### Left Joystick
 The left stick controls Solo’s altitude and rotation.
 
@@ -20,9 +20,9 @@ The left stick controls Solo’s altitude and rotation.
 
 
 
-### Emergency Commands
+## Emergency Commands
 
 
-### Channel Overrides
+## Channel Overrides
  
 
