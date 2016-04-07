@@ -166,7 +166,7 @@ You can override the values sent to the vehicle by the autopilot using Vehicle.c
 ```python
 # Set Ch2 override to 1500 using indexing syntax
 vehicle.channels.overrides['2'] = 1500
-# Set Ch3, Ch4 override to 1600, 1700 using dictionary syntax
+# Set Ch3, Ch4 override to 1600, 1300 using dictionary syntax
 vehicle.channels.overrides = {'3':1600, '4':1300}
 ```
 
