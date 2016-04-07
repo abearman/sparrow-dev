@@ -21,7 +21,7 @@ while True:
 
 	# show the frame and record if the user presses a key
 	cv2.imshow("Frame", frame)
-	key = cv2.waitKey(1) & 0xFF
+	key = cv2.waitKey(0) & 0xFF
 
 	scanner = zbar.ImageScanner()
 	scanner.parse_config('enable')
