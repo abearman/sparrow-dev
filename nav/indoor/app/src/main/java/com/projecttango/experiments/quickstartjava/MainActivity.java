@@ -46,11 +46,15 @@ import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.nio.FloatBuffer;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.net.Socket;
 import java.net.URI;
+
+import com.github.nkzawa.socketio.client.IO;
+import com.github.nkzawa.socketio.client.Socket;
+
 
 /**
  * Main Activity for the Tango Java Quickstart. Demonstrates establishing a
@@ -62,7 +66,8 @@ public class MainActivity extends Activity {
 
 
     private static final String TAG = MainActivity.class.getSimpleName();
-    private static final String addr = "10.34.166.35";
+
+    private static final String addr = "10.31.54.33";
     private static final int port = 5000;
     private static final String sTranslationFormat = "x%fy%fz%f";
     private static final String sRotationFormat = "i%fj%fk%fl%f";
@@ -86,8 +91,7 @@ public class MainActivity extends Activity {
 
     private HttpClient httpclient;
 
-    //private SocketConnection socket;
-
+    private Socket mSocket;
 
     // for point cloud
     private double mXyIjPreviousTimeStamp;
@@ -122,7 +126,13 @@ public class MainActivity extends Activity {
 
         this.httpclient = new DefaultHttpClient();
 
-        //socket = new SocketConnection(dstAddress, dstPort);
+        try {
+            mSocket = IO.socket("http://" + addr + ":" + port + "/pose");
+            mSocket.connect();
+            System.out.println("Socket connection has been established");
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -171,7 +181,7 @@ public class MainActivity extends Activity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        //socket.close();
+        mSocket.disconnect();
     }
 
     private void setTangoListeners() {
@@ -186,6 +196,7 @@ public class MainActivity extends Activity {
 
             @Override
             public void onPoseAvailable(TangoPoseData tangoPose) {
+
                 // Format Translation and Rotation data
                 final String translationMsg = String.format(sTranslationFormat,
                         tangoPose.translation[0], tangoPose.translation[1],
@@ -198,27 +209,46 @@ public class MainActivity extends Activity {
 
                 // Output to LogCat
                 String logMsg = translationMsg + "_" + rotationMsg;
-                Log.i(TAG, logMsg);
-                //socket.send(logMsg);
 
                 // keeping this uncommented for the purpose of testing without server
-                /*
                 HttpResponse response;
                 String responseString = null;
                 JSONObject json = new JSONObject();
                 try{
-                    HttpPost post = new HttpPost("http://" + addr + ":" + port + "/pose/update");
-                    json.put("pose", logMsg);
-                        StringEntity se = new StringEntity(json.toString());
-                        se.setContentEncoding(new BasicHeader(HTTP.CONTENT_TYPE, "application/json"));
-                        post.setEntity(se);
-                        response = httpclient.execute(post);
-                        System.out.println(response.getStatusLine().getStatusCode());
-                        response.getEntity().getContent().close();
+                    //HttpPost post = new HttpPost("http://" + addr + ":" + port + "/pose/update");
+
+
+                    json.put("x", Double.toString(tangoPose.translation[0]));
+                    json.put("y", Double.toString(tangoPose.translation[1]));
+                    json.put("z", Double.toString(tangoPose.translation[2]));
+                    json.put("i", Double.toString(tangoPose.rotation[0]));
+                    json.put("j", Double.toString(tangoPose.rotation[1]));
+                    json.put("k", Double.toString(tangoPose.rotation[2]));
+                    json.put("l", Double.toString(tangoPose.rotation[3]));
+
+                    try {
+                        mSocket.emit("pose_update", json);
+                        Log.i(TAG, logMsg);
+                    } catch (Exception e) {
+                        System.out.println("Exception when emitting");
+                        e.printStackTrace();
+                    }
+
+                    //json.put("pose", logMsg);
+
+                    /*
+                    StringEntity se = new StringEntity(json.toString());
+                    se.setContentEncoding(new BasicHeader(HTTP.CONTENT_TYPE, "application/json"));
+                    post.setEntity(se);
+                    response = httpclient.execute(post);
+                    System.out.println(response.getStatusLine().getStatusCode());
+                    response.getEntity().getContent().close();
+                    */
+
                 } catch(Exception e){
                         e.printStackTrace();
                 }
-                */
+
 
                 final double deltaTime = (tangoPose.timestamp - mPreviousTimeStamp)
                         * SECS_TO_MILLISECS;

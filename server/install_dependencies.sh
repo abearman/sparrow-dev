@@ -9,3 +9,5 @@ for pkg in $dep_ubuntu; do
     echo "Processing ${pkg}, Package $pkg of $length"
     sudo pip install ${pkg}
 done
+
+sudo python socketIO-client/setup.py install
