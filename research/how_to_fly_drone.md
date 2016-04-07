@@ -10,10 +10,9 @@ The left stick controls Solo’s altitude and rotation.
 ![left joystick](https://3dr.com/wp-content/uploads/2015/05/left_stick-300x221.png)
 
 
-|                 Move vertically to control Solo’s altitude and acceleration.                |             Move horizontally to rotate Solo and control orientation.             |
-|:-------------------------------------------------------------------------------------------:|:---------------------------------------------------------------------------------:|
-| ![throttle behaviors](https://3dr.com/wp-content/uploads/2015/05/left_motions-1024x835.png) | [yaw behaviors](https://3dr.com/wp-content/uploads/2015/05/left_yaw-1024x695.png) |
-|                                 Throttle joystick behaviors                                 |                               Yaw joystick behaviors                              |
+Move vertically to control Solo’s altitude and acceleration.               
+![throttle behaviors](https://3dr.com/wp-content/uploads/2015/05/left_motions-1024x835.png) 
+
 
 
 #### Right Joystick
