@@ -54,13 +54,13 @@ def handler():
 	global vehicle
 	print "Emergency land, clearing RC channels"
 	if '1' in vehicle.channels.overrides:
-		vehicle.channels.overrides['1'] = 0
+		vehicle.channels.overrides['1'] = None
 	if '2' in vehicle.channels.overrides:
-		vehicle.channels.overrides['2'] = 0
+		vehicle.channels.overrides['2'] = None
 	if '3' in vehicle.channels.overrides:	
-		vehicle.channels.overrides['3'] = 0
+		vehicle.channels.overrides['3'] = None
 	if '4' in vehicle.channels.overrides:
-		vehicle.channels.overrides['4'] = 0
+		vehicle.channels.overrides['4'] = None
 	print "Landing"
 	vehicle.mode = VehicleMode("LAND")
 	while (-1*vehicle.location.local_frame.down) > 0.0:
