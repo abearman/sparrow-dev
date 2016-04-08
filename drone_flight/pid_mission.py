@@ -18,7 +18,7 @@ import cv2
 # 3 = Throttle
 # 4 = Yaw
 
-# LocalLocation: (North, East, Down). In meters. Down is negative
+# LocalLocation: (North, East, Down). In feet. Down is negative
 # Attitude: (Pitch, Yaw, Roll). In radians.
 
 PITCH = "pitch"
@@ -27,10 +27,12 @@ THROTTLE = "throttle"
 NORTH = "north"
 EAST = "east"
 DOWN = "down"
+
 DELTA_T = 0.05	# seconds (20 Hz)
 
 vehicle = None
 ax = None
+do_graph_position = False 
 
 K_p = {PITCH: -15.0,
 			 ROLL: 17.0,
@@ -49,8 +51,8 @@ bias = {PITCH: 1536.0,
 				THROTTLE: 1402.0}
 
 
-
-def handler():
+def emergency_land():
+	"""Emergency land function that clears all RC channel overrides, lands the drone, and exits."""
 	global vehicle
 	print "Emergency land, clearing RC channels"
 	if '1' in vehicle.channels.overrides:
@@ -70,6 +72,10 @@ def handler():
 
 
 def connect_to_vehicle(is_simulator=True):
+	"""Connects to either the real drone or the simulator.
+		Args:
+			is_simulator (bool): If true, connect to the simulator. Otherwise, connect to the real drone.
+	"""
 	global vehicle
 	target = None
 
@@ -88,10 +94,15 @@ def connect_to_vehicle(is_simulator=True):
 
 
 def arm_vehicle(mode):
+	"""Arms the vehicle in the selected mode.
+		Args:
+			mode (String): The desired flight mode for the vehicle.
+	"""
 	global vehicle
 
-	# Lower throttle
-	vehicle.channels.overrides['3'] = 1000
+	# Lower throttle before takeoff is required in STABILIZE mode
+	if mode == "STABILIZE"
+		vehicle.channels.overrides['3'] = 1000
 
 	while not vehicle.is_armable:
 		print " Waiting for vehicle to initialise..."
@@ -107,6 +118,7 @@ def arm_vehicle(mode):
 
 
 def init_graph():
+	"""Initializes a 3D plot for the drone position (North, East, Down)."""
 	global ax
 	plt.ion()
 	plt.show()
@@ -117,36 +129,41 @@ def init_graph():
 	ax.set_zlabel('down')
 
 
-def takeoff(target_down):
+def takeoff(target_alt):
+	"""Takes off the drone using a PID controller.
+		Args:
+			target_alt (double): The desired altitude (in feet) for takeoff  
+	"""
 	global vehicle
 	print "Taking off!"
 	
 	error = {NORTH: [], EAST: [], DOWN: []}  # Arrays of past errors for each process variable
 	PV = {NORTH: [], EAST: [], DOWN: []}  # Arrays of past values for each process variable (i.e., altitudes)
 
-	down_actual = -1 * vehicle.location.local_frame.down
+	alt_actual = -1 * vehicle.location.local_frame.down
 	
-	while abs(down_actual - target_down) > 0.1:
+	while abs(alt_actual - target_alt) > 0.1:
 		imgfile = cv2.imread("img.jpg")
 		cv2.imshow("Img", imgfile)
 		key = cv2.waitKey(1) & 0xFF
 		
 		north_actual = vehicle.location.local_frame.north
 		east_actual = vehicle.location.local_frame.east
-		down_actual = -1 * vehicle.location.local_frame.down
+		alt_actual = -1 * vehicle.location.local_frame.down
 
 		PV[NORTH].append(north_actual)
 		PV[EAST].append(east_actual)
-		PV[DOWN].append(down_actual)
+		PV[DOWN].append(alt_actual)
 		
-		error[DOWN].append(target_down - down_actual)
+		error[DOWN].append(target_alt - alt_actual)
 		u_down = controller_pid(error[DOWN], THROTTLE)
 		print "u down: ", u_down
 		vehicle.channels.overrides['3'] = u_down
 
-		ax.scatter(PV[EAST], PV[NORTH], PV[DOWN])
-		plt.draw()
-		plt.pause(DELTA_T)
+		if do_graph_position:
+			ax.scatter(PV[EAST], PV[NORTH], PV[DOWN])
+			plt.draw()
+			plt.pause(DELTA_T)
 
 		time.sleep(DELTA_T)
 		print "Current loc: ", vehicle.location.local_frame
@@ -154,12 +171,17 @@ def takeoff(target_down):
 		# if the 'q' key is pressed, stop the loop
 		if key == ord("q"):
 			print "Pressed q"
-			handler()
+			emergency_land()
 	cv2.destroyAllWindows()
 
 
-# targets measured in meters
 def adjust_channels(target_north, target_east, target_down):
+	"""Uses a PID controller to navigate the drone to a provided waypoint.
+		Args:
+			target_north (double): The desired relative north position (in feet) for the drone
+			target_east (double): The desired relative east position (in feet) for the drone
+			target_down (double): The desired relative down position (in feet) for drone
+	"""
 	global vehicle
 	global ax
 	
@@ -196,9 +218,10 @@ def adjust_channels(target_north, target_east, target_down):
 		vehicle.channels.overrides['2'] = max(0.01, u_north)  # pitch
 		vehicle.channels.overrides['3'] = max(0.01, u_down)  # throttle
 
-		ax.scatter(PV[EAST], PV[NORTH], PV[DOWN]) 
-		plt.draw()
-		plt.pause(DELTA_T)
+		if do_graph_position:
+			ax.scatter(PV[EAST], PV[NORTH], PV[DOWN]) 
+			plt.draw()
+			plt.pause(DELTA_T)
 
 		time.sleep(DELTA_T)
 		print "Current loc: ", vehicle.location.local_frame	
@@ -206,15 +229,15 @@ def adjust_channels(target_north, target_east, target_down):
 		# if the 'q' key is pressed, stop the loop
 		if key == ord("q"):
 			print "Pressed q"
-			handler()
+			emergency_land()
 	cv2.destroyAllWindows()
 
 
 def controller_pid(error, channel):
-	"""Determines the next control variable (roll, pitch, or throttle) using a PID controller.
+	"""Determines the next control variable (e.g., roll, pitch, throttle) using a PID controller.
 		Args:
-				error ([double]): An array of all past errors.
-				channel (String): The channel we want to control (e.g. roll)
+			error ([double]): An array of all past errors.
+			channel (String): The channel we want to control (e.g. roll). One of a list of constants (PITCH, ROLL, or THROTTLE)
 		Yields:
 			double: The next control variable, in pwm
 	"""
@@ -228,11 +251,25 @@ def controller_pid(error, channel):
 
 
 def main():
+	"""Main entry point for the PID mission script.
+
+		To emergency land the drone and stop the script, click on the image that appears and press the "q" key. 
+
+		Variables:
+			use_simulator (bool): Whether or not to run the program on the simulator.
+			mode (String): The flight mode for the vehicle (i.e., GUIDED, STABILIZE, ALT_HOLD)
+			waypoints ([(double, double, double)]): A list of (North, East, Down) waypoints the drone should travel to, measured by displacements (in feet) from the origin point.
+			takeoff_height (double): How high (in feet) the drone should take off to.
+	"""
+	use_simulator = True
+	mode = "STABILIZE"
 	waypoints = [(0.0, 0.0, 10.0), (0.0, 0.0, 20.0), (0.0, 10.0, 15.0)]
-	connect_to_vehicle(is_simulator=True)
-	arm_vehicle("STABILIZE")
-	init_graph()
-	takeoff(10.0)
+	takeoff_height = 10.0
+
+	connect_to_vehicle(is_simulator=use_simulator)
+	arm_vehicle(mode)
+	if do_graph_position: init_graph()
+	takeoff(takeoff_height)
 
 	for wp in waypoints:
 		print "Switching waypoint"
