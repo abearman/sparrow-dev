@@ -7,8 +7,10 @@ from flask_socketio import SocketIO
 from camera import camera_api
 from pose import pose_api
 from monitor import monitor_api
+from flask_jsglue import JSGlue
 
 app = Flask(__name__)
+jsglue = JSGlue(app)
 app.config["MONGODB_SETTINGS"] = {'DB': "sparrow_server_event_log"}
 
 db = MongoEngine(app)
