@@ -260,23 +260,36 @@ def main():
 
 		Variables:
 			use_simulator (bool): Whether or not to run the program on the simulator.
+			do_graph_position (bool): Whether or not to 3D plot the drone's position.
 			mode (String): The flight mode for the vehicle (i.e., GUIDED, STABILIZE, ALT_HOLD)
 			waypoints ([(double, double, double)]): A list of (North, East, Down) waypoints the drone should travel to, measured by displacements (in feet) from the origin point.
 			takeoff_height (double): How high (in feet) the drone should take off to.
 	"""
-	use_simulator = False 
-	mode = "STABILIZE"
-	waypoints = [(0.0, 0.0, 10.0), (0.0, 0.0, 20.0), (0.0, 10.0, 15.0)]
-	takeoff_height = 5.0
+	global vehicle
+	global do_graph_position
 
-	connect_to_vehicle(is_simulator=use_simulator, wait_ready=True)
-	arm_vehicle(mode)
-	#if do_graph_position: init_graph()
-	takeoff(takeoff_height)
+	try:
+		use_simulator = True 
+		do_graph_position = False 
+		mode = "STABILIZE"
+		waypoints = [(0.0, 0.0, 10.0), (0.0, 0.0, 20.0), (0.0, 10.0, 15.0)]
+		takeoff_height = 5.0
 
-	#for wp in waypoints:
-	#	print "Switching waypoint"
-	#	adjust_channels(*wp)	
+		connect_to_vehicle(is_simulator=use_simulator, wait_ready=True)
+		arm_vehicle(mode)
+		if do_graph_position: init_graph()
+		takeoff(takeoff_height)
+
+		for wp in waypoints:
+			print "Switching waypoint"
+			adjust_channels(*wp)	
 	
+	except:
+		print "Closing vehicle before terminating"
+		vehicle.close()
+	finally:
+		print "Closing vehicle before terminating"
+		vehicle.close()
+
 
 if __name__ == "__main__": main()
