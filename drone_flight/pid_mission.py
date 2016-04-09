@@ -71,7 +71,7 @@ def emergency_land():
 	exit()
 
 
-def connect_to_vehicle(is_simulator=True):
+def connect_to_vehicle(is_simulator=True, wait_ready=True):
 	"""Connects to either the real drone or the simulator.
 		Args:
 			is_simulator (bool): If true, connect to the simulator. Otherwise, connect to the real drone.
@@ -89,7 +89,7 @@ def connect_to_vehicle(is_simulator=True):
 		target = "udpin:0.0.0.0:14550"
 	
 	print "Connecting to vehicle on: ", target, "..."
-	vehicle = connect(target, wait_ready=True)
+	vehicle = connect(target, wait_ready=wait_ready)
 	print "Connected to vehicle"
 
 
@@ -99,16 +99,18 @@ def arm_vehicle(mode):
 			mode (String): The desired flight mode for the vehicle.
 	"""
 	global vehicle
+	vehicle.mode = VehicleMode(mode)
+	print "Flight mode: ", vehicle.mode
 
 	# Lower throttle before takeoff is required in STABILIZE mode
-	if mode == "STABILIZE"
+	if mode == "STABILIZE":
 		vehicle.channels.overrides['3'] = 1000
+		#vehicle.parameters['ARMING_CHECK'] = -5  # Skip compass
 
 	while not vehicle.is_armable:
 		print " Waiting for vehicle to initialise..."
 		time.sleep(1)
 
-	vehicle.mode = VehicleMode(mode)
 	vehicle.armed = True
 
 	while not vehicle.armed:
@@ -136,11 +138,12 @@ def takeoff(target_alt):
 	"""
 	global vehicle
 	print "Taking off!"
-	
+	print "vehicle: ", vehicle
+
 	error = {NORTH: [], EAST: [], DOWN: []}  # Arrays of past errors for each process variable
 	PV = {NORTH: [], EAST: [], DOWN: []}  # Arrays of past values for each process variable (i.e., altitudes)
 
-	alt_actual = -1 * vehicle.location.local_frame.down
+	alt_actual = -1.0 * vehicle.location.local_frame.down
 	
 	while abs(alt_actual - target_alt) > 0.1:
 		imgfile = cv2.imread("img.jpg")
@@ -261,19 +264,19 @@ def main():
 			waypoints ([(double, double, double)]): A list of (North, East, Down) waypoints the drone should travel to, measured by displacements (in feet) from the origin point.
 			takeoff_height (double): How high (in feet) the drone should take off to.
 	"""
-	use_simulator = True
+	use_simulator = False 
 	mode = "STABILIZE"
 	waypoints = [(0.0, 0.0, 10.0), (0.0, 0.0, 20.0), (0.0, 10.0, 15.0)]
-	takeoff_height = 10.0
+	takeoff_height = 5.0
 
-	connect_to_vehicle(is_simulator=use_simulator)
+	connect_to_vehicle(is_simulator=use_simulator, wait_ready=True)
 	arm_vehicle(mode)
-	if do_graph_position: init_graph()
+	#if do_graph_position: init_graph()
 	takeoff(takeoff_height)
 
-	for wp in waypoints:
-		print "Switching waypoint"
-		adjust_channels(*wp)	
+	#for wp in waypoints:
+	#	print "Switching waypoint"
+	#	adjust_channels(*wp)	
 	
 
 if __name__ == "__main__": main()
