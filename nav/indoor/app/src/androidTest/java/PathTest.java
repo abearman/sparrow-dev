@@ -27,5 +27,7 @@ public class PathTest {
         path.addPose(pt1);
         path.addPose(pt2);
 
+        assertEquals(2, path.getPoseList().size(), 0.0);
+
     }
 }
