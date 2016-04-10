@@ -12,10 +12,14 @@ public class Path {
     private List<PoseData> poseList;
 
     public Path() {
-	poseList = new ArrayList<PoseData>();
+	    poseList = new ArrayList<PoseData>();
     }
 
-    void addPose(PoseData pose) {
+    public void addPose(PoseData pose) {
+        poseList.add(pose);
+    }
 
+    public List<PoseData> getPoseList() {
+        return poseList;
     }
 };
