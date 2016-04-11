@@ -7,11 +7,10 @@ import inspect
 import numpy as np
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
-
 import pylab
 from dronekit_sitl import SITL
-import signal
 import cv2
+import sys
 
 # 1 = Roll
 # 2 = Pitch
@@ -33,6 +32,7 @@ DELTA_T = 0.05	# seconds (20 Hz)
 vehicle = None
 ax = None
 do_graph_position = False 
+use_tango_location = False
 
 K_p = {PITCH: -15.0,
 			 ROLL: 17.0,
@@ -71,7 +71,14 @@ def emergency_land():
 	exit()
 
 
-def connect_to_vehicle(is_simulator=True, wait_ready=True):
+def connect_to_server():
+	sys.path.append('../server')
+	print "Connecting to server ..."
+	from drone_utility import get_tango_location
+	print "Connected to server"
+
+
+def connect_to_vehicle(is_simulator=True):
 	"""Connects to either the real drone or the simulator.
 		Args:
 			is_simulator (bool): If true, connect to the simulator. Otherwise, connect to the real drone.
@@ -89,7 +96,7 @@ def connect_to_vehicle(is_simulator=True, wait_ready=True):
 		target = "udpin:0.0.0.0:14550"
 	
 	print "Connecting to vehicle on: ", target, "..."
-	vehicle = connect(target, wait_ready=wait_ready)
+	vehicle = connect(target, wait_ready=True)
 	print "Connected to vehicle"
 
 
@@ -105,7 +112,7 @@ def arm_vehicle(mode):
 	# Lower throttle before takeoff is required in STABILIZE mode
 	if mode == "STABILIZE":
 		vehicle.channels.overrides['3'] = 1000
-		#vehicle.parameters['ARMING_CHECK'] = -5  # Skip compass
+		#vehicle.parameters['ARMING_CHECK'] = -5	# Skip compass
 
 	while not vehicle.is_armable:
 		print " Waiting for vehicle to initialise..."
@@ -136,15 +143,24 @@ def takeoff(target_alt):
 		Args:
 			target_alt (double): The desired altitude (in feet) for takeoff  
 	"""
-	global vehicle
 	print "Taking off!"
-	print "vehicle: ", vehicle
+	takeoff_land_helper(target_alt)
+
+
+def land():
+	"""Lands the drone using a PID controller."""
+	print "Landing the drone"
+	takeoff_land_helper(0.0)
+
+
+def takeoff_land_helper(target_alt):
+	global vehicle
 
 	error = {NORTH: [], EAST: [], DOWN: []}  # Arrays of past errors for each process variable
 	PV = {NORTH: [], EAST: [], DOWN: []}  # Arrays of past values for each process variable (i.e., altitudes)
 
 	alt_actual = -1.0 * vehicle.location.local_frame.down
-	
+
 	while abs(alt_actual - target_alt) > 0.1:
 		imgfile = cv2.imread("img.jpg")
 		cv2.imshow("Img", imgfile)
@@ -218,7 +234,7 @@ def adjust_channels(target_north, target_east, target_down):
 		print "u down: ", u_down
 
 		vehicle.channels.overrides['1'] = max(0.01, u_east)	# roll
-		vehicle.channels.overrides['2'] = max(0.01, u_north)  # pitch
+		vehicle.channels.overrides['2'] = max(0.01, u_north)	# pitch
 		vehicle.channels.overrides['3'] = max(0.01, u_down)  # throttle
 
 		if do_graph_position:
@@ -261,28 +277,34 @@ def main():
 		Variables:
 			use_simulator (bool): Whether or not to run the program on the simulator.
 			do_graph_position (bool): Whether or not to 3D plot the drone's position.
+			use_tango_location (bool): Whether or not to use the Tango's localization coordinates (as opposed to those provided by the drone).
 			mode (String): The flight mode for the vehicle (i.e., GUIDED, STABILIZE, ALT_HOLD)
 			waypoints ([(double, double, double)]): A list of (North, East, Down) waypoints the drone should travel to, measured by displacements (in feet) from the origin point.
 			takeoff_height (double): How high (in feet) the drone should take off to.
 	"""
 	global vehicle
 	global do_graph_position
+	global use_tango_location
 
 	try:
 		use_simulator = True 
 		do_graph_position = False 
+		use_tango_location = False 
 		mode = "STABILIZE"
 		waypoints = [(0.0, 0.0, 10.0), (0.0, 0.0, 20.0), (0.0, 10.0, 15.0)]
 		takeoff_height = 5.0
 
-		connect_to_vehicle(is_simulator=use_simulator, wait_ready=True)
+		if use_tango_location: connect_to_server()
+		connect_to_vehicle(is_simulator=use_simulator)
 		arm_vehicle(mode)
 		if do_graph_position: init_graph()
 		takeoff(takeoff_height)
 
-		for wp in waypoints:
-			print "Switching waypoint"
-			adjust_channels(*wp)	
+		#for wp in waypoints:
+		#	print "Switching waypoint"
+		#	adjust_channels(*wp)	
+		
+		land()
 	
 	except:
 		print "Closing vehicle before terminating"
