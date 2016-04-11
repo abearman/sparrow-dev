@@ -8,7 +8,7 @@ Without the Tango attached, using ``vehicle.location.local_frame``:
 |:--------:|:---:|-----|-----|------|
 |   Pitch  |    Amy, Pavitra, 4/12 at 3pm outside Gates |     |     |      |
 |   Roll   |     |     |     |      |
-| Throttle |  Amy, 4/11 at 6pm  | -- |-- | --               |
+| Throttle |  Amy, Andrew 4/11 at 6pm  | -- |-- | --               |
   
 
 With the Tango attached, using the location provided by the Tango:
