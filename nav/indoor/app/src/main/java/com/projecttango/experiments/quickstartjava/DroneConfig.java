@@ -6,11 +6,13 @@
 package com.projecttango.experiments.quickstartjava;
 
 public class DroneConfig {
-    private double speed; 
+    private double speed;
+    private double intervalDistance;
 
     // create a new object with the given components
-    public DroneConfig(double speed) {
+    public DroneConfig(double speed, double intervalDistance) {
         this.speed = speed;
+        this.intervalDistance = intervalDistance;
     }
 
     // speed accessor
@@ -21,6 +23,16 @@ public class DroneConfig {
     // speed mutator
     public void setSpeed(double speed) {
         this.speed = speed;
+    }
+
+    // speed accessor
+    public double getIntervalDistance() {
+        return this.intervalDistance;
+    }
+
+    // speed mutator
+    public void setIntervalDistance(double intervalDistance) {
+        this.intervalDistance = intervalDistance;
     }
 
 }
