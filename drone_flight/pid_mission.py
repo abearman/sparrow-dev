@@ -27,6 +27,12 @@ NORTH = "north"
 EAST = "east"
 DOWN = "down"
 
+# Mapping from the direction we want to travel (NORTH, EAST, or DOWN), to the joystick we'll need to control (PITCH, ROLL, or THROTTLE)
+sticks_mapping = {NORTH: PITCH, EAST: ROLL, DOWN: THROTTLE}
+
+# Mapping from the direction we want to travel (NORTH, EAST, or DOWN), to the RC channel we'll need to control ('1', '2', or '3')
+channels_mapping = {NORTH: '2', EAST: '1', DOWN: '3'}
+
 DELTA_T = 0.05	# seconds (20 Hz)
 
 vehicle = None
@@ -75,14 +81,8 @@ def emergency_land():
 	"""Emergency land function that clears all RC channel overrides, lands the drone, and exits."""
 	global vehicle
 	print "Emergency land, clearing RC channels"
-	if '1' in vehicle.channels.overrides:
-		vehicle.channels.overrides['1'] = None
-	if '2' in vehicle.channels.overrides:
-		vehicle.channels.overrides['2'] = None
-	if '3' in vehicle.channels.overrides:	
-		vehicle.channels.overrides['3'] = None
-	if '4' in vehicle.channels.overrides:
-		vehicle.channels.overrides['4'] = None
+	# Clear all overrides by setting an empty dictionary
+	vehicle.channels.overrides = {}
 	print "Landing"
 	vehicle.mode = VehicleMode("LAND")
 	while (-1*vehicle.location.local_frame.down) > 0.0:
@@ -174,40 +174,55 @@ def takeoff(target_alt, loiter=False):
 			target_alt (double): The desired altitude (in meters) for takeoff  
 	"""
 	print "Taking off!"
-	takeoff_land_helper(target_alt, loiter)
+	move_one_direction(target_alt, DOWN, loiter)
 
 
 def land():
 	"""Lands the drone using a PID controller."""
 	print "Landing the drone"
-	takeoff_land_helper(0.0)
+	move_one_direction(0.0, DOWN)
 
 
-def takeoff_land_helper(target_alt, loiter=False):
+def move_one_direction(target_displacement, direction, loiter=False):
+	"""
+		Args:
+			target_displacment (double):
+			direction (String): Represents the direction in which displacement is to occur. One of a list of constants (NORTH, EAST or DOWN)
+			loiter (boolean): Whether or not to remain at the target displacement location indefinitely, or move onto a new waypoint.
+	"""
 	global vehicle
 
 	error = {NORTH: [], EAST: [], DOWN: []}  # Arrays of past errors for each process variable
 	PV = {NORTH: [], EAST: [], DOWN: []}	# Arrays of past values for each process variable (i.e., altitudes)
 
-	alt_actual = -1.0 * vehicle.location.local_frame.down
+	displacement_actual = 0.0
+	if direction == NORTH:
+		displacement_actual = vehicle.location.local_frame.north
+	elif direction == EAST:
+		displacement_actual = vehicle.location.local_frame.east
+	elif direction == DOWN:
+		displacement_actual = -1.0 * vehicle.location.local_frame.down
 
 	while loiter or (abs(alt_actual - target_alt) > 0.1):
 		imgfile = cv2.imread("img.jpg")
 		cv2.imshow("Img", imgfile)
 		key = cv2.waitKey(1) & 0xFF
-		
-		north_actual = vehicle.location.local_frame.north
-		east_actual = vehicle.location.local_frame.east
-		alt_actual = -1 * vehicle.location.local_frame.down
 
-		PV[NORTH].append(north_actual)
-		PV[EAST].append(east_actual)
-		PV[DOWN].append(alt_actual)
+		if direction == NORTH:
+	    displacement_actual = vehicle.location.local_frame.north
+	  elif direction == EAST:
+	    displacement_actual = vehicle.location.local_frame.east
+	  elif direction == DOWN:
+  	  displacement_actual = -1.0 * vehicle.location.local_frame.down
 		
-		error[DOWN].append(target_alt - alt_actual)
-		u_down = controller_pid(error[DOWN], THROTTLE)
-		print "u down: ", u_down
-		vehicle.channels.overrides['3'] = u_down
+		PV[NORTH].append(vehicle.location.local_frame.north)
+		PV[EAST].append(vehicle.location.local_frame.east)
+		PV[DOWN].append(-1.0 * vehicle.location.local_frame.down)
+		
+		error[direction].append(target_displacement - displacement_actual)
+		u_t = controller_pid(error[direction], sticks_mapping[direction]) 
+		print "u_t: ", u_t, " direction: ", direction 
+		vehicle.channels.overrides[channels_mapping[direction]] = u_t
 
 		if do_graph_3d_position or do_graph_2d_position:
 			if do_graph_3d_position:
@@ -219,7 +234,6 @@ def takeoff_land_helper(target_alt, loiter=False):
 				ln.set_xdata(x)
 				ln.set_ydata(PV[DOWN])
 				plt.scatter(x, PV[DOWN])
-				#ax.scatter(x, PV[DOWN])
 			plt.draw()
 			plt.pause(DELTA_T)
 
@@ -250,8 +264,7 @@ def adjust_channels(target_north, target_east, target_down):
 	east_actual = vehicle.location.local_frame.east
 	down_actual = -1 * vehicle.location.local_frame.down
 
-	while True:
-	#while (abs(north_actual - target_north) > 0.1) or (abs(east_actual - target_east) > 0.1) or (abs(down_actual - target_down) > 0.1):
+	while (abs(north_actual - target_north) > 0.1) or (abs(east_actual - target_east) > 0.1) or (abs(down_actual - target_down) > 0.1):
 		imgfile = cv2.imread("img.jpg")
 		cv2.imshow("Img", imgfile)
 		key = cv2.waitKey(1) & 0xFF
@@ -268,14 +281,14 @@ def adjust_channels(target_north, target_east, target_down):
 		error[EAST].append(target_east - east_actual)
 		error[DOWN].append(target_down - down_actual)
 
-		u_north = controller_pid(error[NORTH], PITCH)	
-		u_east = controller_pid(error[EAST], ROLL)
-		u_down = controller_pid(error[DOWN], THROTTLE)
+		u_north = controller_pid(error[NORTH], sticks_mapping[NORTH])  # Corresponds to PITCH 
+		u_east = controller_pid(error[EAST], sticks_mapping[EAST])
+		u_down = controller_pid(error[DOWN], sticks_mapping[DOWN])
 		print "u down: ", u_down
 
-		vehicle.channels.overrides['1'] = max(0.01, u_east)	# roll
-		vehicle.channels.overrides['2'] = max(0.01, u_north)	# pitch
-		vehicle.channels.overrides['3'] = max(0.01, u_down)  # throttle
+		vehicle.channels.overrides[channels_mapping[NORTH]] =  u_north  # pitch 
+		vehicle.channels.overrides[channels_mapping[EAST]] = u_east  # roll
+		vehicle.channels.overrides[channels_mapping[DOWN]] = u_down  # throttle
 
 		if do_graph_position:
 			ax.scatter(PV[EAST], PV[NORTH], PV[DOWN]) 
