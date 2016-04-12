@@ -31,25 +31,45 @@ DELTA_T = 0.05	# seconds (20 Hz)
 
 vehicle = None
 ax = None
-do_graph_position = False 
+ax = None
+do_graph_3d_position = False 
+do_graph_2d_position = False
 use_tango_location = False
 
+simulator_hyperparams = {
+	"K_p": {PITCH: -15.0,
+						 ROLL: 17.0,
+						THROTTLE: 15.0}, 
+
+	"K_i": {PITCH: 0.0,
+						 ROLL: 0.0,
+						 THROTTLE: 0.1},
+
+	"K_d": {PITCH: -1.0,
+						 ROLL: 7.0,
+						 THROTTLE: 3.6},
+
+	"bias": {PITCH: 1536.0,
+							 ROLL: 1537.0,
+							 THROTTLE: 1402.0}
+}
+
+# Drone without Tango
 K_p = {PITCH: -15.0,
-			 ROLL: 17.0,
-			 THROTTLE: 15.0} 
+					ROLL: 17.0,
+					THROTTLE: 15.0} 
 
 K_i = {PITCH: 0.0,
-			 ROLL: 0.0,
-			 THROTTLE: 0.1}
+					ROLL: 0.0,
+					THROTTLE: 0.1}
 
 K_d = {PITCH: -1.0,
-			 ROLL: 7.0,
-			 THROTTLE: 3.6}
+					ROLL: 7.0,
+					THROTTLE: 3.6}
 
 bias = {PITCH: 1536.0,
-				ROLL: 1537.0,
-				THROTTLE: 1402.0}
-
+					 ROLL: 1537.0,
+					 THROTTLE: 1402.0}
 
 def emergency_land():
 	"""Emergency land function that clears all RC channel overrides, lands the drone, and exits."""
@@ -126,7 +146,7 @@ def arm_vehicle(mode):
 	print "Armed!"
 
 
-def init_graph():
+def init_3d_graph():
 	"""Initializes a 3D plot for the drone position (North, East, Down)."""
 	global ax
 	plt.ion()
@@ -138,13 +158,31 @@ def init_graph():
 	ax.set_zlabel('down')
 
 
-def takeoff(target_alt):
+def init_2d_graph():
+	"""Initializes a 2D plot for the drone's position (north, east, or down) over time."""
+	global ln
+	ln, = plt.plot([])
+	plt.ion()
+	plt.show()
+	plt.xlabel('time (seconds)')
+	plt.ylabel('current altitude (meters)')
+
+	#global ax
+	#plt.ion()
+	#plt.show()
+	#fig = plt.figure()
+	#ax = fig.add_subplot(111)
+	#ax.set_xlabel('time (seconds)')
+	#ax.set_ylabel('current altitude (meters)')
+
+
+def takeoff(target_alt, loiter=False):
 	"""Takes off the drone using a PID controller.
 		Args:
 			target_alt (double): The desired altitude (in feet) for takeoff  
 	"""
 	print "Taking off!"
-	takeoff_land_helper(target_alt)
+	takeoff_land_helper(target_alt, loiter)
 
 
 def land():
@@ -153,15 +191,15 @@ def land():
 	takeoff_land_helper(0.0)
 
 
-def takeoff_land_helper(target_alt):
+def takeoff_land_helper(target_alt, loiter=False):
 	global vehicle
 
 	error = {NORTH: [], EAST: [], DOWN: []}  # Arrays of past errors for each process variable
-	PV = {NORTH: [], EAST: [], DOWN: []}  # Arrays of past values for each process variable (i.e., altitudes)
+	PV = {NORTH: [], EAST: [], DOWN: []}	# Arrays of past values for each process variable (i.e., altitudes)
 
 	alt_actual = -1.0 * vehicle.location.local_frame.down
 
-	while abs(alt_actual - target_alt) > 0.1:
+	while loiter or (abs(alt_actual - target_alt) > 0.1):
 		imgfile = cv2.imread("img.jpg")
 		cv2.imshow("Img", imgfile)
 		key = cv2.waitKey(1) & 0xFF
@@ -179,8 +217,17 @@ def takeoff_land_helper(target_alt):
 		print "u down: ", u_down
 		vehicle.channels.overrides['3'] = u_down
 
-		if do_graph_position:
-			ax.scatter(PV[EAST], PV[NORTH], PV[DOWN])
+		if do_graph_3d_position or do_graph_2d_position:
+			if do_graph_3d_position:
+				global ax
+				ax.scatter(PV[EAST], PV[NORTH], PV[DOWN])
+			if do_graph_2d_position:
+				global ln
+				x = np.linspace(0, DELTA_T*len(error[DOWN]), len(error[DOWN]))
+				ln.set_xdata(x)
+				ln.set_ydata(PV[DOWN])
+				plt.scatter(x, PV[DOWN])
+				#ax.scatter(x, PV[DOWN])
 			plt.draw()
 			plt.pause(DELTA_T)
 
@@ -262,6 +309,7 @@ def controller_pid(error, channel):
 	"""
 	current_error = error[-1]
 	previous_error = error[-2] if len(error) > 1 else 0
+
 	P = K_p[channel] * current_error
 	I = K_i[channel] * DELTA_T * sum(error)
 	D = K_d[channel] * (current_error - previous_error) / DELTA_T
@@ -283,28 +331,31 @@ def main():
 			takeoff_height (double): How high (in feet) the drone should take off to.
 	"""
 	global vehicle
-	global do_graph_position
+	global do_graph_3d_position
+	global do_graph_2d_position
 	global use_tango_location
 
 	try:
 		use_simulator = True 
-		do_graph_position = False 
+		do_graph_3d_position = False 
+		do_graph_2d_position = True
 		use_tango_location = False 
 		mode = "STABILIZE"
-		waypoints = [(0.0, 0.0, 10.0), (0.0, 0.0, 20.0), (0.0, 10.0, 15.0)]
-		takeoff_height = 5.0
+		takeoff_height = 10.0
+		#waypoints = [(0.0, 0.0, 10.0), (0.0, 0.0, 20.0), (0.0, 10.0, 15.0)]
 
 		if use_tango_location: connect_to_server()
 		connect_to_vehicle(is_simulator=use_simulator)
 		arm_vehicle(mode)
-		if do_graph_position: init_graph()
-		takeoff(takeoff_height)
+		if do_graph_3d_position: init_3d_graph()
+		if do_graph_2d_position: init_2d_graph()
+		takeoff(takeoff_height, loiter=True)
 
 		#for wp in waypoints:
 		#	print "Switching waypoint"
 		#	adjust_channels(*wp)	
 		
-		land()
+		#land()
 	
 	except:
 		print "Closing vehicle before terminating"
