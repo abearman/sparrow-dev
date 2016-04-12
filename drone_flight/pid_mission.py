@@ -17,7 +17,7 @@ import sys
 # 3 = Throttle
 # 4 = Yaw
 
-# LocalLocation: (North, East, Down). In feet. Down is negative
+# LocalLocation: (North, East, Down). In meters. Down is negative
 # Attitude: (Pitch, Yaw, Roll). In radians.
 
 PITCH = "pitch"
@@ -167,19 +167,11 @@ def init_2d_graph():
 	plt.xlabel('time (seconds)')
 	plt.ylabel('current altitude (meters)')
 
-	#global ax
-	#plt.ion()
-	#plt.show()
-	#fig = plt.figure()
-	#ax = fig.add_subplot(111)
-	#ax.set_xlabel('time (seconds)')
-	#ax.set_ylabel('current altitude (meters)')
-
 
 def takeoff(target_alt, loiter=False):
 	"""Takes off the drone using a PID controller.
 		Args:
-			target_alt (double): The desired altitude (in feet) for takeoff  
+			target_alt (double): The desired altitude (in meters) for takeoff  
 	"""
 	print "Taking off!"
 	takeoff_land_helper(target_alt, loiter)
@@ -244,9 +236,9 @@ def takeoff_land_helper(target_alt, loiter=False):
 def adjust_channels(target_north, target_east, target_down):
 	"""Uses a PID controller to navigate the drone to a provided waypoint.
 		Args:
-			target_north (double): The desired relative north position (in feet) for the drone
-			target_east (double): The desired relative east position (in feet) for the drone
-			target_down (double): The desired relative down position (in feet) for drone
+			target_north (double): The desired relative north position (in meters) for the drone
+			target_east (double): The desired relative east position (in meters) for the drone
+			target_down (double): The desired relative down position (in meters) for drone
 	"""
 	global vehicle
 	global ax
@@ -258,7 +250,8 @@ def adjust_channels(target_north, target_east, target_down):
 	east_actual = vehicle.location.local_frame.east
 	down_actual = -1 * vehicle.location.local_frame.down
 
-	while (abs(north_actual - target_north) > 0.1) or (abs(east_actual - target_east) > 0.1) or (abs(down_actual - target_down) > 0.1):
+	while True:
+	#while (abs(north_actual - target_north) > 0.1) or (abs(east_actual - target_east) > 0.1) or (abs(down_actual - target_down) > 0.1):
 		imgfile = cv2.imread("img.jpg")
 		cv2.imshow("Img", imgfile)
 		key = cv2.waitKey(1) & 0xFF
@@ -327,8 +320,8 @@ def main():
 			do_graph_position (bool): Whether or not to 3D plot the drone's position.
 			use_tango_location (bool): Whether or not to use the Tango's localization coordinates (as opposed to those provided by the drone).
 			mode (String): The flight mode for the vehicle (i.e., GUIDED, STABILIZE, ALT_HOLD)
-			waypoints ([(double, double, double)]): A list of (North, East, Down) waypoints the drone should travel to, measured by displacements (in feet) from the origin point.
-			takeoff_height (double): How high (in feet) the drone should take off to.
+			waypoints ([(double, double, double)]): A list of (North, East, Down) waypoints the drone should travel to, measured by displacements (in meters) from the origin point.
+			takeoff_height (double): How high (in meters) the drone should take off to.
 	"""
 	global vehicle
 	global do_graph_3d_position
@@ -341,14 +334,16 @@ def main():
 		do_graph_2d_position = True
 		use_tango_location = False 
 		mode = "STABILIZE"
-		takeoff_height = 10.0
+		takeoff_height = 3.0
 		#waypoints = [(0.0, 0.0, 10.0), (0.0, 0.0, 20.0), (0.0, 10.0, 15.0)]
+		waypoints = [(0.0, 0.0, 4.0)]
 
 		if use_tango_location: connect_to_server()
 		connect_to_vehicle(is_simulator=use_simulator)
 		arm_vehicle(mode)
 		if do_graph_3d_position: init_3d_graph()
 		if do_graph_2d_position: init_2d_graph()
+		
 		takeoff(takeoff_height, loiter=True)
 
 		#for wp in waypoints:
