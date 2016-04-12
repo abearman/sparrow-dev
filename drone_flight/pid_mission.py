@@ -247,7 +247,7 @@ def move_one_direction(target_displacement, direction, loiter=False):
 	cv2.destroyAllWindows()
 
 
-def adjust_channels(target_north, target_east, target_down):
+def move_to_waypoint(target_north, target_east, target_down):
 	"""Uses a PID controller to navigate the drone to a provided waypoint.
 		Args:
 			target_north (double): The desired relative north position (in meters) for the drone
@@ -369,7 +369,7 @@ def main():
 
 		for wp in waypoints:
 			print "Switching waypoint"
-			adjust_channels(*wp)	
+			move_to_waypoint(*wp)	
 		
 		land()
 	
