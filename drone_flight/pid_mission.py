@@ -184,7 +184,7 @@ def land():
 
 
 def move_one_direction(target_displacement, direction, loiter=False):
-	"""
+	"""Uses a PID controller to move the drone in ONE direction. Useful for taking off, landing, and parameter tuning.
 		Args:
 			target_displacment (double):
 			direction (String): Represents the direction in which displacement is to occur. One of a list of constants (NORTH, EAST or DOWN)
@@ -203,17 +203,17 @@ def move_one_direction(target_displacement, direction, loiter=False):
 	elif direction == DOWN:
 		displacement_actual = -1.0 * vehicle.location.local_frame.down
 
-	while loiter or (abs(alt_actual - target_alt) > 0.1):
+	while loiter or (abs(displacement_actual - target_displacement) > 0.1):
 		imgfile = cv2.imread("img.jpg")
 		cv2.imshow("Img", imgfile)
 		key = cv2.waitKey(1) & 0xFF
 
 		if direction == NORTH:
-	    displacement_actual = vehicle.location.local_frame.north
-	  elif direction == EAST:
-	    displacement_actual = vehicle.location.local_frame.east
-	  elif direction == DOWN:
-  	  displacement_actual = -1.0 * vehicle.location.local_frame.down
+			displacement_actual = vehicle.location.local_frame.north
+		elif direction == EAST:
+			displacement_actual = vehicle.location.local_frame.east
+		elif direction == DOWN:
+			displacement_actual = -1.0 * vehicle.location.local_frame.down
 		
 		PV[NORTH].append(vehicle.location.local_frame.north)
 		PV[EAST].append(vehicle.location.local_frame.east)
@@ -286,12 +286,20 @@ def adjust_channels(target_north, target_east, target_down):
 		u_down = controller_pid(error[DOWN], sticks_mapping[DOWN])
 		print "u down: ", u_down
 
-		vehicle.channels.overrides[channels_mapping[NORTH]] =  u_north  # pitch 
+		vehicle.channels.overrides[channels_mapping[NORTH]] =  u_north	# pitch 
 		vehicle.channels.overrides[channels_mapping[EAST]] = u_east  # roll
 		vehicle.channels.overrides[channels_mapping[DOWN]] = u_down  # throttle
 
-		if do_graph_position:
-			ax.scatter(PV[EAST], PV[NORTH], PV[DOWN]) 
+		if do_graph_3d_position or do_graph_2d_position:
+			if do_graph_3d_position:
+				global ax
+				ax.scatter(PV[EAST], PV[NORTH], PV[DOWN])
+			if do_graph_2d_position:
+				global ln
+				x = np.linspace(0, DELTA_T*len(error[DOWN]), len(error[DOWN]))
+				ln.set_xdata(x)
+				ln.set_ydata(PV[DOWN])
+				plt.scatter(x, PV[DOWN])
 			plt.draw()
 			plt.pause(DELTA_T)
 
@@ -330,7 +338,8 @@ def main():
 
 		Variables:
 			use_simulator (bool): Whether or not to run the program on the simulator.
-			do_graph_position (bool): Whether or not to 3D plot the drone's position.
+			do_graph_3d_position (bool): Whether or not to 3D plot the drone's position.
+			do_graph_2d_position (bool): Whether or not to plot the drone's position along one direction, over time.
 			use_tango_location (bool): Whether or not to use the Tango's localization coordinates (as opposed to those provided by the drone).
 			mode (String): The flight mode for the vehicle (i.e., GUIDED, STABILIZE, ALT_HOLD)
 			waypoints ([(double, double, double)]): A list of (North, East, Down) waypoints the drone should travel to, measured by displacements (in meters) from the origin point.
@@ -348,8 +357,7 @@ def main():
 		use_tango_location = False 
 		mode = "STABILIZE"
 		takeoff_height = 3.0
-		#waypoints = [(0.0, 0.0, 10.0), (0.0, 0.0, 20.0), (0.0, 10.0, 15.0)]
-		waypoints = [(0.0, 0.0, 4.0)]
+		waypoints = [(0.0, 0.0, 3.0)]
 
 		if use_tango_location: connect_to_server()
 		connect_to_vehicle(is_simulator=use_simulator)
@@ -357,13 +365,13 @@ def main():
 		if do_graph_3d_position: init_3d_graph()
 		if do_graph_2d_position: init_2d_graph()
 		
-		takeoff(takeoff_height, loiter=True)
+		takeoff(takeoff_height, loiter=False)
 
-		#for wp in waypoints:
-		#	print "Switching waypoint"
-		#	adjust_channels(*wp)	
+		for wp in waypoints:
+			print "Switching waypoint"
+			adjust_channels(*wp)	
 		
-		#land()
+		land()
 	
 	except:
 		print "Closing vehicle before terminating"
