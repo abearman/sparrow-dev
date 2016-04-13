@@ -41,13 +41,14 @@ public class Path {
             double diffZ = endTranslation[2] - startTranslation[2];
 
             while (Utils.getDist(newTranslation, p2.getTranslation()) >= intervalDistance) {
-                System.out.println("newTranslation: " + newTranslation[0] + " " + newTranslation[1] + " " + newTranslation[2]);
+
 
                 newTranslation[0] = newTranslation[0] + factor*diffX;
                 newTranslation[1] = newTranslation[1] + factor*diffY;
                 newTranslation[2] = newTranslation[2] + factor*diffZ;
 
                 PoseData newPoint = new PoseData(newTranslation, p1.getRotation());
+
                 points.add(newPoint);
             }
         } else {
@@ -63,6 +64,12 @@ public class Path {
         for (int i = 0; i < poseList.size(); i++) {
             path.addPose(poseList.get(i));
         }
+
+        for (int i = 0; i < path.getPoseList().size(); i++){
+            PoseData pose = path.getPoseList().get(i);
+            double[] poseTranslation = pose.getTranslation();
+        }
+
         return path;
     }
 
@@ -76,7 +83,9 @@ public class Path {
             interpolatedList.addAll(intermediateList);
         }
 
-        return poseListToPath(interpolatedList);
+
+        Path returnPath = poseListToPath(interpolatedList);
+        return returnPath;
     }
 
 };
