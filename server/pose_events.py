@@ -19,7 +19,7 @@ def pose_update(json):
     pose = json
     # print "[socket][pose_update]: " + str(json)
     emit("pose_update_ack", namespace=POSE_NAMESPACE)    
-    print "[socket][pose_current_ack]: " + str(pose)
+    # print "[socket][pose_current_ack]: " + str(pose)
     emit('pose_current_ack', pose, namespace=POSE_NAMESPACE, broadcast=True)
 
 @socketio.on("path_config", namespace=POSE_NAMESPACE)
@@ -32,5 +32,15 @@ def path_config(json):
 
 @socketio.on("pose_current", namespace=POSE_NAMESPACE)
 def pose_current(json):
-    print "[socket][pose_current]: " + str(pose)
+    # print "[socket][pose_current]: " + str(pose)
     emit("pose_current_ack", pose, namespace=POSE_NAMESPACE)
+
+@socketio.on("path_current", namespace=POSE_NAMESPACE)
+def path_current(json):
+    print "[socket][path_current]: " + str(path)
+    emit("path_current_ack", path, namespace=POSE_NAMESPACE)
+
+@socketio.on("path_for_interpolation",namespace=POSE_NAMESPACE)
+def path_for_interpolation(json):
+    print "[socket][path_for_interpolation]: " + str(path)
+    emit("path_for_interpolation_ack", path, namespace=POSE_NAMESPACE)
