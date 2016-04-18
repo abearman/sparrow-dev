@@ -1,6 +1,6 @@
 # Sparrow
 
-Welcome to the Sparrow-Dev repository!  This is the main entry point to all things Sparrow. This master branch will contain more high-level information on Sparrow. Check out the dev branch for the latest on our development progress and for an overview of the code structure. 
+Welcome to the Sparrow-Dev repository!  This is the main entry point to all things Sparrow. This master branch will contain more high-level information on Sparrow. Check out the **dev branch** for the latest on our development progress and for an overview of the code structure. 
 
 ### Logo:
 
