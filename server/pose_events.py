@@ -17,9 +17,10 @@ def pose_update(json):
     # JSON arg should have Tango position object
     global pose
     pose = json
-    print "[socket][pose_update]: " + str(json)
-    emit("pose_update_ack", namespace=POSE_NAMESPACE)
-    emit('pose_current_ack', pose, broadcast=True)
+    # print "[socket][pose_update]: " + str(json)
+    emit("pose_update_ack", namespace=POSE_NAMESPACE)    
+    print "[socket][pose_current_ack]: " + str(pose)
+    emit('pose_current_ack', pose, namespace=POSE_NAMESPACE, broadcast=True)
 
 @socketio.on("path_config", namespace=POSE_NAMESPACE)
 def path_config(json):
@@ -27,6 +28,7 @@ def path_config(json):
     path = json
     print "[socket][path_config]: " + str(json)
     emit("path_config_ack", namespace=POSE_NAMESPACE)
+    emit("path_current_ack", path, namespace=POSE_NAMESPACE, broadcast=True)
 
 @socketio.on("pose_current", namespace=POSE_NAMESPACE)
 def pose_current(json):
