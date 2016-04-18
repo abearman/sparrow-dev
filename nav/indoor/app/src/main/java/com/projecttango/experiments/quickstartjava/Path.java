@@ -42,12 +42,13 @@ public class Path {
 
             while (Utils.getDist(newTranslation, p2.getTranslation()) >= intervalDistance) {
 
+                PoseData newPoint = new PoseData(newTranslation, p1.getRotation());
 
                 newTranslation[0] = newTranslation[0] + factor*diffX;
                 newTranslation[1] = newTranslation[1] + factor*diffY;
                 newTranslation[2] = newTranslation[2] + factor*diffZ;
 
-                PoseData newPoint = new PoseData(newTranslation, p1.getRotation());
+
 
                 points.add(newPoint);
             }
