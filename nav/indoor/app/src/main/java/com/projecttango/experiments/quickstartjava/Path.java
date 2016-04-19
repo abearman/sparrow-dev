@@ -42,12 +42,13 @@ public class Path {
 
             while (Utils.getDist(newTranslation, p2.getTranslation()) >= intervalDistance) {
 
+                PoseData newPoint = new PoseData(newTranslation, p1.getRotation());
 
                 newTranslation[0] = newTranslation[0] + factor*diffX;
                 newTranslation[1] = newTranslation[1] + factor*diffY;
                 newTranslation[2] = newTranslation[2] + factor*diffZ;
 
-                PoseData newPoint = new PoseData(newTranslation, p1.getRotation());
+
 
                 points.add(newPoint);
             }
@@ -79,10 +80,13 @@ public class Path {
         List<PoseData> originalPoseList = getPoseList();
 
         for (int i = 0; i < originalPoseList.size()-1; i++) {
-            List<PoseData> intermediateList = interpolateBetween(originalPoseList.get(0), originalPoseList.get(1), intervalDistance);
+            List<PoseData> intermediateList = interpolateBetween(originalPoseList.get(i), originalPoseList.get(i+1), intervalDistance);
             interpolatedList.addAll(intermediateList);
         }
 
+        // add last point
+        PoseData lastPose = originalPoseList.get(originalPoseList.size()-1);
+        interpolatedList.add(lastPose);
 
         Path returnPath = poseListToPath(interpolatedList);
         return returnPath;
