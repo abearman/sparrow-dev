@@ -65,19 +65,31 @@ simulator_hyperparams = {
 # Drone without Tango
 K_p = {PITCH: -15.0,
 					ROLL: 17.0,
-					THROTTLE: 15.0} 
+					THROTTLE: 20.0} 
 
 K_i = {PITCH: 0.0,
 					ROLL: 0.0,
-					THROTTLE: 0.0}
+					THROTTLE: 0.1}
 
 K_d = {PITCH: -1.0,
 					ROLL: 7.0,
-					THROTTLE: 0.0}
+					THROTTLE: 3.6}
 
 bias = {PITCH: 1536.0,
 					 ROLL: 1537.0,
 					 THROTTLE: 1404.0}
+
+
+def get_north():
+	return vehicle.location.local_frame.north
+
+def get_east():
+	return vehicle.location.local_frame.east
+
+# Up is positive, down is negative
+def get_alt(): 
+	return vehicle.location.global_relative_frame.alt
+
 
 def emergency_land():
 	"""Emergency land function that clears all RC channel overrides, lands the drone, and exits."""
@@ -87,8 +99,8 @@ def emergency_land():
 	vehicle.channels.overrides = {}
 	print "Landing"
 	vehicle.mode = VehicleMode("LAND")
-	while (vehicle.location.global_relative_frame.alt) > 0.0:
-		print vehicle.location.global_relative_frame.alt	
+	while (get_alt()) > 0.0:
+		print get_alt()	
 		time.sleep(1)
 	exit()
 
@@ -206,11 +218,11 @@ def move_one_direction(target_displacement, direction, loiter=False):
 
 	displacement_actual = 0.0
 	if direction == NORTH:
-		displacement_actual = vehicle.location.local_frame.north
+		displacement_actual = get_north() 
 	elif direction == EAST:
-		displacement_actual = vehicle.location.local_frame.east
+		displacement_actual = get_east() 
 	elif direction == DOWN:
-		displacement_actual = vehicle.location.global_relative_frame.alt	
+		displacement_actual = get_alt() 
 
 	while loiter or (abs(target_displacement - displacement_actual) > 0.1):
 		imgfile = cv2.imread("img.jpg")
@@ -218,20 +230,20 @@ def move_one_direction(target_displacement, direction, loiter=False):
 		key = cv2.waitKey(1) & 0xFF
 
 		if direction == NORTH:
-			displacement_actual = vehicle.location.local_frame.north
+			displacement_actual = get_north() 
 		elif direction == EAST:
-			displacement_actual = vehicle.location.local_frame.east
+			displacement_actual = get_east() 
 		elif direction == DOWN:
-			displacement_actual = vehicle.location.global_relative_frame.alt		
+			displacement_actual = get_down() 
 
-		PV[NORTH].append(vehicle.location.local_frame.north)
-		north_past_positions.append(vehicle.location.local_frame.north)
+		PV[NORTH].append(north_actual)
+		north_past_positions.append(north_actual)
 
-		PV[EAST].append(vehicle.location.local_frame.east)
-		east_past_positions.append(vehicle.location.local_frame.east)
+		PV[EAST].append(east_actual)
+		east_past_positions.append(east_actual)
 
-		PV[DOWN].append(vehicle.location.global_relative_frame.alt)	
-		down_past_positions.append(vehicle.location.global_relative_frame.alt)	
+		PV[DOWN].append(alt_actual)
+		down_past_positions.append(alt_actual)
 
 		error[direction].append(target_displacement - displacement_actual)
 		u_t = controller_pid(error[direction], sticks_mapping[direction]) 
@@ -261,18 +273,18 @@ def move_to_waypoint(target_north, target_east, target_down):
 	error = {NORTH: [], EAST: [], DOWN: []}  # Arrays of past errors for each process variable
 	PV = {NORTH: [], EAST: [], DOWN: []}	# Arrays of past values for each process variable (i.e., altitudes)
 
-	north_actual = vehicle.location.local_frame.north
-	east_actual = vehicle.location.local_frame.east
-	down_actual = vehicle.location.global_relative_frame.alt 
+	north_actual = get_north()
+	east_actual = get_east() 
+	down_actual = get_down() 
 
 	while (abs(north_actual - target_north) > 0.1) or (abs(east_actual - target_east) > 0.1) or (abs(down_actual - target_down) > 0.1):
 		imgfile = cv2.imread("img.jpg")
 		cv2.imshow("Img", imgfile)
 		key = cv2.waitKey(1) & 0xFF
 					
-		north_actual = vehicle.location.local_frame.north
-		east_actual = vehicle.location.local_frame.east 
-		down_actual = vehicle.location.global_relative_frame.alt 
+		north_actual = get_north() 
+		east_actual = get_east() 
+		down_actual = get_alt() 
 
 		PV[NORTH].append(north_actual)
 		north_past_positions.append(north_actual)
@@ -292,7 +304,7 @@ def move_to_waypoint(target_north, target_east, target_down):
 		u_down = controller_pid(error[DOWN], sticks_mapping[DOWN])
 		print "u down: ", u_down
 
-		vehicle.channels.overrides[channels_mapping[NORTH]] =  u_north	# pitch 
+		vehicle.channels.overrides[channels_mapping[NORTH]] = u_north	# pitch 
 		vehicle.channels.overrides[channels_mapping[EAST]] = u_east  # roll
 		vehicle.channels.overrides[channels_mapping[DOWN]] = u_down  # throttle
 
@@ -353,7 +365,7 @@ def main():
 		use_simulator = True 
 		use_tango_location = False 
 		mode = "STABILIZE"
-		takeoff_height = 3.0
+		takeoff_height = 8.0
 		waypoints = [(0.0, 0.0, 3.0)]
 		#waypoints = []
 
@@ -361,7 +373,7 @@ def main():
 		connect_to_vehicle(is_simulator=use_simulator)
 		arm_vehicle(mode)
 		
-		takeoff(takeoff_height, loiter=False)
+		takeoff(takeoff_height, loiter=True)
 		#move_one_direction(3.0, NORTH, loiter=True)
 
 		for wp in waypoints:
