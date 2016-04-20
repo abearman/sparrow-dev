@@ -1,1 +1,13 @@
-Overview.md stub
+## Target Customer Memo
+
+**Background**
+
+As you all know by now, we are Sparrow, working on autonomous drone navigation. As our first use case, we were considering warehouse inventory management, but at our core, we have always been building an enabling technology, the type of technology that would be environment agnostic. We think that the drone could be a very valuable addition to the warehouse, as we discovered through our needfinding process in February and March, but this is by no means the only application for our technology. Over the past couple weeks as we have been working on the actual technical challenges of building our product, we've started reconsidering which market we think our product would actually provide the most value for. To that end, we have decided to pivot and focus on search and rescue (SAR), a very valuable military application. We realized that with the same technology we have been building, we would be able to provide much more value in this realm.
+
+**What is the current SAR system & what is the cost?**
+
+As we know from our trip to the army reserve, one of the army's core values is to "never leave a fallen comrade." The current SAR process is to send multiple search and rescue teams out to look for a missing person, with each team starting from the last known point (LKP) of the missing person and scanning a certain radius away from this LKP. This is an immensely time-sensitive and personnel-intensive process, because the person could be in an unsafe environment or in a state of medical emergency.
+
+Just last month, some of us were present during an SAR mission in San Francisco, responding to an overturned boat near Land's End. The process involved multiple Coast Guard boats, policemen, multiple firefighters including some standing on tall ladders trying to do surveillance, as well as a helicopter and crew -- easily 50 people all together. In addition, a large section of Highway 1 was blocked off. Watching the incident, it took over 20 minutes to just move the Coast Guard boats to the necessary area.
+
+The US Coast Guard itself is the leader in SAR operations, coming to the assistance of an average of **114 people per day** at a total cost of **$680 million annually**. A single Coast Guard patrol boat costs $1,147 per hour, and if the rescue requires the use of a C-30 turboprop plane, the bill increases at a rate of $7,600 per hour. (Although we have made the most research into the military application of SAR, other groups such as the National Park Service (NPS) is another agency heavily involved in SAR operations, logging almost 3,600 incidents of SAR a year, of which almost 150 result in fatalities, and causing almost $5 million in associated expenses.)
