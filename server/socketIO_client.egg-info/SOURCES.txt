@@ -1,0 +1,6 @@
+socketIO_client.egg-info/PKG-INFO
+socketIO_client.egg-info/SOURCES.txt
+socketIO_client.egg-info/dependency_links.txt
+socketIO_client.egg-info/not-zip-safe
+socketIO_client.egg-info/requires.txt
+socketIO_client.egg-info/top_level.txt

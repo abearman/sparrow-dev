@@ -16,6 +16,7 @@
 
 package com.projecttango.experiments.quickstartjava;
 
+import com.github.nkzawa.emitter.Emitter;
 import com.google.atap.tangoservice.Tango;
 import com.google.atap.tangoservice.Tango.OnTangoUpdateListener;
 import com.google.atap.tangoservice.TangoConfig;
@@ -42,6 +43,8 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.StatusLine;
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
@@ -51,7 +54,9 @@ import java.nio.FloatBuffer;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.net.URI;
+import java.util.List;
 
+import com.github.nkzawa.emitter.Emitter;
 import com.github.nkzawa.socketio.client.IO;
 import com.github.nkzawa.socketio.client.Socket;
 
@@ -67,7 +72,7 @@ public class MainActivity extends Activity {
 
     private static final String TAG = MainActivity.class.getSimpleName();
 
-    private static final String addr = "10.31.54.33";
+    private static final String addr = "10.34.164.142";
     private static final int port = 5000;
     private static final String sTranslationFormat = "x%fy%fz%f";
     private static final String sRotationFormat = "i%fj%fk%fl%f";
@@ -75,6 +80,8 @@ public class MainActivity extends Activity {
     private static final int SECS_TO_MILLISECS = 1000;
     private static final double UPDATE_INTERVAL_MS = 100.0;
     private static final DecimalFormat FORMAT_THREE_DECIMAL = new DecimalFormat("0.000");
+
+    private static final double intervalDistance = 1.0;
 
     private double mPreviousTimeStamp;
     private double mTimeToNextUpdate = UPDATE_INTERVAL_MS;
@@ -129,12 +136,86 @@ public class MainActivity extends Activity {
 
         try {
             mSocket = IO.socket("http://" + addr + ":" + port + "/pose");
+            mSocket.on("path_for_interpolation_ack", onPathForInterpolationAck);
             mSocket.connect();
             System.out.println("Socket connection has been established");
         } catch (URISyntaxException e) {
             e.printStackTrace();
         }
+
+        JSONObject emptyJSON = new JSONObject();
+        try {
+            mSocket.emit("path_for_interpolation", emptyJSON);
+        } catch (Exception e) {
+            System.out.println("Exception when emitting path_for_interpolation");
+            e.printStackTrace();
+        }
+
     }
+
+    private Emitter.Listener onPathForInterpolationAck = new Emitter.Listener() {
+        @Override
+        public void call(final Object... args) {
+
+            Path path = new Path();
+            double[] rotationStub = {0.0, 0.0, 0.0, 0.0};
+
+            // receive list of json objects (each one is x, y, z)
+            try {
+                System.out.println("Args[0]: " + args[0]);
+                JSONObject json = (JSONObject) args[0];
+                JSONArray pathList = json.getJSONArray("path");
+                for (int i = 0; i < pathList.length(); i++) {
+                    JSONObject pose = pathList.getJSONObject(i);
+                    double x = (Double) pose.get("x");
+                    double y = (Double) pose.get("y");
+                    double z = (Double) pose.get("z");
+                    double[] translation = {x, y, z};
+                    PoseData pathPoint = new PoseData(translation, rotationStub);
+                    path.addPose(pathPoint);
+                }
+            } catch (JSONException e) {
+                System.out.println("JSONException when trying to read path");
+                e.printStackTrace();
+            }
+
+            // interpolate the path
+            Path interpolatedPath = path.interpolate(intervalDistance);
+            List<PoseData> interpolatedPoseList = interpolatedPath.getPoseList();
+
+            // convert the interpolated path to JSON
+            JSONObject interpolatedPathJSON = new JSONObject();
+            JSONArray pointArray = new JSONArray();
+            try {
+
+                // add individual JSON objects to list
+                for (int i = 0; i < interpolatedPoseList.size(); i++) {
+                    PoseData pose = interpolatedPoseList.get(i);
+                    JSONObject point = new JSONObject();
+                    point.put("x", pose.getTranslation()[0]);
+                    point.put("y", pose.getTranslation()[1]);
+                    point.put("z", pose.getTranslation()[2]);
+                    pointArray.put(point);
+                }
+
+                // add JSONArray of JSON objects
+                interpolatedPathJSON.put("path", pointArray);
+
+            } catch (JSONException e) {
+                System.out.println("JSONException when converting path to JSON");
+                e.printStackTrace();
+            }
+
+            // emit interpolated path
+            try {
+                mSocket.emit("path_config", interpolatedPathJSON);
+            } catch (Exception e) {
+                System.out.println("Exception when emitting path_config");
+                e.printStackTrace();
+            }
+
+        }
+    };
 
     @Override
     protected void onResume() {

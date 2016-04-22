@@ -20,7 +20,12 @@ app.register_blueprint(pose_api)
 app.register_blueprint(monitor_api)
 app.register_blueprint(control_api)
 
+<<<<<<< HEAD
+#HOST = "10.34.162.81" # This needs to be modified for server's IP    
+HOST = "localhost"
+=======
 HOST = "10.34.164.142" # This needs to be modified for server's IP    
+>>>>>>> aa3bd83a9233836e7846cde8bc5208554684664e
 
 socketio = SocketIO(app)
 
