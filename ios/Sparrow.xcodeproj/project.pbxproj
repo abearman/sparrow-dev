@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		492AF8601CC9B34B00A805F3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 492AF85F1CC9B34B00A805F3 /* AppDelegate.swift */; };
 		492AF8631CC9B34B00A805F3 /* Sparrow.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 492AF8611CC9B34B00A805F3 /* Sparrow.xcdatamodeld */; };
-		492AF8651CC9B34B00A805F3 /* MasterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 492AF8641CC9B34B00A805F3 /* MasterViewController.swift */; };
 		492AF8671CC9B34B00A805F3 /* DroneViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 492AF8661CC9B34B00A805F3 /* DroneViewController.swift */; };
 		492AF86A1CC9B34B00A805F3 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 492AF8681CC9B34B00A805F3 /* Main.storyboard */; };
 		492AF86C1CC9B34B00A805F3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 492AF86B1CC9B34B00A805F3 /* Assets.xcassets */; };
@@ -18,6 +17,47 @@
 		492AF8851CC9B34B00A805F3 /* SparrowUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 492AF8841CC9B34B00A805F3 /* SparrowUITests.swift */; };
 		492AF89E1CC9BA0D00A805F3 /* Joystick.m in Sources */ = {isa = PBXBuildFile; fileRef = 492AF89D1CC9BA0D00A805F3 /* Joystick.m */; };
 		492AF8A01CC9CE6600A805F3 /* JSONHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 492AF89F1CC9CE6600A805F3 /* JSONHelper.swift */; };
+		4981885C1CCAB92C00029A6D /* AnalogueStick.m in Sources */ = {isa = PBXBuildFile; fileRef = 4981885B1CCAB92C00029A6D /* AnalogueStick.m */; };
+		498188611CCAB98600029A6D /* analogue_bg.png in Resources */ = {isa = PBXBuildFile; fileRef = 4981885D1CCAB98600029A6D /* analogue_bg.png */; };
+		498188621CCAB98600029A6D /* analogue_bg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4981885E1CCAB98600029A6D /* analogue_bg@2x.png */; };
+		498188631CCAB98600029A6D /* analogue_handle.png in Resources */ = {isa = PBXBuildFile; fileRef = 4981885F1CCAB98600029A6D /* analogue_handle.png */; };
+		498188641CCAB98600029A6D /* analogue_handle@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 498188601CCAB98600029A6D /* analogue_handle@2x.png */; };
+		4981887B1CCADEB700029A6D /* SocketAckEmitter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 498188661CCADEB700029A6D /* SocketAckEmitter.swift */; };
+		4981887C1CCADEB700029A6D /* SocketAckManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 498188671CCADEB700029A6D /* SocketAckManager.swift */; };
+		4981887D1CCADEB700029A6D /* SocketAnyEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 498188681CCADEB700029A6D /* SocketAnyEvent.swift */; };
+		4981887E1CCADEB700029A6D /* SocketClientSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 498188691CCADEB700029A6D /* SocketClientSpec.swift */; };
+		4981887F1CCADEB700029A6D /* SocketEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4981886A1CCADEB700029A6D /* SocketEngine.swift */; };
+		498188801CCADEB700029A6D /* SocketEngineClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4981886B1CCADEB700029A6D /* SocketEngineClient.swift */; };
+		498188811CCADEB700029A6D /* SocketEnginePacketType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4981886C1CCADEB700029A6D /* SocketEnginePacketType.swift */; };
+		498188821CCADEB700029A6D /* SocketEnginePollable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4981886D1CCADEB700029A6D /* SocketEnginePollable.swift */; };
+		498188831CCADEB700029A6D /* SocketEngineSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4981886E1CCADEB700029A6D /* SocketEngineSpec.swift */; };
+		498188841CCADEB700029A6D /* SocketEngineWebsocket.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4981886F1CCADEB700029A6D /* SocketEngineWebsocket.swift */; };
+		498188851CCADEB700029A6D /* SocketEventHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 498188701CCADEB700029A6D /* SocketEventHandler.swift */; };
+		498188861CCADEB700029A6D /* SocketIOClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 498188711CCADEB700029A6D /* SocketIOClient.swift */; };
+		498188871CCADEB700029A6D /* SocketIOClientOption.swift in Sources */ = {isa = PBXBuildFile; fileRef = 498188721CCADEB700029A6D /* SocketIOClientOption.swift */; };
+		498188881CCADEB700029A6D /* SocketIOClientStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 498188731CCADEB700029A6D /* SocketIOClientStatus.swift */; };
+		498188891CCADEB700029A6D /* SocketLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 498188741CCADEB700029A6D /* SocketLogger.swift */; };
+		4981888A1CCADEB700029A6D /* SocketPacket.swift in Sources */ = {isa = PBXBuildFile; fileRef = 498188751CCADEB700029A6D /* SocketPacket.swift */; };
+		4981888B1CCADEB700029A6D /* SocketParsable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 498188761CCADEB700029A6D /* SocketParsable.swift */; };
+		4981888C1CCADEB700029A6D /* SocketStringReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 498188771CCADEB700029A6D /* SocketStringReader.swift */; };
+		4981888D1CCADEB700029A6D /* SocketTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 498188781CCADEB700029A6D /* SocketTypes.swift */; };
+		4981888E1CCADEB700029A6D /* SwiftRegex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 498188791CCADEB700029A6D /* SwiftRegex.swift */; };
+		4981888F1CCADEB700029A6D /* WebSocket.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4981887A1CCADEB700029A6D /* WebSocket.swift */; };
+		49CC31821CCB24B400E9A905 /* Oswald-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 49CC31721CCB248400E9A905 /* Oswald-Bold.ttf */; };
+		49CC31831CCB24B700E9A905 /* Oswald-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 49CC31731CCB248400E9A905 /* Oswald-BoldItalic.ttf */; };
+		49CC31841CCB24B900E9A905 /* Oswald-Demi-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 49CC31741CCB248400E9A905 /* Oswald-Demi-BoldItalic.ttf */; };
+		49CC31851CCB24BB00E9A905 /* Oswald-DemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 49CC31751CCB248400E9A905 /* Oswald-DemiBold.ttf */; };
+		49CC31861CCB24BD00E9A905 /* Oswald-Extra-LightItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 49CC31761CCB248400E9A905 /* Oswald-Extra-LightItalic.ttf */; };
+		49CC31871CCB24BF00E9A905 /* Oswald-ExtraLight.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 49CC31771CCB248400E9A905 /* Oswald-ExtraLight.ttf */; };
+		49CC31881CCB24C300E9A905 /* Oswald-Heavy.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 49CC31781CCB248400E9A905 /* Oswald-Heavy.ttf */; };
+		49CC31891CCB24C500E9A905 /* Oswald-HeavyItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 49CC31791CCB248400E9A905 /* Oswald-HeavyItalic.ttf */; };
+		49CC318A1CCB24C700E9A905 /* Oswald-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 49CC317A1CCB248400E9A905 /* Oswald-Light.ttf */; };
+		49CC318B1CCB24C900E9A905 /* Oswald-LightItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 49CC317B1CCB248400E9A905 /* Oswald-LightItalic.ttf */; };
+		49CC318C1CCB24CB00E9A905 /* Oswald-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 49CC317C1CCB248400E9A905 /* Oswald-Medium.ttf */; };
+		49CC318D1CCB24CD00E9A905 /* Oswald-MediumItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 49CC317D1CCB248400E9A905 /* Oswald-MediumItalic.ttf */; };
+		49CC318E1CCB24CF00E9A905 /* Oswald-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 49CC317E1CCB248400E9A905 /* Oswald-Regular.ttf */; };
+		49CC318F1CCB24D100E9A905 /* Oswald-RegularItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 49CC317F1CCB248400E9A905 /* Oswald-RegularItalic.ttf */; };
+		49CC31901CCB24D300E9A905 /* Oswald-Stencil.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 49CC31801CCB248400E9A905 /* Oswald-Stencil.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -41,7 +81,6 @@
 		492AF85C1CC9B34B00A805F3 /* Sparrow.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Sparrow.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		492AF85F1CC9B34B00A805F3 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		492AF8621CC9B34B00A805F3 /* Sparrow.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Sparrow.xcdatamodel; sourceTree = "<group>"; };
-		492AF8641CC9B34B00A805F3 /* MasterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MasterViewController.swift; sourceTree = "<group>"; };
 		492AF8661CC9B34B00A805F3 /* DroneViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DroneViewController.swift; sourceTree = "<group>"; };
 		492AF8691CC9B34B00A805F3 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		492AF86B1CC9B34B00A805F3 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -57,6 +96,48 @@
 		492AF89C1CC9BA0D00A805F3 /* Joystick.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Joystick.h; sourceTree = "<group>"; };
 		492AF89D1CC9BA0D00A805F3 /* Joystick.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Joystick.m; sourceTree = "<group>"; };
 		492AF89F1CC9CE6600A805F3 /* JSONHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JSONHelper.swift; sourceTree = "<group>"; };
+		4981885A1CCAB92C00029A6D /* AnalogueStick.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AnalogueStick.h; sourceTree = "<group>"; };
+		4981885B1CCAB92C00029A6D /* AnalogueStick.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AnalogueStick.m; sourceTree = "<group>"; };
+		4981885D1CCAB98600029A6D /* analogue_bg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = analogue_bg.png; sourceTree = "<group>"; };
+		4981885E1CCAB98600029A6D /* analogue_bg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "analogue_bg@2x.png"; sourceTree = "<group>"; };
+		4981885F1CCAB98600029A6D /* analogue_handle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = analogue_handle.png; sourceTree = "<group>"; };
+		498188601CCAB98600029A6D /* analogue_handle@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "analogue_handle@2x.png"; sourceTree = "<group>"; };
+		498188661CCADEB700029A6D /* SocketAckEmitter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SocketAckEmitter.swift; sourceTree = "<group>"; };
+		498188671CCADEB700029A6D /* SocketAckManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SocketAckManager.swift; sourceTree = "<group>"; };
+		498188681CCADEB700029A6D /* SocketAnyEvent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SocketAnyEvent.swift; sourceTree = "<group>"; };
+		498188691CCADEB700029A6D /* SocketClientSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SocketClientSpec.swift; sourceTree = "<group>"; };
+		4981886A1CCADEB700029A6D /* SocketEngine.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SocketEngine.swift; sourceTree = "<group>"; };
+		4981886B1CCADEB700029A6D /* SocketEngineClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SocketEngineClient.swift; sourceTree = "<group>"; };
+		4981886C1CCADEB700029A6D /* SocketEnginePacketType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SocketEnginePacketType.swift; sourceTree = "<group>"; };
+		4981886D1CCADEB700029A6D /* SocketEnginePollable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SocketEnginePollable.swift; sourceTree = "<group>"; };
+		4981886E1CCADEB700029A6D /* SocketEngineSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SocketEngineSpec.swift; sourceTree = "<group>"; };
+		4981886F1CCADEB700029A6D /* SocketEngineWebsocket.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SocketEngineWebsocket.swift; sourceTree = "<group>"; };
+		498188701CCADEB700029A6D /* SocketEventHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SocketEventHandler.swift; sourceTree = "<group>"; };
+		498188711CCADEB700029A6D /* SocketIOClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SocketIOClient.swift; sourceTree = "<group>"; };
+		498188721CCADEB700029A6D /* SocketIOClientOption.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SocketIOClientOption.swift; sourceTree = "<group>"; };
+		498188731CCADEB700029A6D /* SocketIOClientStatus.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SocketIOClientStatus.swift; sourceTree = "<group>"; };
+		498188741CCADEB700029A6D /* SocketLogger.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SocketLogger.swift; sourceTree = "<group>"; };
+		498188751CCADEB700029A6D /* SocketPacket.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SocketPacket.swift; sourceTree = "<group>"; };
+		498188761CCADEB700029A6D /* SocketParsable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SocketParsable.swift; sourceTree = "<group>"; };
+		498188771CCADEB700029A6D /* SocketStringReader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SocketStringReader.swift; sourceTree = "<group>"; };
+		498188781CCADEB700029A6D /* SocketTypes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SocketTypes.swift; sourceTree = "<group>"; };
+		498188791CCADEB700029A6D /* SwiftRegex.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftRegex.swift; sourceTree = "<group>"; };
+		4981887A1CCADEB700029A6D /* WebSocket.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebSocket.swift; sourceTree = "<group>"; };
+		49CC31721CCB248400E9A905 /* Oswald-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Oswald-Bold.ttf"; sourceTree = "<group>"; };
+		49CC31731CCB248400E9A905 /* Oswald-BoldItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Oswald-BoldItalic.ttf"; sourceTree = "<group>"; };
+		49CC31741CCB248400E9A905 /* Oswald-Demi-BoldItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Oswald-Demi-BoldItalic.ttf"; sourceTree = "<group>"; };
+		49CC31751CCB248400E9A905 /* Oswald-DemiBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Oswald-DemiBold.ttf"; sourceTree = "<group>"; };
+		49CC31761CCB248400E9A905 /* Oswald-Extra-LightItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Oswald-Extra-LightItalic.ttf"; sourceTree = "<group>"; };
+		49CC31771CCB248400E9A905 /* Oswald-ExtraLight.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Oswald-ExtraLight.ttf"; sourceTree = "<group>"; };
+		49CC31781CCB248400E9A905 /* Oswald-Heavy.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Oswald-Heavy.ttf"; sourceTree = "<group>"; };
+		49CC31791CCB248400E9A905 /* Oswald-HeavyItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Oswald-HeavyItalic.ttf"; sourceTree = "<group>"; };
+		49CC317A1CCB248400E9A905 /* Oswald-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Oswald-Light.ttf"; sourceTree = "<group>"; };
+		49CC317B1CCB248400E9A905 /* Oswald-LightItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Oswald-LightItalic.ttf"; sourceTree = "<group>"; };
+		49CC317C1CCB248400E9A905 /* Oswald-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Oswald-Medium.ttf"; sourceTree = "<group>"; };
+		49CC317D1CCB248400E9A905 /* Oswald-MediumItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Oswald-MediumItalic.ttf"; sourceTree = "<group>"; };
+		49CC317E1CCB248400E9A905 /* Oswald-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Oswald-Regular.ttf"; sourceTree = "<group>"; };
+		49CC317F1CCB248400E9A905 /* Oswald-RegularItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Oswald-RegularItalic.ttf"; sourceTree = "<group>"; };
+		49CC31801CCB248400E9A905 /* Oswald-Stencil.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Oswald-Stencil.ttf"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -108,11 +189,12 @@
 			isa = PBXGroup;
 			children = (
 				492AF85F1CC9B34B00A805F3 /* AppDelegate.swift */,
-				492AF8641CC9B34B00A805F3 /* MasterViewController.swift */,
 				492AF8661CC9B34B00A805F3 /* DroneViewController.swift */,
 				492AF8961CC9B59000A805F3 /* DroneControlComponents */,
 				492AF8681CC9B34B00A805F3 /* Main.storyboard */,
 				492AF89F1CC9CE6600A805F3 /* JSONHelper.swift */,
+				49CC31811CCB249400E9A905 /* Fonts */,
+				498188901CCADEC400029A6D /* SocketIO */,
 				492AF86B1CC9B34B00A805F3 /* Assets.xcassets */,
 				492AF86D1CC9B34B00A805F3 /* LaunchScreen.storyboard */,
 				492AF8701CC9B34B00A805F3 /* Info.plist */,
@@ -143,10 +225,74 @@
 		492AF8961CC9B59000A805F3 /* DroneControlComponents */ = {
 			isa = PBXGroup;
 			children = (
+				498188651CCAB9BC00029A6D /* AnalogStickAssets */,
+				4981885A1CCAB92C00029A6D /* AnalogueStick.h */,
+				4981885B1CCAB92C00029A6D /* AnalogueStick.m */,
 				492AF89C1CC9BA0D00A805F3 /* Joystick.h */,
 				492AF89D1CC9BA0D00A805F3 /* Joystick.m */,
 			);
 			name = DroneControlComponents;
+			sourceTree = "<group>";
+		};
+		498188651CCAB9BC00029A6D /* AnalogStickAssets */ = {
+			isa = PBXGroup;
+			children = (
+				4981885D1CCAB98600029A6D /* analogue_bg.png */,
+				4981885E1CCAB98600029A6D /* analogue_bg@2x.png */,
+				4981885F1CCAB98600029A6D /* analogue_handle.png */,
+				498188601CCAB98600029A6D /* analogue_handle@2x.png */,
+			);
+			name = AnalogStickAssets;
+			sourceTree = "<group>";
+		};
+		498188901CCADEC400029A6D /* SocketIO */ = {
+			isa = PBXGroup;
+			children = (
+				498188661CCADEB700029A6D /* SocketAckEmitter.swift */,
+				498188671CCADEB700029A6D /* SocketAckManager.swift */,
+				498188681CCADEB700029A6D /* SocketAnyEvent.swift */,
+				498188691CCADEB700029A6D /* SocketClientSpec.swift */,
+				4981886A1CCADEB700029A6D /* SocketEngine.swift */,
+				4981886B1CCADEB700029A6D /* SocketEngineClient.swift */,
+				4981886C1CCADEB700029A6D /* SocketEnginePacketType.swift */,
+				4981886D1CCADEB700029A6D /* SocketEnginePollable.swift */,
+				4981886E1CCADEB700029A6D /* SocketEngineSpec.swift */,
+				4981886F1CCADEB700029A6D /* SocketEngineWebsocket.swift */,
+				498188701CCADEB700029A6D /* SocketEventHandler.swift */,
+				498188711CCADEB700029A6D /* SocketIOClient.swift */,
+				498188721CCADEB700029A6D /* SocketIOClientOption.swift */,
+				498188731CCADEB700029A6D /* SocketIOClientStatus.swift */,
+				498188741CCADEB700029A6D /* SocketLogger.swift */,
+				498188751CCADEB700029A6D /* SocketPacket.swift */,
+				498188761CCADEB700029A6D /* SocketParsable.swift */,
+				498188771CCADEB700029A6D /* SocketStringReader.swift */,
+				498188781CCADEB700029A6D /* SocketTypes.swift */,
+				498188791CCADEB700029A6D /* SwiftRegex.swift */,
+				4981887A1CCADEB700029A6D /* WebSocket.swift */,
+			);
+			name = SocketIO;
+			sourceTree = "<group>";
+		};
+		49CC31811CCB249400E9A905 /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				49CC31721CCB248400E9A905 /* Oswald-Bold.ttf */,
+				49CC31731CCB248400E9A905 /* Oswald-BoldItalic.ttf */,
+				49CC31741CCB248400E9A905 /* Oswald-Demi-BoldItalic.ttf */,
+				49CC31751CCB248400E9A905 /* Oswald-DemiBold.ttf */,
+				49CC31761CCB248400E9A905 /* Oswald-Extra-LightItalic.ttf */,
+				49CC31771CCB248400E9A905 /* Oswald-ExtraLight.ttf */,
+				49CC31781CCB248400E9A905 /* Oswald-Heavy.ttf */,
+				49CC31791CCB248400E9A905 /* Oswald-HeavyItalic.ttf */,
+				49CC317A1CCB248400E9A905 /* Oswald-Light.ttf */,
+				49CC317B1CCB248400E9A905 /* Oswald-LightItalic.ttf */,
+				49CC317C1CCB248400E9A905 /* Oswald-Medium.ttf */,
+				49CC317D1CCB248400E9A905 /* Oswald-MediumItalic.ttf */,
+				49CC317E1CCB248400E9A905 /* Oswald-Regular.ttf */,
+				49CC317F1CCB248400E9A905 /* Oswald-RegularItalic.ttf */,
+				49CC31801CCB248400E9A905 /* Oswald-Stencil.ttf */,
+			);
+			name = Fonts;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -254,9 +400,28 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				49CC318B1CCB24C900E9A905 /* Oswald-LightItalic.ttf in Resources */,
 				492AF86F1CC9B34B00A805F3 /* LaunchScreen.storyboard in Resources */,
+				498188621CCAB98600029A6D /* analogue_bg@2x.png in Resources */,
+				49CC31861CCB24BD00E9A905 /* Oswald-Extra-LightItalic.ttf in Resources */,
+				498188641CCAB98600029A6D /* analogue_handle@2x.png in Resources */,
+				49CC31881CCB24C300E9A905 /* Oswald-Heavy.ttf in Resources */,
+				49CC318F1CCB24D100E9A905 /* Oswald-RegularItalic.ttf in Resources */,
+				49CC31871CCB24BF00E9A905 /* Oswald-ExtraLight.ttf in Resources */,
+				49CC31891CCB24C500E9A905 /* Oswald-HeavyItalic.ttf in Resources */,
+				49CC31901CCB24D300E9A905 /* Oswald-Stencil.ttf in Resources */,
+				49CC31821CCB24B400E9A905 /* Oswald-Bold.ttf in Resources */,
 				492AF86C1CC9B34B00A805F3 /* Assets.xcassets in Resources */,
+				49CC318D1CCB24CD00E9A905 /* Oswald-MediumItalic.ttf in Resources */,
+				498188611CCAB98600029A6D /* analogue_bg.png in Resources */,
+				49CC31841CCB24B900E9A905 /* Oswald-Demi-BoldItalic.ttf in Resources */,
+				49CC318A1CCB24C700E9A905 /* Oswald-Light.ttf in Resources */,
 				492AF86A1CC9B34B00A805F3 /* Main.storyboard in Resources */,
+				49CC318E1CCB24CF00E9A905 /* Oswald-Regular.ttf in Resources */,
+				498188631CCAB98600029A6D /* analogue_handle.png in Resources */,
+				49CC318C1CCB24CB00E9A905 /* Oswald-Medium.ttf in Resources */,
+				49CC31831CCB24B700E9A905 /* Oswald-BoldItalic.ttf in Resources */,
+				49CC31851CCB24BB00E9A905 /* Oswald-DemiBold.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -281,11 +446,32 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				498188801CCADEB700029A6D /* SocketEngineClient.swift in Sources */,
+				4981887F1CCADEB700029A6D /* SocketEngine.swift in Sources */,
+				4981888B1CCADEB700029A6D /* SocketParsable.swift in Sources */,
+				4981887D1CCADEB700029A6D /* SocketAnyEvent.swift in Sources */,
 				492AF8631CC9B34B00A805F3 /* Sparrow.xcdatamodeld in Sources */,
 				492AF8601CC9B34B00A805F3 /* AppDelegate.swift in Sources */,
 				492AF89E1CC9BA0D00A805F3 /* Joystick.m in Sources */,
+				4981887C1CCADEB700029A6D /* SocketAckManager.swift in Sources */,
+				498188821CCADEB700029A6D /* SocketEnginePollable.swift in Sources */,
+				4981887E1CCADEB700029A6D /* SocketClientSpec.swift in Sources */,
+				498188841CCADEB700029A6D /* SocketEngineWebsocket.swift in Sources */,
+				4981888E1CCADEB700029A6D /* SwiftRegex.swift in Sources */,
+				4981887B1CCADEB700029A6D /* SocketAckEmitter.swift in Sources */,
+				4981888F1CCADEB700029A6D /* WebSocket.swift in Sources */,
+				4981885C1CCAB92C00029A6D /* AnalogueStick.m in Sources */,
+				498188851CCADEB700029A6D /* SocketEventHandler.swift in Sources */,
+				4981888A1CCADEB700029A6D /* SocketPacket.swift in Sources */,
+				498188831CCADEB700029A6D /* SocketEngineSpec.swift in Sources */,
+				498188871CCADEB700029A6D /* SocketIOClientOption.swift in Sources */,
+				498188811CCADEB700029A6D /* SocketEnginePacketType.swift in Sources */,
+				498188881CCADEB700029A6D /* SocketIOClientStatus.swift in Sources */,
 				492AF8A01CC9CE6600A805F3 /* JSONHelper.swift in Sources */,
-				492AF8651CC9B34B00A805F3 /* MasterViewController.swift in Sources */,
+				498188861CCADEB700029A6D /* SocketIOClient.swift in Sources */,
+				4981888C1CCADEB700029A6D /* SocketStringReader.swift in Sources */,
+				4981888D1CCADEB700029A6D /* SocketTypes.swift in Sources */,
+				498188891CCADEB700029A6D /* SocketLogger.swift in Sources */,
 				492AF8671CC9B34B00A805F3 /* DroneViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -9,21 +9,24 @@
 import UIKit
 import Foundation
 
-class DroneViewController: UIViewController {
-
-    @IBOutlet weak var titleLabel:UILabel!
+class DroneViewController: UIViewController, AnalogueStickDelegate {
     
-    @IBOutlet weak var joystick: Joystick!
-
-    @IBOutlet weak var takeOffButton: UIButton!
-    @IBOutlet weak var landButton: UIButton!
+    @IBOutlet weak var dropPinButton:UIButton!
     
-    @IBOutlet weak var altitudeTitle: UILabel!
-    @IBOutlet weak var upButton: UIButton!
-    @IBOutlet weak var downButton: UIButton!
-    @IBOutlet weak var altitudeLabel: UILabel!
+    @IBOutlet weak var launchButton:UIButton!
+    @IBOutlet weak var launchButtonBG: UIView!
     
+    @IBOutlet weak var coordinateLabel:UILabel!
     
+    @IBOutlet weak var altitudeReadingLabel:UILabel!
+    
+    @IBOutlet weak var analogueStick: AnalogueStick!
+    
+    var inFlight: Bool = false
+    
+    weak var socket: SocketIOClient!
+    
+    weak var delegate: AnalogueStickDelegate?
     
     var detailItem: AnyObject? {
         didSet {
@@ -32,19 +35,13 @@ class DroneViewController: UIViewController {
         }
     }
 
-    func configureView() {
-        // Update the user interface for the detail item.
-        if let detail = self.detailItem {
-            if let label = self.titleLabel {
-                label.text = detail.valueForKey("timeStamp")!.description
-            }
-        }
-    }
+    func configureView() {}
 
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         self.configureView()
+        analogueStick.delegate = self
     }
 
     override func didReceiveMemoryWarning() {
@@ -79,35 +76,58 @@ class DroneViewController: UIViewController {
             HTTPsendRequest(request,callback: callback)
     }
     
-    
-    @IBAction func landButtonClicked(sender: AnyObject) {
-        debugPrint("Sending land request")
-        HTTPPostJSON("http://10.34.161.233:5000/control/land", jsonObj: [])
-            {
-                (data: String, error: String?) -> Void in
-                if error != nil {
-                    print(error)
-                } else {
-                    print("data is : \n\n\n")
-                    debugPrint("Land request completed.")
-                    print(data)
-                }
+    func updateLaunchButton() {
+        if (self.inFlight) {
+            launchButton.setTitle("Land", forState: UIControlState.Normal)
+            launchButtonBG.backgroundColor = UIColor(red: 255, green: 0, blue: 0, alpha: 1.0)
+        } else {
+            launchButton.setTitle("Launch", forState: UIControlState.Normal)
+            launchButtonBG.backgroundColor = UIColor(red: 0, green: 255, blue: 0, alpha: 1.0)
         }
     }
     
-    @IBAction func takeOffButtonClicked(sender: AnyObject) {
-        debugPrint("Sending take off request")
-        HTTPPostJSON("http://10.34.161.233:5000/control/take_off", jsonObj: [])
-            {
-                (data: String, error: String?) -> Void in
-                if error != nil {
-                    print(error)
-                } else {
-                    print("data is : \n\n\n")
-                    debugPrint("Take off request completed.")
-                    print(data)
-                }
+    
+    @IBAction func launchButtonClicked(sender: AnyObject) {
+        if (self.inFlight) {
+            debugPrint("Sending land request")
+            HTTPPostJSON("http://192.168.2.116:5000/control/land", jsonObj: []) {
+                    (data: String, error: String?) -> Void in
+                    if error != nil {
+                        print(error)
+                    } else {
+                        print("data is : \n\n\n")
+                        debugPrint("Land request completed.")
+                        print(data)
+                    }
+            }
+            self.inFlight = false
+        } else {
+            debugPrint("Sending take off request")
+            HTTPPostJSON("http://192.168.2.116:5000/control/take_off", jsonObj: []) {
+                    (data: String, error: String?) -> Void in
+                    if error != nil {
+                        print(error)
+                    } else {
+                        print("data is : \n\n\n")
+                        debugPrint("Take off request completed.")
+                        print(data)
+                    }
+            }
+            self.inFlight = true
         }
+        self.updateLaunchButton()
+    }
+    
+    
+    @IBAction func dropPinButtonClicked(sender: AnyObject) {
+        /* TODO: drop pin on map */
+    }
+    
+    
+    func analogueStickDidChangeValue(analogueStick: AnalogueStick!) {
+        debugPrint("analogue x is: %f", self.analogueStick.xValue)
+        debugPrint("analogue y is: %f", self.analogueStick.yValue)
+        
     }
 
 }

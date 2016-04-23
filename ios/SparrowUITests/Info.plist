@@ -25,5 +25,23 @@
 		<key>NSAllowsArbitraryLoads</key>
 		<true/>
 	</dict>
+	<key>UIAppFonts</key>
+	<array>
+		<string>Oswald-Bold.ttf</string>
+		<string>Oswald-BoldItalic.ttf</string>
+		<string>Oswald-Demi-BoldItalic.ttf</string>
+		<string>Oswald-DemiBold.ttf</string>
+		<string>Oswald-Extra-LightItalic.ttf</string>
+		<string>Oswald-ExtraLight.ttf</string>
+		<string>Oswald-Heavy.ttf</string>
+		<string>Oswald-HeavyItalic.ttf</string>
+		<string>Oswald-Light.ttf</string>
+		<string>Oswald-LightItalic.ttf</string>
+		<string>Oswald-Medium.ttf</string>
+		<string>Oswald-MediumItalic.ttf</string>
+		<string>Oswald-Regular.ttf</string>
+		<string>Oswald-RegularItalic.ttf</string>
+		<string>Oswald-Stencil.ttf</string>
+	</array>
 </dict>
 </plist>

@@ -3,3 +3,4 @@
 //
 
 #import "Joystick.h"
+#import "AnalogueStick.h"
