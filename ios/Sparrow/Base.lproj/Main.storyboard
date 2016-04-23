@@ -91,6 +91,32 @@
                                 </subviews>
                                 <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="0mV-Gp-vom" userLabel="Camera View">
+                                <rect key="frame" x="-1" y="77" width="1025" height="691"/>
+                                <subviews>
+                                    <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="432-Fc-aLa" userLabel="Mini Map">
+                                        <rect key="frame" x="8" y="8" width="300" height="300"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    </view>
+                                    <slider opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="10" minValue="10" maxValue="20" translatesAutoresizingMaskIntoConstraints="NO" id="FG0-rd-ofc" userLabel="Rotation Slider">
+                                        <rect key="frame" x="-63" y="457" width="264" height="31"/>
+                                        <color key="minimumTrackTintColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                        <color key="maximumTrackTintColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                        <connections>
+                                            <action selector="altitudeSliderChange:" destination="lZr-Lc-zbu" eventType="valueChanged" id="qWo-L7-30b"/>
+                                        </connections>
+                                    </slider>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </view>
+                            <slider opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" minValue="-180" maxValue="180" translatesAutoresizingMaskIntoConstraints="NO" id="0bV-ba-Rxq" userLabel="Altitude Slider">
+                                <rect key="frame" x="100" y="670" width="221" height="31"/>
+                                <color key="minimumTrackTintColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="maximumTrackTintColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <connections>
+                                    <action selector="rotationSliderChange:" destination="lZr-Lc-zbu" eventType="valueChanged" id="De1-Qh-1uA"/>
+                                </connections>
+                            </slider>
                             <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="hyV-fQ-y4M" customClass="AnalogueStick">
                                 <rect key="frame" x="824" y="577" width="130" height="130"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -102,11 +128,15 @@
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="iPad"/>
                     <connections>
                         <outlet property="altitudeReadingLabel" destination="CIh-XW-P1V" id="9hD-zn-rKv"/>
+                        <outlet property="altitudeSlider" destination="FG0-rd-ofc" id="g3F-Om-IY9"/>
                         <outlet property="analogueStick" destination="hyV-fQ-y4M" id="gue-aA-jHV"/>
+                        <outlet property="cameraView" destination="0mV-Gp-vom" id="TpX-Rh-ae9"/>
                         <outlet property="coordinateLabel" destination="gf4-sk-fBR" id="rVZ-NL-odZ"/>
                         <outlet property="dropPinButton" destination="j84-sP-DcN" id="vw6-Nr-67M"/>
                         <outlet property="launchButton" destination="f8G-UI-1Ji" id="1Cf-JW-ptO"/>
                         <outlet property="launchButtonBG" destination="8p6-0d-hHM" id="6BZ-cd-97C"/>
+                        <outlet property="miniMapView" destination="432-Fc-aLa" id="kYQ-LL-bQd"/>
+                        <outlet property="rotationSlider" destination="0bV-ba-Rxq" id="CFW-ch-NlO"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="f5n-xx-WEw" userLabel="First Responder" sceneMemberID="firstResponder"/>

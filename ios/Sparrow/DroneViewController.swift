@@ -1,3 +1,4 @@
+
 //
 //  DetailViewController.swift
 //  Sparrow
@@ -22,9 +23,40 @@ class DroneViewController: UIViewController, AnalogueStickDelegate {
     
     @IBOutlet weak var analogueStick: AnalogueStick!
     
+    @IBOutlet weak var altitudeSlider: UISlider! {
+        didSet {
+            altitudeSlider.transform = CGAffineTransformMakeRotation(CGFloat(-M_PI_2))
+            let thumbImage = UIImage(named:"slider_thumb")
+            let ratio : CGFloat = CGFloat (0.33)
+            let size = CGSizeMake(thumbImage!.size.width * ratio, thumbImage!.size.height * ratio)
+            altitudeSlider.setThumbImage(self.imageWithImage(thumbImage!, scaledToSize: size), forState: UIControlState.Normal)
+            // altitudeSlider.setMaximumTrackImage(UIImage(named:"slider_track"), forState: UIControlState.Normal)
+            // altitudeSlider.setMinimumTrackImage(UIImage(named:"slider_track"), forState: UIControlState.Normal)
+        }
+    }
+    
+    @IBOutlet weak var rotationSlider: UISlider! {
+        didSet {
+            let thumbImage = UIImage(named:"slider_thumb")
+            let ratio : CGFloat = CGFloat (0.33)
+            let size = CGSizeMake(thumbImage!.size.width * ratio, thumbImage!.size.height * ratio)
+            rotationSlider.setThumbImage(self.imageWithImage(thumbImage!, scaledToSize: size), forState: UIControlState.Normal)
+
+            // rotationSlider.setMaximumTrackImage(UIImage(named:"slider_track"), forState: UIControlState.Normal)
+            // rotationSlider.setMinimumTrackImage(UIImage(named:"slider_track"), forState: UIControlState.Normal)
+        }
+    }
+    
+    @IBOutlet weak var miniMapView: UIView!
+    
+    @IBOutlet weak var cameraView: UIView!
+    
     var inFlight: Bool = false
     
-    weak var socket: SocketIOClient!
+    // let socket = SocketIOClient(socketURL: NSURL(string: "http://10.34.172.4:5000")!, options: [.Nsp("/control")])
+    
+    let socket = SocketIOClient(socketURL: NSURL(string: "http://10.34.172.4:5000")!)
+    
     
     weak var delegate: AnalogueStickDelegate?
     
@@ -42,6 +74,25 @@ class DroneViewController: UIViewController, AnalogueStickDelegate {
         // Do any additional setup after loading the view, typically from a nib.
         self.configureView()
         analogueStick.delegate = self
+        miniMapView.layer.borderWidth = 5
+        miniMapView.layer.borderColor = UIColor.blackColor().CGColor
+        self.addHandlers()
+        debugPrint("Connecting to server control socket...")
+        self.socket.connect()
+    }
+    
+    func imageWithImage(image:UIImage, scaledToSize newSize:CGSize) -> UIImage{
+        UIGraphicsBeginImageContextWithOptions(newSize, false, 0.0);
+        image.drawInRect(CGRectMake(0, 0, newSize.width, newSize.height))
+        let newImage:UIImage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        return newImage
+    }
+    
+    func addHandlers() {
+        // Our socket handlers go here
+        self.socket.onAny {print("Got event: \($0.event), with items: \($0.items)")}
+        
     }
 
     override func didReceiveMemoryWarning() {
@@ -86,11 +137,10 @@ class DroneViewController: UIViewController, AnalogueStickDelegate {
         }
     }
     
-    
     @IBAction func launchButtonClicked(sender: AnyObject) {
         if (self.inFlight) {
             debugPrint("Sending land request")
-            HTTPPostJSON("http://192.168.2.116:5000/control/land", jsonObj: []) {
+            HTTPPostJSON("http://10.34.172.4:5000/control/land", jsonObj: []) {
                     (data: String, error: String?) -> Void in
                     if error != nil {
                         print(error)
@@ -103,7 +153,7 @@ class DroneViewController: UIViewController, AnalogueStickDelegate {
             self.inFlight = false
         } else {
             debugPrint("Sending take off request")
-            HTTPPostJSON("http://192.168.2.116:5000/control/take_off", jsonObj: []) {
+            HTTPPostJSON("http://10.34.172.4:5000/control/take_off", jsonObj: []) {
                     (data: String, error: String?) -> Void in
                     if error != nil {
                         print(error)
@@ -123,11 +173,62 @@ class DroneViewController: UIViewController, AnalogueStickDelegate {
         /* TODO: drop pin on map */
     }
     
+    @IBAction func altitudeSliderChange(sender: AnyObject) {
+        debugPrint("Altitude slider changed to %f", self.altitudeSlider.value)
+        let altitudeCommandArgs = [
+            "altitude": self.altitudeSlider.value
+        ]
+        socket.emit("altitude_cmd", altitudeCommandArgs)
+    }
+    
+    @IBAction func altitudeSliderReleased(sender: AnyObject) {
+        let initialValue = self.altitudeSlider.value
+        let finalValue = Float(0)
+        let difference = fabs(initialValue - finalValue)
+        let duration = Double(difference / 5.0)
+        UIView.animateWithDuration(0.2, delay: 0, options: .CurveLinear, animations: { () -> Void in
+            self.altitudeSlider.setValue(initialValue, animated: true)
+            }) { (completed) -> Void in
+                UIView.animateWithDuration(duration, delay: 0.1, options: .CurveLinear, animations: { () -> Void in
+                    self.altitudeSlider.setValue(finalValue, animated: true)
+                    }, completion: nil)
+        }
+    }
+    
+    @IBAction func rotationSliderChange(sender: AnyObject) {
+        debugPrint("Rotation slider changed to %f", self.rotationSlider.value)
+        let rotationCommandArgs = [
+            "heading": self.rotationSlider.value
+        ]
+        debugPrint("Emitting rotation_cmd...")
+        socket.emit("rotation_cmd", rotationCommandArgs)
+    }
+    
+    @IBAction func rotationSliderReleased(sender: AnyObject) {
+        let initialValue = self.rotationSlider.value
+        let finalValue = Float(0)
+        let difference = fabs(initialValue - finalValue)
+        let duration = Double(difference / 5.0)
+        UIView.animateWithDuration(0.2, delay: 0, options: .CurveLinear, animations: { () -> Void in
+            self.rotationSlider.setValue(initialValue, animated: true)
+            }) { (completed) -> Void in
+                UIView.animateWithDuration(duration, delay: 0.1, options: .CurveLinear, animations: { () -> Void in
+                    self.rotationSlider.setValue(finalValue, animated: true)
+                    }, completion: nil)
+        }
+    }
     
     func analogueStickDidChangeValue(analogueStick: AnalogueStick!) {
         debugPrint("analogue x is: %f", self.analogueStick.xValue)
         debugPrint("analogue y is: %f", self.analogueStick.yValue)
+        // TODO: determine duration dynamically
+        let lateralCommandArgs = [
+            "x_offset": self.analogueStick.xValue,
+            "y_offset": self.analogueStick.yValue,
+            "duration": 1
+        ]
         
+        socket.emit("lateral_cmd", lateralCommandArgs)
     }
 
 }

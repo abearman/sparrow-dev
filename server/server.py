@@ -1,6 +1,11 @@
 from server_state import app, socketio, default_host, default_port, HOST
 
 import pose_events
+import control_events
+
+import mission_state
+
+from control import drone_init
 
 import optparse
 
@@ -26,7 +31,7 @@ if __name__ == "__main__":
     parser.add_option("-d", "--debug",
                       action="store_true", dest="debug",
                       help=optparse.SUPPRESS_HELP,
-                      default=True)
+                      default=False)
 
     parser.add_option("-s", "--static",
                       help="Use static IP address defined in " + \
@@ -35,6 +40,10 @@ if __name__ == "__main__":
                       dest="static_ip")
 
     options, _ = parser.parse_args()
+
+    drone_init()
+
+    print mission_state.vehicle
 
     if (options.static_ip):
         socketio.run(app,
