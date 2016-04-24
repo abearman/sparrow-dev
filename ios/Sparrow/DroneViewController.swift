@@ -9,6 +9,7 @@
 
 import UIKit
 import Foundation
+import MapKit
 
 class DroneViewController: UIViewController, AnalogueStickDelegate {
     
@@ -46,8 +47,8 @@ class DroneViewController: UIViewController, AnalogueStickDelegate {
             // rotationSlider.setMinimumTrackImage(UIImage(named:"slider_track"), forState: UIControlState.Normal)
         }
     }
-    
-    @IBOutlet weak var miniMapView: UIView!
+        
+    @IBOutlet weak var mapView: MKMapView!
     
     @IBOutlet weak var cameraView: UIView!
     
@@ -74,8 +75,8 @@ class DroneViewController: UIViewController, AnalogueStickDelegate {
         // Do any additional setup after loading the view, typically from a nib.
         self.configureView()
         analogueStick.delegate = self
-        miniMapView.layer.borderWidth = 5
-        miniMapView.layer.borderColor = UIColor.blackColor().CGColor
+        mapView.layer.borderWidth = 5
+        mapView.layer.borderColor = UIColor.blackColor().CGColor
         self.addHandlers()
         debugPrint("Connecting to server control socket...")
         self.socket.connect()
