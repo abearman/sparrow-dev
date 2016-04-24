@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9060" systemVersion="14F1021" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="lZr-Lc-zbu">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10116" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="lZr-Lc-zbu">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9051"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
     </dependencies>
     <customFonts key="customFonts">
         <mutableArray key="Oswald-Light.ttf">
@@ -94,10 +94,6 @@
                             <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="0mV-Gp-vom" userLabel="Camera View">
                                 <rect key="frame" x="-1" y="77" width="1025" height="691"/>
                                 <subviews>
-                                    <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="432-Fc-aLa" userLabel="Mini Map">
-                                        <rect key="frame" x="8" y="8" width="300" height="300"/>
-                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                    </view>
                                     <slider opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="10" minValue="10" maxValue="20" translatesAutoresizingMaskIntoConstraints="NO" id="FG0-rd-ofc" userLabel="Rotation Slider">
                                         <rect key="frame" x="-63" y="457" width="264" height="31"/>
                                         <color key="minimumTrackTintColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
@@ -106,6 +102,9 @@
                                             <action selector="altitudeSliderChange:" destination="lZr-Lc-zbu" eventType="valueChanged" id="qWo-L7-30b"/>
                                         </connections>
                                     </slider>
+                                    <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="it6-1N-EKc">
+                                        <rect key="frame" x="0.0" y="0.0" width="316" height="316"/>
+                                    </mapView>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
@@ -135,13 +134,13 @@
                         <outlet property="dropPinButton" destination="j84-sP-DcN" id="vw6-Nr-67M"/>
                         <outlet property="launchButton" destination="f8G-UI-1Ji" id="1Cf-JW-ptO"/>
                         <outlet property="launchButtonBG" destination="8p6-0d-hHM" id="6BZ-cd-97C"/>
-                        <outlet property="miniMapView" destination="432-Fc-aLa" id="kYQ-LL-bQd"/>
+                        <outlet property="mapView" destination="it6-1N-EKc" id="NFJ-oK-7tM"/>
                         <outlet property="rotationSlider" destination="0bV-ba-Rxq" id="CFW-ch-NlO"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="f5n-xx-WEw" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="811" y="1103"/>
+            <point key="canvasLocation" x="883" y="1177"/>
         </scene>
     </scenes>
 </document>

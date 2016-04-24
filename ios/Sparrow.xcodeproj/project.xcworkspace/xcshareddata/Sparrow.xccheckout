@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>89237F1C-C2D7-47CE-8A47-7A9BEE8C672D</string>
+	<key>IDESourceControlProjectName</key>
+	<string>Sparrow</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>B853FF77886FEA8D9846C269D67056490095C342</key>
+		<string>https://github.com/cs210/sparrow-dev.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>ios/Sparrow.xcodeproj</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>B853FF77886FEA8D9846C269D67056490095C342</key>
+		<string>../../..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>https://github.com/cs210/sparrow-dev.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>111</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>B853FF77886FEA8D9846C269D67056490095C342</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>B853FF77886FEA8D9846C269D67056490095C342</string>
+			<key>IDESourceControlWCCName</key>
+			<string>sparrow-dev</string>
+		</dict>
+	</array>
+</dict>
+</plist>
