@@ -13,6 +13,9 @@ import MapKit
 
 class DroneViewController: UIViewController, AnalogueStickDelegate {
     
+    
+    @IBOutlet weak var logo: UIImageView!
+    
     @IBOutlet weak var dropPinButton:UIButton!
     
     @IBOutlet weak var launchButton:UIButton!
@@ -56,7 +59,7 @@ class DroneViewController: UIViewController, AnalogueStickDelegate {
     
     // let socket = SocketIOClient(socketURL: NSURL(string: "http://10.34.172.4:5000")!, options: [.Nsp("/control")])
     
-    let socket = SocketIOClient(socketURL: NSURL(string: "http://10.34.172.4:5000")!)
+    let socket = SocketIOClient(socketURL: NSURL(string: "http://10.34.174.47:5000")!)
     
     
     weak var delegate: AnalogueStickDelegate?
@@ -74,6 +77,7 @@ class DroneViewController: UIViewController, AnalogueStickDelegate {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         self.configureView()
+        logo.image = UIImage(named: "logo_icon")
         analogueStick.delegate = self
         mapView.layer.borderWidth = 5
         mapView.layer.borderColor = UIColor.blackColor().CGColor
@@ -141,7 +145,7 @@ class DroneViewController: UIViewController, AnalogueStickDelegate {
     @IBAction func launchButtonClicked(sender: AnyObject) {
         if (self.inFlight) {
             debugPrint("Sending land request")
-            HTTPPostJSON("http://10.34.172.4:5000/control/land", jsonObj: []) {
+            HTTPPostJSON("http://10.34.174.47:5000/control/land", jsonObj: []) {
                     (data: String, error: String?) -> Void in
                     if error != nil {
                         print(error)
@@ -154,7 +158,7 @@ class DroneViewController: UIViewController, AnalogueStickDelegate {
             self.inFlight = false
         } else {
             debugPrint("Sending take off request")
-            HTTPPostJSON("http://10.34.172.4:5000/control/take_off", jsonObj: []) {
+            HTTPPostJSON("http://10.34.174.47:5000/control/take_off", jsonObj: []) {
                     (data: String, error: String?) -> Void in
                     if error != nil {
                         print(error)

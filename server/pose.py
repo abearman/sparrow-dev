@@ -36,5 +36,5 @@ def path_config():
         path = []
         for coord_tuple in data:
             path.append( (coord_tuple['x'], coord_tuple['y'], coord_tuple['z']) )
-        return "Sucess!"
+        return "Success!"
         
