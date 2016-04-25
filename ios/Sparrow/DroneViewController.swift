@@ -84,7 +84,22 @@ class DroneViewController: UIViewController, AnalogueStickDelegate {
         self.addHandlers()
         debugPrint("Connecting to server control socket...")
         self.socket.connect()
+        
+        // constant fetching for latest GPS coordinates
+        // TODO: test this connection
+        /*
+        self.socket.on("gps_pos") {[weak self] data, ack in
+            self?.handleGPSPos()
+            return
+        }
+        */
     }
+    
+    /*
+    func handleGPSPos() {
+        
+    }
+    */
     
     func imageWithImage(image:UIImage, scaledToSize newSize:CGSize) -> UIImage{
         UIGraphicsBeginImageContextWithOptions(newSize, false, 0.0);
