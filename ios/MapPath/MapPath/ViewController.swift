@@ -19,8 +19,6 @@ class ViewController: UIViewController, MKMapViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         mapView.delegate = self
-        let loc1 = CLLocationCoordinate2DMake(37.430020, -122.173302)
-        onLocationUpdate(loc1)
     }
 
     
