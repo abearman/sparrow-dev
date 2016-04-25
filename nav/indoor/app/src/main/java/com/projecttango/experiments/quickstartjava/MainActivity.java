@@ -28,6 +28,10 @@ import com.google.atap.tangoservice.TangoPoseData;
 import com.google.atap.tangoservice.TangoXyzIjData;
 
 import android.app.Activity;
+import android.content.Context;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.TextView;
@@ -151,6 +155,32 @@ public class MainActivity extends Activity {
             e.printStackTrace();
         }
 
+        /*
+        // get GPS location updates
+        // TODO: test this connection
+        // acquire a reference to the system Location Manager
+        LocationManager locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
+
+        // define a listener that responds to location updates
+        LocationListener locationListener = new LocationListener() {
+            public void onLocationChanged(Location location) {
+                // called when a new location is found by the network location provider
+                System.out.println("latitude: " + location.getLatitude());
+                System.out.println("longitude: " + location.getLongitude());
+
+                // TODO: send location information to server
+            }
+
+            public void onStatusChanged(String provider, int status, Bundle extras) {}
+
+            public void onProviderEnabled(String provider) {}
+
+            public void onProviderDisabled(String provider) {}
+        };
+
+        // register the listener with the location manager to receive location updates
+        locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, locationListener);
+        */
     }
 
     private Emitter.Listener onPathForInterpolationAck = new Emitter.Listener() {
