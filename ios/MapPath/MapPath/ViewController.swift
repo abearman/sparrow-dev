@@ -14,7 +14,7 @@ class ViewController: UIViewController, MKMapViewDelegate {
     @IBOutlet weak var mapView: MKMapView!
     var locations: [CLLocationCoordinate2D] = []
     var path: MKPolyline?
-    var marker: MKCircle?
+    var marker: MKAnnotation?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -27,16 +27,17 @@ class ViewController: UIViewController, MKMapViewDelegate {
     func onLocationUpdate(newLoc: CLLocationCoordinate2D) {
         self.locations.append(newLoc)
         
-        if (marker != nil) {
-            self.mapView.removeOverlay(marker!)
-        }
-        marker = MKCircle(centerCoordinate: newLoc, radius: 30)
-        self.mapView.addOverlay(marker!)
+        drawMarker(newLoc)
+//        if (marker != nil) {
+//            self.mapView.removeOverlay(marker!)
+//        }
+//        marker = MKCircle(centerCoordinate: newLoc, radius: 30)
+//        self.mapView.addOverlay(marker!)
 
         let region = MKCoordinateRegionMake(newLoc, MKCoordinateSpanMake(0.01, 0.01))
         self.mapView.setRegion(region, animated: true)
         
-        updatePath()
+        drawPath()
     }
     
     @IBAction func gotoBob(sender: AnyObject) {
@@ -54,7 +55,29 @@ class ViewController: UIViewController, MKMapViewDelegate {
         onLocationUpdate(loc)
     }
     
-    func updatePath() {
+    func drawMarker(coordinate: CLLocationCoordinate2D) {
+        if (marker != nil) {
+            mapView.removeAnnotation(marker!)
+        }
+        marker = CurrentLocationIcon(coordinate: coordinate)
+        mapView.addAnnotation(marker!)
+    }
+    
+    func mapView(mapView: MKMapView, viewForAnnotation annotation: MKAnnotation) -> MKAnnotationView? {
+        if (annotation is CurrentLocationIcon) {
+            var markerView: MKAnnotationView
+            if (locations.count <= 1) {
+                markerView = MKAnnotationView(annotation: annotation, reuseIdentifier: "currentLocationMarker")
+                markerView.image = UIImage(named: "current_location_icon")
+            } else {
+                markerView = mapView.dequeueReusableAnnotationViewWithIdentifier("currentLocationMarker")!
+            }
+            return markerView
+        }
+        return MKAnnotationView()
+    }
+    
+    func drawPath() {
         if (locations.count == 1) {
             return
         }
