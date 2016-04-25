@@ -19,8 +19,6 @@ class ViewController: UIViewController, MKMapViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         mapView.delegate = self
-        let loc1 = CLLocationCoordinate2DMake(37.430020, -122.173302)
-        onLocationUpdate(loc1)
     }
 
     
@@ -28,11 +26,6 @@ class ViewController: UIViewController, MKMapViewDelegate {
         self.locations.append(newLoc)
         
         drawMarker(newLoc)
-//        if (marker != nil) {
-//            self.mapView.removeOverlay(marker!)
-//        }
-//        marker = MKCircle(centerCoordinate: newLoc, radius: 30)
-//        self.mapView.addOverlay(marker!)
 
         let region = MKCoordinateRegionMake(newLoc, MKCoordinateSpanMake(0.01, 0.01))
         self.mapView.setRegion(region, animated: true)
