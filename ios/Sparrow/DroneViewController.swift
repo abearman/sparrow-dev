@@ -62,7 +62,7 @@ class DroneViewController: UIViewController, AnalogueStickDelegate, MKMapViewDel
     
     // let socket = SocketIOClient(socketURL: NSURL(string: "http://10.34.172.4:5000")!, options: [.Nsp("/control")])
     
-    let socket = SocketIOClient(socketURL: NSURL(string: "http://10.34.162.35:5000")!)
+    let socket = SocketIOClient(socketURL: NSURL(string: "http://10.34.173.246:5000")!)
     
     
     weak var delegate: AnalogueStickDelegate?
@@ -100,6 +100,9 @@ class DroneViewController: UIViewController, AnalogueStickDelegate, MKMapViewDel
         let longitude = data[0]["long"] as? Double
         debugPrint("got latitude: ", latitude)
         debugPrint("got longitude: ", longitude)
+        
+        // update coordinate label
+        coordinateLabel.text = "(" + String(format: "%.3f", latitude!) + "N, " + String(format: "%.3f", longitude!) + "W)";
         
         // create CLLocation
         let loc = CLLocationCoordinate2DMake(latitude!, longitude!)
@@ -176,7 +179,7 @@ class DroneViewController: UIViewController, AnalogueStickDelegate, MKMapViewDel
     @IBAction func launchButtonClicked(sender: AnyObject) {
         if (self.inFlight) {
             debugPrint("Sending land request")
-            HTTPPostJSON("http://10.34.162.35:5000/control/land", jsonObj: []) {
+            HTTPPostJSON("http://10.34.173.246:5000/control/land", jsonObj: []) {
                     (data: String, error: String?) -> Void in
                     if error != nil {
                         print(error)
@@ -189,7 +192,7 @@ class DroneViewController: UIViewController, AnalogueStickDelegate, MKMapViewDel
             self.inFlight = false
         } else {
             debugPrint("Sending take off request")
-            HTTPPostJSON("http://10.34.162.35:5000/control/take_off", jsonObj: []) {
+            HTTPPostJSON("http://10.34.173.246:5000/control/take_off", jsonObj: []) {
                     (data: String, error: String?) -> Void in
                     if error != nil {
                         print(error)
@@ -215,6 +218,9 @@ class DroneViewController: UIViewController, AnalogueStickDelegate, MKMapViewDel
             "altitude": self.altitudeSlider.value
         ]
         socket.emit("altitude_cmd", altitudeCommandArgs)
+        
+        // update altitude label
+        altitudeReadingLabel.text = String(format: "%.2f", self.altitudeSlider.value)
     }
     
     @IBAction func altitudeSliderReleased(sender: AnyObject) {

@@ -10,12 +10,15 @@ import sys
 from pymavlink import mavutil
 
 def drone_init():
+
+    
     print "Start simulator (SITL)"
     from dronekit_sitl import SITL
     sitl = SITL()
     sitl.download('copter', '3.3', verbose=True)
     sitl_args = ['-I0', '--model', 'quad', '--home=-35.363261,149.165230,584,353']
     sitl.launch(sitl_args, await_ready=True, restart=True)
+    
 
     # Import DroneKit-Python
     from dronekit import connect, VehicleMode
@@ -64,7 +67,7 @@ def arm_and_takeoff(aTargetAltitude):
 @control_api.route("/control/take_off", methods = ["POST"])
 def take_off():
     print "[/control/take_off]: launching drone"
-    arm_and_takeoff(10)
+    arm_and_takeoff(2)
     print "[/control/take_off]: takeoff complete"
     return json.dumps({'success':True}), 200, {'ContentType':'application/json'} 
 
