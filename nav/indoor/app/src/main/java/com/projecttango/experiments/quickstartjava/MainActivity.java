@@ -155,7 +155,7 @@ public class MainActivity extends Activity {
             e.printStackTrace();
         }
 
-        /*
+
         // get GPS location updates
         // TODO: test this connection
         // acquire a reference to the system Location Manager
@@ -180,7 +180,7 @@ public class MainActivity extends Activity {
 
         // register the listener with the location manager to receive location updates
         locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, locationListener);
-        */
+
     }
 
     private Emitter.Listener onPathForInterpolationAck = new Emitter.Listener() {

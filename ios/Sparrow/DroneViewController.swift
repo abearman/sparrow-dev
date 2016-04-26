@@ -11,7 +11,7 @@ import UIKit
 import Foundation
 import MapKit
 
-class DroneViewController: UIViewController, AnalogueStickDelegate {
+class DroneViewController: UIViewController, AnalogueStickDelegate, MKMapViewDelegate {
     
     
     @IBOutlet weak var logo: UIImageView!
@@ -52,6 +52,9 @@ class DroneViewController: UIViewController, AnalogueStickDelegate {
     }
         
     @IBOutlet weak var mapView: MKMapView!
+    var locations: [CLLocationCoordinate2D] = []
+    var path: MKPolyline?
+    var marker: MKAnnotation?
     
     @IBOutlet weak var cameraView: UIView!
     
@@ -79,25 +82,17 @@ class DroneViewController: UIViewController, AnalogueStickDelegate {
         self.configureView()
         logo.image = UIImage(named: "logo_icon")
         analogueStick.delegate = self
+        mapView.delegate = self
         mapView.layer.borderWidth = 5
         mapView.layer.borderColor = UIColor.blackColor().CGColor
         self.addHandlers()
         debugPrint("Connecting to server control socket...")
         self.socket.connect()
-        
-        // constant fetching for latest GPS coordinates
-        // TODO: test this connection
-        /*
-        self.socket.on("gps_pos") {[weak self] data, ack in
-            self?.handleGPSPos()
-            return
-        }
-        */
     }
     
     /*
     func handleGPSPos() {
-        
+        // TODO: unpack JSON data, create CLLocation from lat/long, call onLocationUpdate
     }
     */
     
@@ -112,6 +107,15 @@ class DroneViewController: UIViewController, AnalogueStickDelegate {
     func addHandlers() {
         // Our socket handlers go here
         self.socket.onAny {print("Got event: \($0.event), with items: \($0.items)")}
+        
+        // constant fetching for latest GPS coordinates
+        // TODO: test this connection & pass "data" parameter to handleGPSPos
+        /*
+        self.socket.on("gps_pos") {[weak self] data, ack in
+            self?.handleGPSPos()
+            return
+        }
+        */
         
     }
 
@@ -250,6 +254,72 @@ class DroneViewController: UIViewController, AnalogueStickDelegate {
         
         socket.emit("lateral_cmd", lateralCommandArgs)
     }
+    
+    
+    
+    func onLocationUpdate(newLoc: CLLocationCoordinate2D) {
+        self.locations.append(newLoc)
+        
+        drawMarker(newLoc)
+        //        if (marker != nil) {
+        //            self.mapView.removeOverlay(marker!)
+        //        }
+        //        marker = MKCircle(centerCoordinate: newLoc, radius: 30)
+        //        self.mapView.addOverlay(marker!)
+        
+        let region = MKCoordinateRegionMake(newLoc, MKCoordinateSpanMake(0.01, 0.01))
+        self.mapView.setRegion(region, animated: true)
+        
+        drawPath()
+    }
+    
+    func drawMarker(coordinate: CLLocationCoordinate2D) {
+        if (marker != nil) {
+            mapView.removeAnnotation(marker!)
+        }
+        marker = CurrentLocationIcon(coordinate: coordinate)
+        mapView.addAnnotation(marker!)
+    }
+    
+    func mapView(mapView: MKMapView, viewForAnnotation annotation: MKAnnotation) -> MKAnnotationView? {
+        if (annotation is CurrentLocationIcon) {
+            var markerView: MKAnnotationView
+            if (locations.count <= 1) {
+                markerView = MKAnnotationView(annotation: annotation, reuseIdentifier: "currentLocationMarker")
+                markerView.image = UIImage(named: "current_location_icon")
+            } else {
+                markerView = mapView.dequeueReusableAnnotationViewWithIdentifier("currentLocationMarker")!
+            }
+            return markerView
+        }
+        return MKAnnotationView()
+    }
+    
+    func drawPath() {
+        if (locations.count == 1) {
+            return
+        }
+        if (self.path != nil) {
+            self.mapView.removeOverlay(path!)
+        }
+        self.path = MKPolyline(coordinates: &locations, count: locations.count)
+        self.mapView.addOverlay(self.path!)
+    }
+    
+    func mapView(mapView: MKMapView, rendererForOverlay overlay: MKOverlay) -> MKOverlayRenderer {
+        if (overlay is MKPolyline) {
+            let pathRenderer = MKPolylineRenderer(overlay: overlay)
+            pathRenderer.strokeColor = UIColor.blueColor()
+            pathRenderer.lineWidth = 2.0
+            return pathRenderer
+        } else if (overlay is MKCircle) {
+            let circleRenderer = MKCircleRenderer(overlay: overlay)
+            circleRenderer.fillColor = UIColor.blueColor()
+            return circleRenderer
+        }
+        return MKPolylineRenderer();
+    }
+
 
 }
 
