@@ -20,6 +20,11 @@ import math
 def on_connect():
     print "[socket][control][connect]: Connection received"
     
+@socketio.on('gps_pos') # , namespace=CONTROL_NAMESPACE)
+def gpsChange(json):
+    loc = json
+    print "[socket][control][gps_pos]: " + str(json)
+    emit("gps_pos_ack", loc, broadcast=True)
 
 @socketio.on('altitude_cmd') # , namespace=CONTROL_NAMESPACE)
 def altitudeChange(json):

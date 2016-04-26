@@ -76,7 +76,7 @@ public class MainActivity extends Activity {
 
     private static final String TAG = MainActivity.class.getSimpleName();
 
-    private static final String addr = "10.34.164.142";
+    private static final String addr = "10.34.162.35";
     private static final int port = 5000;
     private static final String sTranslationFormat = "x%fy%fz%f";
     private static final String sRotationFormat = "i%fj%fk%fl%f";
@@ -103,6 +103,7 @@ public class MainActivity extends Activity {
     private HttpClient httpclient;
 
     private Socket mSocket;
+    private Socket controlSocket;
 
     // for point cloud
     private double mXyIjPreviousTimeStamp;
@@ -139,10 +140,16 @@ public class MainActivity extends Activity {
         this.httpclient = new DefaultHttpClient();
 
         try {
+
             mSocket = IO.socket("http://" + addr + ":" + port + "/pose");
             mSocket.on("path_for_interpolation_ack", onPathForInterpolationAck);
             mSocket.connect();
+
+            controlSocket = IO.socket("http://" + addr + ":" + port);
+            controlSocket.connect();
+
             System.out.println("Socket connection has been established");
+
         } catch (URISyntaxException e) {
             e.printStackTrace();
         }
@@ -150,6 +157,7 @@ public class MainActivity extends Activity {
         JSONObject emptyJSON = new JSONObject();
         try {
             mSocket.emit("path_for_interpolation", emptyJSON);
+            System.out.println("emitting path for interpolation");
         } catch (Exception e) {
             System.out.println("Exception when emitting path_for_interpolation");
             e.printStackTrace();
@@ -165,10 +173,29 @@ public class MainActivity extends Activity {
         LocationListener locationListener = new LocationListener() {
             public void onLocationChanged(Location location) {
                 // called when a new location is found by the network location provider
-                System.out.println("latitude: " + location.getLatitude());
-                System.out.println("longitude: " + location.getLongitude());
+                double latitude = location.getLatitude();
+                double longitude = location.getLongitude();
+                System.out.println("latitude: " + latitude);
+                System.out.println("longitude: " + longitude);
 
-                // TODO: send location information to server
+                // create JSON object with location information
+                JSONObject loc = new JSONObject();
+                try {
+                    loc.put("lat", latitude);
+                    loc.put("long", longitude);
+                } catch (JSONException e) {
+                    System.out.println("JSONException when converting latitude/longitude to JSON");
+                    e.printStackTrace();
+                }
+
+                // emit location information to server
+                try {
+                    System.out.println("emitting gps position");
+                    controlSocket.emit("gps_pos", loc);
+                } catch (Exception e) {
+                    System.out.println("Exception when emitting gps_pos");
+                    e.printStackTrace();
+                }
             }
 
             public void onStatusChanged(String provider, int status, Bundle extras) {}

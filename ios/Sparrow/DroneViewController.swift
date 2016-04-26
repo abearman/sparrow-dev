@@ -62,7 +62,7 @@ class DroneViewController: UIViewController, AnalogueStickDelegate, MKMapViewDel
     
     // let socket = SocketIOClient(socketURL: NSURL(string: "http://10.34.172.4:5000")!, options: [.Nsp("/control")])
     
-    let socket = SocketIOClient(socketURL: NSURL(string: "http://10.34.174.47:5000")!)
+    let socket = SocketIOClient(socketURL: NSURL(string: "http://10.34.162.35:5000")!)
     
     
     weak var delegate: AnalogueStickDelegate?
@@ -90,11 +90,13 @@ class DroneViewController: UIViewController, AnalogueStickDelegate, MKMapViewDel
         self.socket.connect()
     }
     
-    /*
+    
     func handleGPSPos() {
         // TODO: unpack JSON data, create CLLocation from lat/long, call onLocationUpdate
+        debugPrint("in handleGPSPos")
+        
     }
-    */
+ 
     
     func imageWithImage(image:UIImage, scaledToSize newSize:CGSize) -> UIImage{
         UIGraphicsBeginImageContextWithOptions(newSize, false, 0.0);
@@ -110,12 +112,12 @@ class DroneViewController: UIViewController, AnalogueStickDelegate, MKMapViewDel
         
         // constant fetching for latest GPS coordinates
         // TODO: test this connection & pass "data" parameter to handleGPSPos
-        /*
-        self.socket.on("gps_pos") {[weak self] data, ack in
+        
+        self.socket.on("gps_pos_ack") {[weak self] data, ack in
             self?.handleGPSPos()
             return
         }
-        */
+        
         
     }
 
@@ -164,7 +166,7 @@ class DroneViewController: UIViewController, AnalogueStickDelegate, MKMapViewDel
     @IBAction func launchButtonClicked(sender: AnyObject) {
         if (self.inFlight) {
             debugPrint("Sending land request")
-            HTTPPostJSON("http://10.34.174.47:5000/control/land", jsonObj: []) {
+            HTTPPostJSON("http://10.34.162.35:5000/control/land", jsonObj: []) {
                     (data: String, error: String?) -> Void in
                     if error != nil {
                         print(error)
@@ -177,7 +179,7 @@ class DroneViewController: UIViewController, AnalogueStickDelegate, MKMapViewDel
             self.inFlight = false
         } else {
             debugPrint("Sending take off request")
-            HTTPPostJSON("http://10.34.174.47:5000/control/take_off", jsonObj: []) {
+            HTTPPostJSON("http://10.34.162.35:5000/control/take_off", jsonObj: []) {
                     (data: String, error: String?) -> Void in
                     if error != nil {
                         print(error)
