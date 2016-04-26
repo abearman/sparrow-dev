@@ -165,7 +165,6 @@ public class MainActivity extends Activity {
 
 
         // get GPS location updates
-        // TODO: test this connection
         // acquire a reference to the system Location Manager
         LocationManager locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
 

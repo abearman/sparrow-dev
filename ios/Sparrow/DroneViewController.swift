@@ -91,10 +91,21 @@ class DroneViewController: UIViewController, AnalogueStickDelegate, MKMapViewDel
     }
     
     
-    func handleGPSPos() {
-        // TODO: unpack JSON data, create CLLocation from lat/long, call onLocationUpdate
+    func handleGPSPos(data: AnyObject) {
+
         debugPrint("in handleGPSPos")
         
+        // unpack JSON data
+        let latitude = data[0]["lat"] as? Double
+        let longitude = data[0]["long"] as? Double
+        debugPrint("got latitude: ", latitude)
+        debugPrint("got longitude: ", longitude)
+        
+        // create CLLocation
+        let loc = CLLocationCoordinate2DMake(latitude!, longitude!)
+        
+        // call onLocationUpdate
+        onLocationUpdate(loc)
     }
  
     
@@ -111,10 +122,9 @@ class DroneViewController: UIViewController, AnalogueStickDelegate, MKMapViewDel
         self.socket.onAny {print("Got event: \($0.event), with items: \($0.items)")}
         
         // constant fetching for latest GPS coordinates
-        // TODO: test this connection & pass "data" parameter to handleGPSPos
-        
         self.socket.on("gps_pos_ack") {[weak self] data, ack in
-            self?.handleGPSPos()
+            debugPrint("received gps_pos_ack event")
+            self?.handleGPSPos(data)
             return
         }
         
@@ -260,6 +270,9 @@ class DroneViewController: UIViewController, AnalogueStickDelegate, MKMapViewDel
     
     
     func onLocationUpdate(newLoc: CLLocationCoordinate2D) {
+        
+        debugPrint("in onLocationUpdate")
+        
         self.locations.append(newLoc)
         
         drawMarker(newLoc)
