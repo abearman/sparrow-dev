@@ -19,7 +19,6 @@ class DroneViewController: UIViewController, AnalogueStickDelegate, MKMapViewDel
     @IBOutlet weak var dropPinButton:UIButton!
     
     @IBOutlet weak var launchButton:UIButton!
-    @IBOutlet weak var launchButtonBG: UIView!
     
     @IBOutlet weak var coordinateLabel:UILabel!
     
@@ -169,10 +168,8 @@ class DroneViewController: UIViewController, AnalogueStickDelegate, MKMapViewDel
     func updateLaunchButton() {
         if (self.inFlight) {
             launchButton.setTitle("Land", forState: UIControlState.Normal)
-            launchButtonBG.backgroundColor = UIColor(red: 255, green: 0, blue: 0, alpha: 1.0)
         } else {
             launchButton.setTitle("Launch", forState: UIControlState.Normal)
-            launchButtonBG.backgroundColor = UIColor(red: 0, green: 255, blue: 0, alpha: 1.0)
         }
     }
     
@@ -270,7 +267,7 @@ class DroneViewController: UIViewController, AnalogueStickDelegate, MKMapViewDel
             "duration": 1
         ]
         
-        socket.emit("lateral_cmd", lateralCommandArgs)
+        //socket.emit("lateral_cmd", lateralCommandArgs)
     }
     
     
