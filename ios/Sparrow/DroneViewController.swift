@@ -33,6 +33,7 @@ class DroneViewController: UIViewController, AnalogueStickDelegate, MKMapViewDel
             let ratio : CGFloat = CGFloat (0.33)
             let size = CGSizeMake(thumbImage!.size.width * ratio, thumbImage!.size.height * ratio)
             altitudeSlider.setThumbImage(self.imageWithImage(thumbImage!, scaledToSize: size), forState: UIControlState.Normal)
+            altitudeSlider.continuous = false
             // altitudeSlider.setMaximumTrackImage(UIImage(named:"slider_track"), forState: UIControlState.Normal)
             // altitudeSlider.setMinimumTrackImage(UIImage(named:"slider_track"), forState: UIControlState.Normal)
         }
@@ -44,6 +45,7 @@ class DroneViewController: UIViewController, AnalogueStickDelegate, MKMapViewDel
             let ratio : CGFloat = CGFloat (0.33)
             let size = CGSizeMake(thumbImage!.size.width * ratio, thumbImage!.size.height * ratio)
             rotationSlider.setThumbImage(self.imageWithImage(thumbImage!, scaledToSize: size), forState: UIControlState.Normal)
+            rotationSlider.continuous = false
 
             // rotationSlider.setMaximumTrackImage(UIImage(named:"slider_track"), forState: UIControlState.Normal)
             // rotationSlider.setMinimumTrackImage(UIImage(named:"slider_track"), forState: UIControlState.Normal)
@@ -61,7 +63,7 @@ class DroneViewController: UIViewController, AnalogueStickDelegate, MKMapViewDel
     
     // let socket = SocketIOClient(socketURL: NSURL(string: "http://10.34.172.4:5000")!, options: [.Nsp("/control")])
     
-    let socket = SocketIOClient(socketURL: NSURL(string: "http://10.34.173.246:5000")!)
+    let socket = SocketIOClient(socketURL: NSURL(string: "http://10.1.1.191:5000")!)
     
     
     weak var delegate: AnalogueStickDelegate?
@@ -176,7 +178,7 @@ class DroneViewController: UIViewController, AnalogueStickDelegate, MKMapViewDel
     @IBAction func launchButtonClicked(sender: AnyObject) {
         if (self.inFlight) {
             debugPrint("Sending land request")
-            HTTPPostJSON("http://10.34.173.246:5000/control/land", jsonObj: []) {
+            HTTPPostJSON("http://10.1.1.191:5000/control/land", jsonObj: []) {
                     (data: String, error: String?) -> Void in
                     if error != nil {
                         print(error)
@@ -189,7 +191,7 @@ class DroneViewController: UIViewController, AnalogueStickDelegate, MKMapViewDel
             self.inFlight = false
         } else {
             debugPrint("Sending take off request")
-            HTTPPostJSON("http://10.34.173.246:5000/control/take_off", jsonObj: []) {
+            HTTPPostJSON("http://10.1.1.191:5000/control/take_off", jsonObj: []) {
                     (data: String, error: String?) -> Void in
                     if error != nil {
                         print(error)
@@ -261,7 +263,7 @@ class DroneViewController: UIViewController, AnalogueStickDelegate, MKMapViewDel
         debugPrint("analogue x is: %f", self.analogueStick.xValue)
         debugPrint("analogue y is: %f", self.analogueStick.yValue)
         // TODO: determine duration dynamically
-        let lateralCommandArgs = [
+        /*let lateralCommandArgs = [
             "x_offset": self.analogueStick.xValue,
             "y_offset": self.analogueStick.yValue,
             "duration": 1
