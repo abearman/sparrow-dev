@@ -147,6 +147,7 @@ def send_global_velocity(velocity_x, velocity_y, velocity_z, duration):
 
 
 def change_altitude_global(target_alt):
+		vehicle = mission_state.vehicle
 		target_location = LocationGlobalRelative(vehicle.location.global_relative_frame.lat, 
 																						 vehicle.location.global_relative_frame.lon, 
 																					   target_alt)
