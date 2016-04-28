@@ -63,7 +63,7 @@ class DroneViewController: UIViewController, AnalogueStickDelegate, MKMapViewDel
     
     // let socket = SocketIOClient(socketURL: NSURL(string: "http://10.34.172.4:5000")!, options: [.Nsp("/control")])
     
-    let socket = SocketIOClient(socketURL: NSURL(string: "http://10.1.1.191:5000")!)
+    let socket = SocketIOClient(socketURL: NSURL(string: "http://10.196.68.209:5000")!)
     
     
     weak var delegate: AnalogueStickDelegate?
@@ -170,15 +170,17 @@ class DroneViewController: UIViewController, AnalogueStickDelegate, MKMapViewDel
     func updateLaunchButton() {
         if (self.inFlight) {
             launchButton.setTitle("Land", forState: UIControlState.Normal)
+            launchButton.backgroundColor = UIColor.redColor()
         } else {
             launchButton.setTitle("Launch", forState: UIControlState.Normal)
+            launchButton.backgroundColor = UIColor.greenColor()
         }
     }
     
     @IBAction func launchButtonClicked(sender: AnyObject) {
         if (self.inFlight) {
             debugPrint("Sending land request")
-            HTTPPostJSON("http://10.1.1.191:5000/control/land", jsonObj: []) {
+            HTTPPostJSON("http://10.196.68.209:5000/control/land", jsonObj: []) {
                     (data: String, error: String?) -> Void in
                     if error != nil {
                         print(error)
@@ -191,7 +193,7 @@ class DroneViewController: UIViewController, AnalogueStickDelegate, MKMapViewDel
             self.inFlight = false
         } else {
             debugPrint("Sending take off request")
-            HTTPPostJSON("http://10.1.1.191:5000/control/take_off", jsonObj: []) {
+            HTTPPostJSON("http://10.196.68.209:5000/control/take_off", jsonObj: []) {
                     (data: String, error: String?) -> Void in
                     if error != nil {
                         print(error)
@@ -270,6 +272,7 @@ class DroneViewController: UIViewController, AnalogueStickDelegate, MKMapViewDel
         ]
         
         //socket.emit("lateral_cmd", lateralCommandArgs)
+         */
     }
     
     
@@ -338,8 +341,6 @@ class DroneViewController: UIViewController, AnalogueStickDelegate, MKMapViewDel
             return circleRenderer
         }
         return MKPolylineRenderer();
-    }*/
-
     }
 }
 

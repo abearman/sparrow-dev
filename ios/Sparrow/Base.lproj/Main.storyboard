@@ -99,8 +99,12 @@
                                     <constraint firstItem="AjX-QD-ZDc" firstAttribute="centerY" secondItem="CIh-XW-P1V" secondAttribute="centerY" id="oBQ-ru-4RT"/>
                                 </constraints>
                             </view>
-                            <view contentMode="scaleToFill" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="0mV-Gp-vom" userLabel="Camera View">
-                                <rect key="frame" x="-1" y="77" width="1025" height="691"/>
+                            <view contentMode="scaleToFill" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="hyV-fQ-y4M" customClass="AnalogueStick">
+                                <rect key="frame" x="874" y="630" width="130" height="130"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                            </view>
+                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="0mV-Gp-vom" userLabel="Camera View">
+                                <rect key="frame" x="-1" y="80" width="1025" height="542"/>
                                 <subviews>
                                     <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="it6-1N-EKc">
                                         <rect key="frame" x="0.0" y="0.0" width="316" height="316"/>
@@ -124,17 +128,13 @@
                                         </connections>
                                     </slider>
                                 </subviews>
-                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+
                                 <constraints>
                                     <constraint firstItem="it6-1N-EKc" firstAttribute="leading" secondItem="0mV-Gp-vom" secondAttribute="leading" constant="5" id="BDE-D1-m0a"/>
                                     <constraint firstItem="it6-1N-EKc" firstAttribute="top" secondItem="0mV-Gp-vom" secondAttribute="top" constant="5" id="EPk-4N-zv2"/>
                                     <constraint firstItem="0bV-ba-Rxq" firstAttribute="top" secondItem="it6-1N-EKc" secondAttribute="bottom" constant="15" id="Ild-4N-hNs"/>
                                     <constraint firstItem="FG0-rd-ofc" firstAttribute="leading" secondItem="0mV-Gp-vom" secondAttribute="leading" constant="-80" id="drI-1t-Al4"/>
                                 </constraints>
-                            </view>
-                            <view contentMode="scaleToFill" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="hyV-fQ-y4M" customClass="AnalogueStick">
-                                <rect key="frame" x="874" y="630" width="130" height="130"/>
-                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
