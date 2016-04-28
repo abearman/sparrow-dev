@@ -39,6 +39,7 @@ class DroneViewController: UIViewController, AnalogueStickDelegate, MKMapViewDel
         }
     }
     
+    
     @IBOutlet weak var rotationSlider: UISlider! {
         didSet {
             let thumbImage = UIImage(named:"slider_thumb")
@@ -275,20 +276,20 @@ class DroneViewController: UIViewController, AnalogueStickDelegate, MKMapViewDel
          */
     }
     
-    @IBAction func lateralButtonClicked(sender: AnyObject) {
-        if let button = sender as? UIButton {
-            if let buttonID = button.restorationIdentifier {
-                debugPrint("Lateral button %@ clicked", buttonID)
-                let lateralCommandArgs = [
-                    "direction": buttonID
-                ]
-                socket.emit("lateral_cmd", lateralCommandArgs)
-            }
-        }
-        
-        // update altitude label
-        //altitudeReadingLabel.text = String(format: "%.2f", self.altitudeSlider.value)
-    }
+//    @IBAction func lateralButtonClicked(sender: AnyObject) {
+//        if let button = sender as? UIButton {
+//            if let buttonID = button.restorationIdentifier {
+//                debugPrint("Lateral button %@ clicked", buttonID)
+//                let lateralCommandArgs = [
+//                    "direction": buttonID
+//                ]
+//                socket.emit("lateral_cmd", lateralCommandArgs)
+//            }
+//        }
+//        
+//        // update altitude label
+//        //altitudeReadingLabel.text = String(format: "%.2f", self.altitudeSlider.value)
+//    }
     
     
     func onLocationUpdate(newLoc: CLLocationCoordinate2D) {

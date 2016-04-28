@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10116" systemVersion="15B42" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="lZr-Lc-zbu">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10116" systemVersion="15C50" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="lZr-Lc-zbu">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
@@ -128,47 +128,55 @@
                                         </connections>
                                     </slider>
                                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" restorationIdentifier="right" contentHorizontalAlignment="center" contentVerticalAlignment="center" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="T9B-QI-ACR">
-                                        <rect key="frame" x="163" y="369" width="70" height="70"/>
+                                        <rect key="frame" x="918" y="402" width="70" height="70"/>
                                         <color key="backgroundColor" red="0.201410629423908" green="0.82328061180864753" blue="0.86274509799999999" alpha="1" colorSpace="calibratedRGB"/>
                                         <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                         <state key="normal" image="arrow_right">
                                             <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                         </state>
                                         <connections>
-                                            <action selector="lateralButtonClicked:" destination="lZr-Lc-zbu" eventType="touchUpInside" id="iQg-tB-7Tr"/>
+                                            <action selector="lateralButtonDown:" destination="lZr-Lc-zbu" eventType="touchDown" id="dbm-Ac-4zz"/>
+                                            <action selector="lateralButtonUp:" destination="lZr-Lc-zbu" eventType="touchUpInside" id="cJC-4V-JaK"/>
+                                            <action selector="lateralButtonUp:" destination="lZr-Lc-zbu" eventType="touchDragOutside" id="fef-qS-8ZA"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" restorationIdentifier="left" contentHorizontalAlignment="center" contentVerticalAlignment="center" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="M4p-pR-wlh">
-                                        <rect key="frame" x="80" y="369" width="70" height="70"/>
+                                        <rect key="frame" x="778" y="402" width="70" height="70"/>
                                         <color key="backgroundColor" red="0.3161487101324113" green="0.64871861014655663" blue="0.86274509799999999" alpha="1" colorSpace="calibratedRGB"/>
                                         <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                         <state key="normal" image="arrow_left">
                                             <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                         </state>
                                         <connections>
-                                            <action selector="lateralButtonClicked:" destination="lZr-Lc-zbu" eventType="touchUpInside" id="CCw-Lp-zkd"/>
+                                            <action selector="lateralButtonDown:" destination="lZr-Lc-zbu" eventType="touchDown" id="Jug-o3-uSa"/>
+                                            <action selector="lateralButtonUp:" destination="lZr-Lc-zbu" eventType="touchUpInside" id="JqI-Le-CU4"/>
+                                            <action selector="lateralButtonUp:" destination="lZr-Lc-zbu" eventType="touchDragOutside" id="KhL-v6-EFv"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" restorationIdentifier="back" contentHorizontalAlignment="center" contentVerticalAlignment="center" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JD4-wa-iPa">
-                                        <rect key="frame" x="163" y="447" width="70" height="70"/>
+                                        <rect key="frame" x="848" y="472" width="70" height="70"/>
                                         <color key="backgroundColor" red="0.31614871010000001" green="0.64871861009999998" blue="0.86274509799999999" alpha="1" colorSpace="calibratedRGB"/>
                                         <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                         <state key="normal" image="arrow_down">
                                             <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                         </state>
                                         <connections>
-                                            <action selector="lateralButtonClicked:" destination="lZr-Lc-zbu" eventType="touchUpInside" id="C1f-1G-4jX"/>
+                                            <action selector="lateralButtonDown:" destination="lZr-Lc-zbu" eventType="touchDown" id="R9X-jD-pjz"/>
+                                            <action selector="lateralButtonUp:" destination="lZr-Lc-zbu" eventType="touchDragOutside" id="GSu-5E-Xfy"/>
+                                            <action selector="lateralButtonUp:" destination="lZr-Lc-zbu" eventType="touchUpInside" id="cBx-Mq-JV5"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" restorationIdentifier="forward" contentHorizontalAlignment="center" contentVerticalAlignment="center" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Exs-gh-uXv">
-                                        <rect key="frame" x="80" y="447" width="70" height="70"/>
+                                        <rect key="frame" x="848" y="331" width="70" height="70"/>
                                         <color key="backgroundColor" red="0.20141062940000001" green="0.82328061180000001" blue="0.86274509799999999" alpha="1" colorSpace="calibratedRGB"/>
                                         <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                         <state key="normal" image="arrow_up">
                                             <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                         </state>
                                         <connections>
-                                            <action selector="lateralButtonClicked:" destination="lZr-Lc-zbu" eventType="touchUpInside" id="VVZ-0E-Tir"/>
+                                            <action selector="lateralButtonDown:" destination="lZr-Lc-zbu" eventType="touchDown" id="Exh-PQ-SSU"/>
+                                            <action selector="lateralButtonUp:" destination="lZr-Lc-zbu" eventType="touchDragOutside" id="80U-i1-R0T"/>
+                                            <action selector="lateralButtonUp:" destination="lZr-Lc-zbu" eventType="touchUpInside" id="9rt-tP-LYI"/>
                                         </connections>
                                     </button>
                                 </subviews>
@@ -212,7 +220,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="f5n-xx-WEw" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="883" y="1177"/>
+            <point key="canvasLocation" x="1013" y="1129"/>
         </scene>
     </scenes>
     <resources>
