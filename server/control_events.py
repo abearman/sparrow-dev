@@ -61,7 +61,7 @@ def lateralChange(json):
 		send_ned_velocity(x_vel, y_vel, 0, duration)
 
 
-def condition_yaw(heading, relative=False):
+def condition_yaw(heading, relative=True):
 		vehicle = mission_state.vehicle
 
 		direction = 1
