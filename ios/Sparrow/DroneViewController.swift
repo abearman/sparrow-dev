@@ -250,8 +250,8 @@ class DroneViewController: UIViewController, AnalogueStickDelegate, MKMapViewDel
     @IBAction func rotationSliderReleased(sender: AnyObject) {
         let initialValue = self.rotationSlider.value
         let finalValue = Float(0)
-        let difference = fabs(initialValue - finalValue)
-        let duration = Double(difference / 5.0)
+        //let difference = fabs(initialValue - finalValue)
+        let duration = 1.0
         UIView.animateWithDuration(0.2, delay: 0, options: .CurveLinear, animations: { () -> Void in
             self.rotationSlider.setValue(initialValue, animated: true)
             }) { (completed) -> Void in
