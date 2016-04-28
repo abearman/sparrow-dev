@@ -132,11 +132,6 @@ def send_ned_velocity(velocity_x, velocity_y, velocity_z, duration):
 		# send command to vehicle on 1 Hz cycle
 		for x in range(0,duration):
 				vehicle.send_mavlink(msg)
-				#loc = {}
-				#loc['lat'] = vehicle.location.global_frame.lat 
-				#loc['lat'] = vehicle.location.global_frame.lon
-				#json_loc = json.dumps(data)
-				#gpsChange(json_loc)
 				time.sleep(1)
 
 

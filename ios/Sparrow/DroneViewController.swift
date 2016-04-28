@@ -61,10 +61,25 @@ class DroneViewController: UIViewController, AnalogueStickDelegate, MKMapViewDel
     
     var inFlight: Bool = false
     
+    
+    // The IP address that the server is running on
+    let HOSTNAME = "10.34.165.198"
+    //let HOSTNAME = "10.1.1.188"
+    let PORT = "5000"
+    
+
+    private var buildSocketAddr: String {
+        get {
+            return "http://" + HOSTNAME + ":" + PORT
+        }
+    }
+    
     // let socket = SocketIOClient(socketURL: NSURL(string: "http://10.34.172.4:5000")!, options: [.Nsp("/control")])
     
-    let socket = SocketIOClient(socketURL: NSURL(string: "http://10.196.68.209:5000")!)
+    //let socket = SocketIOClient(socketURL: NSURL(string: "http://10.196.68.209:5000")!)
     
+    var socket = SocketIOClient(socketURL: NSURL(string: "")!)
+
     
     weak var delegate: AnalogueStickDelegate?
     
@@ -88,6 +103,9 @@ class DroneViewController: UIViewController, AnalogueStickDelegate, MKMapViewDel
         mapView.layer.borderColor = UIColor.blackColor().CGColor
         self.addHandlers()
         debugPrint("Connecting to server control socket...")
+        
+        // Creating the socket
+        socket = SocketIOClient(socketURL: NSURL(string: buildSocketAddr)!)
         self.socket.connect()
     }
     
@@ -109,7 +127,7 @@ class DroneViewController: UIViewController, AnalogueStickDelegate, MKMapViewDel
         let loc = CLLocationCoordinate2DMake(latitude!, longitude!)
         
         // call onLocationUpdate
-        // onLocationUpdate(loc)
+        onLocationUpdate(loc)
     }
  
     
@@ -180,7 +198,7 @@ class DroneViewController: UIViewController, AnalogueStickDelegate, MKMapViewDel
     @IBAction func launchButtonClicked(sender: AnyObject) {
         if (self.inFlight) {
             debugPrint("Sending land request")
-            HTTPPostJSON("http://10.196.68.209:5000/control/land", jsonObj: []) {
+            HTTPPostJSON(buildSocketAddr + "/control/land", jsonObj: []) {
                     (data: String, error: String?) -> Void in
                     if error != nil {
                         print(error)
@@ -193,7 +211,7 @@ class DroneViewController: UIViewController, AnalogueStickDelegate, MKMapViewDel
             self.inFlight = false
         } else {
             debugPrint("Sending take off request")
-            HTTPPostJSON("http://10.196.68.209:5000/control/take_off", jsonObj: []) {
+            HTTPPostJSON(buildSocketAddr + "/control/take_off", jsonObj: []) {
                     (data: String, error: String?) -> Void in
                     if error != nil {
                         print(error)
