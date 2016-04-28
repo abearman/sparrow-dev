@@ -111,6 +111,8 @@
                                         <color key="maximumTrackTintColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                         <connections>
                                             <action selector="rotationSliderChange:" destination="lZr-Lc-zbu" eventType="valueChanged" id="De1-Qh-1uA"/>
+                                            <action selector="rotationSliderReleased:" destination="lZr-Lc-zbu" eventType="touchUpInside" id="IVs-kJ-CWW"/>
+                                            <action selector="rotationSliderReleased:" destination="lZr-Lc-zbu" eventType="touchUpOutside" id="Tw4-7z-Mui"/>
                                         </connections>
                                     </slider>
                                     <slider opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="2" minValue="2" maxValue="5" translatesAutoresizingMaskIntoConstraints="NO" id="FG0-rd-ofc" userLabel="Altitude Slider">
