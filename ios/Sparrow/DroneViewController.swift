@@ -19,7 +19,6 @@ class DroneViewController: UIViewController, AnalogueStickDelegate, MKMapViewDel
     @IBOutlet weak var dropPinButton:UIButton!
     
     @IBOutlet weak var launchButton:UIButton!
-    @IBOutlet weak var launchButtonBG: UIView!
     
     @IBOutlet weak var coordinateLabel:UILabel!
     
@@ -34,6 +33,7 @@ class DroneViewController: UIViewController, AnalogueStickDelegate, MKMapViewDel
             let ratio : CGFloat = CGFloat (0.33)
             let size = CGSizeMake(thumbImage!.size.width * ratio, thumbImage!.size.height * ratio)
             altitudeSlider.setThumbImage(self.imageWithImage(thumbImage!, scaledToSize: size), forState: UIControlState.Normal)
+            altitudeSlider.continuous = false
             // altitudeSlider.setMaximumTrackImage(UIImage(named:"slider_track"), forState: UIControlState.Normal)
             // altitudeSlider.setMinimumTrackImage(UIImage(named:"slider_track"), forState: UIControlState.Normal)
         }
@@ -45,6 +45,7 @@ class DroneViewController: UIViewController, AnalogueStickDelegate, MKMapViewDel
             let ratio : CGFloat = CGFloat (0.33)
             let size = CGSizeMake(thumbImage!.size.width * ratio, thumbImage!.size.height * ratio)
             rotationSlider.setThumbImage(self.imageWithImage(thumbImage!, scaledToSize: size), forState: UIControlState.Normal)
+            rotationSlider.continuous = false
 
             // rotationSlider.setMaximumTrackImage(UIImage(named:"slider_track"), forState: UIControlState.Normal)
             // rotationSlider.setMinimumTrackImage(UIImage(named:"slider_track"), forState: UIControlState.Normal)
@@ -62,7 +63,7 @@ class DroneViewController: UIViewController, AnalogueStickDelegate, MKMapViewDel
     
     // let socket = SocketIOClient(socketURL: NSURL(string: "http://10.34.172.4:5000")!, options: [.Nsp("/control")])
     
-    let socket = SocketIOClient(socketURL: NSURL(string: "http://10.34.173.246:5000")!)
+    let socket = SocketIOClient(socketURL: NSURL(string: "http://10.1.1.191:5000")!)
     
     
     weak var delegate: AnalogueStickDelegate?
@@ -169,17 +170,17 @@ class DroneViewController: UIViewController, AnalogueStickDelegate, MKMapViewDel
     func updateLaunchButton() {
         if (self.inFlight) {
             launchButton.setTitle("Land", forState: UIControlState.Normal)
-            launchButtonBG.backgroundColor = UIColor(red: 255, green: 0, blue: 0, alpha: 1.0)
+            launchButton.backgroundColor = UIColor(red: 255, green: 0, blue: 0, alpha: 1.0)
         } else {
             launchButton.setTitle("Launch", forState: UIControlState.Normal)
-            launchButtonBG.backgroundColor = UIColor(red: 0, green: 255, blue: 0, alpha: 1.0)
+            launchButton.backgroundColor = UIColor(red: 0, green: 255, blue: 0, alpha: 1.0)
         }
     }
     
     @IBAction func launchButtonClicked(sender: AnyObject) {
         if (self.inFlight) {
             debugPrint("Sending land request")
-            HTTPPostJSON("http://10.34.173.246:5000/control/land", jsonObj: []) {
+            HTTPPostJSON("http://10.1.1.191:5000/control/land", jsonObj: []) {
                     (data: String, error: String?) -> Void in
                     if error != nil {
                         print(error)
@@ -192,7 +193,7 @@ class DroneViewController: UIViewController, AnalogueStickDelegate, MKMapViewDel
             self.inFlight = false
         } else {
             debugPrint("Sending take off request")
-            HTTPPostJSON("http://10.34.173.246:5000/control/take_off", jsonObj: []) {
+            HTTPPostJSON("http://10.1.1.191:5000/control/take_off", jsonObj: []) {
                     (data: String, error: String?) -> Void in
                     if error != nil {
                         print(error)
@@ -264,13 +265,14 @@ class DroneViewController: UIViewController, AnalogueStickDelegate, MKMapViewDel
         debugPrint("analogue x is: %f", self.analogueStick.xValue)
         debugPrint("analogue y is: %f", self.analogueStick.yValue)
         // TODO: determine duration dynamically
-        let lateralCommandArgs = [
+        /*let lateralCommandArgs = [
             "x_offset": self.analogueStick.xValue,
             "y_offset": self.analogueStick.yValue,
             "duration": 1
         ]
         
         socket.emit("lateral_cmd", lateralCommandArgs)
+         */
     }
     
     

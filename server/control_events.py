@@ -6,7 +6,7 @@ from server_state import socketio
 
 import mission_state
 
-from dronekit import connect, VehicleMode
+from dronekit import connect, VehicleMode, LocationGlobalRelative
 import time
 import sys
 from pymavlink import mavutil
@@ -94,8 +94,8 @@ def condition_yaw(heading, relative=False):
 		else:
 			target_yaw = math.radians(heading)
 
-		while abs(vehicle.attitude.yaw - target_yaw) > 0.01:
-			pass
+		#while abs(vehicle.attitude.yaw - target_yaw) > 0.01:
+		#	pass
 
 		
 def send_ned_velocity(velocity_x, velocity_y, velocity_z, duration):

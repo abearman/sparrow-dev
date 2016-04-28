@@ -25,9 +25,9 @@ def drone_init():
 
     # Connect to the Vehicle.
     # simulator
-    target = 'tcp:127.0.0.1:5760' 
+    # target = 'tcp:127.0.0.1:5760' 
     # drone
-    # target = 'udpin:0.0.0.0:14550'
+    target = 'udpin:0.0.0.0:14550'
     print "Connecting to vehicle on: " + target
     mission_state.vehicle = connect(target, wait_ready=True)  
     print "Connected to vehicle..."
