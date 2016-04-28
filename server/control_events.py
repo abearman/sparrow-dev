@@ -39,7 +39,21 @@ def rotationChange(json):
 		condition_yaw(heading)
 
 @socketio.on('lateral_cmd') #, namespace=CONTROL_NAMESPACE)
-def lateralChange(json):
+def lateralChangeDiscrete(json):
+	print "[socket][control][lateral]: " + str(json)
+	direction = json['direction']
+	# args are x_vel, y_vel, z_vel, duration
+	if direction == "left":
+		send_ned_velocity(-1, 0, 0, duration)
+	elif direction == "right":
+		send_ned_velocity(1, 0, 0, duration)
+	elif direction == "forward":
+		send_ned_velocity(0, 1, 0, duration)
+	elif direction == "back":
+		send_ned_velocity(0, -1, 0, duration)	
+
+
+def lateralChangeJoystick(json):
 		print "[socket][control][lateral]: " + str(json)
 		x_offset = json['x_offset']
 		y_offset = json['y_offset']

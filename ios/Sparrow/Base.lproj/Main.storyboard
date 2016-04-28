@@ -103,7 +103,7 @@
                                 <rect key="frame" x="874" y="630" width="130" height="130"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             </view>
-                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="0mV-Gp-vom" userLabel="Camera View">
+                            <view contentMode="scaleToFill" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="0mV-Gp-vom" userLabel="Camera View">
                                 <rect key="frame" x="-1" y="80" width="1025" height="542"/>
                                 <subviews>
                                     <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="it6-1N-EKc">
@@ -127,8 +127,51 @@
                                             <action selector="altitudeSliderChange:" destination="lZr-Lc-zbu" eventType="valueChanged" id="qWo-L7-30b"/>
                                         </connections>
                                     </slider>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" restorationIdentifier="right" contentHorizontalAlignment="center" contentVerticalAlignment="center" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="T9B-QI-ACR">
+                                        <rect key="frame" x="163" y="369" width="70" height="70"/>
+                                        <color key="backgroundColor" red="0.201410629423908" green="0.82328061180864753" blue="0.86274509799999999" alpha="1" colorSpace="calibratedRGB"/>
+                                        <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                        <state key="normal" image="arrow_right">
+                                            <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="lateralButtonClicked:" destination="lZr-Lc-zbu" eventType="touchUpInside" id="iQg-tB-7Tr"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" restorationIdentifier="left" contentHorizontalAlignment="center" contentVerticalAlignment="center" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="M4p-pR-wlh">
+                                        <rect key="frame" x="80" y="369" width="70" height="70"/>
+                                        <color key="backgroundColor" red="0.3161487101324113" green="0.64871861014655663" blue="0.86274509799999999" alpha="1" colorSpace="calibratedRGB"/>
+                                        <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                        <state key="normal" image="arrow_left">
+                                            <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="lateralButtonClicked:" destination="lZr-Lc-zbu" eventType="touchUpInside" id="CCw-Lp-zkd"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" restorationIdentifier="back" contentHorizontalAlignment="center" contentVerticalAlignment="center" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JD4-wa-iPa">
+                                        <rect key="frame" x="163" y="447" width="70" height="70"/>
+                                        <color key="backgroundColor" red="0.31614871010000001" green="0.64871861009999998" blue="0.86274509799999999" alpha="1" colorSpace="calibratedRGB"/>
+                                        <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                        <state key="normal" image="arrow_down">
+                                            <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="lateralButtonClicked:" destination="lZr-Lc-zbu" eventType="touchUpInside" id="C1f-1G-4jX"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" restorationIdentifier="forward" contentHorizontalAlignment="center" contentVerticalAlignment="center" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Exs-gh-uXv">
+                                        <rect key="frame" x="80" y="447" width="70" height="70"/>
+                                        <color key="backgroundColor" red="0.20141062940000001" green="0.82328061180000001" blue="0.86274509799999999" alpha="1" colorSpace="calibratedRGB"/>
+                                        <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                        <state key="normal" image="arrow_up">
+                                            <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="lateralButtonClicked:" destination="lZr-Lc-zbu" eventType="touchUpInside" id="VVZ-0E-Tir"/>
+                                        </connections>
+                                    </button>
                                 </subviews>
-
                                 <constraints>
                                     <constraint firstItem="it6-1N-EKc" firstAttribute="leading" secondItem="0mV-Gp-vom" secondAttribute="leading" constant="5" id="BDE-D1-m0a"/>
                                     <constraint firstItem="it6-1N-EKc" firstAttribute="top" secondItem="0mV-Gp-vom" secondAttribute="top" constant="5" id="EPk-4N-zv2"/>
@@ -172,4 +215,10 @@
             <point key="canvasLocation" x="883" y="1177"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="arrow_down" width="128" height="128"/>
+        <image name="arrow_left" width="128" height="128"/>
+        <image name="arrow_right" width="128" height="128"/>
+        <image name="arrow_up" width="128" height="128"/>
+    </resources>
 </document>
