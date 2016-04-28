@@ -11,7 +11,7 @@ import pylab
 from dronekit_sitl import SITL
 import cv2
 import sys
-import datetime
+from datetime import datetime
 
 # 1 = Roll
 # 2 = Pitch
@@ -36,13 +36,20 @@ channels_mapping = {NORTH: '2', EAST: '1', DOWN: '3'}
 
 DELTA_T = 0.05	# seconds (20 Hz)
 
-use_simulator = True
+use_simulator = True 
 vehicle = None
 use_tango_location = False
+start_time = 0.0
+sleep_time = 0.0 
 
+time_past = []
 north_past_positions = []
 east_past_positions = []
 down_past_positions = []
+
+u_north_past = []
+u_east_past = []
+u_down_past = []
 
 simulator_hyperparams = {
 	"K_p": {PITCH: -15.0,
@@ -65,30 +72,33 @@ simulator_hyperparams = {
 # Drone without Tango
 K_p = {PITCH: -15.0,
 					ROLL: 17.0,
-					THROTTLE: 20.0} 
+					THROTTLE: 10.0} 
 
 K_i = {PITCH: 0.0,
 					ROLL: 0.0,
-					THROTTLE: 0.1}
+					THROTTLE: 0.0}
 
 K_d = {PITCH: -1.0,
 					ROLL: 7.0,
-					THROTTLE: 3.6}
+					THROTTLE: 0.0}
 
 bias = {PITCH: 1536.0,
 					 ROLL: 1537.0,
-					 THROTTLE: 1404.0}
+					 THROTTLE: 1404.0}	# 1480 on drone
 
 
-def get_north():
-	return vehicle.location.local_frame.north
+def seconds_from_start():
+   dt = datetime.now() - start_time
+   ms = (dt.days * 24 * 60 * 60 + dt.seconds) * 1000 + dt.microseconds / 1000.0
+   return ms / 1000.0
 
-def get_east():
-	return vehicle.location.local_frame.east
 
-# Up is positive, down is negative
-def get_alt(): 
-	return vehicle.location.global_relative_frame.alt
+def calculate_sleep_time():
+	freq_in_seconds = (1 / vehicle.parameters['RC_SPEED'])
+	freq_in_millis = freq_in_seconds * 1000
+	millis_round_up = math.ceil(freq_in_millis)
+	seconds_round_up = millis_round_up / 1000
+	return seconds_round_up	
 
 
 def emergency_land():
@@ -99,8 +109,8 @@ def emergency_land():
 	vehicle.channels.overrides = {}
 	print "Landing"
 	vehicle.mode = VehicleMode("LAND")
-	while (get_alt()) > 0.0:
-		print get_alt()	
+	while (vehicle.location.global_relative_frame.alt) > 0.0:
+		print vehicle.location.global_relative_frame.alt	
 		time.sleep(1)
 	exit()
 
@@ -141,7 +151,11 @@ def arm_vehicle(mode):
 	"""
 	global vehicle
 	vehicle.mode = VehicleMode(mode)
-	print "Flight mode: ", vehicle.mode
+	
+	while not vehicle.mode == VehicleMode(mode):
+	#while True:
+		print "Flight mode: ", vehicle.mode
+	print "Final flight mode: ", vehicle.mode 
 
 	# Lower throttle before takeoff is required in STABILIZE mode
 	if mode == "STABILIZE":
@@ -160,34 +174,48 @@ def arm_vehicle(mode):
 	print "Armed!"
 
 
-def plot_2d_graphs():
+def plot_2d_graphs(target_alt=None):
 	"""Initializes three 2D plot for the drone's position (north, east, and down) over time."""
 	ts = time.time()
-	st = datetime.datetime.fromtimestamp(ts).strftime('%Y-%m-%d %H:%M:%S')
+	st = datetime.fromtimestamp(ts).strftime('%Y-%m-%d %H:%M:%S')
 
 	plt.clf()
 	plt.xlabel('time (seconds)')
 	plt.ylabel('displacement north (meters)')
 	plt.suptitle(' K_p: ' + str(K_p[sticks_mapping[NORTH]]) + ' K_i: ' + str(K_i[sticks_mapping[NORTH]]) + ' K_d: ' + str(K_d[sticks_mapping[NORTH]]) + ' bias: ' + str(bias[sticks_mapping[NORTH]]) + ' is simulator: ' + str(use_simulator))
-	x = np.linspace(0, DELTA_T*len(north_past_positions), len(north_past_positions))
-	plt.scatter(x, north_past_positions)
-	plt.savefig("graphs/north_" + st)
+	plt.scatter(time_past, north_past_positions)
+	plt.savefig("graphs/north/position_" + st)
 
 	plt.clf()
 	plt.xlabel('time (seconds)')
 	plt.ylabel('displacement east (meters)')
 	plt.suptitle(' K_p: ' + str(K_p[sticks_mapping[EAST]]) + ' K_i: ' + str(K_i[sticks_mapping[EAST]]) + ' K_d: ' + str(K_d[sticks_mapping[EAST]]) + ' bias: ' + str(bias[sticks_mapping[EAST]]) + ' is simulator: ' + str(use_simulator))
-	x = np.linspace(0, DELTA_T*len(east_past_positions), len(east_past_positions))
-	plt.scatter(x, east_past_positions)
-	plt.savefig("graphs/east_" + st)
+	plt.scatter(time_past, east_past_positions)
+	plt.savefig("graphs/east/position_" + st)
 
 	plt.clf()
 	plt.xlabel('time (seconds)')
 	plt.ylabel('displacement down (meters)')
 	plt.suptitle(' K_p: ' + str(K_p[sticks_mapping[DOWN]]) + ' K_i: ' + str(K_i[sticks_mapping[DOWN]]) + ' K_d: ' + str(K_d[sticks_mapping[DOWN]]) + ' bias: ' + str(bias[sticks_mapping[DOWN]]) + ' is simulator: ' + str(use_simulator))
-	x = np.linspace(0, DELTA_T*len(north_past_positions), len(north_past_positions))
-	plt.scatter(x, down_past_positions)
-	plt.savefig("graphs/down_" + st)
+	plt.scatter(time_past, down_past_positions, color="b")
+	plt.axhline(y=target_alt)
+	u_down_shrunk = [x / 100 for x in u_down_past]
+	plt.scatter(time_past, u_down_shrunk, color="r")
+	plt.savefig("graphs/down/position_" + st)
+
+
+# This only works for down right now
+def plot_control_values():
+	ts = time.time()
+	st = datetime.fromtimestamp(ts).strftime('%Y-%m-%d %H:%M:%S')
+
+	plt.clf()
+	plt.xlabel('time (seconds)')
+	plt.ylabel('u values (pwm)')
+	plt.suptitle(' K_p: ' + str(K_p[sticks_mapping[DOWN]]) + ' K_i: ' + str(K_i[sticks_mapping[DOWN]]) + ' K_d: ' + str(K_d[sticks_mapping[DOWN]]) + ' bias: ' + str(bias[sticks_mapping[DOWN]]) + ' is simulator: ' + str(use_simulator))
+	x = np.linspace(0, DELTA_T*len(u_down_past), len(u_down_past))
+	plt.scatter(x, u_down_past)
+	plt.savefig("graphs/down/throttle_" + st)	
 
 
 def takeoff(target_alt, loiter=False):
@@ -218,11 +246,11 @@ def move_one_direction(target_displacement, direction, loiter=False):
 
 	displacement_actual = 0.0
 	if direction == NORTH:
-		displacement_actual = get_north() 
+		displacement_actual = vehicle.location.local_frame.north
 	elif direction == EAST:
-		displacement_actual = get_east() 
+		displacement_actual = vehicle.location.local_frame.east
 	elif direction == DOWN:
-		displacement_actual = get_alt() 
+		displacement_actual = vehicle.location.global_relative_frame.alt	
 
 	while loiter or (abs(target_displacement - displacement_actual) > 0.1):
 		imgfile = cv2.imread("img.jpg")
@@ -230,29 +258,38 @@ def move_one_direction(target_displacement, direction, loiter=False):
 		key = cv2.waitKey(1) & 0xFF
 
 		if direction == NORTH:
-			displacement_actual = get_north() 
+			displacement_actual = vehicle.location.local_frame.north
 		elif direction == EAST:
-			displacement_actual = get_east() 
+			displacement_actual = vehicle.location.local_frame.east
 		elif direction == DOWN:
-			displacement_actual = get_down() 
+			displacement_actual = vehicle.location.global_relative_frame.alt		
 
-		PV[NORTH].append(north_actual)
-		north_past_positions.append(north_actual)
+		time_past.append(seconds_from_start())
 
-		PV[EAST].append(east_actual)
-		east_past_positions.append(east_actual)
+		PV[NORTH].append(vehicle.location.local_frame.north)
+		north_past_positions.append(vehicle.location.local_frame.north)
 
-		PV[DOWN].append(alt_actual)
-		down_past_positions.append(alt_actual)
+		PV[EAST].append(vehicle.location.local_frame.east)
+		east_past_positions.append(vehicle.location.local_frame.east)
+
+		PV[DOWN].append(vehicle.location.global_relative_frame.alt)	
+		down_past_positions.append(vehicle.location.global_relative_frame.alt)	
 
 		error[direction].append(target_displacement - displacement_actual)
 		u_t = controller_pid(error[direction], sticks_mapping[direction]) 
 		print "u_t: ", u_t, " direction: ", direction 
+
+		if direction == NORTH:
+			u_north_past.append(u_t)
+		elif direction == EAST:
+			u_east_past.append(u_t)
+		elif direction == DOWN:
+			u_down_past.append(u_t)	
+
 		vehicle.channels.overrides[channels_mapping[direction]] = u_t
 
-		#time.sleep(DELTA_T)
-		print "Current loc: ", vehicle.location.local_frame
 		print "Global loc: ", vehicle.location.global_relative_frame
+		time.sleep(sleep_time)
 
 		# if the 'q' key is pressed, stop the loop
 		if key == ord("q"):
@@ -273,18 +310,20 @@ def move_to_waypoint(target_north, target_east, target_down):
 	error = {NORTH: [], EAST: [], DOWN: []}  # Arrays of past errors for each process variable
 	PV = {NORTH: [], EAST: [], DOWN: []}	# Arrays of past values for each process variable (i.e., altitudes)
 
-	north_actual = get_north()
-	east_actual = get_east() 
-	down_actual = get_down() 
+	north_actual = vehicle.location.local_frame.north
+	east_actual = vehicle.location.local_frame.east
+	down_actual = vehicle.location.global_relative_frame.alt 
 
 	while (abs(north_actual - target_north) > 0.1) or (abs(east_actual - target_east) > 0.1) or (abs(down_actual - target_down) > 0.1):
 		imgfile = cv2.imread("img.jpg")
 		cv2.imshow("Img", imgfile)
 		key = cv2.waitKey(1) & 0xFF
 					
-		north_actual = get_north() 
-		east_actual = get_east() 
-		down_actual = get_alt() 
+		north_actual = vehicle.location.local_frame.north
+		east_actual = vehicle.location.local_frame.east 
+		down_actual = vehicle.location.global_relative_frame.alt 
+
+		time_past.append(seconds_from_start())
 
 		PV[NORTH].append(north_actual)
 		north_past_positions.append(north_actual)
@@ -304,12 +343,11 @@ def move_to_waypoint(target_north, target_east, target_down):
 		u_down = controller_pid(error[DOWN], sticks_mapping[DOWN])
 		print "u down: ", u_down
 
-		vehicle.channels.overrides[channels_mapping[NORTH]] = u_north	# pitch 
+		vehicle.channels.overrides[channels_mapping[NORTH]] =  u_north	# pitch 
 		vehicle.channels.overrides[channels_mapping[EAST]] = u_east  # roll
 		vehicle.channels.overrides[channels_mapping[DOWN]] = u_down  # throttle
 
-		#time.sleep(DELTA_T)
-		print "Current loc: ", vehicle.location.local_frame	
+		print "Global loc: ", vehicle.location.global_relative_frame
 
 		# if the 'q' key is pressed, stop the loop
 		if key == ord("q"):
@@ -360,35 +398,41 @@ def main():
 	global vehicle
 	global use_tango_location
 	global use_simulator
+	global start_time
+	global sleep_time
 
 	try:
 		use_simulator = True 
 		use_tango_location = False 
-		mode = "STABILIZE"
-		takeoff_height = 8.0
+		mode = "GUIDED"
+		takeoff_height = 3.0
 		waypoints = [(0.0, 0.0, 3.0)]
-		#waypoints = []
 
 		if use_tango_location: connect_to_server()
 		connect_to_vehicle(is_simulator=use_simulator)
+		#sleep_time = calculate_sleep_time() 
+		sleep_time = 0.1
+		print "Sleep time: ", sleep_time
+
 		arm_vehicle(mode)
-		
+	
+		start_time = datetime.now()	
 		takeoff(takeoff_height, loiter=True)
 		#move_one_direction(3.0, NORTH, loiter=True)
 
-		for wp in waypoints:
-			print "Switching waypoint"
-			move_to_waypoint(*wp)	
+		#for wp in waypoints:
+		#	print "Switching waypoint"
+		#	move_to_waypoint(*wp)	
 		
 		land()
 	
 	except:
 		print "Closing vehicle before terminating"
 		vehicle.close()
-		plot_2d_graphs()
 	finally:
 		print "Closing vehicle before terminating"
 		vehicle.close()
-		plot_2d_graphs()
+		plot_2d_graphs(target_alt=takeoff_height)
+		plot_control_values()	
 
 if __name__ == "__main__": main()

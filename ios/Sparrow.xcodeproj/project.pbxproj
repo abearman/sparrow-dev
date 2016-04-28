@@ -58,6 +58,7 @@
 		49CC318E1CCB24CF00E9A905 /* Oswald-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 49CC317E1CCB248400E9A905 /* Oswald-Regular.ttf */; };
 		49CC318F1CCB24D100E9A905 /* Oswald-RegularItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 49CC317F1CCB248400E9A905 /* Oswald-RegularItalic.ttf */; };
 		49CC31901CCB24D300E9A905 /* Oswald-Stencil.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 49CC31801CCB248400E9A905 /* Oswald-Stencil.ttf */; };
+		BDDE047A1CD15A9E00E61271 /* CurrentLocationIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDDE04791CD15A9E00E61271 /* CurrentLocationIcon.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -138,6 +139,7 @@
 		49CC317E1CCB248400E9A905 /* Oswald-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Oswald-Regular.ttf"; sourceTree = "<group>"; };
 		49CC317F1CCB248400E9A905 /* Oswald-RegularItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Oswald-RegularItalic.ttf"; sourceTree = "<group>"; };
 		49CC31801CCB248400E9A905 /* Oswald-Stencil.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Oswald-Stencil.ttf"; sourceTree = "<group>"; };
+		BDDE04791CD15A9E00E61271 /* CurrentLocationIcon.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CurrentLocationIcon.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -190,6 +192,7 @@
 			children = (
 				492AF85F1CC9B34B00A805F3 /* AppDelegate.swift */,
 				492AF8661CC9B34B00A805F3 /* DroneViewController.swift */,
+				BDDE04791CD15A9E00E61271 /* CurrentLocationIcon.swift */,
 				492AF8961CC9B59000A805F3 /* DroneControlComponents */,
 				492AF8681CC9B34B00A805F3 /* Main.storyboard */,
 				492AF89F1CC9CE6600A805F3 /* JSONHelper.swift */,
@@ -363,7 +366,7 @@
 				TargetAttributes = {
 					492AF85B1CC9B34B00A805F3 = {
 						CreatedOnToolsVersion = 7.1.1;
-						DevelopmentTeam = 9ZL36X9UGD;
+						DevelopmentTeam = VWRC5P7XXF;
 					};
 					492AF8741CC9B34B00A805F3 = {
 						CreatedOnToolsVersion = 7.1.1;
@@ -455,6 +458,7 @@
 				492AF89E1CC9BA0D00A805F3 /* Joystick.m in Sources */,
 				4981887C1CCADEB700029A6D /* SocketAckManager.swift in Sources */,
 				498188821CCADEB700029A6D /* SocketEnginePollable.swift in Sources */,
+				BDDE047A1CD15A9E00E61271 /* CurrentLocationIcon.swift in Sources */,
 				4981887E1CCADEB700029A6D /* SocketClientSpec.swift in Sources */,
 				498188841CCADEB700029A6D /* SocketEngineWebsocket.swift in Sources */,
 				4981888E1CCADEB700029A6D /* SwiftRegex.swift in Sources */,
@@ -614,11 +618,13 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = Sparrow/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = sparrow.org.Sparrow;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "Sparrow/Sparrow-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				TARGETED_DEVICE_FAMILY = 2;
@@ -631,11 +637,13 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = Sparrow/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = sparrow.org.Sparrow;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "Sparrow/Sparrow-Bridging-Header.h";
 				TARGETED_DEVICE_FAMILY = 2;
 			};
