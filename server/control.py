@@ -10,12 +10,12 @@ import sys
 from pymavlink import mavutil
 
 def drone_init():
-		print "Start simulator (SITL)"
-		from dronekit_sitl import SITL
-		sitl = SITL()
-		sitl.download('copter', '3.3', verbose=True)
-		sitl_args = ['-I0', '--model', 'quad', '--home=-35.363261,149.165230,584,353']
-		sitl.launch(sitl_args, await_ready=True, restart=True)
+		#print "Start simulator (SITL)"
+		#from dronekit_sitl import SITL
+		#sitl = SITL()
+		#sitl.download('copter', '3.3', verbose=True)
+		#sitl_args = ['-I0', '--model', 'quad', '--home=-35.363261,149.165230,584,353']
+		#sitl.launch(sitl_args, await_ready=True, restart=True)
 		
 
 		# Import DroneKit-Python
@@ -23,9 +23,9 @@ def drone_init():
 
 		# Connect to the Vehicle.
 		# simulator
-		target = 'tcp:127.0.0.1:5760' 
+		#target = 'tcp:127.0.0.1:5760' 
 		# drone
-		# target = 'udpin:0.0.0.0:14550'
+		target = 'udpin:0.0.0.0:14550'
 		print "Connecting to vehicle on: " + target
 		mission_state.vehicle = connect(target, wait_ready=True)	
 		print "Connected to vehicle..."
@@ -43,11 +43,12 @@ def arm_and_takeoff(aTargetAltitude):
 
 		print "[control]: Arming motors"
 		# Copter should arm in GUIDED mode
-		mission_state.vehicle.mode		= VehicleMode("GUIDED")
-		while not vehicle.mode == VehicleMode("GUIDED"):
+		mission_state.vehicle.mode = VehicleMode("GUIDED")
+		print "Setting mode to GUIDED"
+		while not mission_state.vehicle.mode == VehicleMode("GUIDED"):
 			time.sleep(1)
-			print "mode: ", vehicle.mode
-		print "mode: ", vehicle.mode
+			print "mode: ", mission_state.vehicle.mode
+		print "Final mode: ", mission_state.vehicle.mode
 
 		mission_state.vehicle.armed		= True
 

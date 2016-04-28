@@ -3,6 +3,7 @@
 from flask import session
 from flask.ext.socketio import emit, join_room, leave_room
 from server_state import socketio
+import json
 
 import mission_state
 
@@ -44,14 +45,14 @@ def lateralChangeDiscrete(json):
 	direction = json['direction']
 	# args are x_vel, y_vel, z_vel, duration
 	if direction == "left":
-		send_ned_velocity(-1, 0, 0, duration)
+		send_ned_velocity(-1, 0, 0, 1)
 	elif direction == "right":
-		send_ned_velocity(1, 0, 0, duration)
+		send_ned_velocity(1, 0, 0, 1)
 	elif direction == "forward":
-		send_ned_velocity(0, 1, 0, duration)
+		send_ned_velocity(0, -1, 0, 1)
 	elif direction == "back":
-		send_ned_velocity(0, -1, 0, duration)	
-
+		send_ned_velocity(0, 1, 0, 1)	
+	send_ned_velocity(0, 0, 0, 1)
 
 def lateralChangeJoystick(json):
 		print "[socket][control][lateral]: " + str(json)
@@ -131,6 +132,11 @@ def send_ned_velocity(velocity_x, velocity_y, velocity_z, duration):
 		# send command to vehicle on 1 Hz cycle
 		for x in range(0,duration):
 				vehicle.send_mavlink(msg)
+				#loc = {}
+				#loc['lat'] = vehicle.location.global_frame.lat 
+				#loc['lat'] = vehicle.location.global_frame.lon
+				#json_loc = json.dumps(data)
+				#gpsChange(json_loc)
 				time.sleep(1)
 
 
