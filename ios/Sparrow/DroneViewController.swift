@@ -109,7 +109,7 @@ class DroneViewController: UIViewController, AnalogueStickDelegate, MKMapViewDel
         let loc = CLLocationCoordinate2DMake(latitude!, longitude!)
         
         // call onLocationUpdate
-        onLocationUpdate(loc)
+        // onLocationUpdate(loc)
     }
  
     
@@ -338,8 +338,8 @@ class DroneViewController: UIViewController, AnalogueStickDelegate, MKMapViewDel
             return circleRenderer
         }
         return MKPolylineRenderer();
+    }*/
+
     }
-
-
 }
 
