@@ -318,7 +318,7 @@ class GPS:
         elif 72 <= lat < 80: return 'X'
         else: return 'Z'
 
-
+'''
 if __name__ == "__main__":
     wgs84 = WGS84()
     gps = GPS()
@@ -332,13 +332,12 @@ if __name__ == "__main__":
     print "calculated_ecef_movement: ", calculatedEcef
     print gps.ecef2lla(calculatedEcef)
     print "ecef: ", origin_ecef
-    print "lla: ", gps.ecef2lla(origin_ecef)
+    print "lla: ", gps.ecef2lla(origin_ecef)'''
 
-origin = (-2700237.4486272223, -4292364.498032091, 3855486.3796190713)
-
-def getOrigin(origin):
+def getOrigin(originLLA):
     global origin_ecef
-    origin_ecef = origin 
+    origin_ecef = gps.lla2ecef(originLLA)
+    return origin_ecef
 
 def getLLAFromNED(NED):
     global origin_ecef
