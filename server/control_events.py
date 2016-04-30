@@ -6,6 +6,7 @@ from server_state import socketio
 import json
 
 import mission_state
+from mission_state import gps_init
 import navigation
 
 from dronekit import connect, VehicleMode, LocationGlobalRelative
@@ -25,9 +26,10 @@ def on_connect():
 @socketio.on('gps_pos') # , namespace=CONTROL_NAMESPACE)
 def gpsChange(json):
 		loc = json
-		if mission_state.gps_init == False:
+		global gps_init
+		if gps_init == False:
 			navigation.getOrigin(json)
-			mission_state.gps_init = True
+			gps_init = True
 		print "[socket][control][gps_pos]: " + str(json)
 		emit("gps_pos_ack", loc, broadcast=True)
 

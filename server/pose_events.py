@@ -19,8 +19,8 @@ def pose_update(json):
     # JSON arg should have Tango position object
     global pose
     pose = json
-    if gps_init:
-        navigation.getLLAFromNED(json)
+    # print "[socket][pose_update]: update GPS"
+    navigation.getLLAFromNED(json)
     # print "[socket][pose_update]: " + str(json)
     emit("pose_update_ack", namespace=POSE_NAMESPACE)    
     # print "[socket][pose_current_ack]: " + str(pose)

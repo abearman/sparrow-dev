@@ -15,6 +15,7 @@ Classes:
     WGS84 - constant parameters for GPS class
 """
 #Import required packages
+import unicodedata
 from math import sqrt, pi, sin, cos, tan, atan, atan2
 from numpy import array, dot
 #from numarray import array, dot, zeros, Float64
@@ -195,6 +196,9 @@ class GPS:
         Rt2e = array([[-sin(lat)*cos(lon), -sin(lon), -cos(lat)*cos(lon)],
                     [-sin(lat)*sin(lon), cos(lon), -cos(lat)*sin(lon)],
                     [cos(lat), 0., -sin(lat)]])
+        # print "Type of ned: " + str(type(ned[0]))
+        # print "Type of origin: " + str(type(origin[0]))
+        # print "Type of Rt2e: " + str(type(Rt2e[0]))
         return list(dot(Rt2e, array(ned)) + array(origin))
 
     def ned2pae(self, ned):
@@ -339,14 +343,19 @@ gps = GPS()
 
 def getOrigin(originLLAJSON):
     global origin_ecef
-    originLLA = (originLLAJSON['lat'], originLLAJSON['lon'], 0)
+    originLLA = (originLLAJSON['lat'], originLLAJSON['long'], 0)
     origin_ecef = gps.lla2ecef(originLLA)
+    print "[navigation][gps_init][origin]: " + str(origin_ecef)
     return origin_ecef
 
 def getLLAFromNED(NEDJSON):
     global origin_ecef
-    NED = (NEDJSON['x'], NEDJSON['y'], NEDJSON['z'])    
-    calculatedECEF = gps.ned2ecef(NED, origin_ecef)
-    #send Mavlink command
+    NED = (float(str(NEDJSON['x'])), 
+           float(str(NEDJSON['y'])), 
+           float(str(NEDJSON['z'])))
+    # print str(NED)
+    # print str(origin_ecef)
+    calculatedEcef = gps.ned2ecef(NED, origin_ecef)
+    # TODO: send Mavlink command
     print gps.ecef2lla(calculatedEcef)
     return gps.ecef2lla(calculatedEcef)
