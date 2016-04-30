@@ -4,7 +4,9 @@ from flask import session
 from flask.ext.socketio import emit, join_room, leave_room
 from server_state import socketio
 
-from mission_state import path, pose
+from mission_state import path, pose, gps_init
+
+import navigation
 
 POSE_NAMESPACE = "/pose"
 
@@ -17,6 +19,8 @@ def pose_update(json):
     # JSON arg should have Tango position object
     global pose
     pose = json
+    if gps_init:
+        navigation.getLLAFromNED(json)
     # print "[socket][pose_update]: " + str(json)
     emit("pose_update_ack", namespace=POSE_NAMESPACE)    
     # print "[socket][pose_current_ack]: " + str(pose)
