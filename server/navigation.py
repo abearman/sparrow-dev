@@ -334,14 +334,19 @@ if __name__ == "__main__":
     print "ecef: ", origin_ecef
     print "lla: ", gps.ecef2lla(origin_ecef)'''
 
-def getOrigin(originLLA):
+wgs84 = WGS84()
+gps = GPS()
+
+def getOrigin(originLLAJSON):
     global origin_ecef
+    originLLA = (originLLAJSON['lat'], originLLAJSON['lon'], 0)
     origin_ecef = gps.lla2ecef(originLLA)
     return origin_ecef
 
-def getLLAFromNED(NED):
+def getLLAFromNED(NEDJSON):
     global origin_ecef
-    wgs84 = WGS84()
-    gps = GPS()    
+    NED = (NEDJSON['x'], NEDJSON['y'], NEDJSON['z'])    
     calculatedECEF = gps.ned2ecef(NED, origin_ecef)
+    #send Mavlink command
+    print gps.ecef2lla(calculatedEcef)
     return gps.ecef2lla(calculatedEcef)
