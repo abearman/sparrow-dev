@@ -336,3 +336,13 @@ if __name__ == "__main__":
 
 origin = (-2700237.4486272223, -4292364.498032091, 3855486.3796190713)
 
+def getOrigin(origin):
+    global origin_ecef
+    origin_ecef = origin 
+
+def getLLAFromNED(NED):
+    global origin_ecef
+    wgs84 = WGS84()
+    gps = GPS()    
+    calculatedECEF = gps.ned2ecef(NED, origin_ecef)
+    return gps.ecef2lla(calculatedEcef)
