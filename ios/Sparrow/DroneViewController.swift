@@ -85,7 +85,7 @@ class DroneViewController: UIViewController, AnalogueStickDelegate, MKMapViewDel
         logo.image = UIImage(named: "logo_icon")
         analogueStick.delegate = self
         mapView.delegate = self
-        mapView.layer.borderWidth = 5
+        mapView.layer.borderWidth = 2
         mapView.layer.borderColor = UIColor.blackColor().CGColor
         self.addHandlers()
         debugPrint("Connecting to server control socket...")
