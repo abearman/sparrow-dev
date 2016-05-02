@@ -81,6 +81,7 @@
                                             <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                         </state>
                                         <connections>
+                                            <action selector="dropPin:" destination="lZr-Lc-zbu" eventType="touchUpInside" id="GNN-1w-H5k"/>
                                             <action selector="dropPinButtonClicked:" destination="lZr-Lc-zbu" eventType="touchUpInside" id="QUQ-FD-R76"/>
                                         </connections>
                                     </button>

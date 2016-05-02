@@ -356,6 +356,12 @@ class DroneViewController: UIViewController, AnalogueStickDelegate, MKMapViewDel
             }
             return markerView
         }
+        else if (annotation is MKPointAnnotation) {
+            let pinView = MKPinAnnotationView()
+            pinView.pinTintColor = UIColor.redColor()
+            pinView.animatesDrop = true
+            return pinView
+        }
         return MKAnnotationView()
     }
     
@@ -382,6 +388,23 @@ class DroneViewController: UIViewController, AnalogueStickDelegate, MKMapViewDel
             return circleRenderer
         }
         return MKPolylineRenderer();
+    }
+    
+    var pinLocations: [MKAnnotation] = []
+
+    @IBAction func dropPin(sender: AnyObject) {
+        if let loc = self.locations.last {
+            if (self.pinLocations.count > 0 &&
+                loc.latitude == self.pinLocations.last!.coordinate.latitude &&
+                loc.longitude == self.pinLocations.last!.coordinate.longitude
+                ) {
+                return;
+            }
+            let pin = MKPointAnnotation()
+            pin.coordinate = loc
+            self.pinLocations.append(pin)
+            self.mapView.addAnnotation(pin)
+        }
     }
 }
 
