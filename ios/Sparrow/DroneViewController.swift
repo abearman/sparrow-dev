@@ -330,11 +330,6 @@ class DroneViewController: UIViewController, AnalogueStickDelegate, MKMapViewDel
         self.locations.append(newLoc)
         
         drawMarker(newLoc)
-        //        if (marker != nil) {
-        //            self.mapView.removeOverlay(marker!)
-        //        }
-        //        marker = MKCircle(centerCoordinate: newLoc, radius: 30)
-        //        self.mapView.addOverlay(marker!)
         
         let region = MKCoordinateRegionMake(newLoc, MKCoordinateSpanMake(0.01, 0.01))
         self.mapView.setRegion(region, animated: true)
