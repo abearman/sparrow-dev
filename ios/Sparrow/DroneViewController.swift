@@ -46,13 +46,6 @@ class DroneViewController: UIViewController, AnalogueStickDelegate, MKMapViewDel
         }
     }
     
-    func imageWithImage(image:UIImage, scaledToSize newSize:CGSize) -> UIImage{
-        UIGraphicsBeginImageContextWithOptions(newSize, false, 0.0);
-        image.drawInRect(CGRectMake(0, 0, newSize.width, newSize.height))
-        let newImage:UIImage = UIGraphicsGetImageFromCurrentImageContext()
-        UIGraphicsEndImageContext()
-        return newImage
-    }
     
 // TODO: Are these variables necessary?
 //    weak var delegate: AnalogueStickDelegate?
@@ -63,11 +56,8 @@ class DroneViewController: UIViewController, AnalogueStickDelegate, MKMapViewDel
 //        }
 //    }
 
-    func configureView() {}
-
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.configureView()
         
         logo.image = UIImage(named: "logo_icon")
         analogueStick.delegate = self
@@ -83,8 +73,11 @@ class DroneViewController: UIViewController, AnalogueStickDelegate, MKMapViewDel
 
         self.addHandlers()
         debugPrint("Connecting to server control socket...")
-        self.socket.connect()
+        
+        // Creating the socket
+        initializeSocket()
     }
+
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -94,8 +87,34 @@ class DroneViewController: UIViewController, AnalogueStickDelegate, MKMapViewDel
     
 // =================================== SERVER ===================================
     
-    let socket = SocketIOClient(socketURL: NSURL(string: "http://10.196.68.209:5000")!)
-
+    // The IP address that the server is running on
+    let HOSTNAME = "171.64.70.75"
+    //let HOSTNAME = "10.1.1.188"
+    let PORT = "5000"
+    
+    
+    private var buildSocketAddr: String {
+        get {
+            return "http://" + HOSTNAME + ":" + PORT
+        }
+    }
+    
+    var socket = SocketIOClient(socketURL: NSURL(string: "")!)
+    
+    func initializeSocket() {
+        socket = SocketIOClient(socketURL: NSURL(string: buildSocketAddr)!)
+        socket.onAny {print("Got event: \($0.event), with items: \($0.items)")}
+        
+        // constant fetching for latest GPS coordinates
+        socket.on("gps_pos_ack") {[weak self] data, ack in
+            debugPrint("received gps_pos_ack event")
+            self?.handleGPSPos(data)
+            return
+        }
+        
+        socket.connect()
+    }
+    
     func addHandlers() {
         // Our socket handlers go here
         self.socket.onAny {print("Got event: \($0.event), with items: \($0.items)")}
@@ -112,21 +131,44 @@ class DroneViewController: UIViewController, AnalogueStickDelegate, MKMapViewDel
 
         debugPrint("in handleGPSPos")
         
-        // unpack JSON data
-        let latitude = data[0]["lat"] as? Double
-        let longitude = data[0]["long"] as? Double
-        debugPrint("got latitude: ", latitude)
-        debugPrint("got longitude: ", longitude)
-        
-        // update coordinate label
-        coordinateLabel.text = "(" + String(format: "%.3f", latitude!) + "N, " + String(format: "%.3f", longitude!) + "W)";
-        
-        // create CLLocation
-        let loc = CLLocationCoordinate2DMake(latitude!, longitude!)
-        
-        // call onLocationUpdate
-         onLocationUpdate(loc)
+        // Unpack JSON data
+        let encodedData = data[0].dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false)!
+        do {
+            if let jsonData: AnyObject = try NSJSONSerialization.JSONObjectWithData(encodedData, options: .AllowFragments) {
+                let latitude = jsonData["lat"] as? Double
+                let longitude = jsonData["lon"] as? Double
+                let altitude = jsonData["alt"] as? Double
+                debugPrint("got latitude: ", latitude)
+                debugPrint("got longitude: ", longitude)
+                debugPrint("got altitude: ", altitude)
+                
+                // Update coordinate label
+                coordinateLabel.text = "(" + String(format: "%.3f", latitude!) + "N, " + String(format: "%.3f", longitude!) + "W)"
+                altitudeReadingLabel.text = String(format: "%.3f", altitude!) + " m"
+                
+                // Create CLLocation
+                let loc = CLLocationCoordinate2DMake(latitude!, longitude!)
+                
+                // Call onLocationUpdate
+                onLocationUpdate(loc)
+            }
+            
+        } catch {
+            print("error serializing JSON: \(error)")
+
+        }
     }
+        
+        
+    func imageWithImage(image:UIImage, scaledToSize newSize:CGSize) -> UIImage{
+        UIGraphicsBeginImageContextWithOptions(newSize, false, 0.0);
+        image.drawInRect(CGRectMake(0, 0, newSize.width, newSize.height))
+        let newImage:UIImage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        return newImage
+    }
+    
+
     
     func HTTPsendRequest(request: NSMutableURLRequest, callback: ((String, String?) -> Void)!) {
         let task = NSURLSession.sharedSession().dataTaskWithRequest(request,completionHandler :
@@ -164,7 +206,7 @@ class DroneViewController: UIViewController, AnalogueStickDelegate, MKMapViewDel
     @IBAction func launchButtonClicked(sender: AnyObject) {
         if (self.inFlight) {
             debugPrint("Sending land request")
-            HTTPPostJSON("http://10.196.68.209:5000/control/land", jsonObj: []) {
+            HTTPPostJSON(buildSocketAddr + "/control/land", jsonObj: []) {
                     (data: String, error: String?) -> Void in
                     if error != nil {
                         print(error)
@@ -177,7 +219,7 @@ class DroneViewController: UIViewController, AnalogueStickDelegate, MKMapViewDel
             self.inFlight = false
         } else {
             debugPrint("Sending take off request")
-            HTTPPostJSON("http://10.196.68.209:5000/control/take_off", jsonObj: []) {
+            HTTPPostJSON(buildSocketAddr + "/control/take_off", jsonObj: []) {
                     (data: String, error: String?) -> Void in
                     if error != nil {
                         print(error)
@@ -208,10 +250,7 @@ class DroneViewController: UIViewController, AnalogueStickDelegate, MKMapViewDel
             "altitude": self.altitudeSlider.value
         ]
         socket.emit("altitude_cmd", altitudeCommandArgs)
-        
-        // update altitude label
-        altitudeReadingLabel.text = String(format: "%.2f", self.altitudeSlider.value)
-    }
+    }  
     
     @IBAction func altitudeSliderReleased(sender: AnyObject) {
         let initialValue = self.altitudeSlider.value

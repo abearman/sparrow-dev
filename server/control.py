@@ -3,11 +3,16 @@ import auth
 import mission_state
 
 from flask import Blueprint, Flask, request
+from flask.ext.socketio import emit, join_room, leave_room
+import json
+import thread
+from threading import Thread
 
 from dronekit import connect, VehicleMode
 import time
 import sys
 from pymavlink import mavutil
+
 
 def drone_init():
 		print "Start simulator (SITL)"
@@ -25,13 +30,36 @@ def drone_init():
 		# simulator
 		target = 'tcp:127.0.0.1:5760' 
 		# drone
-		# target = 'udpin:0.0.0.0:14550'
+		#target = 'udpin:0.0.0.0:14550'
 		print "Connecting to vehicle on: " + target
 		mission_state.vehicle = connect(target, wait_ready=True)	
 		print "Connected to vehicle..."
 		# mission_state.vehicle = connect('tcp:127.0.0.1:5760', wait_ready=True)
 
+		print "App1: ", app_param
+
+
 control_api = Blueprint("control_api", __name__)
+
+
+def listen_for_location_change(vehicle_location_param, app_param):
+		vehicle_location = vehicle_location_param
+		while True:
+			current_lat = mission_state.vehicle.location.global_relative_frame.lat
+			current_lon = mission_state.vehicle.location.global_relative_frame.lon
+			current_alt = mission_state.vehicle.location.global_relative_frame.alt	
+			if (vehicle_location.lat != current_lat) or (vehicle_location.lon != current_lon) or (vehicle_location.alt != current_alt):
+						loc = {'lat': current_lat,
+           				 'lon': current_lon,
+            			 'alt': current_alt}
+						json_loc = json.dumps(loc)
+						print "[socket][control][gps_pos]: ", mission_state.vehicle.location.global_relative_frame	
+						vehicle_location = mission_state.vehicle.location.global_relative_frame
+						print "App2: ", app_param
+						with app_param.app_context():
+							emit("gps_pos_ack", json_loc, broadcast=True)
+
+
 
 def arm_and_takeoff(aTargetAltitude):
 		"""
@@ -59,13 +87,6 @@ def arm_and_takeoff(aTargetAltitude):
 
 		print "[control]: Taking off"
 		mission_state.vehicle.simple_takeoff(aTargetAltitude)
-
-		while True:
-				print " Altitude: ", mission_state.vehicle.location.global_relative_frame.alt
-				if mission_state.vehicle.location.global_relative_frame.alt>=aTargetAltitude*0.95:
-						print "Reached target altitude"
-						break
-				time.sleep(1)				 
 
 
 @control_api.route("/control/take_off", methods = ["POST"])
