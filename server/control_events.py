@@ -83,6 +83,16 @@ def rotationChange(json):
 		heading = float(json['heading'])
 		condition_yaw(heading)
 
+@socketio.ion('waypoint_cmd')
+def waypointCommand(json):
+	vehicle = mission_state.vehicle
+	print "[socket][control][waypoint]: " + str(json)
+	lat = float(json['lat'])
+	lon = float(json['lon'])
+	alt = vehicle.location.global_relative_frame.alt
+	waypoint_location = LocationGlobalRelative(lat, lon, alt)
+	vehicle.simple_goto(waypoint_location)
+
 @socketio.on('lateral_cmd') #, namespace=CONTROL_NAMESPACE)
 def lateralChangeDiscrete(json):
 	print "[socket][control][lateral]: " + str(json)
@@ -220,3 +230,4 @@ def change_altitude_global(target_alt):
 		while abs(target_alt - vehicle.location.global_relative_frame.alt) > 0.1:
 			sendGPSChangeDrone()
 			time.sleep(0.5)	
+
