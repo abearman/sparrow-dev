@@ -7,3 +7,4 @@ pose = None; # JSON object representing Tango measured location/rotation
 
 vehicle = None;
 
+frame_counter = 0;

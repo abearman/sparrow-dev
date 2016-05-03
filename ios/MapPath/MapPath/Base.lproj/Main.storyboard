@@ -44,6 +44,13 @@
                                     <action selector="gotoBob:" destination="BYZ-38-t0r" eventType="touchUpInside" id="1ob-8u-MxX"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="maG-Mm-z91">
+                                <rect key="frame" x="290" y="432" width="59" height="30"/>
+                                <state key="normal" title="Drop Pin"/>
+                                <connections>
+                                    <action selector="dropPin:" destination="BYZ-38-t0r" eventType="touchUpInside" id="ocQ-Zy-Z4F"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>

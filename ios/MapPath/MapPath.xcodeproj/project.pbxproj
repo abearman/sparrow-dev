@@ -7,15 +7,16 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		C1279D5A1CCDCA4C008E6377 /* CurrentLocationIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1279D591CCDCA4C008E6377 /* CurrentLocationIcon.swift */; };
 		C13463EE1CCC49B40073D1A9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C13463ED1CCC49B40073D1A9 /* AppDelegate.swift */; };
 		C13463F01CCC49B40073D1A9 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C13463EF1CCC49B40073D1A9 /* ViewController.swift */; };
 		C13463F31CCC49B40073D1A9 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C13463F11CCC49B40073D1A9 /* Main.storyboard */; };
-		C13463F51CCC49B40073D1A9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C13463F41CCC49B40073D1A9 /* Assets.xcassets */; };
 		C13463F81CCC49B40073D1A9 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C13463F61CCC49B40073D1A9 /* LaunchScreen.storyboard */; };
 		C13464031CCC49B40073D1A9 /* MapPathTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C13464021CCC49B40073D1A9 /* MapPathTests.swift */; };
 		C134640E1CCC49B40073D1A9 /* MapPathUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C134640D1CCC49B40073D1A9 /* MapPathUITests.swift */; };
 		C134641E1CCC4E270073D1A9 /* Source in Resources */ = {isa = PBXBuildFile; fileRef = C134641D1CCC4E270073D1A9 /* Source */; };
+		C13DA6701CD936DA0014DDB8 /* WaypointAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = C13DA66F1CD936DA0014DDB8 /* WaypointAnnotation.swift */; };
+		C1C812471CD937E80087ED4D /* CurrentLocationAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1C812461CD937E80087ED4D /* CurrentLocationAnnotation.swift */; };
+		C1C812491CD93E9D0087ED4D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C1C812481CD93E9D0087ED4D /* Assets.xcassets */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -36,12 +37,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		C1279D591CCDCA4C008E6377 /* CurrentLocationIcon.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CurrentLocationIcon.swift; sourceTree = "<group>"; };
 		C13463EA1CCC49B40073D1A9 /* MapPath.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MapPath.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C13463ED1CCC49B40073D1A9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C13463EF1CCC49B40073D1A9 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		C13463F21CCC49B40073D1A9 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		C13463F41CCC49B40073D1A9 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		C13463F71CCC49B40073D1A9 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		C13463F91CCC49B40073D1A9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C13463FE1CCC49B40073D1A9 /* MapPathTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MapPathTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -51,6 +50,9 @@
 		C134640D1CCC49B40073D1A9 /* MapPathUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapPathUITests.swift; sourceTree = "<group>"; };
 		C134640F1CCC49B40073D1A9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C134641D1CCC4E270073D1A9 /* Source */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Source; sourceTree = "<group>"; };
+		C13DA66F1CD936DA0014DDB8 /* WaypointAnnotation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WaypointAnnotation.swift; sourceTree = "<group>"; };
+		C1C812461CD937E80087ED4D /* CurrentLocationAnnotation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CurrentLocationAnnotation.swift; sourceTree = "<group>"; };
+		C1C812481CD93E9D0087ED4D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -104,9 +106,10 @@
 			children = (
 				C13463ED1CCC49B40073D1A9 /* AppDelegate.swift */,
 				C13463EF1CCC49B40073D1A9 /* ViewController.swift */,
+				C1C812481CD93E9D0087ED4D /* Assets.xcassets */,
 				C13463F11CCC49B40073D1A9 /* Main.storyboard */,
-				C1279D591CCDCA4C008E6377 /* CurrentLocationIcon.swift */,
-				C13463F41CCC49B40073D1A9 /* Assets.xcassets */,
+				C13DA66F1CD936DA0014DDB8 /* WaypointAnnotation.swift */,
+				C1C812461CD937E80087ED4D /* CurrentLocationAnnotation.swift */,
 				C13463F61CCC49B40073D1A9 /* LaunchScreen.storyboard */,
 				C13463F91CCC49B40073D1A9 /* Info.plist */,
 			);
@@ -236,8 +239,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				C13463F81CCC49B40073D1A9 /* LaunchScreen.storyboard in Resources */,
-				C13463F51CCC49B40073D1A9 /* Assets.xcassets in Resources */,
 				C13463F31CCC49B40073D1A9 /* Main.storyboard in Resources */,
+				C1C812491CD93E9D0087ED4D /* Assets.xcassets in Resources */,
 				C134641E1CCC4E270073D1A9 /* Source in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -263,7 +266,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C1279D5A1CCDCA4C008E6377 /* CurrentLocationIcon.swift in Sources */,
+				C13DA6701CD936DA0014DDB8 /* WaypointAnnotation.swift in Sources */,
+				C1C812471CD937E80087ED4D /* CurrentLocationAnnotation.swift in Sources */,
 				C13463F01CCC49B40073D1A9 /* ViewController.swift in Sources */,
 				C13463EE1CCC49B40073D1A9 /* AppDelegate.swift in Sources */,
 			);

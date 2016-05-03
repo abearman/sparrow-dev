@@ -14,7 +14,7 @@ import sys
 from pymavlink import mavutil
 
 
-def drone_init(app_param):
+def drone_init():
 		print "Start simulator (SITL)"
 		from dronekit_sitl import SITL
 		sitl = SITL()

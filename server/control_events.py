@@ -7,6 +7,8 @@ import json
 from threading import Thread
 
 import mission_state
+from mission_state import gps_init
+import navigation
 
 from dronekit import connect, VehicleMode, LocationGlobalRelative
 import time
@@ -46,6 +48,16 @@ def listen_for_location_change(vehicle_location_param, namespace):
 	
 @socketio.on('gps_pos') # , namespace=CONTROL_NAMESPACE)
 def gpsChangeTango(json):
+	print "[socket][control][gps_pos]: " + str(json)
+	emit("gps_pos_ack", json, broadcast=True)
+
+@socketio.on('gps_pos') # , namespace=CONTROL_NAMESPACE)
+def gpsChange(json):
+		loc = json
+		global gps_init
+		if gps_init == False:
+			navigation.getOrigin(json)
+			gps_init = True
 		print "[socket][control][gps_pos]: " + str(json)
 		emit("gps_pos_ack", json, broadcast=True)
 
@@ -84,6 +96,8 @@ def lateralChangeDiscrete(json):
 		send_ned_velocity(0, -1, 0, 10)
 	elif direction == "back":
 		send_ned_velocity(0, 1, 0, 10)	
+ 	elif direction == "stop"
+		send_ned_velocity(0, 0, 0, 1)
 	send_ned_velocity(0, 0, 0, 1)
 
 
@@ -145,7 +159,7 @@ def condition_yaw(heading, relative=True):
 		#while abs(vehicle.attitude.yaw - target_yaw) > 0.01:
 		#	pass
 
-		
+
 def send_ned_velocity(velocity_x, velocity_y, velocity_z, duration):
 		"""
 		Move vehicle in direction based on specified velocity vectors.

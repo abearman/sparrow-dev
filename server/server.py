@@ -2,12 +2,14 @@ from server_state import app, socketio, default_host, default_port, HOST
 
 import pose_events
 import control_events
+import camera_events
 
 import mission_state
 
 from control import drone_init
 
 import optparse
+import eventlet
 
 # TODO: Add drone state
 # { x, y, z, qx, qy, qz, qw, path }
@@ -41,15 +43,18 @@ if __name__ == "__main__":
 
     options, _ = parser.parse_args()
 
-    drone_init(app)
+    drone_init()
 
     print mission_state.vehicle
+
+    server_options = {"binary": True}
 
     if (options.static_ip):
         socketio.run(app,
                      debug=options.debug,
                      host=HOST,
                      port=int(options.port))
+                     
     else:
         socketio.run(app,
                      debug=options.debug,
