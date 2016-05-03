@@ -88,7 +88,10 @@ class DroneViewController: UIViewController, AnalogueStickDelegate, MKMapViewDel
         analogueStick.delegate = self
         mapView.delegate = self
         mapView.layer.borderWidth = 2
-        mapView.layer.borderColor = UIColor.blackColor().CGColor
+        mapView.layer.borderColor = UIColor.darkGrayColor().CGColor
+        let longPressRec = UILongPressGestureRecognizer(target: self, action: #selector(DroneViewController.dropWaypoint(_:)))
+        self.mapView.addGestureRecognizer(longPressRec)
+
         self.addHandlers()
         debugPrint("Connecting to server control socket...")
         self.socket.connect()
@@ -112,7 +115,7 @@ class DroneViewController: UIViewController, AnalogueStickDelegate, MKMapViewDel
         let loc = CLLocationCoordinate2DMake(latitude!, longitude!)
         
         // call onLocationUpdate
-        // onLocationUpdate(loc)
+         onLocationUpdate(loc)
     }
  
     
@@ -316,26 +319,37 @@ class DroneViewController: UIViewController, AnalogueStickDelegate, MKMapViewDel
         if (marker != nil) {
             mapView.removeAnnotation(marker!)
         }
-        marker = CurrentLocationIcon(coordinate: coordinate)
+        marker = CurrentLocationAnnotation(coordinate: coordinate)
         mapView.addAnnotation(marker!)
     }
     
     func mapView(mapView: MKMapView, viewForAnnotation annotation: MKAnnotation) -> MKAnnotationView? {
-        if (annotation is CurrentLocationIcon) {
-            var markerView: MKAnnotationView
-            if (locations.count <= 1) {
-                markerView = MKAnnotationView(annotation: annotation, reuseIdentifier: "currentLocationMarker")
-                markerView.image = UIImage(named: "current_location_icon")
+        if (annotation is CurrentLocationAnnotation) {
+            if let currentLocIcon = self.mapView.dequeueReusableAnnotationViewWithIdentifier("currentLocIcon") {
+                return currentLocIcon
             } else {
-                markerView = mapView.dequeueReusableAnnotationViewWithIdentifier("currentLocationMarker")!
+                let currentLocIcon = MKAnnotationView(annotation: annotation, reuseIdentifier: "currentLocIcon")
+                currentLocIcon.image = UIImage(named: "current_location_icon")
+                return currentLocIcon
             }
-            return markerView
+        }
+        else if (annotation is WaypointAnnotation) {
+            if let waypointIcon = self.mapView.dequeueReusableAnnotationViewWithIdentifier("waypointIcon") {
+                return waypointIcon
+            } else {
+                let waypointIcon = MKAnnotationView(annotation: annotation, reuseIdentifier: "waypointIcon")
+                waypointIcon.image = UIImage(named: "waypoint_icon")
+                return waypointIcon
+            }
         }
         else if (annotation is MKPointAnnotation) {
-            let pinView = MKPinAnnotationView()
-            pinView.pinTintColor = UIColor.redColor()
-            pinView.animatesDrop = true
-            return pinView
+            if let poiIcon = self.mapView.dequeueReusableAnnotationViewWithIdentifier("poiIcon") {
+                return poiIcon
+            } else {
+                let poiIcon = MKAnnotationView(annotation: annotation, reuseIdentifier: "poiIcon")
+                poiIcon.image = UIImage(named: "poi_icon")
+                return poiIcon
+            }
         }
         return MKAnnotationView()
     }
@@ -382,7 +396,55 @@ class DroneViewController: UIViewController, AnalogueStickDelegate, MKMapViewDel
         }
     }
     
-    
+    func dropWaypoint(gestureRecognizer: UILongPressGestureRecognizer) {
+        if (gestureRecognizer.state != UIGestureRecognizerState.Began) {
+            return;
+        }
+        
+        let touchPoint = gestureRecognizer.locationInView(self.mapView)
+        let loc = self.mapView.convertPoint(touchPoint, toCoordinateFromView: self.mapView)
+        let waypoint = WaypointAnnotation(coordinate: loc)
+        self.mapView.addAnnotation(waypoint)
+        // TODO: send goto waypoint message to server
+//        let waypointArgs = [
+//            "lat": loc.latitude
+//            "lon": loc.longitude
+//        ]
+//        socket.emit("waypoint_cmd", waypointArgs)
+    }
+
+    func mapView(mapView: MKMapView, didAddAnnotationViews views: [MKAnnotationView]) {
+        for view in views {
+            if (view.reuseIdentifier == "poiIcon") {
+                let endFrame = view.frame
+                view.frame = CGRectMake(view.frame.origin.x, view.frame.origin.y - self.view.frame.size.height, view.frame.size.width, view.frame.size.height);
+                UIView.animateWithDuration(
+                    0.5, delay: 0.0, options: UIViewAnimationOptions.CurveEaseIn,
+                    animations:{() in
+                        view.frame = endFrame
+                    },
+                    completion:{(Bool) in
+                        UIView.animateWithDuration(0.05, delay: 0.0, options: UIViewAnimationOptions.CurveEaseInOut, animations:{() in
+                            view.transform = CGAffineTransformMakeScale(1.0, 0.8)
+                            },
+                            completion: {(Bool) in
+                                UIView.animateWithDuration(0.3, delay: 0.0, options: UIViewAnimationOptions.CurveEaseInOut, animations:{() in
+                                    view.transform = CGAffineTransformIdentity
+                                    },
+                                    completion: nil)
+                        })
+                    }
+                )
+            }
+            else if (view.reuseIdentifier == "waypointIcon") {
+                view.transform = CGAffineTransformMakeScale(1.5, 1.5)
+                UIView.animateWithDuration(0.3, animations: {
+                    view.transform = CGAffineTransformIdentity
+                })
+            }
+        }
+    }
+
     @IBAction func sarPathButtonClicked(sender: AnyObject) {
         /* TODO: finish sarPath */
         print("SAR PATH BUTTON CLICKED");
@@ -406,8 +468,8 @@ class DroneViewController: UIViewController, AnalogueStickDelegate, MKMapViewDel
             let popoverViewController = segue.destinationViewController as UIViewController
             popoverViewController.modalPresentationStyle = UIModalPresentationStyle.Popover
             popoverViewController.popoverPresentationController!.delegate = self
-            let popoverTableViewController = segue.destinationViewController as! SARMenuViewController
-            popoverTableViewController.delegate = self
+//            let popoverTableViewController = segue.destinationViewController as! SARMenuViewController
+//            popoverTableViewController.delegate = self
             segue.destinationViewController.popoverPresentationController!.sourceView = sender as! UIButton
             segue.destinationViewController.popoverPresentationController!.sourceRect = (sender as! UIButton).bounds
         }
