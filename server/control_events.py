@@ -22,7 +22,7 @@ import math
 @socketio.on('connect') # , namespace=CONTROL_NAMESPACE)
 def on_connect():
 		print "[socket][control][connect]: Connection received"
-		
+
 @socketio.on('gps_pos') # , namespace=CONTROL_NAMESPACE)
 def gpsChange(json):
 		loc = json
@@ -57,8 +57,9 @@ def lateralChangeDiscrete(json):
 	elif direction == "forward":
 		send_ned_velocity(0, -1, 0, 1)
 	elif direction == "back":
-		send_ned_velocity(0, 1, 0, 1)	
-	send_ned_velocity(0, 0, 0, 1)
+		send_ned_velocity(0, 1, 0, 1)
+    elif direction == "stop"
+        send_ned_velocity(0, 0, 0, 1)
 
 def lateralChangeJoystick(json):
 		print "[socket][control][lateral]: " + str(json)
@@ -118,7 +119,7 @@ def condition_yaw(heading, relative=True):
 		#while abs(vehicle.attitude.yaw - target_yaw) > 0.01:
 		#	pass
 
-		
+
 def send_ned_velocity(velocity_x, velocity_y, velocity_z, duration):
 		"""
 		Move vehicle in direction based on specified velocity vectors.
@@ -139,7 +140,7 @@ def send_ned_velocity(velocity_x, velocity_y, velocity_z, duration):
 		for x in range(0,duration):
 				vehicle.send_mavlink(msg)
 				#loc = {}
-				#loc['lat'] = vehicle.location.global_frame.lat 
+				#loc['lat'] = vehicle.location.global_frame.lat
 				#loc['lat'] = vehicle.location.global_frame.lon
 				#json_loc = json.dumps(data)
 				#gpsChange(json_loc)
@@ -174,8 +175,8 @@ def send_global_velocity(velocity_x, velocity_y, velocity_z, duration):
 
 def change_altitude_global(target_alt):
 		vehicle = mission_state.vehicle
-		target_location = LocationGlobalRelative(vehicle.location.global_relative_frame.lat, 
-																						 vehicle.location.global_relative_frame.lon, 
+		target_location = LocationGlobalRelative(vehicle.location.global_relative_frame.lat,
+																						 vehicle.location.global_relative_frame.lon,
 																					   target_alt)
 		vehicle.simple_goto(target_location)
 

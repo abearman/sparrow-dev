@@ -276,52 +276,25 @@ class DroneViewController: UIViewController, AnalogueStickDelegate, MKMapViewDel
          */
     }
     
-    var lateralButtonTimer: NSTimer!
-    var lateralButtonDown: UIButton!
-    
     @IBAction func lateralButtonDown(sender: AnyObject) {
         if let button = sender as? UIButton {
-            lateralButtonDown = button
-            lateralButtonAction()
-            lateralButtonTimer = NSTimer.scheduledTimerWithTimeInterval(
-                1.0,
-                target: self,
-                selector: #selector(DroneViewController.lateralButtonAction),
-                userInfo: nil,
-                repeats: true
-            )
+            if let buttonID = button.restorationIdentifier {
+                debugPrint("Lateral button %@ pressed", buttonID)
+                let lateralCommandArgs = [
+                    "direction": buttonID
+                ]
+                socket.emit("lateral_cmd", lateralCommandArgs)
+            }
         }
     }
     
     @IBAction func lateralButtonUp(sender: AnyObject) {
-        lateralButtonTimer.invalidate()
+        debugPrint("Lateral button released")
+        let lateralCommandArgs = [
+            "direction": "stop"
+        ]
+        socket.emit("lateral_cmd", lateralCommandArgs)
     }
-    
-    func lateralButtonAction() {
-        if let buttonID = lateralButtonDown.restorationIdentifier {
-            debugPrint("Lateral button %@ clicked", buttonID)
-            let lateralCommandArgs = [
-                "direction": buttonID
-            ]
-            socket.emit("lateral_cmd", lateralCommandArgs)
-        }
-    }
-    
-//    @IBAction func lateralButtonClicked(sender: AnyObject) {
-//        if let button = sender as? UIButton {
-//            if let buttonID = button.restorationIdentifier {
-//                debugPrint("Lateral button %@ clicked", buttonID)
-//                let lateralCommandArgs = [
-//                    "direction": buttonID
-//                ]
-//                socket.emit("lateral_cmd", lateralCommandArgs)
-//            }
-//        }
-//        
-//        // update altitude label
-//        //altitudeReadingLabel.text = String(format: "%.2f", self.altitudeSlider.value)
-//    }
-    
     
     func onLocationUpdate(newLoc: CLLocationCoordinate2D) {
         
