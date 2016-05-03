@@ -108,7 +108,6 @@ def lateralChangeDiscrete(json):
 		send_ned_velocity(0, 1, 0, 10)	
  	elif direction == "stop"
 		send_ned_velocity(0, 0, 0, 1)
-	send_ned_velocity(0, 0, 0, 1)
 
 
 def lateralChangeJoystick(json):
