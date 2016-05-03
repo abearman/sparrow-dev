@@ -64,7 +64,7 @@ class DroneViewController: UIViewController, AnalogueStickDelegate, MKMapViewDel
     
     
     // The IP address that the server is running on
-    let HOSTNAME = "10.34.165.198"
+    let HOSTNAME = "171.64.70.75"
     //let HOSTNAME = "10.1.1.188"
     let PORT = "5000"
     
@@ -75,12 +75,7 @@ class DroneViewController: UIViewController, AnalogueStickDelegate, MKMapViewDel
         }
     }
     
-    // let socket = SocketIOClient(socketURL: NSURL(string: "http://10.34.172.4:5000")!, options: [.Nsp("/control")])
-    
-    //let socket = SocketIOClient(socketURL: NSURL(string: "http://10.196.68.209:5000")!)
-    
     var socket = SocketIOClient(socketURL: NSURL(string: "")!)
-
     
     weak var delegate: AnalogueStickDelegate?
     
@@ -102,12 +97,25 @@ class DroneViewController: UIViewController, AnalogueStickDelegate, MKMapViewDel
         mapView.delegate = self
         mapView.layer.borderWidth = 5
         mapView.layer.borderColor = UIColor.blackColor().CGColor
-        self.addHandlers()
         debugPrint("Connecting to server control socket...")
         
         // Creating the socket
+        initializeSocket()
+    }
+    
+    
+    func initializeSocket() {
         socket = SocketIOClient(socketURL: NSURL(string: buildSocketAddr)!)
-        self.socket.connect()
+        socket.onAny {print("Got event: \($0.event), with items: \($0.items)")}
+        
+        // constant fetching for latest GPS coordinates
+        socket.on("gps_pos_ack") {[weak self] data, ack in
+            debugPrint("received gps_pos_ack event")
+            self?.handleGPSPos(data)
+            return
+        }
+        
+        socket.connect()
     }
     
     
@@ -115,20 +123,32 @@ class DroneViewController: UIViewController, AnalogueStickDelegate, MKMapViewDel
 
         debugPrint("in handleGPSPos")
         
-        // unpack JSON data
-        let latitude = data[0]["lat"] as? Double
-        let longitude = data[0]["long"] as? Double
-        debugPrint("got latitude: ", latitude)
-        debugPrint("got longitude: ", longitude)
-        
-        // update coordinate label
-        coordinateLabel.text = "(" + String(format: "%.3f", latitude!) + "N, " + String(format: "%.3f", longitude!) + "W)";
-        
-        // create CLLocation
-        let loc = CLLocationCoordinate2DMake(latitude!, longitude!)
-        
-        // call onLocationUpdate
-        onLocationUpdate(loc)
+        // Unpack JSON data
+        let encodedData = data[0].dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false)!
+        do {
+            if let jsonData: AnyObject = try NSJSONSerialization.JSONObjectWithData(encodedData, options: .AllowFragments) {
+                let latitude = jsonData["lat"] as? Double
+                let longitude = jsonData["lon"] as? Double
+                let altitude = jsonData["alt"] as? Double
+                debugPrint("got latitude: ", latitude)
+                debugPrint("got longitude: ", longitude)
+                debugPrint("got altitude: ", altitude)
+                
+                // Update coordinate label
+                coordinateLabel.text = "(" + String(format: "%.3f", latitude!) + "N, " + String(format: "%.3f", longitude!) + "W)"
+                altitudeReadingLabel.text = String(format: "%.3f", altitude!) + " m"
+                
+                // Create CLLocation
+                let loc = CLLocationCoordinate2DMake(latitude!, longitude!)
+                
+                // Call onLocationUpdate
+                onLocationUpdate(loc)
+            }
+            
+        } catch {
+            print("error serializing JSON: \(error)")
+
+        }
     }
  
     
@@ -140,19 +160,6 @@ class DroneViewController: UIViewController, AnalogueStickDelegate, MKMapViewDel
         return newImage
     }
     
-    func addHandlers() {
-        // Our socket handlers go here
-        self.socket.onAny {print("Got event: \($0.event), with items: \($0.items)")}
-        
-        // constant fetching for latest GPS coordinates
-        self.socket.on("gps_pos_ack") {[weak self] data, ack in
-            debugPrint("received gps_pos_ack event")
-            self?.handleGPSPos(data)
-            return
-        }
-        
-        
-    }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -238,10 +245,7 @@ class DroneViewController: UIViewController, AnalogueStickDelegate, MKMapViewDel
             "altitude": self.altitudeSlider.value
         ]
         socket.emit("altitude_cmd", altitudeCommandArgs)
-        
-        // update altitude label
-        altitudeReadingLabel.text = String(format: "%.2f", self.altitudeSlider.value)
-    }
+    }  
     
     @IBAction func altitudeSliderReleased(sender: AnyObject) {
         let initialValue = self.altitudeSlider.value

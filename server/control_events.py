@@ -4,6 +4,7 @@ from flask import session
 from flask.ext.socketio import emit, join_room, leave_room
 from server_state import socketio
 import json
+from threading import Thread
 
 import mission_state
 
@@ -15,17 +16,48 @@ from pymavlink import mavutil
 import math
 
 # TODO: namespace
-# CONTROL_NAMESPACE = "/control"
+CONTROL_NAMESPACE = "/control"
 
-@socketio.on('connect') # , namespace=CONTROL_NAMESPACE)
+@socketio.on('connect', namespace=CONTROL_NAMESPACE)
 def on_connect():
 		print "[socket][control][connect]: Connection received"
-		
+		#print "request.namespace: ", request.namespace
+		#thread = Thread(target = listen_for_location_change, args=(mission_state.vehicle.location.global_relative_frame, request.namespace))
+		#thread.start() 
+
+
+def listen_for_location_change(vehicle_location_param, namespace):
+		vehicle_location = vehicle_location_param
+		while True:
+			current_lat = mission_state.vehicle.location.global_relative_frame.lat
+			current_lon = mission_state.vehicle.location.global_relative_frame.lon
+			current_alt = mission_state.vehicle.location.global_relative_frame.alt
+			if (vehicle_location.lat != current_lat) or (vehicle_location.lon != current_lon) or (vehicle_location.alt != current_alt):
+						loc = {'lat': current_lat,
+									 'lon': current_lon,
+									 'alt': current_alt}
+						json_loc = json.dumps(loc)
+						print "[socket][control][gps_pos]: ", mission_state.vehicle.location.global_relative_frame
+						vehicle_location = mission_state.vehicle.location.global_relative_frame
+						#print "App2: ", app_param
+						#with app_param.app_context():
+						namespace.emit("gps_pos_ack", json_loc, broadcast=True)	
+
+	
 @socketio.on('gps_pos') # , namespace=CONTROL_NAMESPACE)
-def gpsChange(json):
-		loc = json
+def gpsChangeTango(json):
 		print "[socket][control][gps_pos]: " + str(json)
-		emit("gps_pos_ack", loc, broadcast=True)
+		emit("gps_pos_ack", json, broadcast=True)
+
+def sendGPSChangeDrone():
+		vehicle = mission_state.vehicle
+		loc = {'lat': vehicle.location.global_relative_frame.lat,
+					 'lon': vehicle.location.global_relative_frame.lon,
+					 'alt': vehicle.location.global_relative_frame.alt}
+		json_loc = json.dumps(loc)
+		print "[socket][control][gps_pos]: " + str(json_loc)
+		emit("gps_pos_ack", json_loc, broadcast=True)
+
 
 @socketio.on('altitude_cmd') # , namespace=CONTROL_NAMESPACE)
 def altitudeChange(json):
@@ -45,14 +77,15 @@ def lateralChangeDiscrete(json):
 	direction = json['direction']
 	# args are x_vel, y_vel, z_vel, duration
 	if direction == "left":
-		send_ned_velocity(-1, 0, 0, 1)
+		send_ned_velocity(-1, 0, 0, 10)
 	elif direction == "right":
-		send_ned_velocity(1, 0, 0, 1)
+		send_ned_velocity(1, 0, 0, 10)
 	elif direction == "forward":
-		send_ned_velocity(0, -1, 0, 1)
+		send_ned_velocity(0, -1, 0, 10)
 	elif direction == "back":
-		send_ned_velocity(0, 1, 0, 1)	
+		send_ned_velocity(0, 1, 0, 10)	
 	send_ned_velocity(0, 0, 0, 1)
+
 
 def lateralChangeJoystick(json):
 		print "[socket][control][lateral]: " + str(json)
@@ -121,7 +154,7 @@ def send_ned_velocity(velocity_x, velocity_y, velocity_z, duration):
 		msg = vehicle.message_factory.set_position_target_local_ned_encode(
 				0,			 # time_boot_ms (not used)
 				0, 0,		 # target system, target component
-				mavutil.mavlink.MAV_FRAME_LOCAL_NED, # frame
+				mavutil.mavlink.MAV_FRAME_BODY_NED, # frame
 				0b0000111111000111, # type_mask (only speeds enabled)
 				0, 0, 0, # x, y, z positions (not used)
 				velocity_x, velocity_y, velocity_z, # x, y, z velocity in m/s
@@ -130,9 +163,10 @@ def send_ned_velocity(velocity_x, velocity_y, velocity_z, duration):
 
 
 		# send command to vehicle on 1 Hz cycle
-		for x in range(0,duration):
-				vehicle.send_mavlink(msg)
-				time.sleep(1)
+		for x in range(0, duration):
+			vehicle.send_mavlink(msg)
+			sendGPSChangeDrone()
+			time.sleep(1)
 
 
 def send_global_velocity(velocity_x, velocity_y, velocity_z, duration):
@@ -156,8 +190,9 @@ def send_global_velocity(velocity_x, velocity_y, velocity_z, duration):
 				0, 0)		 # yaw, yaw_rate (not supported yet, ignored in GCS_Mavlink)
 
 		# send command to vehicle on 1 Hz cycle
-		for x in range(0,duration):
+		for x in range(0, duration):
 				vehicle.send_mavlink(msg)
+				sendGPSChangeDrone()
 				time.sleep(1)
 
 
@@ -165,8 +200,9 @@ def change_altitude_global(target_alt):
 		vehicle = mission_state.vehicle
 		target_location = LocationGlobalRelative(vehicle.location.global_relative_frame.lat, 
 																						 vehicle.location.global_relative_frame.lon, 
-																					   target_alt)
+																						 target_alt)
 		vehicle.simple_goto(target_location)
 
-		while abs(target_alt - vehicle.location.global_relative_frame.alt) > 0.01:
-			pass
+		while abs(target_alt - vehicle.location.global_relative_frame.alt) > 0.1:
+			sendGPSChangeDrone()
+			time.sleep(0.5)	

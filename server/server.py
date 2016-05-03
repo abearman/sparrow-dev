@@ -41,7 +41,7 @@ if __name__ == "__main__":
 
     options, _ = parser.parse_args()
 
-    drone_init()
+    drone_init(app)
 
     print mission_state.vehicle
 

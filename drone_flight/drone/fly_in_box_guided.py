@@ -58,8 +58,8 @@ def arm_and_takeoff(aTargetAltitude):
 	
 	print "Arming motors"
 
-	#print "Skipping GPS"
-	#vehicle.parameters['ARMING_CHECK'] = -9
+	print "Skipping GPS"
+	vehicle.parameters['ARMING_CHECK'] = -9
 
 	vehicle.armed		= True
 
@@ -69,8 +69,24 @@ def arm_and_takeoff(aTargetAltitude):
 		time.sleep(1)
 	print "Armed!"
 
+
+	msg = vehicle.message_factory.mav_cmd_nav_send_tango_gps_encode(
+    0,       # time_boot_ms (not used)
+    0, 0,    # target_system, target_component
+    mavutil.mavlink.MAV_FRAME_BODY_NED, # frame
+    0b0000111111000111, # type_mask (only speeds enabled)
+    0, 0, 0, # x, y, z positions
+    0, 0, 0, # x, y, z velocity in m/s
+    0, 0, 0, # x, y, z acceleration (not supported yet, ignored in GCS_Mavlink)
+    0, 0)    # yaw, yaw_rate (not supported yet, ignored in GCS_Mavlink)
+	# send command to vehicle
+	vehicle.send_mavlink(msg)
+
+	exit()
+
 	print "Local location (before takeoff): ", vehicle.location.local_frame
 	print "Taking off!"
+	
 	vehicle.simple_takeoff(aTargetAltitude)
 
 	while vehicle.location.global_relative_frame.alt < aTargetAltitude:
