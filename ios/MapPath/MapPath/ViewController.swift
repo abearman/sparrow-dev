@@ -9,7 +9,7 @@
 import UIKit
 import MapKit
 
-class ViewController: UIViewController, MKMapViewDelegate {
+class ViewController: UIViewController, MKMapViewDelegate, UIGestureRecognizerDelegate {
 
     @IBOutlet weak var mapView: MKMapView!
     var locations: [CLLocationCoordinate2D] = []
@@ -20,6 +20,8 @@ class ViewController: UIViewController, MKMapViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.mapView.delegate = self
+        let longPressRec = UILongPressGestureRecognizer(target: self, action: #selector(ViewController.dropWaypoint(_:)))
+        self.mapView.addGestureRecognizer(longPressRec)
     }
 
     
@@ -68,26 +70,37 @@ class ViewController: UIViewController, MKMapViewDelegate {
         if (self.marker != nil) {
             self.mapView.removeAnnotation(self.marker!)
         }
-        self.marker = CurrentLocationIcon(coordinate: coordinate)
+        self.marker = CurrentLocationAnnotation(coordinate: coordinate)
         self.mapView.addAnnotation(self.marker!)
     }
     
     func mapView(mapView: MKMapView, viewForAnnotation annotation: MKAnnotation) -> MKAnnotationView? {
-        if (annotation is CurrentLocationIcon) {
-            var markerView: MKAnnotationView
-            if (locations.count <= 1) {
-                markerView = MKAnnotationView(annotation: annotation, reuseIdentifier: "currentLocationMarker")
-                markerView.image = UIImage(named: "current_location_icon")
+        if (annotation is CurrentLocationAnnotation) {
+            if let currentLocIcon = self.mapView.dequeueReusableAnnotationViewWithIdentifier("currentLocIcon") {
+                return currentLocIcon
             } else {
-                markerView = self.mapView.dequeueReusableAnnotationViewWithIdentifier("currentLocationMarker")!
+                let currentLocIcon = MKAnnotationView(annotation: annotation, reuseIdentifier: "currentLocIcon")
+                currentLocIcon.image = UIImage(named: "current_location_icon")
+                return currentLocIcon
             }
-            return markerView
+        }
+        else if (annotation is WaypointAnnotation) {
+            if let waypointIcon = self.mapView.dequeueReusableAnnotationViewWithIdentifier("waypointIcon") {
+                return waypointIcon
+            } else {
+                let waypointIcon = MKAnnotationView(annotation: annotation, reuseIdentifier: "waypointIcon")
+                waypointIcon.image = UIImage(named: "waypoint_icon")
+                return waypointIcon
+            }
         }
         else if (annotation is MKPointAnnotation) {
-            let pinView = MKPinAnnotationView()
-            pinView.pinTintColor = UIColor.redColor()
-            pinView.animatesDrop = true
-            return pinView
+            if let poiIcon = self.mapView.dequeueReusableAnnotationViewWithIdentifier("poiIcon") {
+                return poiIcon
+            } else {
+                let poiIcon = MKAnnotationView(annotation: annotation, reuseIdentifier: "poiIcon")
+                poiIcon.image = UIImage(named: "poi_icon")
+                return poiIcon
+            }
         }
         return MKAnnotationView()
     }
@@ -115,5 +128,49 @@ class ViewController: UIViewController, MKMapViewDelegate {
             return circleRenderer
         }
         return MKPolylineRenderer();
+    }
+
+    func dropWaypoint(gestureRecognizer: UILongPressGestureRecognizer) {
+        if (gestureRecognizer.state != UIGestureRecognizerState.Began) {
+            return;
+        }
+        
+        let touchPoint = gestureRecognizer.locationInView(self.mapView)
+        let loc = self.mapView.convertPoint(touchPoint, toCoordinateFromView: self.mapView)
+        let waypoint = WaypointAnnotation(coordinate: loc)
+        self.mapView.addAnnotation(waypoint)
+        // TODO: send goto waypoint message to server
+    }
+    
+    func mapView(mapView: MKMapView, didAddAnnotationViews views: [MKAnnotationView]) {
+        for view in views {
+            if (view.reuseIdentifier == "poiIcon") {
+                let endFrame = view.frame
+                view.frame = CGRectMake(view.frame.origin.x, view.frame.origin.y - self.view.frame.size.height, view.frame.size.width, view.frame.size.height);
+                UIView.animateWithDuration(
+                    0.5, delay: 0.0, options: UIViewAnimationOptions.CurveEaseIn,
+                    animations:{() in
+                        view.frame = endFrame
+                    },
+                    completion:{(Bool) in
+                        UIView.animateWithDuration(0.05, delay: 0.0, options: UIViewAnimationOptions.CurveEaseInOut, animations:{() in
+                                view.transform = CGAffineTransformMakeScale(1.0, 0.8)
+                            },
+                            completion: {(Bool) in
+                                UIView.animateWithDuration(0.3, delay: 0.0, options: UIViewAnimationOptions.CurveEaseInOut, animations:{() in
+                                        view.transform = CGAffineTransformIdentity
+                                    },
+                                    completion: nil)
+                            })
+                    }
+                )
+            }
+            else if (view.reuseIdentifier == "waypointIcon") {
+                view.transform = CGAffineTransformMakeScale(1.5, 1.5)
+                UIView.animateWithDuration(0.3, animations: {
+                    view.transform = CGAffineTransformIdentity
+                })
+            }
+        }
     }
 }
