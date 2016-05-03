@@ -40,38 +40,13 @@ def wide_angle_upload(json):
 @socketio.on("frame") #, namespace=CAMERA_NAMESPACE)
 def frame_upload(data):
     print "[camera][frame]: frame received"
-    # print data['image']
-    # encoded_image = json["image64"]
-    # emit("iosframe", data, broadcast=True)
-    # print len(data)
-    # print "[camera][frame: sent ios frame"
-    #view_yuv(data)
-    print "opening image"
-    print "saving image"
-
-    # print "Image data is: " + str(type(data))
-
-    #for i in data:
-    #    print i
-
-    byteArray = bytearray(data['image'])
-    
+    print "[camera][frame]: saving image"
+    byteArray = bytearray(data['image'])    
     global frame_counter
     with open('frame_' + str(frame_counter) + '.rgba', 'w') as file_:
         file_.write(byteArray)
         frame_counter = frame_counter + 1
-
-    # mode = 'RGBA'
-    # print "image from buffer"
-    # image = Image.frombuffer(mode, (1280, 720), data, "raw", mode, 0, 1)
-    # image = Image.fromarray(data.reshape(1280, 720), 'RGBA')
-    # imgSize = (1280, 720)
-    # print np.array(data['image'])
-    # np.array(data['image']).shape()
-    # image = Image.fromstring('RGBA', imgSize, data['image'], 'raw', 'F;16')
-    # print "image show"
-    # image.show()
-    print "[camera][frame]: opened image"
+    print "[camera][frame]: image processing complete"
 
 def view_yuv(data):
     width = 1280
