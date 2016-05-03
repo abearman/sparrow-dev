@@ -1,4 +1,3 @@
-
 //
 //  DetailViewController.swift
 //  Sparrow
@@ -78,6 +77,7 @@ class DroneViewController: UIViewController, AnalogueStickDelegate, MKMapViewDel
         mapView.layer.borderColor = UIColor.darkGrayColor().CGColor
         let longPressRec = UILongPressGestureRecognizer(target: self, action: #selector(DroneViewController.dropWaypoint(_:)))
         self.mapView.addGestureRecognizer(longPressRec)
+        // TODO: remove dummy initial location below
         let startLoc = CLLocationCoordinate2DMake(37.430020, -122.173302)
         onLocationUpdate(startLoc)
 
@@ -240,11 +240,10 @@ class DroneViewController: UIViewController, AnalogueStickDelegate, MKMapViewDel
         let initialValue = self.rotationSlider.value
         let finalValue = Float(0)
         //let difference = fabs(initialValue - finalValue)
-        let duration = 1.0
-        UIView.animateWithDuration(0.2, delay: 0, options: .CurveLinear, animations: { () -> Void in
+        UIView.animateWithDuration(0.15, delay: 0, options: .CurveLinear, animations: { () -> Void in
             self.rotationSlider.setValue(initialValue, animated: true)
             }) { (completed) -> Void in
-                UIView.animateWithDuration(duration, delay: 0.1, options: .CurveLinear, animations: { () -> Void in
+                UIView.animateWithDuration(0.15, delay: 0.1, options: .CurveLinear, animations: { () -> Void in
                     self.rotationSlider.setValue(finalValue, animated: true)
                     }, completion: nil)
         }
@@ -464,12 +463,11 @@ class DroneViewController: UIViewController, AnalogueStickDelegate, MKMapViewDel
             let popoverViewController = segue.destinationViewController as UIViewController
             popoverViewController.modalPresentationStyle = UIModalPresentationStyle.Popover
             popoverViewController.popoverPresentationController!.delegate = self
-//            let popoverTableViewController = segue.destinationViewController as! SARMenuViewController
-//            popoverTableViewController.delegate = self
+            let popoverTableViewController = segue.destinationViewController as! SARMenuViewController
+            popoverTableViewController.delegate = self
             segue.destinationViewController.popoverPresentationController!.sourceView = sender as! UIButton
             segue.destinationViewController.popoverPresentationController!.sourceRect = (sender as! UIButton).bounds
         }
     }
     
 }
-
