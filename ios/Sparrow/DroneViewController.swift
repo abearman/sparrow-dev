@@ -503,8 +503,8 @@ class DroneViewController: UIViewController, AnalogueStickDelegate, MKMapViewDel
             let popoverViewController = segue.destinationViewController as UIViewController
             popoverViewController.modalPresentationStyle = UIModalPresentationStyle.Popover
             popoverViewController.popoverPresentationController!.delegate = self
-//            let popoverTableViewController = segue.destinationViewController as! SARMenuViewController
-//            popoverTableViewController.delegate = self
+            let popoverTableViewController = segue.destinationViewController as! SARMenuViewController
+            popoverTableViewController.delegate = self
             segue.destinationViewController.popoverPresentationController!.sourceView = sender as! UIButton
             segue.destinationViewController.popoverPresentationController!.sourceRect = (sender as! UIButton).bounds
         }

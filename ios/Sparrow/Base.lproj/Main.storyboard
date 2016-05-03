@@ -157,7 +157,6 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <view contentMode="scaleToFill" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="0mV-Gp-vom" userLabel="Camera View">
-
                                 <rect key="frame" x="-1" y="83" width="1025" height="542"/>
                                 <subviews>
                                     <slider opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" minValue="-180" maxValue="180" translatesAutoresizingMaskIntoConstraints="NO" id="0bV-ba-Rxq" userLabel="Rotation Slider">
@@ -179,7 +178,6 @@
                                         </connections>
                                     </slider>
                                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" restorationIdentifier="right" contentHorizontalAlignment="center" contentVerticalAlignment="center" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="T9B-QI-ACR">
-
                                         <rect key="frame" x="918" y="402" width="70" height="70"/>
                                         <color key="backgroundColor" red="0.31614871010000001" green="0.64871861009999998" blue="0.86274509799999999" alpha="1" colorSpace="calibratedRGB"/>
                                         <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
@@ -192,22 +190,8 @@
                                             <action selector="lateralButtonUp:" destination="lZr-Lc-zbu" eventType="touchDragOutside" id="fef-qS-8ZA"/>
                                         </connections>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" restorationIdentifier="left" contentHorizontalAlignment="center" contentVerticalAlignment="center" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="885-05-WMq">
-                                        <rect key="frame" x="807" y="540" width="70" height="70"/>
-                                        <color key="backgroundColor" red="0.20141062940000001" green="0.82328061180000001" blue="0.86274509799999999" alpha="1" colorSpace="calibratedRGB"/>
-                                        <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                        <state key="normal" image="arrow_left">
-                                            <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                        </state>
-                                        <connections>
-                                            <action selector="lateralButtonDown:" destination="lZr-Lc-zbu" eventType="touchDown" id="0c4-K3-epe"/>
-                                            <action selector="lateralButtonUp:" destination="lZr-Lc-zbu" eventType="touchUpInside" id="4UD-io-ey3"/>
-                                            <action selector="lateralButtonUp:" destination="lZr-Lc-zbu" eventType="touchDragOutside" id="wrT-kh-Sav"/>
-                                        </connections>
-                                    </button>
                                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" restorationIdentifier="forward" contentHorizontalAlignment="center" contentVerticalAlignment="center" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Exs-gh-uXv">
-
-                                        <rect key="frame" x="848" y="331" width="70" height="70"/>
+                                        <rect key="frame" x="848" y="332" width="70" height="70"/>
                                         <color key="backgroundColor" red="0.31614871010000001" green="0.64871861009999998" blue="0.86274509799999999" alpha="1" colorSpace="calibratedRGB"/>
                                         <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                         <state key="normal" image="arrow_up">
@@ -219,7 +203,6 @@
                                             <action selector="lateralButtonUp:" destination="lZr-Lc-zbu" eventType="touchUpInside" id="9rt-tP-LYI"/>
                                         </connections>
                                     </button>
-
                                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" restorationIdentifier="back" contentHorizontalAlignment="center" contentVerticalAlignment="center" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JD4-wa-iPa">
                                         <rect key="frame" x="848" y="472" width="70" height="70"/>
                                         <color key="backgroundColor" red="0.31614871010000001" green="0.64871861009999998" blue="0.86274509799999999" alpha="1" colorSpace="calibratedRGB"/>
@@ -228,7 +211,6 @@
                                             <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                         </state>
                                         <connections>
-
                                             <action selector="lateralButtonDown:" destination="lZr-Lc-zbu" eventType="touchDown" id="R9X-jD-pjz"/>
                                             <action selector="lateralButtonUp:" destination="lZr-Lc-zbu" eventType="touchDragOutside" id="GSu-5E-Xfy"/>
                                             <action selector="lateralButtonUp:" destination="lZr-Lc-zbu" eventType="touchUpInside" id="cBx-Mq-JV5"/>
@@ -255,6 +237,19 @@
                                     <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="it6-1N-EKc">
                                         <rect key="frame" x="4" y="4" width="316" height="316"/>
                                     </mapView>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" restorationIdentifier="left" contentHorizontalAlignment="center" contentVerticalAlignment="center" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="885-05-WMq">
+                                        <rect key="frame" x="778" y="402" width="70" height="70"/>
+                                        <color key="backgroundColor" red="0.31614871010000001" green="0.64871861009999998" blue="0.86274509799999999" alpha="1" colorSpace="calibratedRGB"/>
+                                        <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                        <state key="normal" image="arrow_left">
+                                            <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="lateralButtonDown:" destination="lZr-Lc-zbu" eventType="touchDown" id="0c4-K3-epe"/>
+                                            <action selector="lateralButtonUp:" destination="lZr-Lc-zbu" eventType="touchUpInside" id="4UD-io-ey3"/>
+                                            <action selector="lateralButtonUp:" destination="lZr-Lc-zbu" eventType="touchDragOutside" id="wrT-kh-Sav"/>
+                                        </connections>
+                                    </button>
                                 </subviews>
                                 <constraints>
                                     <constraint firstItem="it6-1N-EKc" firstAttribute="leading" secondItem="0mV-Gp-vom" secondAttribute="leading" constant="4" id="BDE-D1-m0a"/>
