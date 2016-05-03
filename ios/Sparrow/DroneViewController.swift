@@ -13,21 +13,15 @@ import MapKit
 
 class DroneViewController: UIViewController, AnalogueStickDelegate, MKMapViewDelegate, UIPopoverPresentationControllerDelegate {
     
-    
     @IBOutlet weak var logo: UIImageView!
-    
+    @IBOutlet weak var mapView: MKMapView!
+    @IBOutlet weak var cameraView: UIView!
     @IBOutlet weak var dropPinButton:UIButton!
-    
     @IBOutlet weak var sarPathButton: UIButton!
-    
     @IBOutlet weak var launchButton:UIButton!
-    
     @IBOutlet weak var coordinateLabel:UILabel!
-    
     @IBOutlet weak var altitudeReadingLabel:UILabel!
-    
     @IBOutlet weak var analogueStick: AnalogueStick!
-    
     @IBOutlet weak var altitudeSlider: UISlider! {
         didSet {
             altitudeSlider.transform = CGAffineTransformMakeRotation(CGFloat(-M_PI_2))
@@ -40,8 +34,6 @@ class DroneViewController: UIViewController, AnalogueStickDelegate, MKMapViewDel
             // altitudeSlider.setMinimumTrackImage(UIImage(named:"slider_track"), forState: UIControlState.Normal)
         }
     }
-    
-    
     @IBOutlet weak var rotationSlider: UISlider! {
         didSet {
             let thumbImage = UIImage(named:"slider_thumb")
@@ -62,23 +54,9 @@ class DroneViewController: UIViewController, AnalogueStickDelegate, MKMapViewDel
         UIGraphicsEndImageContext()
         return newImage
     }
-
-    @IBOutlet weak var mapView: MKMapView!
-    var locations: [CLLocationCoordinate2D] = []
-    var path: MKPolyline?
-    var marker: MKAnnotation?
-    var pinLocations: [MKAnnotation] = []
-    
-    @IBOutlet weak var cameraView: UIView!
-    
-    var inFlight: Bool = false
-    
-    // let socket = SocketIOClient(socketURL: NSURL(string: "http://10.34.172.4:5000")!, options: [.Nsp("/control")])
-    let socket = SocketIOClient(socketURL: NSURL(string: "http://10.196.68.209:5000")!)
     
     
     weak var delegate: AnalogueStickDelegate?
-    
     var detailItem: AnyObject? {
         didSet {
             // Update the view.
@@ -113,6 +91,24 @@ class DroneViewController: UIViewController, AnalogueStickDelegate, MKMapViewDel
         // Dispose of any resources that can be recreated.
     }
     
+    
+    
+// ================================ SERVER ===============================
+    
+    let socket = SocketIOClient(socketURL: NSURL(string: "http://10.196.68.209:5000")!)
+
+    func addHandlers() {
+        // Our socket handlers go here
+        self.socket.onAny {print("Got event: \($0.event), with items: \($0.items)")}
+        
+        // constant fetching for latest GPS coordinates
+        self.socket.on("gps_pos_ack") {[weak self] data, ack in
+            debugPrint("received gps_pos_ack event")
+            self?.handleGPSPos(data)
+            return
+        }
+    }
+    
     func handleGPSPos(data: AnyObject) {
 
         debugPrint("in handleGPSPos")
@@ -131,18 +127,6 @@ class DroneViewController: UIViewController, AnalogueStickDelegate, MKMapViewDel
         
         // call onLocationUpdate
          onLocationUpdate(loc)
-    }
- 
-    func addHandlers() {
-        // Our socket handlers go here
-        self.socket.onAny {print("Got event: \($0.event), with items: \($0.items)")}
-        
-        // constant fetching for latest GPS coordinates
-        self.socket.on("gps_pos_ack") {[weak self] data, ack in
-            debugPrint("received gps_pos_ack event")
-            self?.handleGPSPos(data)
-            return
-        }
     }
     
     func HTTPsendRequest(request: NSMutableURLRequest, callback: ((String, String?) -> Void)!) {
@@ -172,15 +156,11 @@ class DroneViewController: UIViewController, AnalogueStickDelegate, MKMapViewDel
             HTTPsendRequest(request,callback: callback)
     }
     
-    func updateLaunchButton() {
-        if (self.inFlight) {
-            launchButton.setTitle("Land", forState: UIControlState.Normal)
-            launchButton.backgroundColor = UIColor.redColor()
-        } else {
-            launchButton.setTitle("Launch", forState: UIControlState.Normal)
-            launchButton.backgroundColor = UIColor.greenColor()
-        }
-    }
+
+    
+// ================================ MOVEMENT CONTROL ===============================
+    
+    var inFlight: Bool = false
     
     @IBAction func launchButtonClicked(sender: AnyObject) {
         if (self.inFlight) {
@@ -213,21 +193,16 @@ class DroneViewController: UIViewController, AnalogueStickDelegate, MKMapViewDel
         self.updateLaunchButton()
     }
     
-    @IBAction func dropPinButtonClicked(sender: AnyObject) {
-        if let loc = self.locations.last {
-            if (self.pinLocations.count > 0 &&
-                loc.latitude == self.pinLocations.last!.coordinate.latitude &&
-                loc.longitude == self.pinLocations.last!.coordinate.longitude
-                ) {
-                return;
-            }
-            let pin = MKPointAnnotation()
-            pin.coordinate = loc
-            self.pinLocations.append(pin)
-            self.mapView.addAnnotation(pin)
+    func updateLaunchButton() {
+        if (self.inFlight) {
+            launchButton.setTitle("Land", forState: UIControlState.Normal)
+            launchButton.backgroundColor = UIColor.redColor()
+        } else {
+            launchButton.setTitle("Launch", forState: UIControlState.Normal)
+            launchButton.backgroundColor = UIColor.greenColor()
         }
     }
-    
+
     @IBAction func altitudeSliderChange(sender: AnyObject) {
         debugPrint("Altitude slider changed to %f", self.altitudeSlider.value)
         let altitudeCommandArgs = [
@@ -310,6 +285,15 @@ class DroneViewController: UIViewController, AnalogueStickDelegate, MKMapViewDel
         socket.emit("lateral_cmd", lateralCommandArgs)
     }
     
+    
+    
+// ================================ MAP VIEW ===============================
+    
+    var locations: [CLLocationCoordinate2D] = []
+    var path: MKPolyline?
+    var marker: MKAnnotation?
+    var pinLocations: [MKAnnotation] = []
+
     func onLocationUpdate(newLoc: CLLocationCoordinate2D) {
         
         debugPrint("in onLocationUpdate")
@@ -326,12 +310,55 @@ class DroneViewController: UIViewController, AnalogueStickDelegate, MKMapViewDel
         drawPath()
     }
     
+    @IBAction func dropPinButtonClicked(sender: AnyObject) {
+        if let loc = self.locations.last {
+            if (self.pinLocations.count > 0 &&
+                loc.latitude == self.pinLocations.last!.coordinate.latitude &&
+                loc.longitude == self.pinLocations.last!.coordinate.longitude
+                ) {
+                return;
+            }
+            let pin = MKPointAnnotation()
+            pin.coordinate = loc
+            self.pinLocations.append(pin)
+            self.mapView.addAnnotation(pin)
+        }
+    }
+    
+    func dropWaypoint(gestureRecognizer: UILongPressGestureRecognizer) {
+        if (gestureRecognizer.state != UIGestureRecognizerState.Began) {
+            return;
+        }
+        
+        let touchPoint = gestureRecognizer.locationInView(self.mapView)
+        let loc = self.mapView.convertPoint(touchPoint, toCoordinateFromView: self.mapView)
+        let waypoint = WaypointAnnotation(coordinate: loc)
+        self.mapView.addAnnotation(waypoint)
+        // TODO: send goto waypoint message to server
+        //        let waypointArgs = [
+        //            "lat": loc.latitude
+        //            "lon": loc.longitude
+        //        ]
+        //        socket.emit("waypoint_cmd", waypointArgs)
+    }
+
     func drawMarker(coordinate: CLLocationCoordinate2D) {
         if (marker != nil) {
             mapView.removeAnnotation(marker!)
         }
         marker = CurrentLocationAnnotation(coordinate: coordinate)
         mapView.addAnnotation(marker!)
+    }
+
+    func drawPath() {
+        if (locations.count == 1) {
+            return
+        }
+        if (self.path != nil) {
+            self.mapView.removeOverlay(path!)
+        }
+        self.path = MKPolyline(coordinates: &locations, count: locations.count)
+        self.mapView.addOverlay(self.path!)
     }
     
     func mapView(mapView: MKMapView, viewForAnnotation annotation: MKAnnotation) -> MKAnnotationView? {
@@ -365,17 +392,6 @@ class DroneViewController: UIViewController, AnalogueStickDelegate, MKMapViewDel
         return MKAnnotationView()
     }
     
-    func drawPath() {
-        if (locations.count == 1) {
-            return
-        }
-        if (self.path != nil) {
-            self.mapView.removeOverlay(path!)
-        }
-        self.path = MKPolyline(coordinates: &locations, count: locations.count)
-        self.mapView.addOverlay(self.path!)
-    }
-    
     func mapView(mapView: MKMapView, rendererForOverlay overlay: MKOverlay) -> MKOverlayRenderer {
         if (overlay is MKPolyline) {
             let pathRenderer = MKPolylineRenderer(overlay: overlay)
@@ -390,23 +406,6 @@ class DroneViewController: UIViewController, AnalogueStickDelegate, MKMapViewDel
         return MKPolylineRenderer();
     }
     
-    func dropWaypoint(gestureRecognizer: UILongPressGestureRecognizer) {
-        if (gestureRecognizer.state != UIGestureRecognizerState.Began) {
-            return;
-        }
-        
-        let touchPoint = gestureRecognizer.locationInView(self.mapView)
-        let loc = self.mapView.convertPoint(touchPoint, toCoordinateFromView: self.mapView)
-        let waypoint = WaypointAnnotation(coordinate: loc)
-        self.mapView.addAnnotation(waypoint)
-        // TODO: send goto waypoint message to server
-//        let waypointArgs = [
-//            "lat": loc.latitude
-//            "lon": loc.longitude
-//        ]
-//        socket.emit("waypoint_cmd", waypointArgs)
-    }
-
     func mapView(mapView: MKMapView, didAddAnnotationViews views: [MKAnnotationView]) {
         for view in views {
             if (view.reuseIdentifier == "pinIcon") {
@@ -439,6 +438,10 @@ class DroneViewController: UIViewController, AnalogueStickDelegate, MKMapViewDel
         }
     }
 
+    
+    
+// ================================ SAR PATHS ===============================
+    
     @IBAction func sarPathButtonClicked(sender: AnyObject) {
         /* TODO: finish sarPath */
         print("SAR PATH BUTTON CLICKED");
