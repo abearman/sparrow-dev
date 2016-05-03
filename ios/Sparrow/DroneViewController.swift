@@ -11,12 +11,14 @@ import UIKit
 import Foundation
 import MapKit
 
-class DroneViewController: UIViewController, AnalogueStickDelegate, MKMapViewDelegate {
+class DroneViewController: UIViewController, AnalogueStickDelegate, MKMapViewDelegate, UIPopoverPresentationControllerDelegate {
     
     
     @IBOutlet weak var logo: UIImageView!
     
     @IBOutlet weak var dropPinButton:UIButton!
+    
+    @IBOutlet weak var sarPathButton: UIButton!
     
     @IBOutlet weak var launchButton:UIButton!
     
@@ -379,5 +381,37 @@ class DroneViewController: UIViewController, AnalogueStickDelegate, MKMapViewDel
             self.mapView.addAnnotation(pin)
         }
     }
+    
+    
+    @IBAction func sarPathButtonClicked(sender: AnyObject) {
+        /* TODO: finish sarPath */
+        print("SAR PATH BUTTON CLICKED");
+        
+
+        /*let storyboard : UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+        let vc = storyboard.instantiateViewControllerWithIdentifier("DroneViewController")
+        vc.modalPresentationStyle = UIModalPresentationStyle.Popover
+        let popover: UIPopoverPresentationController = vc.popoverPresentationController!
+        popover.delegate = self
+        presentViewController(vc, animated: true, completion:nil)*/
+    }
+    
+    func adaptivePresentationStyleForPresentationController(controller: UIPresentationController) -> UIModalPresentationStyle {
+        return UIModalPresentationStyle.FullScreen
+        //        return UIModalPresentationStyle.None
+    }
+    
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if segue.identifier == "popoverSegue" {
+            let popoverViewController = segue.destinationViewController as UIViewController
+            popoverViewController.modalPresentationStyle = UIModalPresentationStyle.Popover
+            popoverViewController.popoverPresentationController!.delegate = self
+            let popoverTableViewController = segue.destinationViewController as! SARMenuViewController
+            popoverTableViewController.delegate = self
+            segue.destinationViewController.popoverPresentationController!.sourceView = sender as! UIButton
+            segue.destinationViewController.popoverPresentationController!.sourceRect = (sender as! UIButton).bounds
+        }
+    }
+    
 }
 

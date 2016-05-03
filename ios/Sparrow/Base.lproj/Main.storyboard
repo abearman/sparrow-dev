@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10116" systemVersion="15C50" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="lZr-Lc-zbu">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10116" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="lZr-Lc-zbu">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
@@ -15,9 +15,38 @@
             <string>Oswald-Medium</string>
             <string>Oswald-Medium</string>
             <string>Oswald-Medium</string>
+            <string>Oswald-Medium</string>
         </mutableArray>
     </customFonts>
     <scenes>
+        <!--Menu View Controller-->
+        <scene sceneID="7D7-oH-zsS">
+            <objects>
+                <tableViewController id="U7T-H5-HmE" customClass="SARMenuViewController" customModule="Sparrow" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="jiO-Pm-vYJ">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="sarCell" id="JMr-VM-zZo">
+                                <rect key="frame" x="0.0" y="28" width="600" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="JMr-VM-zZo" id="YSC-2h-UaB">
+                                    <rect key="frame" x="0.0" y="0.0" width="600" height="43"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="U7T-H5-HmE" id="FpN-iJ-h7T"/>
+                            <outlet property="delegate" destination="U7T-H5-HmE" id="AqS-YR-rDB"/>
+                        </connections>
+                    </tableView>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="snE-iL-BtT" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2514" y="225"/>
+        </scene>
         <!--Drone Controller-->
         <scene sceneID="Hgn-Cm-gzH">
             <objects>
@@ -49,19 +78,19 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="ALT" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AjX-QD-ZDc" userLabel="Altitude Title Label">
-                                        <rect key="frame" x="414" y="16" width="56" height="26"/>
+                                        <rect key="frame" x="391" y="16" width="56" height="26"/>
                                         <fontDescription key="fontDescription" name="Oswald-Medium" family="Oswald" pointSize="28"/>
                                         <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="00" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CIh-XW-P1V" userLabel="Altitude Reading Label">
-                                        <rect key="frame" x="458" y="8" width="72" height="43"/>
+                                        <rect key="frame" x="435" y="8" width="72" height="43"/>
                                         <fontDescription key="fontDescription" name="Oswald-Light" family="Oswald" pointSize="28"/>
                                         <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="f8G-UI-1Ji" userLabel="Launch Button">
-                                        <rect key="frame" x="833" y="3" width="183" height="51"/>
+                                        <rect key="frame" x="836" y="3" width="180" height="51"/>
                                         <color key="backgroundColor" red="0.46274509800000002" green="0.86274509799999999" blue="0.58823529409999997" alpha="1" colorSpace="calibratedRGB"/>
                                         <fontDescription key="fontDescription" name="Oswald-Medium" family="Oswald" pointSize="28"/>
                                         <inset key="contentEdgeInsets" minX="20" minY="0.0" maxX="20" maxY="0.0"/>
@@ -72,8 +101,8 @@
                                             <action selector="launchButtonClicked:" destination="lZr-Lc-zbu" eventType="touchUpInside" id="nUm-Ji-51K"/>
                                         </connections>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="j84-sP-DcN" userLabel="Drop Pin Button">
-                                        <rect key="frame" x="620" y="3" width="183" height="51"/>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="j84-sP-DcN" userLabel="Drop Pin Button">
+                                        <rect key="frame" x="678" y="4" width="152" height="51"/>
                                         <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                         <fontDescription key="fontDescription" name="Oswald-Medium" family="Oswald" pointSize="28"/>
                                         <inset key="contentEdgeInsets" minX="20" minY="0.0" maxX="20" maxY="0.0"/>
@@ -85,12 +114,25 @@
                                             <action selector="dropPinButtonClicked:" destination="lZr-Lc-zbu" eventType="touchUpInside" id="QUQ-FD-R76"/>
                                         </connections>
                                     </button>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DRT-cW-FhC" userLabel="Drop Pin Button">
+                                        <rect key="frame" x="518" y="4" width="153" height="51"/>
+                                        <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                        <fontDescription key="fontDescription" name="Oswald-Medium" family="Oswald" pointSize="28"/>
+                                        <inset key="contentEdgeInsets" minX="20" minY="0.0" maxX="20" maxY="0.0"/>
+                                        <state key="normal" title="SAR PATH">
+                                            <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="sarPathButtonClicked:" destination="lZr-Lc-zbu" eventType="touchUpInside" id="fGr-bG-XkD"/>
+                                            <segue destination="U7T-H5-HmE" kind="popoverPresentation" identifier="popoverSegue" popoverAnchorView="DRT-cW-FhC" id="3xC-Wn-PGT">
+                                                <popoverArrowDirection key="popoverArrowDirection" up="YES" down="YES" left="YES" right="YES"/>
+                                            </segue>
+                                        </connections>
+                                    </button>
                                 </subviews>
                                 <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstItem="gf4-sk-fBR" firstAttribute="leading" secondItem="If3-Rp-Qj0" secondAttribute="trailing" constant="5" id="1gO-en-aXi"/>
-                                    <constraint firstItem="f8G-UI-1Ji" firstAttribute="leading" secondItem="j84-sP-DcN" secondAttribute="trailing" constant="30" id="75M-Hn-3tz"/>
-                                    <constraint firstItem="j84-sP-DcN" firstAttribute="leading" secondItem="CIh-XW-P1V" secondAttribute="trailing" constant="30" id="9gj-j1-Ixj"/>
                                     <constraint firstItem="CIh-XW-P1V" firstAttribute="leading" secondItem="AjX-QD-ZDc" secondAttribute="trailing" constant="5" id="Na1-ZJ-0hU"/>
                                     <constraint firstItem="If3-Rp-Qj0" firstAttribute="leading" secondItem="XSi-qw-Jys" secondAttribute="trailing" constant="30" id="PWe-ht-DM7"/>
                                     <constraint firstAttribute="trailing" secondItem="f8G-UI-1Ji" secondAttribute="trailing" constant="8" id="eCn-kG-wQa"/>
@@ -111,7 +153,7 @@
                                         <rect key="frame" x="0.0" y="0.0" width="316" height="316"/>
                                     </mapView>
                                     <slider opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" minValue="-180" maxValue="180" translatesAutoresizingMaskIntoConstraints="NO" id="0bV-ba-Rxq" userLabel="Rotation Slider">
-                                        <rect key="frame" x="48" y="331" width="221" height="31"/>
+                                        <rect key="frame" x="79" y="331" width="221" height="31"/>
                                         <color key="minimumTrackTintColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                         <color key="maximumTrackTintColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                         <connections>
@@ -121,7 +163,7 @@
                                         </connections>
                                     </slider>
                                     <slider opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="2" minValue="2" maxValue="5" translatesAutoresizingMaskIntoConstraints="NO" id="FG0-rd-ofc" userLabel="Altitude Slider">
-                                        <rect key="frame" x="6" y="492" width="264" height="31"/>
+                                        <rect key="frame" x="27" y="492" width="249" height="31"/>
                                         <color key="minimumTrackTintColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                         <color key="maximumTrackTintColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                         <connections>
@@ -130,7 +172,7 @@
                                     </slider>
                                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" restorationIdentifier="right" contentHorizontalAlignment="center" contentVerticalAlignment="center" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="T9B-QI-ACR">
                                         <rect key="frame" x="918" y="402" width="70" height="70"/>
-                                        <color key="backgroundColor" red="0.201410629423908" green="0.82328061180864753" blue="0.86274509799999999" alpha="1" colorSpace="calibratedRGB"/>
+                                        <color key="backgroundColor" red="0.31614871010000001" green="0.64871861009999998" blue="0.86274509799999999" alpha="1" colorSpace="calibratedRGB"/>
                                         <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                         <state key="normal" image="arrow_right">
                                             <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
@@ -156,7 +198,7 @@
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" restorationIdentifier="forward" contentHorizontalAlignment="center" contentVerticalAlignment="center" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Exs-gh-uXv">
                                         <rect key="frame" x="848" y="331" width="70" height="70"/>
-                                        <color key="backgroundColor" red="0.20141062940000001" green="0.82328061180000001" blue="0.86274509799999999" alpha="1" colorSpace="calibratedRGB"/>
+                                        <color key="backgroundColor" red="0.31614871010000001" green="0.64871861009999998" blue="0.86274509799999999" alpha="1" colorSpace="calibratedRGB"/>
                                         <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                         <state key="normal" image="arrow_up">
                                             <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
@@ -180,6 +222,24 @@
                                             <action selector="lateralButtonUp:" destination="lZr-Lc-zbu" eventType="touchUpInside" id="cBx-Mq-JV5"/>
                                         </connections>
                                     </button>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="+180" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Awc-WI-MlT">
+                                        <rect key="frame" x="304" y="328" width="39" height="21"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="-180" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9iF-O1-YOy">
+                                        <rect key="frame" x="40" y="328" width="36" height="21"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="+5" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zrT-zk-fNp">
+                                        <rect key="frame" x="29" y="353" width="21" height="21"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
                                 </subviews>
                                 <constraints>
                                     <constraint firstItem="it6-1N-EKc" firstAttribute="leading" secondItem="0mV-Gp-vom" secondAttribute="leading" constant="5" id="BDE-D1-m0a"/>
@@ -188,6 +248,12 @@
                                     <constraint firstItem="FG0-rd-ofc" firstAttribute="leading" secondItem="0mV-Gp-vom" secondAttribute="leading" constant="-80" id="drI-1t-Al4"/>
                                 </constraints>
                             </view>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="-5" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="64G-Ws-nrZ">
+                                <rect key="frame" x="34" y="711" width="18" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -204,6 +270,7 @@
                             <constraint firstItem="J8f-fi-mHA" firstAttribute="top" secondItem="llt-1G-RT1" secondAttribute="bottom" id="uhF-50-4Id"/>
                         </constraints>
                     </view>
+                    <navigationItem key="navigationItem" id="nwN-Qr-eHe"/>
                     <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="iPad"/>
                     <connections>
@@ -217,11 +284,12 @@
                         <outlet property="logo" destination="XSi-qw-Jys" id="hlV-pT-Hud"/>
                         <outlet property="mapView" destination="it6-1N-EKc" id="NFJ-oK-7tM"/>
                         <outlet property="rotationSlider" destination="0bV-ba-Rxq" id="CFW-ch-NlO"/>
+                        <outlet property="sarPathButton" destination="DRT-cW-FhC" id="k3L-sc-pOW"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="f5n-xx-WEw" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1013" y="1129"/>
+            <point key="canvasLocation" x="1386" y="987"/>
         </scene>
     </scenes>
     <resources>
