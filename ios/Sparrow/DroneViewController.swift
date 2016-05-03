@@ -54,18 +54,26 @@ class DroneViewController: UIViewController, AnalogueStickDelegate, MKMapViewDel
             // rotationSlider.setMinimumTrackImage(UIImage(named:"slider_track"), forState: UIControlState.Normal)
         }
     }
-        
+    
+    func imageWithImage(image:UIImage, scaledToSize newSize:CGSize) -> UIImage{
+        UIGraphicsBeginImageContextWithOptions(newSize, false, 0.0);
+        image.drawInRect(CGRectMake(0, 0, newSize.width, newSize.height))
+        let newImage:UIImage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        return newImage
+    }
+
     @IBOutlet weak var mapView: MKMapView!
     var locations: [CLLocationCoordinate2D] = []
     var path: MKPolyline?
     var marker: MKAnnotation?
+    var pinLocations: [MKAnnotation] = []
     
     @IBOutlet weak var cameraView: UIView!
     
     var inFlight: Bool = false
     
     // let socket = SocketIOClient(socketURL: NSURL(string: "http://10.34.172.4:5000")!, options: [.Nsp("/control")])
-    
     let socket = SocketIOClient(socketURL: NSURL(string: "http://10.196.68.209:5000")!)
     
     
@@ -82,21 +90,28 @@ class DroneViewController: UIViewController, AnalogueStickDelegate, MKMapViewDel
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
         self.configureView()
+        
         logo.image = UIImage(named: "logo_icon")
         analogueStick.delegate = self
+        
         mapView.delegate = self
         mapView.layer.borderWidth = 2
         mapView.layer.borderColor = UIColor.darkGrayColor().CGColor
         let longPressRec = UILongPressGestureRecognizer(target: self, action: #selector(DroneViewController.dropWaypoint(_:)))
         self.mapView.addGestureRecognizer(longPressRec)
+        let startLoc = CLLocationCoordinate2DMake(37.430020, -122.173302)
+        onLocationUpdate(startLoc)
 
         self.addHandlers()
         debugPrint("Connecting to server control socket...")
         self.socket.connect()
     }
     
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        // Dispose of any resources that can be recreated.
+    }
     
     func handleGPSPos(data: AnyObject) {
 
@@ -118,15 +133,6 @@ class DroneViewController: UIViewController, AnalogueStickDelegate, MKMapViewDel
          onLocationUpdate(loc)
     }
  
-    
-    func imageWithImage(image:UIImage, scaledToSize newSize:CGSize) -> UIImage{
-        UIGraphicsBeginImageContextWithOptions(newSize, false, 0.0);
-        image.drawInRect(CGRectMake(0, 0, newSize.width, newSize.height))
-        let newImage:UIImage = UIGraphicsGetImageFromCurrentImageContext()
-        UIGraphicsEndImageContext()
-        return newImage
-    }
-    
     func addHandlers() {
         // Our socket handlers go here
         self.socket.onAny {print("Got event: \($0.event), with items: \($0.items)")}
@@ -137,13 +143,6 @@ class DroneViewController: UIViewController, AnalogueStickDelegate, MKMapViewDel
             self?.handleGPSPos(data)
             return
         }
-        
-        
-    }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
     
     func HTTPsendRequest(request: NSMutableURLRequest, callback: ((String, String?) -> Void)!) {
@@ -214,9 +213,19 @@ class DroneViewController: UIViewController, AnalogueStickDelegate, MKMapViewDel
         self.updateLaunchButton()
     }
     
-    
     @IBAction func dropPinButtonClicked(sender: AnyObject) {
-        /* TODO: drop pin on map */
+        if let loc = self.locations.last {
+            if (self.pinLocations.count > 0 &&
+                loc.latitude == self.pinLocations.last!.coordinate.latitude &&
+                loc.longitude == self.pinLocations.last!.coordinate.longitude
+                ) {
+                return;
+            }
+            let pin = MKPointAnnotation()
+            pin.coordinate = loc
+            self.pinLocations.append(pin)
+            self.mapView.addAnnotation(pin)
+        }
     }
     
     @IBAction func altitudeSliderChange(sender: AnyObject) {
@@ -309,6 +318,8 @@ class DroneViewController: UIViewController, AnalogueStickDelegate, MKMapViewDel
         
         drawMarker(newLoc)
         
+        // Center curent location in map view. May be annoying when user is trying to
+        // scroll to a different part of the map (TODO).
         let region = MKCoordinateRegionMake(newLoc, MKCoordinateSpanMake(0.01, 0.01))
         self.mapView.setRegion(region, animated: true)
         
@@ -343,12 +354,12 @@ class DroneViewController: UIViewController, AnalogueStickDelegate, MKMapViewDel
             }
         }
         else if (annotation is MKPointAnnotation) {
-            if let poiIcon = self.mapView.dequeueReusableAnnotationViewWithIdentifier("poiIcon") {
-                return poiIcon
+            if let pinIcon = self.mapView.dequeueReusableAnnotationViewWithIdentifier("pinIcon") {
+                return pinIcon
             } else {
-                let poiIcon = MKAnnotationView(annotation: annotation, reuseIdentifier: "poiIcon")
-                poiIcon.image = UIImage(named: "poi_icon")
-                return poiIcon
+                let pinIcon = MKAnnotationView(annotation: annotation, reuseIdentifier: "pinIcon")
+                pinIcon.image = UIImage(named: "pin_icon")
+                return pinIcon
             }
         }
         return MKAnnotationView()
@@ -379,23 +390,6 @@ class DroneViewController: UIViewController, AnalogueStickDelegate, MKMapViewDel
         return MKPolylineRenderer();
     }
     
-    var pinLocations: [MKAnnotation] = []
-
-    @IBAction func dropPin(sender: AnyObject) {
-        if let loc = self.locations.last {
-            if (self.pinLocations.count > 0 &&
-                loc.latitude == self.pinLocations.last!.coordinate.latitude &&
-                loc.longitude == self.pinLocations.last!.coordinate.longitude
-                ) {
-                return;
-            }
-            let pin = MKPointAnnotation()
-            pin.coordinate = loc
-            self.pinLocations.append(pin)
-            self.mapView.addAnnotation(pin)
-        }
-    }
-    
     func dropWaypoint(gestureRecognizer: UILongPressGestureRecognizer) {
         if (gestureRecognizer.state != UIGestureRecognizerState.Began) {
             return;
@@ -415,7 +409,7 @@ class DroneViewController: UIViewController, AnalogueStickDelegate, MKMapViewDel
 
     func mapView(mapView: MKMapView, didAddAnnotationViews views: [MKAnnotationView]) {
         for view in views {
-            if (view.reuseIdentifier == "poiIcon") {
+            if (view.reuseIdentifier == "pinIcon") {
                 let endFrame = view.frame
                 view.frame = CGRectMake(view.frame.origin.x, view.frame.origin.y - self.view.frame.size.height, view.frame.size.width, view.frame.size.height);
                 UIView.animateWithDuration(

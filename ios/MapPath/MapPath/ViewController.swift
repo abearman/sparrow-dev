@@ -22,6 +22,8 @@ class ViewController: UIViewController, MKMapViewDelegate, UIGestureRecognizerDe
         self.mapView.delegate = self
         let longPressRec = UILongPressGestureRecognizer(target: self, action: #selector(ViewController.dropWaypoint(_:)))
         self.mapView.addGestureRecognizer(longPressRec)
+//        let startLoc = CLLocationCoordinate2DMake(37.421513, -122.168934)
+//        onLocationUpdate(startLoc)
     }
 
     
@@ -94,12 +96,12 @@ class ViewController: UIViewController, MKMapViewDelegate, UIGestureRecognizerDe
             }
         }
         else if (annotation is MKPointAnnotation) {
-            if let poiIcon = self.mapView.dequeueReusableAnnotationViewWithIdentifier("poiIcon") {
-                return poiIcon
+            if let pinIcon = self.mapView.dequeueReusableAnnotationViewWithIdentifier("pinIcon") {
+                return pinIcon
             } else {
-                let poiIcon = MKAnnotationView(annotation: annotation, reuseIdentifier: "poiIcon")
-                poiIcon.image = UIImage(named: "poi_icon")
-                return poiIcon
+                let pinIcon = MKAnnotationView(annotation: annotation, reuseIdentifier: "pinIcon")
+                pinIcon.image = UIImage(named: "pin_icon")
+                return pinIcon
             }
         }
         return MKAnnotationView()
@@ -144,7 +146,7 @@ class ViewController: UIViewController, MKMapViewDelegate, UIGestureRecognizerDe
     
     func mapView(mapView: MKMapView, didAddAnnotationViews views: [MKAnnotationView]) {
         for view in views {
-            if (view.reuseIdentifier == "poiIcon") {
+            if (view.reuseIdentifier == "pinIcon") {
                 let endFrame = view.frame
                 view.frame = CGRectMake(view.frame.origin.x, view.frame.origin.y - self.view.frame.size.height, view.frame.size.width, view.frame.size.height);
                 UIView.animateWithDuration(
