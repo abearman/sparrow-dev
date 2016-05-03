@@ -85,7 +85,7 @@ class DroneViewController: UIViewController, AnalogueStickDelegate, MKMapViewDel
         logo.image = UIImage(named: "logo_icon")
         analogueStick.delegate = self
         mapView.delegate = self
-        mapView.layer.borderWidth = 5
+        mapView.layer.borderWidth = 2
         mapView.layer.borderColor = UIColor.blackColor().CGColor
         self.addHandlers()
         debugPrint("Connecting to server control socket...")
@@ -330,11 +330,6 @@ class DroneViewController: UIViewController, AnalogueStickDelegate, MKMapViewDel
         self.locations.append(newLoc)
         
         drawMarker(newLoc)
-        //        if (marker != nil) {
-        //            self.mapView.removeOverlay(marker!)
-        //        }
-        //        marker = MKCircle(centerCoordinate: newLoc, radius: 30)
-        //        self.mapView.addOverlay(marker!)
         
         let region = MKCoordinateRegionMake(newLoc, MKCoordinateSpanMake(0.01, 0.01))
         self.mapView.setRegion(region, animated: true)
@@ -360,6 +355,12 @@ class DroneViewController: UIViewController, AnalogueStickDelegate, MKMapViewDel
                 markerView = mapView.dequeueReusableAnnotationViewWithIdentifier("currentLocationMarker")!
             }
             return markerView
+        }
+        else if (annotation is MKPointAnnotation) {
+            let pinView = MKPinAnnotationView()
+            pinView.pinTintColor = UIColor.redColor()
+            pinView.animatesDrop = true
+            return pinView
         }
         return MKAnnotationView()
     }
@@ -387,6 +388,23 @@ class DroneViewController: UIViewController, AnalogueStickDelegate, MKMapViewDel
             return circleRenderer
         }
         return MKPolylineRenderer();
+    }
+    
+    var pinLocations: [MKAnnotation] = []
+
+    @IBAction func dropPin(sender: AnyObject) {
+        if let loc = self.locations.last {
+            if (self.pinLocations.count > 0 &&
+                loc.latitude == self.pinLocations.last!.coordinate.latitude &&
+                loc.longitude == self.pinLocations.last!.coordinate.longitude
+                ) {
+                return;
+            }
+            let pin = MKPointAnnotation()
+            pin.coordinate = loc
+            self.pinLocations.append(pin)
+            self.mapView.addAnnotation(pin)
+        }
     }
 }
 

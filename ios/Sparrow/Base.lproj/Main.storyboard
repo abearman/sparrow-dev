@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10116" systemVersion="15C50" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="lZr-Lc-zbu">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10116" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="lZr-Lc-zbu">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
@@ -65,7 +65,7 @@
                                         <color key="backgroundColor" red="0.46274509800000002" green="0.86274509799999999" blue="0.58823529409999997" alpha="1" colorSpace="calibratedRGB"/>
                                         <fontDescription key="fontDescription" name="Oswald-Medium" family="Oswald" pointSize="28"/>
                                         <inset key="contentEdgeInsets" minX="20" minY="0.0" maxX="20" maxY="0.0"/>
-                                        <state key="normal" title="Launch">
+                                        <state key="normal" title="LAUNCH">
                                             <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                         </state>
                                         <connections>
@@ -77,10 +77,11 @@
                                         <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                         <fontDescription key="fontDescription" name="Oswald-Medium" family="Oswald" pointSize="28"/>
                                         <inset key="contentEdgeInsets" minX="20" minY="0.0" maxX="20" maxY="0.0"/>
-                                        <state key="normal" title="Drop Pin">
+                                        <state key="normal" title="DROP PIN">
                                             <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                         </state>
                                         <connections>
+                                            <action selector="dropPin:" destination="lZr-Lc-zbu" eventType="touchUpInside" id="GNN-1w-H5k"/>
                                             <action selector="dropPinButtonClicked:" destination="lZr-Lc-zbu" eventType="touchUpInside" id="QUQ-FD-R76"/>
                                         </connections>
                                     </button>
@@ -110,7 +111,7 @@
                                         <rect key="frame" x="0.0" y="0.0" width="316" height="316"/>
                                     </mapView>
                                     <slider opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" minValue="-180" maxValue="180" translatesAutoresizingMaskIntoConstraints="NO" id="0bV-ba-Rxq" userLabel="Rotation Slider">
-                                        <rect key="frame" x="48" y="331" width="221" height="31"/>
+                                        <rect key="frame" x="79" y="331" width="221" height="31"/>
                                         <color key="minimumTrackTintColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                         <color key="maximumTrackTintColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                         <connections>
@@ -120,7 +121,7 @@
                                         </connections>
                                     </slider>
                                     <slider opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="2" minValue="2" maxValue="5" translatesAutoresizingMaskIntoConstraints="NO" id="FG0-rd-ofc" userLabel="Altitude Slider">
-                                        <rect key="frame" x="6" y="492" width="264" height="31"/>
+                                        <rect key="frame" x="27" y="492" width="249" height="31"/>
                                         <color key="minimumTrackTintColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                         <color key="maximumTrackTintColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                         <connections>
@@ -129,7 +130,7 @@
                                     </slider>
                                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" restorationIdentifier="right" contentHorizontalAlignment="center" contentVerticalAlignment="center" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="T9B-QI-ACR">
                                         <rect key="frame" x="918" y="402" width="70" height="70"/>
-                                        <color key="backgroundColor" red="0.201410629423908" green="0.82328061180864753" blue="0.86274509799999999" alpha="1" colorSpace="calibratedRGB"/>
+                                        <color key="backgroundColor" red="0.31614871010000001" green="0.64871861009999998" blue="0.86274509799999999" alpha="1" colorSpace="calibratedRGB"/>
                                         <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                         <state key="normal" image="arrow_right">
                                             <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
@@ -153,6 +154,19 @@
                                             <action selector="lateralButtonUp:" destination="lZr-Lc-zbu" eventType="touchDragOutside" id="KhL-v6-EFv"/>
                                         </connections>
                                     </button>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" restorationIdentifier="forward" contentHorizontalAlignment="center" contentVerticalAlignment="center" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Exs-gh-uXv">
+                                        <rect key="frame" x="848" y="331" width="70" height="70"/>
+                                        <color key="backgroundColor" red="0.31614871010000001" green="0.64871861009999998" blue="0.86274509799999999" alpha="1" colorSpace="calibratedRGB"/>
+                                        <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                        <state key="normal" image="arrow_up">
+                                            <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="lateralButtonDown:" destination="lZr-Lc-zbu" eventType="touchDown" id="Exh-PQ-SSU"/>
+                                            <action selector="lateralButtonUp:" destination="lZr-Lc-zbu" eventType="touchDragOutside" id="80U-i1-R0T"/>
+                                            <action selector="lateralButtonUp:" destination="lZr-Lc-zbu" eventType="touchUpInside" id="9rt-tP-LYI"/>
+                                        </connections>
+                                    </button>
                                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" restorationIdentifier="back" contentHorizontalAlignment="center" contentVerticalAlignment="center" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JD4-wa-iPa">
                                         <rect key="frame" x="848" y="472" width="70" height="70"/>
                                         <color key="backgroundColor" red="0.31614871010000001" green="0.64871861009999998" blue="0.86274509799999999" alpha="1" colorSpace="calibratedRGB"/>
@@ -166,19 +180,24 @@
                                             <action selector="lateralButtonUp:" destination="lZr-Lc-zbu" eventType="touchUpInside" id="cBx-Mq-JV5"/>
                                         </connections>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" restorationIdentifier="forward" contentHorizontalAlignment="center" contentVerticalAlignment="center" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Exs-gh-uXv">
-                                        <rect key="frame" x="848" y="331" width="70" height="70"/>
-                                        <color key="backgroundColor" red="0.20141062940000001" green="0.82328061180000001" blue="0.86274509799999999" alpha="1" colorSpace="calibratedRGB"/>
-                                        <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                        <state key="normal" image="arrow_up">
-                                            <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                        </state>
-                                        <connections>
-                                            <action selector="lateralButtonDown:" destination="lZr-Lc-zbu" eventType="touchDown" id="Exh-PQ-SSU"/>
-                                            <action selector="lateralButtonUp:" destination="lZr-Lc-zbu" eventType="touchDragOutside" id="80U-i1-R0T"/>
-                                            <action selector="lateralButtonUp:" destination="lZr-Lc-zbu" eventType="touchUpInside" id="9rt-tP-LYI"/>
-                                        </connections>
-                                    </button>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="+180" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Awc-WI-MlT">
+                                        <rect key="frame" x="304" y="328" width="39" height="21"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="-180" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9iF-O1-YOy">
+                                        <rect key="frame" x="40" y="328" width="36" height="21"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="+5" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zrT-zk-fNp">
+                                        <rect key="frame" x="29" y="353" width="21" height="21"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
                                 </subviews>
                                 <constraints>
                                     <constraint firstItem="it6-1N-EKc" firstAttribute="leading" secondItem="0mV-Gp-vom" secondAttribute="leading" constant="5" id="BDE-D1-m0a"/>
@@ -187,6 +206,12 @@
                                     <constraint firstItem="FG0-rd-ofc" firstAttribute="leading" secondItem="0mV-Gp-vom" secondAttribute="leading" constant="-80" id="drI-1t-Al4"/>
                                 </constraints>
                             </view>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="-5" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="64G-Ws-nrZ">
+                                <rect key="frame" x="34" y="711" width="18" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>

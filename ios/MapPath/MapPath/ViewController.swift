@@ -15,10 +15,11 @@ class ViewController: UIViewController, MKMapViewDelegate {
     var locations: [CLLocationCoordinate2D] = []
     var path: MKPolyline?
     var marker: MKAnnotation?
+    var pinLocations: [MKAnnotation] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        mapView.delegate = self
+        self.mapView.delegate = self
     }
 
     
@@ -48,12 +49,27 @@ class ViewController: UIViewController, MKMapViewDelegate {
         onLocationUpdate(loc)
     }
     
-    func drawMarker(coordinate: CLLocationCoordinate2D) {
-        if (marker != nil) {
-            mapView.removeAnnotation(marker!)
+    @IBAction func dropPin(sender: AnyObject) {
+        if let loc = self.locations.last {
+            if (self.pinLocations.count > 0 &&
+                loc.latitude == self.pinLocations.last!.coordinate.latitude &&
+                loc.longitude == self.pinLocations.last!.coordinate.longitude
+                ) {
+                return;
+            }
+            let pin = MKPointAnnotation()
+            pin.coordinate = loc
+            self.pinLocations.append(pin)
+            self.mapView.addAnnotation(pin)
         }
-        marker = CurrentLocationIcon(coordinate: coordinate)
-        mapView.addAnnotation(marker!)
+    }
+    
+    func drawMarker(coordinate: CLLocationCoordinate2D) {
+        if (self.marker != nil) {
+            self.mapView.removeAnnotation(self.marker!)
+        }
+        self.marker = CurrentLocationIcon(coordinate: coordinate)
+        self.mapView.addAnnotation(self.marker!)
     }
     
     func mapView(mapView: MKMapView, viewForAnnotation annotation: MKAnnotation) -> MKAnnotationView? {
@@ -63,9 +79,15 @@ class ViewController: UIViewController, MKMapViewDelegate {
                 markerView = MKAnnotationView(annotation: annotation, reuseIdentifier: "currentLocationMarker")
                 markerView.image = UIImage(named: "current_location_icon")
             } else {
-                markerView = mapView.dequeueReusableAnnotationViewWithIdentifier("currentLocationMarker")!
+                markerView = self.mapView.dequeueReusableAnnotationViewWithIdentifier("currentLocationMarker")!
             }
             return markerView
+        }
+        else if (annotation is MKPointAnnotation) {
+            let pinView = MKPinAnnotationView()
+            pinView.pinTintColor = UIColor.redColor()
+            pinView.animatesDrop = true
+            return pinView
         }
         return MKAnnotationView()
     }
@@ -75,7 +97,7 @@ class ViewController: UIViewController, MKMapViewDelegate {
             return
         }
         if (self.path != nil) {
-            self.mapView.removeOverlay(path!)
+            self.mapView.removeOverlay(self.path!)
         }
         self.path = MKPolyline(coordinates: &locations, count: locations.count)
         self.mapView.addOverlay(self.path!)
