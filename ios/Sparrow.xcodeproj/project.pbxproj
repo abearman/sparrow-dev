@@ -58,6 +58,7 @@
 		49CC318E1CCB24CF00E9A905 /* Oswald-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 49CC317E1CCB248400E9A905 /* Oswald-Regular.ttf */; };
 		49CC318F1CCB24D100E9A905 /* Oswald-RegularItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 49CC317F1CCB248400E9A905 /* Oswald-RegularItalic.ttf */; };
 		49CC31901CCB24D300E9A905 /* Oswald-Stencil.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 49CC31801CCB248400E9A905 /* Oswald-Stencil.ttf */; };
+		BD9220691CD970B4005DB301 /* SARMenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD9220681CD970B4005DB301 /* SARMenuViewController.swift */; };
 		BDDE047A1CD15A9E00E61271 /* CurrentLocationAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDDE04791CD15A9E00E61271 /* CurrentLocationAnnotation.swift */; };
 		C1C8124B1CD94B110087ED4D /* WaypointAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1C8124A1CD94B110087ED4D /* WaypointAnnotation.swift */; };
 		C1C8124D1CD970AD0087ED4D /* SARMenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1C8124C1CD970AD0087ED4D /* SARMenuViewController.swift */; };
@@ -141,6 +142,7 @@
 		49CC317E1CCB248400E9A905 /* Oswald-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Oswald-Regular.ttf"; sourceTree = "<group>"; };
 		49CC317F1CCB248400E9A905 /* Oswald-RegularItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Oswald-RegularItalic.ttf"; sourceTree = "<group>"; };
 		49CC31801CCB248400E9A905 /* Oswald-Stencil.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Oswald-Stencil.ttf"; sourceTree = "<group>"; };
+		BD9220681CD970B4005DB301 /* SARMenuViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SARMenuViewController.swift; sourceTree = "<group>"; };
 		BDDE04791CD15A9E00E61271 /* CurrentLocationAnnotation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CurrentLocationAnnotation.swift; sourceTree = "<group>"; };
 		C1C8124A1CD94B110087ED4D /* WaypointAnnotation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WaypointAnnotation.swift; sourceTree = "<group>"; };
 		C1C8124C1CD970AD0087ED4D /* SARMenuViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SARMenuViewController.swift; sourceTree = "<group>"; };
@@ -194,6 +196,7 @@
 		492AF85E1CC9B34B00A805F3 /* Sparrow */ = {
 			isa = PBXGroup;
 			children = (
+				BD9220681CD970B4005DB301 /* SARMenuViewController.swift */,
 				492AF85F1CC9B34B00A805F3 /* AppDelegate.swift */,
 				492AF8661CC9B34B00A805F3 /* DroneViewController.swift */,
 				C1C8124A1CD94B110087ED4D /* WaypointAnnotation.swift */,
@@ -455,7 +458,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C1C8124D1CD970AD0087ED4D /* SARMenuViewController.swift in Sources */,
+				BD9220691CD970B4005DB301 /* SARMenuViewController.swift in Sources */,
 				498188801CCADEB700029A6D /* SocketEngineClient.swift in Sources */,
 				4981887F1CCADEB700029A6D /* SocketEngine.swift in Sources */,
 				4981888B1CCADEB700029A6D /* SocketParsable.swift in Sources */,
