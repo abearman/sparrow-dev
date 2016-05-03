@@ -55,14 +55,14 @@ class DroneViewController: UIViewController, AnalogueStickDelegate, MKMapViewDel
         return newImage
     }
     
-    
-    weak var delegate: AnalogueStickDelegate?
-    var detailItem: AnyObject? {
-        didSet {
-            // Update the view.
-            self.configureView()
-        }
-    }
+// TODO: Are these variables necessary?
+//    weak var delegate: AnalogueStickDelegate?
+//    var detailItem: AnyObject? {
+//        didSet {
+//            // Update the view.
+//            self.configureView()
+//        }
+//    }
 
     func configureView() {}
 
@@ -88,12 +88,11 @@ class DroneViewController: UIViewController, AnalogueStickDelegate, MKMapViewDel
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
     
     
     
-// ================================ SERVER ===============================
+// =================================== SERVER ===================================
     
     let socket = SocketIOClient(socketURL: NSURL(string: "http://10.196.68.209:5000")!)
 
@@ -158,7 +157,7 @@ class DroneViewController: UIViewController, AnalogueStickDelegate, MKMapViewDel
     
 
     
-// ================================ MOVEMENT CONTROL ===============================
+// =================================== MOVEMENT CONTROL ===================================
     
     var inFlight: Bool = false
     
@@ -287,7 +286,7 @@ class DroneViewController: UIViewController, AnalogueStickDelegate, MKMapViewDel
     
     
     
-// ================================ MAP VIEW ===============================
+// =================================== MAP VIEW ===================================
     
     var locations: [CLLocationCoordinate2D] = []
     var path: MKPolyline?
@@ -440,7 +439,7 @@ class DroneViewController: UIViewController, AnalogueStickDelegate, MKMapViewDel
 
     
     
-// ================================ SAR PATHS ===============================
+// =================================== SAR PATHS ===================================
     
     @IBAction func sarPathButtonClicked(sender: AnyObject) {
         /* TODO: finish sarPath */
