@@ -159,17 +159,7 @@
                             <view contentMode="scaleToFill" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="0mV-Gp-vom" userLabel="Camera View">
                                 <rect key="frame" x="-1" y="83" width="1025" height="542"/>
                                 <subviews>
-                                    <slider opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" minValue="-180" maxValue="180" translatesAutoresizingMaskIntoConstraints="NO" id="0bV-ba-Rxq" userLabel="Rotation Slider">
-                                        <rect key="frame" x="79" y="331" width="221" height="31"/>
-                                        <color key="minimumTrackTintColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
-                                        <color key="maximumTrackTintColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                        <connections>
-                                            <action selector="rotationSliderChange:" destination="lZr-Lc-zbu" eventType="valueChanged" id="De1-Qh-1uA"/>
-                                            <action selector="rotationSliderReleased:" destination="lZr-Lc-zbu" eventType="touchUpInside" id="IVs-kJ-CWW"/>
-                                            <action selector="rotationSliderReleased:" destination="lZr-Lc-zbu" eventType="touchUpOutside" id="Tw4-7z-Mui"/>
-                                        </connections>
-                                    </slider>
-                                    <slider opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="2" minValue="2" maxValue="5" translatesAutoresizingMaskIntoConstraints="NO" id="FG0-rd-ofc" userLabel="Altitude Slider">
+                                    <slider opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" minValue="-5" maxValue="5" translatesAutoresizingMaskIntoConstraints="NO" id="FG0-rd-ofc" userLabel="Altitude Slider">
                                         <rect key="frame" x="27" y="492" width="249" height="31"/>
                                         <color key="minimumTrackTintColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                         <color key="maximumTrackTintColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
@@ -192,19 +182,6 @@
                                             <action selector="lateralButtonUp:" destination="lZr-Lc-zbu" eventType="touchUpOutside" id="zMv-dv-yMy"/>
                                         </connections>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" restorationIdentifier="forward" contentHorizontalAlignment="center" contentVerticalAlignment="center" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Exs-gh-uXv">
-                                        <rect key="frame" x="848" y="332" width="70" height="70"/>
-                                        <color key="backgroundColor" red="0.31614871010000001" green="0.64871861009999998" blue="0.86274509799999999" alpha="1" colorSpace="calibratedRGB"/>
-                                        <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                        <state key="normal" image="arrow_up">
-                                            <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                        </state>
-                                        <connections>
-                                            <action selector="lateralButtonDown:" destination="lZr-Lc-zbu" eventType="touchDown" id="Exh-PQ-SSU"/>
-                                            <action selector="lateralButtonUp:" destination="lZr-Lc-zbu" eventType="touchUpInside" id="9rt-tP-LYI"/>
-                                            <action selector="lateralButtonUp:" destination="lZr-Lc-zbu" eventType="touchUpOutside" id="H3z-6M-1ho"/>
-                                        </connections>
-                                    </button>
                                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" restorationIdentifier="back" contentHorizontalAlignment="center" contentVerticalAlignment="center" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JD4-wa-iPa">
                                         <rect key="frame" x="848" y="472" width="70" height="70"/>
                                         <color key="backgroundColor" red="0.31614871010000001" green="0.64871861009999998" blue="0.86274509799999999" alpha="1" colorSpace="calibratedRGB"/>
@@ -218,18 +195,6 @@
                                             <action selector="lateralButtonUp:" destination="lZr-Lc-zbu" eventType="touchUpInside" id="cBx-Mq-JV5"/>
                                         </connections>
                                     </button>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="+180" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Awc-WI-MlT">
-                                        <rect key="frame" x="304" y="328" width="39" height="21"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="-180" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9iF-O1-YOy">
-                                        <rect key="frame" x="40" y="328" width="36" height="21"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="+5" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zrT-zk-fNp">
                                         <rect key="frame" x="29" y="353" width="21" height="21"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
@@ -249,17 +214,51 @@
                                         <connections>
                                             <action selector="lateralButtonDown:" destination="lZr-Lc-zbu" eventType="touchDown" id="0c4-K3-epe"/>
                                             <action selector="lateralButtonUp:" destination="lZr-Lc-zbu" eventType="touchUpInside" id="4UD-io-ey3"/>
-                                            <action selector="lateralButtonUp:" destination="lZr-Lc-zbu" eventType="touchDragOutside" id="wrT-kh-Sav"/>
+                                            <action selector="lateralButtonUp:" destination="lZr-Lc-zbu" eventType="touchUpOutside" id="F3c-su-SNl"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" restorationIdentifier="forward" contentHorizontalAlignment="center" contentVerticalAlignment="center" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Exs-gh-uXv">
+                                        <rect key="frame" x="848" y="331" width="70" height="70"/>
+                                        <color key="backgroundColor" red="0.31614871010000001" green="0.64871861009999998" blue="0.86274509799999999" alpha="1" colorSpace="calibratedRGB"/>
+                                        <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                        <state key="normal" image="arrow_up">
+                                            <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="lateralButtonDown:" destination="lZr-Lc-zbu" eventType="touchDown" id="Exh-PQ-SSU"/>
+                                            <action selector="lateralButtonUp:" destination="lZr-Lc-zbu" eventType="touchUpInside" id="9rt-tP-LYI"/>
+                                            <action selector="lateralButtonUp:" destination="lZr-Lc-zbu" eventType="touchUpOutside" id="H3z-6M-1ho"/>
                                         </connections>
                                     </button>
                                 </subviews>
                                 <constraints>
                                     <constraint firstItem="it6-1N-EKc" firstAttribute="leading" secondItem="0mV-Gp-vom" secondAttribute="leading" constant="4" id="BDE-D1-m0a"/>
                                     <constraint firstItem="it6-1N-EKc" firstAttribute="top" secondItem="0mV-Gp-vom" secondAttribute="top" constant="4" id="EPk-4N-zv2"/>
-                                    <constraint firstItem="0bV-ba-Rxq" firstAttribute="top" secondItem="it6-1N-EKc" secondAttribute="bottom" constant="11" id="Ild-4N-hNs"/>
                                     <constraint firstItem="FG0-rd-ofc" firstAttribute="leading" secondItem="0mV-Gp-vom" secondAttribute="leading" constant="-80" id="drI-1t-Al4"/>
                                 </constraints>
                             </view>
+                            <slider opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" minValue="-180" maxValue="180" translatesAutoresizingMaskIntoConstraints="NO" id="0bV-ba-Rxq" userLabel="Rotation Slider">
+                                <rect key="frame" x="112" y="713" width="221" height="31"/>
+                                <color key="minimumTrackTintColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="maximumTrackTintColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <connections>
+                                    <action selector="rotationSliderChange:" destination="lZr-Lc-zbu" eventType="valueChanged" id="De1-Qh-1uA"/>
+                                    <action selector="rotationSliderReleased:" destination="lZr-Lc-zbu" eventType="touchUpInside" id="IVs-kJ-CWW"/>
+                                    <action selector="rotationSliderReleased:" destination="lZr-Lc-zbu" eventType="touchUpOutside" id="Tw4-7z-Mui"/>
+                                </connections>
+                            </slider>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="+180" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Awc-WI-MlT">
+                                <rect key="frame" x="337" y="710" width="39" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="-180" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9iF-O1-YOy">
+                                <rect key="frame" x="73" y="710" width="36" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -291,7 +290,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="f5n-xx-WEw" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1386" y="987"/>
+            <point key="canvasLocation" x="1386" y="1001"/>
         </scene>
     </scenes>
     <resources>

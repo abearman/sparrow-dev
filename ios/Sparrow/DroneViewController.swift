@@ -255,12 +255,10 @@ class DroneViewController: UIViewController, AnalogueStickDelegate, MKMapViewDel
     @IBAction func altitudeSliderReleased(sender: AnyObject) {
         let initialValue = self.altitudeSlider.value
         let finalValue = Float(0)
-        let difference = fabs(initialValue - finalValue)
-        let duration = Double(difference / 5.0)
-        UIView.animateWithDuration(0.2, delay: 0, options: .CurveLinear, animations: { () -> Void in
+        UIView.animateWithDuration(0.15, delay: 0, options: .CurveLinear, animations: { () -> Void in
             self.altitudeSlider.setValue(initialValue, animated: true)
             }) { (completed) -> Void in
-                UIView.animateWithDuration(duration, delay: 0.1, options: .CurveLinear, animations: { () -> Void in
+                UIView.animateWithDuration(0.15, delay: 0, options: .CurveLinear, animations: { () -> Void in
                     self.altitudeSlider.setValue(finalValue, animated: true)
                     }, completion: nil)
         }
@@ -278,7 +276,6 @@ class DroneViewController: UIViewController, AnalogueStickDelegate, MKMapViewDel
     @IBAction func rotationSliderReleased(sender: AnyObject) {
         let initialValue = self.rotationSlider.value
         let finalValue = Float(0)
-        //let difference = fabs(initialValue - finalValue)
         UIView.animateWithDuration(0.15, delay: 0, options: .CurveLinear, animations: { () -> Void in
             self.rotationSlider.setValue(initialValue, animated: true)
             }) { (completed) -> Void in
@@ -371,12 +368,11 @@ class DroneViewController: UIViewController, AnalogueStickDelegate, MKMapViewDel
         let loc = self.mapView.convertPoint(touchPoint, toCoordinateFromView: self.mapView)
         let waypoint = WaypointAnnotation(coordinate: loc)
         self.mapView.addAnnotation(waypoint)
-        // TODO: send goto waypoint message to server
-        //        let waypointArgs = [
-        //            "lat": loc.latitude
-        //            "lon": loc.longitude
-        //        ]
-        //        socket.emit("waypoint_cmd", waypointArgs)
+        let waypointArgs = [
+            "lat": loc.latitude,
+            "lon": loc.longitude
+        ]
+        socket.emit("waypoint_cmd", waypointArgs)
     }
 
     func drawMarker(coordinate: CLLocationCoordinate2D) {
