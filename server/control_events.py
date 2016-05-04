@@ -71,6 +71,23 @@ def sendGPSChangeDrone():
 		emit("gps_pos_ack", json_loc, broadcast=True)
 
 
+@socketio.on('sar_path')
+def flySARPath(json):
+	lat = json['lat']
+	lon = json['lon']
+	altitude = json['altitude']
+	path_type = json['sar_type']
+	waypoint_list = [(lat, lon, altitude)]
+	if path_type = 'line':
+		# TODO: generate waypoints
+	elif path_type = 'sector':
+		# TODO: generate waypoints
+        elif path_type = 'radial':
+		# TODO: generate waypoints
+
+        # TODO: call dronekit gps waypoint flight command with 
+        # list of waypoints
+
 @socketio.on('altitude_cmd') # , namespace=CONTROL_NAMESPACE)
 def altitudeChange(json):
 		print "[socket][control][altitude]: " + str(json)
