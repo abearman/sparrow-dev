@@ -58,7 +58,9 @@
 		49CC318E1CCB24CF00E9A905 /* Oswald-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 49CC317E1CCB248400E9A905 /* Oswald-Regular.ttf */; };
 		49CC318F1CCB24D100E9A905 /* Oswald-RegularItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 49CC317F1CCB248400E9A905 /* Oswald-RegularItalic.ttf */; };
 		49CC31901CCB24D300E9A905 /* Oswald-Stencil.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 49CC31801CCB248400E9A905 /* Oswald-Stencil.ttf */; };
-		BDDE047A1CD15A9E00E61271 /* CurrentLocationIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDDE04791CD15A9E00E61271 /* CurrentLocationIcon.swift */; };
+		BD9220691CD970B4005DB301 /* SARMenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD9220681CD970B4005DB301 /* SARMenuViewController.swift */; };
+		BDDE047A1CD15A9E00E61271 /* CurrentLocationAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDDE04791CD15A9E00E61271 /* CurrentLocationAnnotation.swift */; };
+		C1C8124B1CD94B110087ED4D /* WaypointAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1C8124A1CD94B110087ED4D /* WaypointAnnotation.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -139,7 +141,9 @@
 		49CC317E1CCB248400E9A905 /* Oswald-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Oswald-Regular.ttf"; sourceTree = "<group>"; };
 		49CC317F1CCB248400E9A905 /* Oswald-RegularItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Oswald-RegularItalic.ttf"; sourceTree = "<group>"; };
 		49CC31801CCB248400E9A905 /* Oswald-Stencil.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Oswald-Stencil.ttf"; sourceTree = "<group>"; };
-		BDDE04791CD15A9E00E61271 /* CurrentLocationIcon.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CurrentLocationIcon.swift; sourceTree = "<group>"; };
+		BD9220681CD970B4005DB301 /* SARMenuViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SARMenuViewController.swift; sourceTree = "<group>"; };
+		BDDE04791CD15A9E00E61271 /* CurrentLocationAnnotation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CurrentLocationAnnotation.swift; sourceTree = "<group>"; };
+		C1C8124A1CD94B110087ED4D /* WaypointAnnotation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WaypointAnnotation.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -190,9 +194,11 @@
 		492AF85E1CC9B34B00A805F3 /* Sparrow */ = {
 			isa = PBXGroup;
 			children = (
+				BD9220681CD970B4005DB301 /* SARMenuViewController.swift */,
 				492AF85F1CC9B34B00A805F3 /* AppDelegate.swift */,
 				492AF8661CC9B34B00A805F3 /* DroneViewController.swift */,
-				BDDE04791CD15A9E00E61271 /* CurrentLocationIcon.swift */,
+				C1C8124A1CD94B110087ED4D /* WaypointAnnotation.swift */,
+				BDDE04791CD15A9E00E61271 /* CurrentLocationAnnotation.swift */,
 				492AF8961CC9B59000A805F3 /* DroneControlComponents */,
 				492AF8681CC9B34B00A805F3 /* Main.storyboard */,
 				492AF89F1CC9CE6600A805F3 /* JSONHelper.swift */,
@@ -449,6 +455,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BD9220691CD970B4005DB301 /* SARMenuViewController.swift in Sources */,
 				498188801CCADEB700029A6D /* SocketEngineClient.swift in Sources */,
 				4981887F1CCADEB700029A6D /* SocketEngine.swift in Sources */,
 				4981888B1CCADEB700029A6D /* SocketParsable.swift in Sources */,
@@ -458,7 +465,7 @@
 				492AF89E1CC9BA0D00A805F3 /* Joystick.m in Sources */,
 				4981887C1CCADEB700029A6D /* SocketAckManager.swift in Sources */,
 				498188821CCADEB700029A6D /* SocketEnginePollable.swift in Sources */,
-				BDDE047A1CD15A9E00E61271 /* CurrentLocationIcon.swift in Sources */,
+				BDDE047A1CD15A9E00E61271 /* CurrentLocationAnnotation.swift in Sources */,
 				4981887E1CCADEB700029A6D /* SocketClientSpec.swift in Sources */,
 				498188841CCADEB700029A6D /* SocketEngineWebsocket.swift in Sources */,
 				4981888E1CCADEB700029A6D /* SwiftRegex.swift in Sources */,
@@ -475,6 +482,7 @@
 				498188861CCADEB700029A6D /* SocketIOClient.swift in Sources */,
 				4981888C1CCADEB700029A6D /* SocketStringReader.swift in Sources */,
 				4981888D1CCADEB700029A6D /* SocketTypes.swift in Sources */,
+				C1C8124B1CD94B110087ED4D /* WaypointAnnotation.swift in Sources */,
 				498188891CCADEB700029A6D /* SocketLogger.swift in Sources */,
 				492AF8671CC9B34B00A805F3 /* DroneViewController.swift in Sources */,
 			);

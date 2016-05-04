@@ -1,5 +1,5 @@
 //
-//  CurrentLocationIcon.swift
+//  CurrentLocationAnnotation.swift
 //  Sparrow
 //
 //  Created by Pavitra Rengarajan on 4/24/16.
@@ -9,7 +9,7 @@
 import Foundation
 import MapKit
 
-class CurrentLocationIcon: NSObject, MKAnnotation {
+class CurrentLocationAnnotation: NSObject, MKAnnotation {
     let coordinate: CLLocationCoordinate2D
     
     init(coordinate: CLLocationCoordinate2D) {

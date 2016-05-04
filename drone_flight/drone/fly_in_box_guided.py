@@ -6,13 +6,13 @@ from dronekit_sitl import SITL
 import math
 
 # Connect to UDP endpoint (and wait for default attributes to accumulate)
-#target = sys.argv[1] if len(sys.argv) >= 2 else 'udpin:0.0.0.0:14550'
+target = sys.argv[1] if len(sys.argv) >= 2 else 'udpin:0.0.0.0:14550'
 
-sitl = SITL()
-sitl.download('solo', '1.2.0', verbose=True)
-sitl_args = ['-I0', '--model', 'quad', '--home=-35.363261,149.165230,584,353']
-sitl.launch(sitl_args, await_ready=True, restart=True)
-target = "tcp:127.0.0.1:5760"
+#sitl = SITL()
+#sitl.download('solo', '1.2.0', verbose=True)
+#sitl_args = ['-I0', '--model', 'quad', '--home=-35.363261,149.165230,584,353']
+#sitl.launch(sitl_args, await_ready=True, restart=True)
+#target = "tcp:127.0.0.1:5760"
 
 print 'Connecting to ' + target + '...'
 vehicle = connect(target, wait_ready=True)
@@ -50,7 +50,7 @@ def arm_and_takeoff(aTargetAltitude):
 		time.sleep(1)
 
 	# Copter should arm in GUIDED mode
-	vehicle.mode		= VehicleMode("GUIDED")
+	vehicle.mode = VehicleMode("GUIDED")
 	while not vehicle.mode == VehicleMode("GUIDED"):
 		time.sleep(1)
 		#print "Flight mode: ", vehicle.mode
@@ -58,8 +58,8 @@ def arm_and_takeoff(aTargetAltitude):
 	
 	print "Arming motors"
 
-	#print "Skipping GPS"
-	#vehicle.parameters['ARMING_CHECK'] = -9
+	print "Skipping GPS"
+	vehicle.parameters['ARMING_CHECK'] = -9
 
 	vehicle.armed		= True
 
@@ -69,8 +69,24 @@ def arm_and_takeoff(aTargetAltitude):
 		time.sleep(1)
 	print "Armed!"
 
+
+	msg = vehicle.message_factory.mav_cmd_nav_send_tango_gps_encode(
+    0,       # time_boot_ms (not used)
+    0, 0,    # target_system, target_component
+    mavutil.mavlink.MAV_FRAME_BODY_NED, # frame
+    0b0000111111000111, # type_mask (only speeds enabled)
+    0, 0, 0, # x, y, z positions
+    0, 0, 0, # x, y, z velocity in m/s
+    0, 0, 0, # x, y, z acceleration (not supported yet, ignored in GCS_Mavlink)
+    0, 0)    # yaw, yaw_rate (not supported yet, ignored in GCS_Mavlink)
+	# send command to vehicle
+	vehicle.send_mavlink(msg)
+
+	exit()
+
 	print "Local location (before takeoff): ", vehicle.location.local_frame
 	print "Taking off!"
+	
 	vehicle.simple_takeoff(aTargetAltitude)
 
 	while vehicle.location.global_relative_frame.alt < aTargetAltitude:
@@ -82,6 +98,7 @@ def arm_and_takeoff(aTargetAltitude):
 		time.sleep(1)
 
 arm_and_takeoff(2)
+print "Finished takeoff"
 
 def send_ned_velocity(velocity_x, velocity_y, velocity_z, duration):
 		"""
@@ -103,6 +120,7 @@ def send_ned_velocity(velocity_x, velocity_y, velocity_z, duration):
 				vehicle.send_mavlink(msg)
 				print vehicle.location.local_frame
 				print vehicle.attitude
+				print "Channels: ", vehicle.channels
 				time.sleep(1)
 
 
@@ -137,7 +155,7 @@ def condition_yaw(heading, relative=False):
 		else:
 			target_yaw = math.radians(heading)
 
-		while abs(vehicle.attitude.yaw - target_yaw) > 0.01:
+		while abs(vehicle.attitude.yaw - target_yaw) > 0.1:
 			pass
 	
 		print "Target yaw: ", target_yaw
@@ -204,27 +222,35 @@ def change_altitude_global(target_alt):
 	print vehicle.location.global_relative_frame
 
 
-change_altitude_global(10)
-condition_yaw(90, relative=True)
+#change_altitude_global(10)
+#condition_yaw(90, relative=True)
 
 # move in a square
 #print "Local location (after takeoff, starting point): ", vehicle.location.local_frame
 
-for i in range(0, 0):
-	send_ned_velocity(0, -1, 0, 1)
-	print "Finished first command"
-	send_ned_velocity(1, 0, 0, 1)
-	print "Finished second command"
-	send_ned_velocity(0, 1, 0, 1)
-	print "Finished third command"
-	send_ned_velocity(-1, 0, 0, 1)
-	print "Finished fourth command"
+#for i in range(0, 0):
+#	send_ned_velocity(0, -1, 0, 3)
+#	print "Finished first command"
+#	send_ned_velocity(1, 0, 0, 3)
+#	print "Finished second command"
+#	send_ned_velocity(0, 1, 0, 3)
+#	print "Finished third command"
+#	send_ned_velocity(-1, 0, 0, 3)
+#	print "Finished fourth command"
 
 # land at current location)
 #vehicle.mode = VehicleMode("LAND")
 #print "Local location (after landing): ", vehicle.location.local_frame
 
-time.sleep(5)
+#time.sleep(10)
+
+while True:
+	condition_yaw(45, relative=True)
+
+
+while True:
+	print vehicle.channels
+	time.sleep(1)
 
 vehicle.close()
 #sitl.stop()
