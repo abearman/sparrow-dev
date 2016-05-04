@@ -71,6 +71,23 @@ def sendGPSChangeDrone():
 		emit("gps_pos_ack", json_loc, broadcast=True)
 
 
+@socketio.on('sar_path')
+def flySARPath(json):
+	lat = json['lat']
+	lon = json['lon']
+	altitude = json['altitude']
+	path_type = json['sar_type']
+	waypoint_list = [(lat, lon, altitude)]
+	if path_type = 'line':
+		# TODO: generate waypoints
+	elif path_type = 'sector':
+		# TODO: generate waypoints
+        elif path_type = 'radial':
+		# TODO: generate waypoints
+
+        # TODO: call dronekit gps waypoint flight command with 
+        # list of waypoints
+
 @socketio.on('altitude_cmd') # , namespace=CONTROL_NAMESPACE)
 def altitudeChange(json):
 		print "[socket][control][altitude]: " + str(json)
@@ -82,6 +99,19 @@ def rotationChange(json):
 		print "[socket][control][rotation]: " + str(json)
 		heading = float(json['heading'])
 		condition_yaw(heading)
+
+@socketio.ion('waypoint_cmd')
+def waypointCommand(json):
+	vehicle = mission_state.vehicle
+	print "[socket][control][waypoint]: " + str(json)
+	lat = float(json['lat'])
+	lon = float(json['lon'])
+	if 'alt' in json:
+		alt = float(json['alt'])
+	else:
+		alt = vehicle.location.global_relative_frame.alt
+	waypoint_location = LocationGlobalRelative(lat, lon, alt)
+	vehicle.simple_goto(waypoint_location)
 
 @socketio.on('lateral_cmd') #, namespace=CONTROL_NAMESPACE)
 def lateralChangeDiscrete(json):
@@ -98,7 +128,6 @@ def lateralChangeDiscrete(json):
 		send_ned_velocity(0, 1, 0, 10)	
  	elif direction == "stop"
 		send_ned_velocity(0, 0, 0, 1)
-	send_ned_velocity(0, 0, 0, 1)
 
 
 def lateralChangeJoystick(json):
@@ -220,3 +249,4 @@ def change_altitude_global(target_alt):
 		while abs(target_alt - vehicle.location.global_relative_frame.alt) > 0.1:
 			sendGPSChangeDrone()
 			time.sleep(0.5)	
+
