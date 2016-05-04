@@ -89,7 +89,7 @@ def waypointCommand(json):
 	print "[socket][control][waypoint]: " + str(json)
 	lat = float(json['lat'])
 	lon = float(json['lon'])
-	alt = vehicle.location.global_relative_frame.alt
+	alt = float(json['alt'])
 	waypoint_location = LocationGlobalRelative(lat, lon, alt)
 	vehicle.simple_goto(waypoint_location)
 
