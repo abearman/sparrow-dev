@@ -25,24 +25,23 @@ class DroneViewController: UIViewController, AnalogueStickDelegate, MKMapViewDel
         didSet {
             altitudeSlider.transform = CGAffineTransformMakeRotation(CGFloat(-M_PI_2))
             let thumbImage = UIImage(named:"slider_thumb")
-            let ratio : CGFloat = CGFloat (0.33)
+            let ratio : CGFloat = CGFloat (0.8)
             let size = CGSizeMake(thumbImage!.size.width * ratio, thumbImage!.size.height * ratio)
             altitudeSlider.setThumbImage(self.imageWithImage(thumbImage!, scaledToSize: size), forState: UIControlState.Normal)
+            altitudeSlider.setMaximumTrackImage(UIImage(named:"slider_track"), forState: UIControlState.Normal)
+            altitudeSlider.setMinimumTrackImage(UIImage(named:"slider_track"), forState: UIControlState.Normal)
             altitudeSlider.continuous = false
-            // altitudeSlider.setMaximumTrackImage(UIImage(named:"slider_track"), forState: UIControlState.Normal)
-            // altitudeSlider.setMinimumTrackImage(UIImage(named:"slider_track"), forState: UIControlState.Normal)
         }
     }
     @IBOutlet weak var rotationSlider: UISlider! {
         didSet {
             let thumbImage = UIImage(named:"slider_thumb")
-            let ratio : CGFloat = CGFloat (0.33)
+            let ratio : CGFloat = CGFloat (0.8)
             let size = CGSizeMake(thumbImage!.size.width * ratio, thumbImage!.size.height * ratio)
             rotationSlider.setThumbImage(self.imageWithImage(thumbImage!, scaledToSize: size), forState: UIControlState.Normal)
+            rotationSlider.setMaximumTrackImage(UIImage(named:"slider_track"), forState: UIControlState.Normal)
+            rotationSlider.setMinimumTrackImage(UIImage(named:"slider_track"), forState: UIControlState.Normal)
             rotationSlider.continuous = false
-
-            // rotationSlider.setMaximumTrackImage(UIImage(named:"slider_track"), forState: UIControlState.Normal)
-            // rotationSlider.setMinimumTrackImage(UIImage(named:"slider_track"), forState: UIControlState.Normal)
         }
     }
     
@@ -236,10 +235,10 @@ class DroneViewController: UIViewController, AnalogueStickDelegate, MKMapViewDel
     
     func updateLaunchButton() {
         if (self.inFlight) {
-            launchButton.setTitle("Land", forState: UIControlState.Normal)
+            launchButton.setTitle("LAND", forState: UIControlState.Normal)
             launchButton.backgroundColor = UIColor.redColor()
         } else {
-            launchButton.setTitle("Launch", forState: UIControlState.Normal)
+            launchButton.setTitle("LAUNCH", forState: UIControlState.Normal)
             launchButton.backgroundColor = UIColor.greenColor()
         }
     }
@@ -247,7 +246,7 @@ class DroneViewController: UIViewController, AnalogueStickDelegate, MKMapViewDel
     @IBAction func altitudeSliderChange(sender: AnyObject) {
         debugPrint("Altitude slider changed to %f", self.altitudeSlider.value)
         let altitudeCommandArgs = [
-            "altitude": self.altitudeSlider.value
+            "dalt": self.altitudeSlider.value
         ]
         socket.emit("altitude_cmd", altitudeCommandArgs)
     }  
