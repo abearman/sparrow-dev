@@ -24,7 +24,13 @@ CONTROL_NAMESPACE = "/"
 @socketio.on('connect', namespace=CONTROL_NAMESPACE)
 def on_connect():
 		print "[socket][control][connect]: Connection received"
+<<<<<<< HEAD
 		eventlet.spawn(listen_for_location_change, [mission_state.vehicle.location.global_relative_frame])
+=======
+		#print "request.namespace: ", request.namespace
+		#thread = Thread(target = listen_for_location_change, args=(mission_state.vehicle.location.global_relative_frame, request.namespace))
+		#thread.start()
+>>>>>>> 0838ff3611086ba5972b463dd06f8521a523c003
 
 
 def listen_for_location_change(vehicle_location_param):
@@ -38,11 +44,19 @@ def listen_for_location_change(vehicle_location_param):
 									 'lon': current_lon,
 									 'alt': current_alt}
 						json_loc = json.dumps(loc)
+<<<<<<< HEAD
 						print "[socket][control][gps_pos]: ", str(json_loc)
 						socketio.emit("gps_pos_ack", json_loc, broadcast=True)
 			eventlet.sleep(1)
+=======
+						print "[socket][control][gps_pos]: ", mission_state.vehicle.location.global_relative_frame
+						vehicle_location = mission_state.vehicle.location.global_relative_frame
+						#print "App2: ", app_param
+						#with app_param.app_context():
+						namespace.emit("gps_pos_ack", json_loc, broadcast=True)
 
-	
+>>>>>>> 0838ff3611086ba5972b463dd06f8521a523c003
+
 @socketio.on('gps_pos') # , namespace=CONTROL_NAMESPACE)
 def gpsChangeTango(json):
 	print "[socket][control][gps_pos]: " + str(json)
@@ -73,14 +87,21 @@ def flySARPath(json):
    #     elif path_type = 'radial':
 		# TODO: generate waypoints
 
-        # TODO: call dronekit gps waypoint flight command with 
+        # TODO: call dronekit gps waypoint flight command with
         # list of waypoints
 
-@socketio.on('altitude_cmd') # , namespace=CONTROL_NAMESPACE)
-def altitudeChange(json):
+@socketio.on('altitude_abs_cmd') # , namespace=CONTROL_NAMESPACE)
+def altitudeAbsChange(json):
 		print "[socket][control][altitude]: " + str(json)
 		target_alt = float(json['altitude'])
 		change_altitude_global(target_alt)
+
+@socketio.on('altitude_cmd')
+def altitudeChange(json):
+    print "[socket][control][altitude]: " + str(json)
+    dalt = float(json['dalt'])
+    curr_alt = vehicle.location.global_relative_frame.alt
+    change_altitude_global(curr_alt + dalt)
 
 @socketio.on('rotation_cmd') # , namespace=CONTROL_NAMESPACE)
 def rotationChange(json):
@@ -116,8 +137,13 @@ def lateralChangeDiscrete(json):
 	elif direction == "forward":
 		send_ned_velocity(0, -1, 0, 10)
 	elif direction == "back":
+<<<<<<< HEAD
 		send_ned_velocity(0, 1, 0, 10)	
  	elif direction == "stop":
+=======
+		send_ned_velocity(0, 1, 0, 10)
+ 	elif direction == "stop"
+>>>>>>> 0838ff3611086ba5972b463dd06f8521a523c003
 		send_ned_velocity(0, 0, 0, 1)
 
 
@@ -230,11 +256,16 @@ def send_global_velocity(velocity_x, velocity_y, velocity_z, duration):
 
 def change_altitude_global(target_alt):
 		vehicle = mission_state.vehicle
-		target_location = LocationGlobalRelative(vehicle.location.global_relative_frame.lat, 
-																						 vehicle.location.global_relative_frame.lon, 
+		target_location = LocationGlobalRelative(vehicle.location.global_relative_frame.lat,
+																						 vehicle.location.global_relative_frame.lon,
 																						 target_alt)
 		vehicle.simple_goto(target_location)
 
 		while abs(target_alt - vehicle.location.global_relative_frame.alt) > 0.1:
+<<<<<<< HEAD
 			time.sleep(0.5)	
+=======
+			sendGPSChangeDrone()
+			time.sleep(0.5)
+>>>>>>> 0838ff3611086ba5972b463dd06f8521a523c003
 
