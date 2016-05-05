@@ -70,11 +70,11 @@ def flySARPath(json):
 		# TODO: generate waypoints
 	#elif path_type = 'sector':
 		# TODO: generate waypoints
-   #     elif path_type = 'radial':
+	 #		 elif path_type = 'radial':
 		# TODO: generate waypoints
 
-        # TODO: call dronekit gps waypoint flight command with
-        # list of waypoints
+				# TODO: call dronekit gps waypoint flight command with
+				# list of waypoints
 
 @socketio.on('altitude_abs_cmd') # , namespace=CONTROL_NAMESPACE)
 def altitudeAbsChange(json):
@@ -84,10 +84,11 @@ def altitudeAbsChange(json):
 
 @socketio.on('altitude_cmd')
 def altitudeChange(json):
-    print "[socket][control][altitude]: " + str(json)
-    dalt = float(json['dalt'])
-    curr_alt = vehicle.location.global_relative_frame.alt
-    change_altitude_global(curr_alt + dalt)
+		vehicle = mission_state.vehicle
+		print "[socket][control][altitude]: " + str(json)
+		dalt = float(json['dalt'])
+		curr_alt = vehicle.location.global_relative_frame.alt
+		change_altitude_global(curr_alt + dalt)
 
 @socketio.on('rotation_cmd') # , namespace=CONTROL_NAMESPACE)
 def rotationChange(json):
@@ -124,7 +125,7 @@ def lateralChangeDiscrete(json):
 		send_ned_velocity(0, -1, 0, 10)
 	elif direction == "back":
 		send_ned_velocity(0, 1, 0, 10)
- 	elif direction == "stop":
+	elif direction == "stop":
 		send_ned_velocity(0, 0, 0, 1)
 
 
