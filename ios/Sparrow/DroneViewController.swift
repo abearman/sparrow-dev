@@ -12,7 +12,6 @@ import MapKit
 
 class DroneViewController: UIViewController, AnalogueStickDelegate, MKMapViewDelegate, UIPopoverPresentationControllerDelegate {
     
-    @IBOutlet weak var logo: UIImageView!
     @IBOutlet weak var mapView: MKMapView!
     @IBOutlet weak var cameraView: UIView!
     @IBOutlet weak var dropPinButton:UIButton!
@@ -58,7 +57,6 @@ class DroneViewController: UIViewController, AnalogueStickDelegate, MKMapViewDel
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        logo.image = UIImage(named: "logo_icon")
         analogueStick.delegate = self
         
         mapView.delegate = self
