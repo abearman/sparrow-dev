@@ -2,34 +2,33 @@
 
 from flask import session
 from flask.ext.socketio import emit, join_room, leave_room
-from server_state import socketio
 import json
 from threading import Thread
 
 import mission_state
-from mission_state import gps_init
 import navigation
+from server_state import socketio
 
 from dronekit import connect, VehicleMode, LocationGlobalRelative
 import time
 import sys
 from pymavlink import mavutil
+import eventlet
+eventlet.monkey_patch()
 
 import math
 
 # TODO: namespace
-CONTROL_NAMESPACE = "/control"
+CONTROL_NAMESPACE = "/"
 
 @socketio.on('connect', namespace=CONTROL_NAMESPACE)
 def on_connect():
 		print "[socket][control][connect]: Connection received"
-		#print "request.namespace: ", request.namespace
-		#thread = Thread(target = listen_for_location_change, args=(mission_state.vehicle.location.global_relative_frame, request.namespace))
-		#thread.start() 
+		eventlet.spawn(listen_for_location_change, [mission_state.vehicle.location.global_relative_frame])
 
 
-def listen_for_location_change(vehicle_location_param, namespace):
-		vehicle_location = vehicle_location_param
+def listen_for_location_change(vehicle_location_param):
+		vehicle_location = vehicle_location_param[0]
 		while True:
 			current_lat = mission_state.vehicle.location.global_relative_frame.lat
 			current_lon = mission_state.vehicle.location.global_relative_frame.lon
@@ -39,11 +38,9 @@ def listen_for_location_change(vehicle_location_param, namespace):
 									 'lon': current_lon,
 									 'alt': current_alt}
 						json_loc = json.dumps(loc)
-						print "[socket][control][gps_pos]: ", mission_state.vehicle.location.global_relative_frame
-						vehicle_location = mission_state.vehicle.location.global_relative_frame
-						#print "App2: ", app_param
-						#with app_param.app_context():
-						namespace.emit("gps_pos_ack", json_loc, broadcast=True)	
+						print "[socket][control][gps_pos]: ", str(json_loc)
+						socketio.emit("gps_pos_ack", json_loc, broadcast=True)
+			eventlet.sleep(1)
 
 	
 @socketio.on('gps_pos') # , namespace=CONTROL_NAMESPACE)
@@ -54,21 +51,12 @@ def gpsChangeTango(json):
 @socketio.on('gps_pos') # , namespace=CONTROL_NAMESPACE)
 def gpsChange(json):
 		loc = json
-		global gps_init
-		if gps_init == False:
-			navigation.getOrigin(json)
-			gps_init = True
+		#global gps_init
+		#if gps_init == False:
+		#	navigation.getOrigin(json)
+		#	gps_init = True
 		print "[socket][control][gps_pos]: " + str(json)
 		emit("gps_pos_ack", json, broadcast=True)
-
-def sendGPSChangeDrone():
-		vehicle = mission_state.vehicle
-		loc = {'lat': vehicle.location.global_relative_frame.lat,
-					 'lon': vehicle.location.global_relative_frame.lon,
-					 'alt': vehicle.location.global_relative_frame.alt}
-		json_loc = json.dumps(loc)
-		print "[socket][control][gps_pos]: " + str(json_loc)
-		emit("gps_pos_ack", json_loc, broadcast=True)
 
 
 @socketio.on('sar_path')
@@ -78,11 +66,11 @@ def flySARPath(json):
 	altitude = json['altitude']
 	path_type = json['sar_type']
 	waypoint_list = [(lat, lon, altitude)]
-	if path_type = 'line':
+	#if path_type = 'line':
 		# TODO: generate waypoints
-	elif path_type = 'sector':
+	#elif path_type = 'sector':
 		# TODO: generate waypoints
-        elif path_type = 'radial':
+   #     elif path_type = 'radial':
 		# TODO: generate waypoints
 
         # TODO: call dronekit gps waypoint flight command with 
@@ -100,9 +88,11 @@ def rotationChange(json):
 		heading = float(json['heading'])
 		condition_yaw(heading)
 
-@socketio.ion('waypoint_cmd')
+@socketio.on('waypoint_cmd')
 def waypointCommand(json):
 	vehicle = mission_state.vehicle
+	#vehicle.airspeed = 4
+	print "airspeed: ", vehicle.airspeed
 	print "[socket][control][waypoint]: " + str(json)
 	lat = float(json['lat'])
 	lon = float(json['lon'])
@@ -110,6 +100,7 @@ def waypointCommand(json):
 		alt = float(json['alt'])
 	else:
 		alt = vehicle.location.global_relative_frame.alt
+	print lat, " ", lon, " ", alt
 	waypoint_location = LocationGlobalRelative(lat, lon, alt)
 	vehicle.simple_goto(waypoint_location)
 
@@ -126,7 +117,7 @@ def lateralChangeDiscrete(json):
 		send_ned_velocity(0, -1, 0, 10)
 	elif direction == "back":
 		send_ned_velocity(0, 1, 0, 10)	
- 	elif direction == "stop"
+ 	elif direction == "stop":
 		send_ned_velocity(0, 0, 0, 1)
 
 
@@ -208,7 +199,6 @@ def send_ned_velocity(velocity_x, velocity_y, velocity_z, duration):
 		# send command to vehicle on 1 Hz cycle
 		for x in range(0, duration):
 			vehicle.send_mavlink(msg)
-			sendGPSChangeDrone()
 			time.sleep(1)
 
 
@@ -235,7 +225,6 @@ def send_global_velocity(velocity_x, velocity_y, velocity_z, duration):
 		# send command to vehicle on 1 Hz cycle
 		for x in range(0, duration):
 				vehicle.send_mavlink(msg)
-				sendGPSChangeDrone()
 				time.sleep(1)
 
 
@@ -247,6 +236,5 @@ def change_altitude_global(target_alt):
 		vehicle.simple_goto(target_location)
 
 		while abs(target_alt - vehicle.location.global_relative_frame.alt) > 0.1:
-			sendGPSChangeDrone()
 			time.sleep(0.5)	
 

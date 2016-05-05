@@ -11,6 +11,7 @@ target = sys.argv[1] if len(sys.argv) >= 2 else 'udpin:0.0.0.0:14550'
 #sitl = SITL()
 #sitl.download('solo', '1.2.0', verbose=True)
 #sitl_args = ['-I0', '--model', 'quad', '--home=-35.363261,149.165230,584,353']
+#sitl_args = ['-I0', '--model', 'quad', '--home=37.430020,-122.173302,28,353']
 #sitl.launch(sitl_args, await_ready=True, restart=True)
 #target = "tcp:127.0.0.1:5760"
 
@@ -37,7 +38,24 @@ def arm_and_takeoff(aTargetAltitude):
 	"""
 	Arms vehicle and fly to aTargetAltitude.
 	"""
-	
+
+	#print "Sending mission start cmd"
+	#vehicle._master.mav.command_long_send(0, 0, mavutil.mavlink.MAV_CMD_MISSION_START,
+   #                                              0, 0, 0, 0, 0, 0, 0, 0)
+
+	#print "Sending Tango mavlink message"
+	#vehicle._master.mav.command_long_send(0, 0, mavutil.mavlink.MAV_CMD_NAV_SEND_TANGO_GPS,
+	#																								0, 0, 0, 0, 0, 37.4, 149, 20)
+
+	#print "Sending new mavlink message"
+	#msg = vehicle.message_factory.command_long_encode(
+	#	0, 0, # target_system, target_component 
+	#	mavutil.mavlink.MAV_CMD_NAV_SEND_TANGO_GPS,
+	#	0, # confirmation
+	#	0, 0, 0, 0, # param 1-4 not used
+	#	37.4, 149, 20)
+	#vehicle.send_mavlink(msg)
+
 	# Copter should arm in GUIDED mode
 	vehicle.mode = VehicleMode("GUIDED")
 	while not vehicle.mode == VehicleMode("GUIDED"):
@@ -58,35 +76,47 @@ def arm_and_takeoff(aTargetAltitude):
 	
 	print "Arming motors"
 
-	print "Skipping GPS"
-	vehicle.parameters['ARMING_CHECK'] = -9
+	#print "Skipping GPS"
+	#vehicle.parameters['ARMING_CHECK'] = -9
 
 	vehicle.armed		= True
 
 	# Confirm vehicle armed before attempting to take off
 	while not vehicle.armed:
 		print " Waiting for arming..."
-		time.sleep(1)
+		time.sleep(0.1)
 	print "Armed!"
 
+	#print "Local location (before takeoff): ", vehicle.location.local_frame
+	#print "Taking off!"
+	#vehicle.simple_takeoff(aTargetAltitude)
 
-	msg = vehicle.message_factory.mav_cmd_nav_send_tango_gps_encode(
-    0,       # time_boot_ms (not used)
-    0, 0,    # target_system, target_component
-    mavutil.mavlink.MAV_FRAME_BODY_NED, # frame
-    0b0000111111000111, # type_mask (only speeds enabled)
-    0, 0, 0, # x, y, z positions
-    0, 0, 0, # x, y, z velocity in m/s
-    0, 0, 0, # x, y, z acceleration (not supported yet, ignored in GCS_Mavlink)
-    0, 0)    # yaw, yaw_rate (not supported yet, ignored in GCS_Mavlink)
-	# send command to vehicle
-	vehicle.send_mavlink(msg)
 
+	#print "Sending new mavlink message"
+	#msg = vehicle.message_factory.command_long_encode(
+	# 0, 0, # target_system, target_component 
+	# mavutil.mavlink.MAV_CMD_NAV_SEND_TANGO_GPS,
+	# 0, # confirmation
+	# 0, 0, 0, 0, # param 1-4 not used
+	# 37.4, 149, 20)
+	#vehicle.send_mavlink(msg)
+
+	print "Sending Tango mavlink message"
+	vehicle._master.mav.command_long_send(0, 0, mavutil.mavlink.MAV_CMD_NAV_SEND_TANGO_GPS,
+																									0, 0, 0, 0, 0, 37.4, 149, 20)
+
+	print "Sending takeoff mavlink message"
+	vehicle._master.mav.command_long_send(0, 0, mavutil.mavlink.MAV_CMD_NAV_TAKEOFF,
+																									0, 0, 0, 0, 0, 0, 0, 10)
+
+	while True:
+		print vehicle.location.global_relative_frame
+		time.sleep(0.5)	
+	#time.sleep(10)
 	exit()
 
 	print "Local location (before takeoff): ", vehicle.location.local_frame
 	print "Taking off!"
-	
 	vehicle.simple_takeoff(aTargetAltitude)
 
 	while vehicle.location.global_relative_frame.alt < aTargetAltitude:

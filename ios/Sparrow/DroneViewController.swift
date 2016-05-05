@@ -71,7 +71,6 @@ class DroneViewController: UIViewController, AnalogueStickDelegate, MKMapViewDel
         let startLoc = CLLocationCoordinate2DMake(37.430020, -122.173302)
         onLocationUpdate(startLoc)
 
-        self.addHandlers()
         debugPrint("Connecting to server control socket...")
         
         // Creating the socket
@@ -88,7 +87,7 @@ class DroneViewController: UIViewController, AnalogueStickDelegate, MKMapViewDel
 // =================================== SERVER ===================================
     
     // The IP address that the server is running on
-    let HOSTNAME = "171.64.70.75"
+    let HOSTNAME = "10.28.96.192"
     //let HOSTNAME = "10.1.1.188"
     let PORT = "5000"
     
@@ -112,20 +111,10 @@ class DroneViewController: UIViewController, AnalogueStickDelegate, MKMapViewDel
             return
         }
         
+        //socket.joinNamespace("/control")
         socket.connect()
     }
     
-    func addHandlers() {
-        // Our socket handlers go here
-        self.socket.onAny {print("Got event: \($0.event), with items: \($0.items)")}
-        
-        // constant fetching for latest GPS coordinates
-        self.socket.on("gps_pos_ack") {[weak self] data, ack in
-            debugPrint("received gps_pos_ack event")
-            self?.handleGPSPos(data)
-            return
-        }
-    }
     
     func handleGPSPos(data: AnyObject) {
 
