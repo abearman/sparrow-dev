@@ -25,8 +25,8 @@ class AP_AHRS_DCM : public AP_AHRS
 {
 public:
     // Constructors
-    AP_AHRS_DCM(AP_InertialSensor &ins, AP_Baro &baro, AP_GPS &gps) :
-    AP_AHRS(ins, baro, gps),
+    AP_AHRS_DCM(AP_InertialSensor &ins, AP_Baro &baro, AP_GPS &gps, AP_Tango &tango) :
+    AP_AHRS(ins, baro, gps, tango),
         _omega_I_sum_time(0.0f),
         _renorm_val_sum(0.0f),
         _renorm_val_count(0),
