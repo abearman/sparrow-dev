@@ -43,7 +43,7 @@ def listen_for_location_change(vehicle_location_param):
 						socketio.emit("gps_pos_ack", json_loc, broadcast=True)
 			eventlet.sleep(1)
 
-@socketio.on('gps_pos') # , namespace=CONTROL_NAMESPACE)
+@socketio.on('gps_pos_tango') # , namespace=CONTROL_NAMESPACE)
 def gpsChangeTango(json):
 	print "[socket][control][gps_pos]: " + str(json)
 	emit("gps_pos_ack", json, broadcast=True)
@@ -58,6 +58,10 @@ def gpsChange(json):
 		print "[socket][control][gps_pos]: " + str(json)
 		emit("gps_pos_ack", json, broadcast=True)
 
+STEP = 0.00003
+RADIAL_OFFSETS = [(1, 0), (1, 1), (-1, 1), (-1, -1), (2, -1), (2, 2), (-2, 2), (-2, -2), (3, -2), (3, 3)]
+LINE_OFFSETS = [(0, 1), (-4, 1), (-4, 2), (0, 2), (0, 3), (-4, 3), (-4, 4), (0, 4), (0, 5), (-4, 5)]
+SECTOR_OFFSETS = [(4, 0), (3, -1), (1, 1), (2, 2), (2, -2), (1, -1), (3, 1)]
 
 @socketio.on('sar_path')
 def flySARPath(json):
@@ -65,16 +69,18 @@ def flySARPath(json):
 	lon = json['lon']
 	altitude = json['altitude']
 	path_type = json['sar_type']
-	waypoint_list = [(lat, lon, altitude)]
-	#if path_type = 'line':
-		# TODO: generate waypoints
-	#elif path_type = 'sector':
-		# TODO: generate waypoints
-	 #		 elif path_type = 'radial':
-		# TODO: generate waypoints
+	waypoint_list = [(lat, lon, altitude)]	
+	if path_type == 'line':
+		for waypoint in LINE_OFFSETS:
+			waypoint_list.append((float(lat) + waypoint[0]  * STEP, float(lon) + waypoint[1]  * STEP, altitude))
+	elif path_type == 'sector':
+		for waypoint in SECTOR_OFFSETS:
+			waypoint_list.append((float(lat) + waypoint[0]  * STEP, float(lon) + waypoint[1]  * STEP, altitude))
+	elif path_type == 'radial':
+		for waypoint in RADIAL_OFFSETS:
+			waypoint_list.append((float(lat) + waypoint[0] * STEP, float(lon) + waypoint[1]  * STEP, altitude))
+	# TODO: Call dronekit gps waypoint flight command with list of waypoints
 
-				# TODO: call dronekit gps waypoint flight command with
-				# list of waypoints
 
 @socketio.on('altitude_abs_cmd') # , namespace=CONTROL_NAMESPACE)
 def altitudeAbsChange(json):

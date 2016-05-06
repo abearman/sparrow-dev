@@ -84,7 +84,7 @@ class DroneViewController: UIViewController, AnalogueStickDelegate, MKMapViewDel
 // =================================== SERVER ===================================
     
     // The IP address that the server is running on
-    let HOSTNAME = "10.28.96.192"
+    let HOSTNAME = "10.34.161.46"
     //let HOSTNAME = "10.1.1.188"
     let PORT = "5000"
     
@@ -127,6 +127,9 @@ class DroneViewController: UIViewController, AnalogueStickDelegate, MKMapViewDel
                 debugPrint("got latitude: ", latitude)
                 debugPrint("got longitude: ", longitude)
                 debugPrint("got altitude: ", altitude)
+                latestLat = latitude!
+                latestLong = longitude!
+                latestAlt = altitude!
                 
                 // Update coordinate label
                 coordinateLabel.text = "(" + String(format: "%.3f", latitude!) + "N, " + String(format: "%.3f", longitude!) + "W)"
@@ -344,6 +347,10 @@ class DroneViewController: UIViewController, AnalogueStickDelegate, MKMapViewDel
     var path: MKPolyline?
     var marker: MKAnnotation?
     var pinLocations: [MKAnnotation] = []
+    
+    var latestLat: Double = 0.0
+    var latestLong: Double = 0.0
+    var latestAlt: Double = 0.0
 
     func onLocationUpdate(newLoc: CLLocationCoordinate2D) {
         
@@ -493,16 +500,7 @@ class DroneViewController: UIViewController, AnalogueStickDelegate, MKMapViewDel
 // =================================== SAR PATHS ===================================
     
     @IBAction func sarPathButtonClicked(sender: AnyObject) {
-        /* TODO: finish sarPath */
         print("SAR PATH BUTTON CLICKED");
-        
-
-        /*let storyboard : UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-        let vc = storyboard.instantiateViewControllerWithIdentifier("DroneViewController")
-        vc.modalPresentationStyle = UIModalPresentationStyle.Popover
-        let popover: UIPopoverPresentationController = vc.popoverPresentationController!
-        popover.delegate = self
-        presentViewController(vc, animated: true, completion:nil)*/
     }
     
     func adaptivePresentationStyleForPresentationController(controller: UIPresentationController) -> UIModalPresentationStyle {
