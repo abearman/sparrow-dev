@@ -70,15 +70,15 @@ def flySARPath(json):
 	altitude = json['altitude']
 	path_type = json['sar_type']
 	waypoint_list = [(lat, lon, altitude)]	
-	if path_type = 'line':
+	if path_type == 'line':
 		for waypoint in LINE_OFFSETS:
-			waypoint_list.append((float(lat) + waypoint[0]  * STEP, float(lon) + waypoint[1]  * STEP, altitude)
-	elif path_type = 'sector':
+			waypoint_list.append((float(lat) + waypoint[0]  * STEP, float(lon) + waypoint[1]  * STEP, altitude))
+	elif path_type == 'sector':
 		for waypoint in SECTOR_OFFSETS:
-			waypoint_list.append((float(lat) + waypoint[0]  * STEP, float(lon) + waypoint[1]  * STEP, altitude)
-	elif path_type = 'radial':
+			waypoint_list.append((float(lat) + waypoint[0]  * STEP, float(lon) + waypoint[1]  * STEP, altitude))
+	elif path_type == 'radial':
 		for waypoint in RADIAL_OFFSETS:
-			waypoint_list.append((float(lat) + waypoint[0] * STEP, float(lon) + waypoint[1]  * STEP, altitude)
+			waypoint_list.append((float(lat) + waypoint[0] * STEP, float(lon) + waypoint[1]  * STEP, altitude))
 	# TODO: Call dronekit gps waypoint flight command with list of waypoints
 
 
