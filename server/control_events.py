@@ -51,10 +51,10 @@ def gpsChangeTango(json):
 @socketio.on('gps_pos') # , namespace=CONTROL_NAMESPACE)
 def gpsChange(json):
 		loc = json
-		#global gps_init
-		#if gps_init == False:
-		#	navigation.getOrigin(json)
-		#	gps_init = True
+		global gps_init
+		if gps_init == False:
+			navigation.getOrigin(json)
+			gps_init = True
 		print "[socket][control][gps_pos]: " + str(json)
 		emit("gps_pos_ack", json, broadcast=True)
 
@@ -74,10 +74,10 @@ def flySARPath(json):
 	waypoint_list = []	
 	if path_type == 'line':
 		for waypoint in LINE_OFFSETS:
-			waypoint_list.append((float(lat) + waypoint[0]  * STEP, float(lon) + waypoint[1]  * STEP, altitude))
+			waypoint_list.append((float(lat) + waypoint[0]	* STEP, float(lon) + waypoint[1]	* STEP, altitude))
 	elif path_type == 'sector':
 		for waypoint in SECTOR_OFFSETS:
-			waypoint_list.append((float(lat) + waypoint[0]  * STEP, float(lon) + waypoint[1]  * STEP, altitude))
+			waypoint_list.append((float(lat) + waypoint[0]	* STEP, float(lon) + waypoint[1]	* STEP, altitude))
 	elif path_type == 'radial':
 		for waypoint in RADIAL_OFFSETS:
 			waypoint_list.append((float(lat) + waypoint[0] * STEP, float(lon) + waypoint[1]  * STEP, altitude))
