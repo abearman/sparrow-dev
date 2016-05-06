@@ -6,6 +6,7 @@ import json
 from threading import Thread
 
 import mission_state
+from mission_state import gps_init
 import navigation
 from server_state import socketio
 
@@ -43,10 +44,10 @@ def listen_for_location_change(vehicle_location_param):
 						socketio.emit("gps_pos_ack", json_loc, broadcast=True)
 			eventlet.sleep(1)
 
-@socketio.on('gps_pos_tango') # , namespace=CONTROL_NAMESPACE)
-def gpsChangeTango(json):
-	print "[socket][control][gps_pos]: " + str(json)
-	emit("gps_pos_ack", json, broadcast=True)
+#@socketio.on('gps_pos_tango') # , namespace=CONTROL_NAMESPACE)
+#def gpsChangeTango(json):
+#	print "[socket][control][gps_pos]: " + str(json)
+#	emit("gps_pos_ack", json, broadcast=True)
 
 @socketio.on('gps_pos') # , namespace=CONTROL_NAMESPACE)
 def gpsChange(json):
@@ -55,8 +56,8 @@ def gpsChange(json):
 		if gps_init == False:
 			navigation.getOrigin(json)
 			gps_init = True
-		print "[socket][control][gps_pos]: " + str(json)
-		emit("gps_pos_ack", json, broadcast=True)
+			print "[socket][control][gps_pos]: " + str(json)
+			emit("gps_pos_ack", json, broadcast=True)
 
 STEP = 0.00003
 RADIAL_OFFSETS = [(1, 0), (1, 1), (-1, 1), (-1, -1), (2, -1), (2, 2), (-2, 2), (-2, -2), (3, -2), (3, 3)]

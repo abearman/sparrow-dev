@@ -9,3 +9,5 @@ vehicle = None;
 airspeed = 3;
 
 frame_counter = 0;
+gps_init = False;
+origin_ecef = (37.4, -122.17, 20)

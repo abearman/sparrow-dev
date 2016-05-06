@@ -4,12 +4,14 @@ from flask import session
 from flask.ext.socketio import emit, join_room, leave_room
 from server_state import socketio
 
+import mission_state
 from mission_state import path, pose 
 from pymavlink import mavutil
 
 import navigation
 
 POSE_NAMESPACE = "/pose"
+counter = 0
 
 @socketio.on('connect', namespace=POSE_NAMESPACE)
 def on_connect():
@@ -19,12 +21,15 @@ def on_connect():
 def pose_update(json):
 		# JSON arg should have Tango position object
 		global pose
+		global counter
 		pose = json
 		# print "[socket][pose_update]: update GPS"
 		(lat, lng, alt) = navigation.getLLAFromNED(json)
-		print "[socket][pose_update]: " + lat + ", " + lng + ", " + alt
-		# print "[socket][pose_update]: " + str(json)
-		mission_state.vehicle._master.mav.command_long_send(0, 0, mavutil.mavlink.MAV_CMD_NAV_SEND_TANGO_GPS,
+
+		counter += 1
+		if counter % 10 == 0:	
+			print "[socket][pose_update]: " + str(lat) + ", " + str(lng) + ", " + str(alt)
+			mission_state.vehicle._master.mav.command_long_send(0, 0, mavutil.mavlink.MAV_CMD_NAV_SEND_TANGO_GPS,
 																									0, 0, 0, 0, 0, lat, lng, alt)
 
 		emit("pose_update_ack", namespace=POSE_NAMESPACE)		 
@@ -52,4 +57,4 @@ def path_current(json):
 @socketio.on("path_for_interpolation",namespace=POSE_NAMESPACE)
 def path_for_interpolation(json):
 		print "[socket][path_for_interpolation]: " + str(path)
-		emit("path_for_interpolation_ack", path, namespace=POSE_NAMESPACE)
+		#emit("path_for_interpolation_ack", path, namespace=POSE_NAMESPACE)
