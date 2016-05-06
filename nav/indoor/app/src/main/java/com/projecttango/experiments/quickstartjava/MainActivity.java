@@ -76,7 +76,7 @@ public class MainActivity extends Activity {
 
     private static final String TAG = MainActivity.class.getSimpleName();
 
-    private static final String addr = "171.64.70.130";
+    private static final String addr = "10.1.1.188";
     private static final int port = 5000;
     private static final String sTranslationFormat = "x%fy%fz%f";
     private static final String sRotationFormat = "i%fj%fk%fl%f";
@@ -248,9 +248,9 @@ public class MainActivity extends Activity {
                 for (int i = 0; i < interpolatedPoseList.size(); i++) {
                     PoseData pose = interpolatedPoseList.get(i);
                     JSONObject point = new JSONObject();
-                    point.put("x", pose.getTranslation()[0]);
-                    point.put("y", pose.getTranslation()[1]);
-                    point.put("z", pose.getTranslation()[2]);
+                    point.put("x", (Double) pose.getTranslation()[0]);
+                    point.put("y", (Double) pose.getTranslation()[1]);
+                    point.put("z", (Double) pose.getTranslation()[2]);
                     pointArray.put(point);
                 }
 
