@@ -43,7 +43,7 @@ def listen_for_location_change(vehicle_location_param):
 						socketio.emit("gps_pos_ack", json_loc, broadcast=True)
 			eventlet.sleep(1)
 
-@socketio.on('gps_pos') # , namespace=CONTROL_NAMESPACE)
+@socketio.on('gps_pos_tango') # , namespace=CONTROL_NAMESPACE)
 def gpsChangeTango(json):
 	print "[socket][control][gps_pos]: " + str(json)
 	emit("gps_pos_ack", json, broadcast=True)
