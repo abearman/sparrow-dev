@@ -277,9 +277,9 @@ static bool sonar_enabled = true; // enable user switch for sonar
 
 // Inertial Navigation EKF
 #if AP_AHRS_NAVEKF_AVAILABLE
-AP_AHRS_NavEKF ahrs(ins, barometer, gps, tango, sonar);
+AP_AHRS_NavEKF ahrs(ins, barometer, gps, sonar, tango);
 #else
-AP_AHRS_DCM ahrs(ins, barometer, gps);
+AP_AHRS_DCM ahrs(ins, barometer, gps, tango);
 #endif
 
 #if CONFIG_HAL_BOARD == HAL_BOARD_AVR_SITL
