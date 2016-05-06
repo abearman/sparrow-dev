@@ -63,11 +63,11 @@
                         <rect key="frame" x="0.0" y="0.0" width="1024" height="768"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <stackView opaque="NO" contentMode="scaleToFill" fixedFrame="YES" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="7he-PM-k4J">
-                                <rect key="frame" x="0.0" y="20" width="1024" height="62"/>
+                            <stackView opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="7he-PM-k4J">
+                                <rect key="frame" x="0.0" y="20" width="1024" height="60"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="J8f-fi-mHA" userLabel="Top Bar">
-                                        <rect key="frame" x="0.0" y="0.0" width="1024" height="62"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="1024" height="60"/>
                                         <subviews>
                                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" image="logo_icon" translatesAutoresizingMaskIntoConstraints="NO" id="XSi-qw-Jys">
                                                 <rect key="frame" x="10" y="10" width="40" height="40"/>
@@ -145,6 +145,7 @@
                                             <constraint firstItem="gf4-sk-fBR" firstAttribute="leading" secondItem="If3-Rp-Qj0" secondAttribute="trailing" constant="5" id="1gO-en-aXi"/>
                                             <constraint firstItem="CIh-XW-P1V" firstAttribute="leading" secondItem="AjX-QD-ZDc" secondAttribute="trailing" constant="5" id="Na1-ZJ-0hU"/>
                                             <constraint firstItem="If3-Rp-Qj0" firstAttribute="leading" secondItem="XSi-qw-Jys" secondAttribute="trailing" constant="40" id="PWe-ht-DM7"/>
+                                            <constraint firstAttribute="height" constant="60" id="dQt-OZ-8Ee"/>
                                             <constraint firstAttribute="trailing" secondItem="f8G-UI-1Ji" secondAttribute="trailing" constant="6" id="eCn-kG-wQa"/>
                                             <constraint firstItem="XSi-qw-Jys" firstAttribute="leading" secondItem="J8f-fi-mHA" secondAttribute="leading" constant="10" id="ePR-3h-4v0"/>
                                             <constraint firstItem="gf4-sk-fBR" firstAttribute="centerY" secondItem="If3-Rp-Qj0" secondAttribute="centerY" id="ldQ-mX-5SW"/>
@@ -153,6 +154,9 @@
                                         </constraints>
                                     </view>
                                 </subviews>
+                                <constraints>
+                                    <constraint firstAttribute="trailing" secondItem="J8f-fi-mHA" secondAttribute="trailing" id="SuJ-bL-bf6"/>
+                                </constraints>
                             </stackView>
                             <view contentMode="scaleToFill" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="hyV-fQ-y4M" customClass="AnalogueStick">
                                 <rect key="frame" x="874" y="630" width="130" height="130"/>

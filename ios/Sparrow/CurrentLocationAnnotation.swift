@@ -11,9 +11,11 @@ import MapKit
 
 class CurrentLocationAnnotation: NSObject, MKAnnotation {
     let coordinate: CLLocationCoordinate2D
+    let angle: Double
     
-    init(coordinate: CLLocationCoordinate2D) {
+    init(coordinate: CLLocationCoordinate2D, angle: Double) {
         self.coordinate = coordinate
+        self.angle = angle
         super.init()
     }
     

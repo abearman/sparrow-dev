@@ -64,8 +64,10 @@ def gpsChange(json):
 def sendGPSChangeDrone():
 		vehicle = mission_state.vehicle
 		loc = {'lat': vehicle.location.global_relative_frame.lat,
-					 'lon': vehicle.location.global_relative_frame.lon,
-					 'alt': vehicle.location.global_relative_frame.alt}
+			    'lon': vehicle.location.global_relative_frame.lon,
+			    'alt': vehicle.location.global_relative_frame.alt,
+                'yaw': vehicle.attitude.yaw
+                }
 		json_loc = json.dumps(loc)
 		print "[socket][control][gps_pos]: " + str(json_loc)
 		emit("gps_pos_ack", json_loc, broadcast=True)

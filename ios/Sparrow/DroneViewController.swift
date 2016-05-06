@@ -62,11 +62,12 @@ class DroneViewController: UIViewController, AnalogueStickDelegate, MKMapViewDel
         mapView.delegate = self
         mapView.layer.borderWidth = 2
         mapView.layer.borderColor = UIColor.darkGrayColor().CGColor
-        let longPressRec = UILongPressGestureRecognizer(target: self, action: #selector(DroneViewController.dropWaypoint(_:)))
+        let longPressRec = UILongPressGestureRecognizer(target: self, action: "dropWaypoint:")
         self.mapView.addGestureRecognizer(longPressRec)
         // TODO: remove dummy initial location below
         let startLoc = CLLocationCoordinate2DMake(37.430020, -122.173302)
-        onLocationUpdate(startLoc)
+        let startYaw = 3.14
+        onLocationUpdate(startLoc, yaw: startYaw)
 
         self.addHandlers()
         debugPrint("Connecting to server control socket...")
@@ -85,10 +86,8 @@ class DroneViewController: UIViewController, AnalogueStickDelegate, MKMapViewDel
 // =================================== SERVER ===================================
     
     // The IP address that the server is running on
-    let HOSTNAME = "171.64.70.75"
-    //let HOSTNAME = "10.1.1.188"
+    let HOSTNAME = "10.34.170.213"
     let PORT = "5000"
-    
     
     private var buildSocketAddr: String {
         get {
@@ -135,6 +134,7 @@ class DroneViewController: UIViewController, AnalogueStickDelegate, MKMapViewDel
                 let latitude = jsonData["lat"] as? Double
                 let longitude = jsonData["lon"] as? Double
                 let altitude = jsonData["alt"] as? Double
+                let yaw = jsonData["yaw"] as? Double
                 debugPrint("got latitude: ", latitude)
                 debugPrint("got longitude: ", longitude)
                 debugPrint("got altitude: ", altitude)
@@ -143,11 +143,9 @@ class DroneViewController: UIViewController, AnalogueStickDelegate, MKMapViewDel
                 coordinateLabel.text = "(" + String(format: "%.3f", latitude!) + "N, " + String(format: "%.3f", longitude!) + "W)"
                 altitudeReadingLabel.text = String(format: "%.3f", altitude!) + " m"
                 
-                // Create CLLocation
+                // Update MKMapView
                 let loc = CLLocationCoordinate2DMake(latitude!, longitude!)
-                
-                // Call onLocationUpdate
-                onLocationUpdate(loc)
+                onLocationUpdate(loc, yaw: yaw!)
             }
             
         } catch {
@@ -325,13 +323,13 @@ class DroneViewController: UIViewController, AnalogueStickDelegate, MKMapViewDel
     var marker: MKAnnotation?
     var pinLocations: [MKAnnotation] = []
 
-    func onLocationUpdate(newLoc: CLLocationCoordinate2D) {
+    func onLocationUpdate(newLoc: CLLocationCoordinate2D, yaw: Double) {
         
         debugPrint("in onLocationUpdate")
         
         self.locations.append(newLoc)
         
-        drawMarker(newLoc)
+        drawMarker(newLoc, yaw: yaw)
         
         // Center curent location in map view. May be annoying when user is trying to
         // scroll to a different part of the map (TODO).
@@ -372,11 +370,11 @@ class DroneViewController: UIViewController, AnalogueStickDelegate, MKMapViewDel
         socket.emit("waypoint_cmd", waypointArgs)
     }
 
-    func drawMarker(coordinate: CLLocationCoordinate2D) {
+    func drawMarker(coordinate: CLLocationCoordinate2D, yaw: Double) {
         if (marker != nil) {
             mapView.removeAnnotation(marker!)
         }
-        marker = CurrentLocationAnnotation(coordinate: coordinate)
+        marker = CurrentLocationAnnotation(coordinate: coordinate, angle: yaw)
         mapView.addAnnotation(marker!)
     }
 
@@ -396,8 +394,11 @@ class DroneViewController: UIViewController, AnalogueStickDelegate, MKMapViewDel
             if let currentLocIcon = self.mapView.dequeueReusableAnnotationViewWithIdentifier("currentLocIcon") {
                 return currentLocIcon
             } else {
+                let angle = (annotation as! CurrentLocationAnnotation).angle
                 let currentLocIcon = MKAnnotationView(annotation: annotation, reuseIdentifier: "currentLocIcon")
-                currentLocIcon.image = UIImage(named: "current_location_icon")
+                let icon = UIImageView(image: UIImage(named: "current_loc_icon"))
+                icon.transform = CGAffineTransformMakeRotation(CGFloat(angle))
+                currentLocIcon.image = icon.image
                 return currentLocIcon
             }
         }
