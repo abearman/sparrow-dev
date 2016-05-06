@@ -51,10 +51,10 @@ def gpsChangeTango(json):
 @socketio.on('gps_pos') # , namespace=CONTROL_NAMESPACE)
 def gpsChange(json):
 		loc = json
-		#global gps_init
-		#if gps_init == False:
-		#	navigation.getOrigin(json)
-		#	gps_init = True
+		global gps_init
+		if gps_init == False:
+			navigation.getOrigin(json)
+			gps_init = True
 		print "[socket][control][gps_pos]: " + str(json)
 		emit("gps_pos_ack", json, broadcast=True)
 
@@ -73,10 +73,10 @@ def flySARPath(json):
 	waypoint_list = [(lat, lon, altitude)]	
 	if path_type == 'line':
 		for waypoint in LINE_OFFSETS:
-			waypoint_list.append((float(lat) + waypoint[0]  * STEP, float(lon) + waypoint[1]  * STEP, altitude))
+			waypoint_list.append((float(lat) + waypoint[0]	* STEP, float(lon) + waypoint[1]	* STEP, altitude))
 	elif path_type == 'sector':
 		for waypoint in SECTOR_OFFSETS:
-			waypoint_list.append((float(lat) + waypoint[0]  * STEP, float(lon) + waypoint[1]  * STEP, altitude))
+			waypoint_list.append((float(lat) + waypoint[0]	* STEP, float(lon) + waypoint[1]	* STEP, altitude))
 	elif path_type == 'radial':
 		for waypoint in RADIAL_OFFSETS:
 			waypoint_list.append((float(lat) + waypoint[0] * STEP, float(lon) + waypoint[1]  * STEP, altitude))
@@ -87,7 +87,7 @@ def flySARPath(json):
 		wp_lng = wp[1]
 		wp_alt = wp[2] 
 		waypoint_location = LocationGlobalRelative(wp_lat, wp_lon, wp_alt)
-	  vehicle.simple_goto(waypoint_location)
+		vehicle.simple_goto(waypoint_location)
 		while ((abs(vehicle.location.global_relative_frame.lat - wp_lat) > STEP/3) and
 					 (abs(vehicle.location.global_relative_frame.lng - wp_lng) > STEP/3) and
 					 (abs(vehicle.location.global_relative_frame.alt - wp_alt) > 0.1)): 
