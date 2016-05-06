@@ -67,6 +67,10 @@ class DroneViewController: UIViewController, AnalogueStickDelegate, MKMapViewDel
         // TODO: remove dummy initial location below
         let startLoc = CLLocationCoordinate2DMake(37.430020, -122.173302)
         onLocationUpdate(startLoc)
+        
+        // on load set a default zoom
+        let region = MKCoordinateRegionMake(startLoc, MKCoordinateSpanMake(0.01, 0.01))
+        self.mapView.setRegion(region, animated: true)
 
         debugPrint("Connecting to server control socket...")
         
@@ -362,8 +366,8 @@ class DroneViewController: UIViewController, AnalogueStickDelegate, MKMapViewDel
         
         // Center curent location in map view. May be annoying when user is trying to
         // scroll to a different part of the map (TODO).
-        let region = MKCoordinateRegionMake(newLoc, MKCoordinateSpanMake(0.01, 0.01))
-        self.mapView.setRegion(region, animated: true)
+        //let region = MKCoordinateRegionMake(newLoc, MKCoordinateSpanMake(0.01, 0.01))
+        //self.mapView.setRegion(region, animated: true)
         
         drawPath()
     }
