@@ -22,7 +22,7 @@ app.register_blueprint(control_api)
 
 HOST = "10.34.164.142" # This needs to be modified for server's IP    
 
-socketio = SocketIO(app)
+socketio = SocketIO(app)#, logger=True, engineio_logger=True)
 
 default_host= "127.0.0.1"
 

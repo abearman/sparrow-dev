@@ -46,7 +46,15 @@ class SARMenuViewController: UITableViewController {
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         let selectedCell = tableView.cellForRowAtIndexPath(indexPath)!
-        print(selectedCell.textLabel)
+        let sar_type = String(selectedCell.textLabel)
+        print(sar_type)
+        let sarArgs = [
+            "lat": delegate!.latestLat,
+            "lon": delegate!.latestLong,
+            "altitude": delegate!.latestAlt,
+            "sar_type": sar_type
+        ]
+        delegate!.socket.emit("sar_path", sarArgs)
         self.dismissViewControllerAnimated(true, completion: nil)
     }
 

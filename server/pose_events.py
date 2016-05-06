@@ -4,7 +4,7 @@ from flask import session
 from flask.ext.socketio import emit, join_room, leave_room
 from server_state import socketio
 
-from mission_state import path, pose, gps_init
+from mission_state import path, pose 
 
 import navigation
 

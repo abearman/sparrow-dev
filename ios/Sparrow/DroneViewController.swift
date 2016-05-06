@@ -69,7 +69,6 @@ class DroneViewController: UIViewController, AnalogueStickDelegate, MKMapViewDel
         let startYaw = 3.14
         onLocationUpdate(startLoc, yaw: startYaw)
 
-        self.addHandlers()
         debugPrint("Connecting to server control socket...")
         
         // Creating the socket
@@ -108,20 +107,10 @@ class DroneViewController: UIViewController, AnalogueStickDelegate, MKMapViewDel
             return
         }
         
+        //socket.joinNamespace("/control")
         socket.connect()
     }
     
-    func addHandlers() {
-        // Our socket handlers go here
-        self.socket.onAny {print("Got event: \($0.event), with items: \($0.items)")}
-        
-        // constant fetching for latest GPS coordinates
-        self.socket.on("gps_pos_ack") {[weak self] data, ack in
-            debugPrint("received gps_pos_ack event")
-            self?.handleGPSPos(data)
-            return
-        }
-    }
     
     func handleGPSPos(data: AnyObject) {
 
@@ -138,6 +127,9 @@ class DroneViewController: UIViewController, AnalogueStickDelegate, MKMapViewDel
                 debugPrint("got latitude: ", latitude)
                 debugPrint("got longitude: ", longitude)
                 debugPrint("got altitude: ", altitude)
+                latestLat = latitude!
+                latestLong = longitude!
+                latestAlt = altitude!
                 
                 // Update coordinate label
                 coordinateLabel.text = "(" + String(format: "%.3f", latitude!) + "N, " + String(format: "%.3f", longitude!) + "W)"
@@ -322,6 +314,10 @@ class DroneViewController: UIViewController, AnalogueStickDelegate, MKMapViewDel
     var path: MKPolyline?
     var marker: MKAnnotation?
     var pinLocations: [MKAnnotation] = []
+    
+    var latestLat: Double = 0.0
+    var latestLong: Double = 0.0
+    var latestAlt: Double = 0.0
 
     func onLocationUpdate(newLoc: CLLocationCoordinate2D, yaw: Double) {
         
@@ -474,16 +470,7 @@ class DroneViewController: UIViewController, AnalogueStickDelegate, MKMapViewDel
 // =================================== SAR PATHS ===================================
     
     @IBAction func sarPathButtonClicked(sender: AnyObject) {
-        /* TODO: finish sarPath */
         print("SAR PATH BUTTON CLICKED");
-        
-
-        /*let storyboard : UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-        let vc = storyboard.instantiateViewControllerWithIdentifier("DroneViewController")
-        vc.modalPresentationStyle = UIModalPresentationStyle.Popover
-        let popover: UIPopoverPresentationController = vc.popoverPresentationController!
-        popover.delegate = self
-        presentViewController(vc, animated: true, completion:nil)*/
     }
     
     func adaptivePresentationStyleForPresentationController(controller: UIPresentationController) -> UIModalPresentationStyle {
