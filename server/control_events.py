@@ -65,6 +65,7 @@ SECTOR_OFFSETS = [(4, 0), (3, -1), (1, 1), (2, 2), (2, -2), (1, -1), (3, 1)]
 
 @socketio.on('sar_path')
 def flySARPath(json):
+	vehicle = mission_state.vehicle
 	lat = json['lat']
 	lon = json['lon']
 	altitude = json['altitude']
@@ -79,7 +80,18 @@ def flySARPath(json):
 	elif path_type == 'radial':
 		for waypoint in RADIAL_OFFSETS:
 			waypoint_list.append((float(lat) + waypoint[0] * STEP, float(lon) + waypoint[1]  * STEP, altitude))
+
 	# TODO: Call dronekit gps waypoint flight command with list of waypoints
+	for wp in waypoint_list:
+		wp_lat = wp[0]
+		wp_lng = wp[1]
+		wp_alt = wp[2] 
+		waypoint_location = LocationGlobalRelative(wp_lat, wp_lon, wp_alt)
+	  vehicle.simple_goto(waypoint_location)
+		while ((abs(vehicle.location.global_relative_frame.lat - wp_lat) > STEP/3) and
+					 (abs(vehicle.location.global_relative_frame.lng - wp_lng) > STEP/3) and
+					 (abs(vehicle.location.global_relative_frame.alt - wp_alt) > 0.1)): 
+			time.sleep(0.1)
 
 
 @socketio.on('altitude_abs_cmd') # , namespace=CONTROL_NAMESPACE)
