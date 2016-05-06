@@ -45,8 +45,15 @@ class SARMenuViewController: UITableViewController {
     }
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        let selectedCell = tableView.cellForRowAtIndexPath(indexPath)!
-        let sar_type = String(selectedCell.textLabel)
+        //let selectedCell = tableView.cellForRowAtIndexPath(indexPath)!
+        var sar_type : String = ""
+        if indexPath.row == 0 {
+            sar_type = "line"
+        } else if indexPath.row == 1 {
+            sar_type = "radial"
+        } else if indexPath.row == 2 {
+            sar_type = "sector"
+        }
         print(sar_type)
         let sarArgs = [
             "lat": delegate!.latestLat,

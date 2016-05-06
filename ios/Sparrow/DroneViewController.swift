@@ -84,7 +84,7 @@ class DroneViewController: UIViewController, AnalogueStickDelegate, MKMapViewDel
 // =================================== SERVER ===================================
     
     // The IP address that the server is running on
-    let HOSTNAME = "10.28.96.192"
+    let HOSTNAME = "10.34.161.46"
     //let HOSTNAME = "10.1.1.188"
     let PORT = "5000"
     
