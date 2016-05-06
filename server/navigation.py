@@ -356,6 +356,5 @@ def getLLAFromNED(NEDJSON):
     # print str(NED)
     # print str(origin_ecef)
     calculatedEcef = gps.ned2ecef(NED, origin_ecef)
-    # TODO: send Mavlink command
     print gps.ecef2lla(calculatedEcef)
     return gps.ecef2lla(calculatedEcef)

@@ -108,7 +108,6 @@ def waypointCommand(json):
 		alt = float(json['alt'])
 	else:
 		alt = vehicle.location.global_relative_frame.alt
-	print lat, " ", lon, " ", alt
 	waypoint_location = LocationGlobalRelative(lat, lon, alt)
 	vehicle.simple_goto(waypoint_location)
 
