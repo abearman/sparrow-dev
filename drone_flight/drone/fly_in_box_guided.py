@@ -105,15 +105,14 @@ def arm_and_takeoff(aTargetAltitude):
 	vehicle._master.mav.command_long_send(0, 0, mavutil.mavlink.MAV_CMD_NAV_SEND_TANGO_GPS,
 																									0, 0, 0, 0, 0, 37.4, 149, 20)
 
-	print "Sending takeoff mavlink message"
-	vehicle._master.mav.command_long_send(0, 0, mavutil.mavlink.MAV_CMD_NAV_TAKEOFF,
-																									0, 0, 0, 0, 0, 0, 0, 10)
+
+	time.sleep(5)
+	exit()
 
 	while True:
 		print vehicle.location.global_relative_frame
 		time.sleep(0.5)	
 	#time.sleep(10)
-	exit()
 
 	print "Local location (before takeoff): ", vehicle.location.local_frame
 	print "Taking off!"
