@@ -10,7 +10,7 @@ from mission_state import gps_init
 import navigation
 from server_state import socketio
 
-from dronekit import connect, VehicleMode, LocationGlobalRelative
+from dronekit import connect, VehicleMode, LocationGlobalRelative, Command, LocationGlobal
 import time
 import sys
 from pymavlink import mavutil
@@ -49,6 +49,7 @@ def listen_for_location_change(vehicle_location_param):
 #	print "[socket][control][gps_pos]: " + str(json)
 #	emit("gps_pos_ack", json, broadcast=True)
 
+"""
 @socketio.on('gps_pos') # , namespace=CONTROL_NAMESPACE)
 def gpsChange(json):
 		loc = json
@@ -58,34 +59,102 @@ def gpsChange(json):
 			gps_init = True
 			print "[socket][control][gps_pos]: " + str(json)
 			emit("gps_pos_ack", json, broadcast=True)
+"""
 
-STEP = 0.00006
+STEP = 10
 RADIAL_OFFSETS = [(1, 0), (1, 1), (-1, 1), (-1, -1), (2, -1), (2, 2), (-2, 2), (-2, -2), (3, -2), (3, 3)]
 LINE_OFFSETS = [(0, 1), (-4, 1), (-4, 2), (0, 2), (0, 3), (-4, 3), (-4, 4), (0, 4), (0, 5), (-4, 5)]
 SECTOR_OFFSETS = [(4, 0), (3, -1), (1, 1), (2, 2), (2, -2), (1, -1), (3, 1)]
 
-@socketio.on('sar_path')
-def flySARPath(json):
-	print "[socket][control][sar_path]: " + str(json)
-	vehicle = mission_state.vehicle
-	lat = json['lat']
-	lon = json['lon']
-	altitude = json['altitude']
-	path_type = json['sar_type']
-	waypoint_list = []	
-	if path_type == 'line':
-		for waypoint in LINE_OFFSETS:
-			waypoint_list.append((float(lat) + waypoint[0]	* STEP, float(lon) + waypoint[1]	* STEP, altitude))
-	elif path_type == 'sector':
-		for waypoint in SECTOR_OFFSETS:
-			waypoint_list.append((float(lat) + waypoint[0]	* STEP, float(lon) + waypoint[1]	* STEP, altitude))
-	elif path_type == 'radial':
-		for waypoint in RADIAL_OFFSETS:
-			waypoint_list.append((float(lat) + waypoint[0] * STEP, float(lon) + waypoint[1]  * STEP, altitude))
+def get_location_metres(original_location, dNorth, dEast):
+    """
+    Returns a LocationGlobal object containing the latitude/longitude `dNorth` and `dEast` metres from the 
+    specified `original_location`. The returned Location has the same `alt` value
+    as `original_location`.
 
+    The function is useful when you want to move the vehicle around specifying locations relative to 
+    the current vehicle position.
+    The algorithm is relatively accurate over small distances (10m within 1km) except close to the poles.
+    For more information see:
+    http://gis.stackexchange.com/questions/2951/algorithm-for-offsetting-a-latitude-longitude-by-some-amount-of-meters
+    """
+    earth_radius=6378137.0 #Radius of "spherical" earth
+    #Coordinate offsets in radians
+    dLat = dNorth/earth_radius
+    dLon = dEast/(earth_radius*math.cos(math.pi*original_location.lat/180))
+
+    #New position in decimal degrees
+    newlat = original_location.lat + (dLat * 180/math.pi)
+    newlon = original_location.lon + (dLon * 180/math.pi)
+    return LocationGlobal(newlat, newlon,original_location.alt)
+
+
+@socketio.on('sar_path')
+def flySARPath(data):
+	print "[socket][control][sar_path]: " + str(data)
+
+	vehicle = mission_state.vehicle
+	lat = data['lat']
+	lon = data['lon']
+	altitude = data['altitude']
+	path_type = data['sar_type']
+	
+	cmds = vehicle.commands
+	cmds.clear()
+
+	#Add MAV_CMD_NAV_TAKEOFF command. This is ignored if the vehicle is already in the air.
+	cmds.add(Command( 0, 0, 0, mavutil.mavlink.MAV_FRAME_GLOBAL_RELATIVE_ALT, mavutil.mavlink.MAV_CMD_NAV_TAKEOFF, 0, 0, 0, 0, 0, 0, 0, 0, 4))
+
+	waypoint_list = None
+	if path_type == 'line':
+		waypoint_list = LINE_OFFSETS
+	elif path_type == 'sector':
+		waypoint_list = SECTOR_OFFSETS
+	elif path_type == 'radial':
+		waypoint_list = RADIAL_OFFSETS
+
+	for wp in waypoint_list:
+		
+		cmds.clear()
+
+		point = get_location_metres(vehicle.location.global_frame, wp[1]	* STEP, wp[0]	* STEP)
+		cmds.add(Command(0, 0, 0, mavutil.mavlink.MAV_FRAME_GLOBAL_RELATIVE_ALT, mavutil.mavlink.MAV_CMD_NAV_WAYPOINT, 0, 0, 0, 0, 0, 0, point.lat, point.lon, altitude))
+		cmds.add(Command(0, 0, 0, mavutil.mavlink.MAV_FRAME_GLOBAL_RELATIVE_ALT, mavutil.mavlink.MAV_CMD_NAV_WAYPOINT, 0, 0, 0, 0, 0, 0, point.lat, point.lon, altitude))
+
+		cmds.upload()
+
+		vehicle.commands.next = 0
+		vehicle.mode = VehicleMode("AUTO")
+		while True:
+
+			current_lat = mission_state.vehicle.location.global_relative_frame.lat
+			current_lon = mission_state.vehicle.location.global_relative_frame.lon
+			current_alt = mission_state.vehicle.location.global_relative_frame.alt
+			loc = {'lat': current_lat, 'lon': current_lon, 'alt': current_alt}
+			json_loc = json.dumps(loc)
+			
+			#print "[socket][control][sar_path_gps_pos]: ", str(json_loc)
+			#socketio.emit("gps_pos_ack", json_loc, broadcast=True)
+
+			nextwaypoint = vehicle.commands.next
+			if path_type == 'line':
+				if nextwaypoint == 2:
+					break;
+			if path_type == 'sector':
+				if nextwaypoint == 2:
+					break;
+			if path_type == 'radial':
+				if nextwaypoint == 2:
+					break;
+			time.sleep(0)
+
+		vehicle.mode = VehicleMode("GUIDED")
+
+"""
+	
 	# Call dronekit gps waypoint flight command with list of waypoints
 	for wp in waypoint_list:
-		print "GOING TO WAYPOINT"
+		print "GOING TO WAYPOINT, ", wp
 		wp_lat = wp[0]
 		wp_lon = wp[1]
 		wp_alt = wp[2] 
@@ -97,9 +166,14 @@ def flySARPath(json):
 	  	print "vehicle.location.global_relative_frame.lon: ", vehicle.location.global_relative_frame.lon
 	  	print "lon: ", wp_lon
 	  	print "diff: ", abs(vehicle.location.global_relative_frame.lon - wp_lon)
+	  	counter = 0
 		while ((abs(vehicle.location.global_relative_frame.lat - wp_lat) > 0.00001) or
 					 (abs(vehicle.location.global_relative_frame.lon - wp_lon) > 0.00001)): 
 			time.sleep(0.1)
+			counter = counter + 1
+		print "OUT OF WHILE LOOP, counter = ", counter
+	"""
+
 
 
 @socketio.on('altitude_abs_cmd') # , namespace=CONTROL_NAMESPACE)
