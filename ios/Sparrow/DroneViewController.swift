@@ -89,8 +89,7 @@ class DroneViewController: UIViewController, AnalogueStickDelegate, MKMapViewDel
 // =================================== SERVER ===================================
     
     // The IP address that the server is running on
-    let HOSTNAME = "10.34.174.242"
-    //let HOSTNAME = "10.1.1.188"
+    let HOSTNAME = "192.168.2.110"
     let PORT = "5000"
     
     
@@ -179,7 +178,8 @@ class DroneViewController: UIViewController, AnalogueStickDelegate, MKMapViewDel
         let decompressed_data : NSData = try! image_data!.gunzippedData()
         var image_bytes = Array(UnsafeBufferPointer(start: UnsafePointer<UInt8>(decompressed_data.bytes), count: decompressed_data.length))
         
-        let count = 921600
+        // let count = 921600
+        let count = 36864
         
         debugPrint("Data length received: ", image_data!.length)
         debugPrint("Pixel count: ", count)
@@ -195,8 +195,10 @@ class DroneViewController: UIViewController, AnalogueStickDelegate, MKMapViewDel
             pixel_data[i].b = image_bytes[3 * i + 2]
         }
         
-        let width = 1280
-        let height = 720
+        // let width = 1280
+        // let height = 720
+        let width = 256
+        let height = 144
         let bitmapCount: Int = pixel_data.count
         let elementLength: Int = sizeof(PixelData)
         let render: CGColorRenderingIntent = CGColorRenderingIntent.RenderingIntentDefault
