@@ -115,7 +115,8 @@ class DroneViewController: UIViewController, AnalogueStickDelegate, MKMapViewDel
         // video frame rendering
         self.socket.on("ios_frame") {[weak self] data, ack in
             debugPrint("received ios_frame event")
-            dispatch_async(dispatch_get_main_queue()) {
+            let priority = DISPATCH_QUEUE_PRIORITY_DEFAULT
+            dispatch_async(dispatch_get_global_queue(priority, 0)) {
                 self?.handleFrame(data)
             }
             return
