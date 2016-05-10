@@ -154,14 +154,11 @@
                                     </view>
                                 </subviews>
                             </stackView>
-                            <view contentMode="scaleToFill" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="0mV-Gp-vom" userLabel="Camera View">
-                                <rect key="frame" x="-1" y="80" width="1025" height="542"/>
+                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="0mV-Gp-vom" userLabel="Camera View">
+                                <rect key="frame" x="-1" y="80" width="1025" height="689"/>
                                 <subviews>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="fd7-dc-5A4">
-                                        <rect key="frame" x="0.0" y="0.0" width="1024" height="576"/>
-                                    </imageView>
-                                    <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="it6-1N-EKc">
-                                        <rect key="frame" x="6" y="8" width="316" height="311"/>
+                                    <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="it6-1N-EKc">
+                                        <rect key="frame" x="0.0" y="0.0" width="1025" height="689"/>
                                     </mapView>
                                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" restorationIdentifier="right" contentHorizontalAlignment="center" contentVerticalAlignment="center" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="T9B-QI-ACR">
                                         <rect key="frame" x="917" y="508" width="70" height="70"/>
@@ -232,15 +229,13 @@
                                             <action selector="rotationSliderReleased:" destination="lZr-Lc-zbu" eventType="touchUpOutside" id="Tw4-7z-Mui"/>
                                         </connections>
                                     </slider>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="fd7-dc-5A4">
+                                        <rect key="frame" x="6" y="8" width="256" height="144"/>
+                                        <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                    </imageView>
                                 </subviews>
                                 <constraints>
-                                    <constraint firstItem="it6-1N-EKc" firstAttribute="leading" secondItem="0mV-Gp-vom" secondAttribute="leading" constant="6" id="BDE-D1-m0a"/>
-                                    <constraint firstItem="it6-1N-EKc" firstAttribute="top" secondItem="0mV-Gp-vom" secondAttribute="top" constant="8" id="EPk-4N-zv2"/>
-                                    <constraint firstItem="it6-1N-EKc" firstAttribute="leading" secondItem="0mV-Gp-vom" secondAttribute="leading" constant="6" id="Eo5-18-6m9"/>
-                                    <constraint firstAttribute="trailing" secondItem="it6-1N-EKc" secondAttribute="trailing" constant="703" id="J2r-qw-AlF"/>
-                                    <constraint firstItem="it6-1N-EKc" firstAttribute="top" secondItem="0mV-Gp-vom" secondAttribute="top" constant="8" id="bFq-AW-UI5"/>
                                     <constraint firstItem="FG0-rd-ofc" firstAttribute="leading" secondItem="0mV-Gp-vom" secondAttribute="leading" constant="-55" id="drI-1t-Al4"/>
-                                    <constraint firstItem="it6-1N-EKc" firstAttribute="top" secondItem="0mV-Gp-vom" secondAttribute="top" constant="8" id="wUE-OY-0G4"/>
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="hyV-fQ-y4M" customClass="AnalogueStick">

@@ -146,7 +146,6 @@ def flySARPath(data):
 			if path_type == 'radial':
 				if nextwaypoint == 2:
 					break;
-			time.sleep(0)
 
 		vehicle.mode = VehicleMode("GUIDED")
 
@@ -199,7 +198,7 @@ def rotationChange(json):
 @socketio.on('waypoint_cmd')
 def waypointCommand(json):
 	vehicle = mission_state.vehicle
-	#vehicle.airspeed = 4
+	# vehicle.airspeed = 4
 	print "airspeed: ", vehicle.airspeed
 	print "[socket][control][waypoint]: " + str(json)
 	lat = float(json['lat'])
@@ -209,7 +208,7 @@ def waypointCommand(json):
 	else:
 		alt = vehicle.location.global_relative_frame.alt
 	waypoint_location = LocationGlobalRelative(lat, lon, alt)
-	vehicle.simple_goto(waypoint_location)
+	vehicle.simple_goto(waypoint_location, airspeed = 3)
 
 @socketio.on('lateral_cmd') #, namespace=CONTROL_NAMESPACE)
 def lateralChangeDiscrete(json):

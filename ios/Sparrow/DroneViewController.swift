@@ -89,7 +89,7 @@ class DroneViewController: UIViewController, AnalogueStickDelegate, MKMapViewDel
 // =================================== SERVER ===================================
     
     // The IP address that the server is running on
-    let HOSTNAME = "192.168.2.110"
+    let HOSTNAME = "10.34.170.213"
     let PORT = "5000"
     
     
@@ -115,7 +115,9 @@ class DroneViewController: UIViewController, AnalogueStickDelegate, MKMapViewDel
         // video frame rendering
         self.socket.on("ios_frame") {[weak self] data, ack in
             debugPrint("received ios_frame event")
-            self?.handleFrame(data)
+            dispatch_async(dispatch_get_main_queue()) {
+                self?.handleFrame(data)
+            }
             return
         }
         
