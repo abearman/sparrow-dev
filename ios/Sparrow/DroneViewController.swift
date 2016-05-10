@@ -89,7 +89,7 @@ class DroneViewController: UIViewController, AnalogueStickDelegate, MKMapViewDel
 // =================================== SERVER ===================================
     
     // The IP address that the server is running on
-    let HOSTNAME = "10.34.170.213"
+    let HOSTNAME = "10.31.102.97"
     let PORT = "5000"
     
     
@@ -482,6 +482,15 @@ class DroneViewController: UIViewController, AnalogueStickDelegate, MKMapViewDel
             self.mapView.removeOverlay(path!)
         }
         self.path = MKPolyline(coordinates: &locations, count: locations.count)
+        
+        // TODO: area visualizations - improve latency
+        for (index, location) in locations.enumerate() {
+            if (index % 5 == 0) {
+                let circle : MKCircle = MKCircle(centerCoordinate: location, radius: 10)
+                //self.mapView.addOverlay(circle)
+            }
+        }
+        
         self.mapView.addOverlay(self.path!)
     }
     
@@ -525,6 +534,7 @@ class DroneViewController: UIViewController, AnalogueStickDelegate, MKMapViewDel
         } else if (overlay is MKCircle) {
             let circleRenderer = MKCircleRenderer(overlay: overlay)
             circleRenderer.fillColor = UIColor.blueColor()
+            circleRenderer.alpha = 0.01
             return circleRenderer
         }
         return MKPolylineRenderer();
