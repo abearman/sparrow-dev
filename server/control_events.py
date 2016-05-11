@@ -25,7 +25,7 @@ CONTROL_NAMESPACE = "/"
 @socketio.on('connect', namespace=CONTROL_NAMESPACE)
 def on_connect():
 		print "[socket][control][connect]: Connection received"
-		eventlet.spawn(listen_for_location_change, [mission_state.vehicle.location.global_relative_frame])
+		#eventlet.spawn(listen_for_location_change, [mission_state.vehicle.location.global_relative_frame])
 
 
 # Updates the location of the drone on a 1 Hz cycle
@@ -49,17 +49,16 @@ def listen_for_location_change(vehicle_location_param):
 #	print "[socket][control][gps_pos]: " + str(json)
 #	emit("gps_pos_ack", json, broadcast=True)
 
-"""
 @socketio.on('gps_pos') # , namespace=CONTROL_NAMESPACE)
 def gpsChange(json):
+		print "GOT TO GPS_POS FUNC"
 		loc = json
 		global gps_init
 		if gps_init == False:
-			navigation.getOrigin(json)
+			navigation.getOrigin(json)  # sets mission_state.origin_ecef in navigation.py
 			gps_init = True
 			print "[socket][control][gps_pos]: " + str(json)
 			emit("gps_pos_ack", json, broadcast=True)
-"""
 
 STEP = 10
 RADIAL_OFFSETS = [(1, 0), (1, 1), (-1, 1), (-1, -1), (2, -1), (2, 2), (-2, 2), (-2, -2), (3, -2), (3, 3)]

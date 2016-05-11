@@ -3674,8 +3674,9 @@ bool NavEKF::getPosNED(Vector3f &pos) const
         if(validOrigin) {
             if ((_ahrs->get_gps().status() >= AP_GPS::GPS_OK_FIX_2D)) {
                 // If the origin has been set and we have GPS, then return the GPS position relative to the origin
-                const struct Location &gpsloc = _ahrs->get_tango().get_location();
-                Vector2f tempPosNE = location_diff(EKF_origin, gpsloc);
+                const struct Location &tangoloc = _ahrs->get_tango().get_location();
+                const struct Location &gpsloc = _ahrs->get_gps().location();
+								Vector2f tempPosNE = location_diff(EKF_origin, gpsloc);
                 pos.x = tempPosNE.x;
                 pos.y = tempPosNE.y;
                 return false;
@@ -3827,7 +3828,8 @@ bool NavEKF::getLLH(struct Location &loc) const
             // in this mode we cannot use the EKF states to estimate position so will return the best available data
             if ((_ahrs->get_gps().status() >= AP_GPS::GPS_OK_FIX_2D)) {
                 // we have a GPS position fix to return
-                const struct Location &gpsloc = _ahrs->get_tango().get_location();
+                const struct Location &tangoloc = _ahrs->get_tango().get_location();
+								const struct Location &gpsloc = _ahrs->get_gps().location();
                 loc.lat = gpsloc.lat;
                 loc.lng = gpsloc.lng;
                 return true;
@@ -3841,7 +3843,8 @@ bool NavEKF::getLLH(struct Location &loc) const
         // If no origin has been defined for the EKF, then we cannot use its position states so return a raw
         // GPS reading if available and return false
         if ((_ahrs->get_gps().status() >= AP_GPS::GPS_OK_FIX_3D)) {
-            const struct Location &gpsloc = _ahrs->get_tango().get_location();
+            const struct Location &tangoloc = _ahrs->get_tango().get_location();
+						const struct Location &gpsloc = _ahrs->get_gps().location();
             loc = gpsloc;
             loc.flags.relative_alt = 0;
             loc.flags.terrain_alt = 0;

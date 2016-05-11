@@ -58,10 +58,11 @@
 		49CC318E1CCB24CF00E9A905 /* Oswald-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 49CC317E1CCB248400E9A905 /* Oswald-Regular.ttf */; };
 		49CC318F1CCB24D100E9A905 /* Oswald-RegularItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 49CC317F1CCB248400E9A905 /* Oswald-RegularItalic.ttf */; };
 		49CC31901CCB24D300E9A905 /* Oswald-Stencil.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 49CC31801CCB248400E9A905 /* Oswald-Stencil.ttf */; };
+		BD2DC7581CE027C100AAC56B /* NSData+GZIP.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD2DC7571CE027C100AAC56B /* NSData+GZIP.swift */; };
+		BD2DC75D1CE0280000AAC56B /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = BD2DC75C1CE0280000AAC56B /* libz.tbd */; };
 		BD9220691CD970B4005DB301 /* SARMenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD9220681CD970B4005DB301 /* SARMenuViewController.swift */; };
 		BDDE047A1CD15A9E00E61271 /* CurrentLocationAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDDE04791CD15A9E00E61271 /* CurrentLocationAnnotation.swift */; };
 		C1C8124B1CD94B110087ED4D /* WaypointAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1C8124A1CD94B110087ED4D /* WaypointAnnotation.swift */; };
-		C1C8124D1CD970AD0087ED4D /* SARMenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1C8124C1CD970AD0087ED4D /* SARMenuViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -142,6 +143,10 @@
 		49CC317E1CCB248400E9A905 /* Oswald-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Oswald-Regular.ttf"; sourceTree = "<group>"; };
 		49CC317F1CCB248400E9A905 /* Oswald-RegularItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Oswald-RegularItalic.ttf"; sourceTree = "<group>"; };
 		49CC31801CCB248400E9A905 /* Oswald-Stencil.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Oswald-Stencil.ttf"; sourceTree = "<group>"; };
+		BD2DC7571CE027C100AAC56B /* NSData+GZIP.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSData+GZIP.swift"; sourceTree = "<group>"; };
+		BD2DC7591CE027CB00AAC56B /* module.modulemap */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.module-map"; path = module.modulemap; sourceTree = "<group>"; };
+		BD2DC75A1CE027D200AAC56B /* include.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = include.h; sourceTree = "<group>"; };
+		BD2DC75C1CE0280000AAC56B /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		BD9220681CD970B4005DB301 /* SARMenuViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SARMenuViewController.swift; sourceTree = "<group>"; };
 		BDDE04791CD15A9E00E61271 /* CurrentLocationAnnotation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CurrentLocationAnnotation.swift; sourceTree = "<group>"; };
 		C1C8124A1CD94B110087ED4D /* WaypointAnnotation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WaypointAnnotation.swift; sourceTree = "<group>"; };
@@ -153,6 +158,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BD2DC75D1CE0280000AAC56B /* libz.tbd in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -176,6 +182,7 @@
 		492AF8531CC9B34B00A805F3 = {
 			isa = PBXGroup;
 			children = (
+				BD2DC75C1CE0280000AAC56B /* libz.tbd */,
 				492AF85E1CC9B34B00A805F3 /* Sparrow */,
 				492AF8781CC9B34B00A805F3 /* SparrowTests */,
 				492AF8831CC9B34B00A805F3 /* SparrowUITests */,
@@ -196,6 +203,7 @@
 		492AF85E1CC9B34B00A805F3 /* Sparrow */ = {
 			isa = PBXGroup;
 			children = (
+				BD2DC75B1CE027DB00AAC56B /* LibZ */,
 				BD9220681CD970B4005DB301 /* SARMenuViewController.swift */,
 				492AF85F1CC9B34B00A805F3 /* AppDelegate.swift */,
 				492AF8661CC9B34B00A805F3 /* DroneViewController.swift */,
@@ -305,6 +313,16 @@
 				49CC31801CCB248400E9A905 /* Oswald-Stencil.ttf */,
 			);
 			name = Fonts;
+			sourceTree = "<group>";
+		};
+		BD2DC75B1CE027DB00AAC56B /* LibZ */ = {
+			isa = PBXGroup;
+			children = (
+				BD2DC7571CE027C100AAC56B /* NSData+GZIP.swift */,
+				BD2DC75A1CE027D200AAC56B /* include.h */,
+				BD2DC7591CE027CB00AAC56B /* module.modulemap */,
+			);
+			name = LibZ;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -464,6 +482,7 @@
 				4981888B1CCADEB700029A6D /* SocketParsable.swift in Sources */,
 				4981887D1CCADEB700029A6D /* SocketAnyEvent.swift in Sources */,
 				492AF8631CC9B34B00A805F3 /* Sparrow.xcdatamodeld in Sources */,
+				BD2DC7581CE027C100AAC56B /* NSData+GZIP.swift in Sources */,
 				492AF8601CC9B34B00A805F3 /* AppDelegate.swift in Sources */,
 				492AF89E1CC9BA0D00A805F3 /* Joystick.m in Sources */,
 				4981887C1CCADEB700029A6D /* SocketAckManager.swift in Sources */,

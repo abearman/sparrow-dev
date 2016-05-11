@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="lZr-Lc-zbu">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10116" systemVersion="15B42" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="lZr-Lc-zbu">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
@@ -155,16 +155,16 @@
                                 </subviews>
                             </stackView>
                             <view contentMode="scaleToFill" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="0mV-Gp-vom" userLabel="Camera View">
-                                <rect key="frame" x="-1" y="80" width="1025" height="542"/>
+                                <rect key="frame" x="-40" y="80" width="1064" height="688"/>
                                 <subviews>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="fd7-dc-5A4">
-                                        <rect key="frame" x="0.0" y="0.0" width="1024" height="576"/>
+                                    <imageView userInteractionEnabled="NO" alpha="0.80000000000000004" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="stanford" translatesAutoresizingMaskIntoConstraints="NO" id="fd7-dc-5A4">
+                                        <rect key="frame" x="-16" y="0.0" width="1093" height="688"/>
                                     </imageView>
                                     <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="it6-1N-EKc">
-                                        <rect key="frame" x="6" y="8" width="316" height="311"/>
+                                        <rect key="frame" x="45" y="8" width="316" height="311"/>
                                     </mapView>
                                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" restorationIdentifier="right" contentHorizontalAlignment="center" contentVerticalAlignment="center" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="T9B-QI-ACR">
-                                        <rect key="frame" x="917" y="508" width="70" height="70"/>
+                                        <rect key="frame" x="956" y="508" width="70" height="70"/>
                                         <color key="backgroundColor" red="0.31614871010000001" green="0.64871861009999998" blue="0.86274509799999999" alpha="0.0" colorSpace="calibratedRGB"/>
                                         <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                         <state key="normal">
@@ -177,7 +177,7 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" restorationIdentifier="back" contentHorizontalAlignment="center" contentVerticalAlignment="center" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JD4-wa-iPa">
-                                        <rect key="frame" x="847" y="578" width="70" height="70"/>
+                                        <rect key="frame" x="886" y="578" width="70" height="70"/>
                                         <color key="backgroundColor" red="0.31614871010000001" green="0.64871861009999998" blue="0.86274509799999999" alpha="0.0" colorSpace="calibratedRGB"/>
                                         <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                         <state key="normal">
@@ -190,7 +190,7 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" restorationIdentifier="left" contentHorizontalAlignment="center" contentVerticalAlignment="center" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="885-05-WMq">
-                                        <rect key="frame" x="777" y="508" width="70" height="70"/>
+                                        <rect key="frame" x="816" y="508" width="70" height="70"/>
                                         <color key="backgroundColor" red="0.31614871010000001" green="0.64871861009999998" blue="0.86274509799999999" alpha="0.0" colorSpace="calibratedRGB"/>
                                         <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                         <state key="normal">
@@ -203,7 +203,7 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" restorationIdentifier="forward" contentHorizontalAlignment="center" contentVerticalAlignment="center" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Exs-gh-uXv">
-                                        <rect key="frame" x="847" y="437" width="70" height="70"/>
+                                        <rect key="frame" x="886" y="437" width="70" height="70"/>
                                         <color key="backgroundColor" red="0.31614871010000001" green="0.64871861009999998" blue="0.86274509799999999" alpha="0.0" colorSpace="calibratedRGB"/>
                                         <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                         <connections>
@@ -213,7 +213,7 @@
                                         </connections>
                                     </button>
                                     <slider opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" minValue="-5" maxValue="5" translatesAutoresizingMaskIntoConstraints="NO" id="FG0-rd-ofc" userLabel="Altitude Slider">
-                                        <rect key="frame" x="-57" y="503" width="204" height="31"/>
+                                        <rect key="frame" x="-18" y="503" width="204" height="31"/>
                                         <color key="minimumTrackTintColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                         <color key="maximumTrackTintColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                         <connections>
@@ -222,8 +222,8 @@
                                             <action selector="altitudeSliderReleased:" destination="lZr-Lc-zbu" eventType="touchUpInside" id="xOJ-QH-te0"/>
                                         </connections>
                                     </slider>
-                                    <slider opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" minValue="-180" maxValue="180" translatesAutoresizingMaskIntoConstraints="NO" id="0bV-ba-Rxq" userLabel="Rotation Slider">
-                                        <rect key="frame" x="136" y="624" width="204" height="31"/>
+                                    <slider opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" minValue="-180" maxValue="180" translatesAutoresizingMaskIntoConstraints="NO" id="0bV-ba-Rxq" userLabel="Rotation Slider">
+                                        <rect key="frame" x="175" y="624" width="204" height="31"/>
                                         <color key="minimumTrackTintColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                         <color key="maximumTrackTintColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                         <connections>
@@ -250,25 +250,21 @@
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="+5" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zrT-zk-fNp">
                                 <rect key="frame" x="31" y="473" width="21" height="21"/>
                                 <fontDescription key="fontDescription" name="Oswald-Medium" family="Oswald" pointSize="21"/>
-                                <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="-180" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="H1z-2y-7mU">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="-180" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="H1z-2y-7mU">
                                 <rect key="frame" x="89" y="707" width="47" height="24"/>
                                 <fontDescription key="fontDescription" name="Oswald-Medium" family="Oswald" pointSize="21"/>
-                                <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="+180" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QcV-Wj-8y7">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="+180" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QcV-Wj-8y7">
                                 <rect key="frame" x="343" y="707" width="47" height="24"/>
                                 <fontDescription key="fontDescription" name="Oswald-Medium" family="Oswald" pointSize="21"/>
-                                <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="-5" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="64G-Ws-nrZ">
                                 <rect key="frame" x="31" y="708" width="18" height="21"/>
                                 <fontDescription key="fontDescription" name="Oswald-Medium" family="Oswald" pointSize="21"/>
-                                <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="lateral_buttons" translatesAutoresizingMaskIntoConstraints="NO" id="hWy-S2-VMF">
@@ -277,6 +273,8 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="QcV-Wj-8y7" firstAttribute="leading" secondItem="0bV-ba-Rxq" secondAttribute="trailing" constant="6" id="AY3-eU-T5P"/>
+                            <constraint firstItem="0bV-ba-Rxq" firstAttribute="leading" secondItem="H1z-2y-7mU" secondAttribute="trailing" constant="1" id="BtF-cC-2TW"/>
                             <constraint firstAttribute="trailingMargin" secondItem="hyV-fQ-y4M" secondAttribute="trailing" id="GTJ-Tq-UJj"/>
                             <constraint firstItem="kUo-d4-RPJ" firstAttribute="top" secondItem="0mV-Gp-vom" secondAttribute="bottom" id="NMW-oy-v2H"/>
                             <constraint firstItem="kUo-d4-RPJ" firstAttribute="top" secondItem="hyV-fQ-y4M" secondAttribute="bottom" id="e8o-Ik-ugV"/>
@@ -311,5 +309,6 @@
     <resources>
         <image name="lateral_buttons" width="148" height="148"/>
         <image name="logo_icon" width="50" height="48"/>
+        <image name="stanford" width="1200" height="674"/>
     </resources>
 </document>

@@ -634,8 +634,10 @@ AP_AHRS_DCM::drift_correction(float deltat)
 
     if (have_gps()) {
         // use GPS for positioning with any fix, even a 2D fix
-        _last_lat = _tango.location().lat;
-        _last_lng = _tango.location().lng;
+        //_last_lat = _tango.get_location().lat;
+        //_last_lng = _tango.get_location().lng;
+				_last_lat = _gps.location().lat;
+				_last_lng = _gps.location().lng;
         _position_offset_north = 0;
         _position_offset_east = 0;
 
