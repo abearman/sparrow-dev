@@ -44,16 +44,6 @@ class DroneViewController: UIViewController, AnalogueStickDelegate, MKMapViewDel
             rotationSlider.continuous = false
         }
     }
-    
-    
-// TODO: Are these variables necessary?
-//    weak var delegate: AnalogueStickDelegate?
-//    var detailItem: AnyObject? {
-//        didSet {
-//            // Update the view.
-//            self.configureView()
-//        }
-//    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -66,16 +56,11 @@ class DroneViewController: UIViewController, AnalogueStickDelegate, MKMapViewDel
         let longPressRec = UILongPressGestureRecognizer(target: self, action: #selector(DroneViewController.dropWaypoint(_:)))
         self.mapView.addGestureRecognizer(longPressRec)
         // TODO: remove dummy initial location below
-        let startLoc = CLLocationCoordinate2DMake(37.430020, -122.173302)
-        onLocationUpdate(startLoc)
-        
-        // on load set a default zoom
-        let region = MKCoordinateRegionMake(startLoc, MKCoordinateSpanMake(0.01, 0.01))
-        self.mapView.setRegion(region, animated: true)
+        // let startLoc = CLLocationCoordinate2DMake(37.430020, -122.173302)
+        // let startYaw = M_PI/2.0
+        // onLocationUpdate(startLoc, yaw: startYaw)
 
         debugPrint("Connecting to server control socket...")
-        
-        // Creating the socket
         initializeSocket()
     }
 
@@ -89,10 +74,9 @@ class DroneViewController: UIViewController, AnalogueStickDelegate, MKMapViewDel
 // =================================== SERVER ===================================
     
     // The IP address that the server is running on
-    let HOSTNAME = "10.34.165.75"
-    //let HOSTNAME = "10.1.1.188"
+
+    let HOSTNAME = "10.1.1.110"
     let PORT = "5000"
-    
     
     private var buildSocketAddr: String {
         get {
@@ -117,6 +101,10 @@ class DroneViewController: UIViewController, AnalogueStickDelegate, MKMapViewDel
         self.socket.on("ios_frame") {[weak self] data, ack in
             debugPrint("received ios_frame event")
             self?.handleFrame(data)
+//            let priority = DISPATCH_QUEUE_PRIORITY_DEFAULT
+//            dispatch_async(dispatch_get_global_queue(priority, 0)) {
+//                self?.handleFrame(data)
+//            }
             return
         }
         
@@ -136,6 +124,7 @@ class DroneViewController: UIViewController, AnalogueStickDelegate, MKMapViewDel
                 let latitude = jsonData["lat"] as? Double
                 let longitude = jsonData["lon"] as? Double
                 let altitude = jsonData["alt"] as? Double
+                let yaw = jsonData["yaw"] as? Double
                 debugPrint("got latitude: ", latitude)
                 debugPrint("got longitude: ", longitude)
                 debugPrint("got altitude: ", altitude)
@@ -147,11 +136,9 @@ class DroneViewController: UIViewController, AnalogueStickDelegate, MKMapViewDel
                 coordinateLabel.text = "(" + String(format: "%.3f", latitude!) + "N, " + String(format: "%.3f", longitude!) + "W)"
                 altitudeReadingLabel.text = String(format: "%.3f", altitude!) + " m"
                 
-                // Create CLLocation
+                // Update MKMapView
                 let loc = CLLocationCoordinate2DMake(latitude!, longitude!)
-                
-                // Call onLocationUpdate
-                onLocationUpdate(loc)
+                onLocationUpdate(loc, yaw: yaw!)
             }
             
         } catch {
@@ -179,7 +166,8 @@ class DroneViewController: UIViewController, AnalogueStickDelegate, MKMapViewDel
         let decompressed_data : NSData = try! image_data!.gunzippedData()
         var image_bytes = Array(UnsafeBufferPointer(start: UnsafePointer<UInt8>(decompressed_data.bytes), count: decompressed_data.length))
         
-        let count = 921600
+        // let count = 921600
+        let count = 36864
         
         debugPrint("Data length received: ", image_data!.length)
         debugPrint("Pixel count: ", count)
@@ -195,8 +183,10 @@ class DroneViewController: UIViewController, AnalogueStickDelegate, MKMapViewDel
             pixel_data[i].b = image_bytes[3 * i + 2]
         }
         
-        let width = 1280
-        let height = 720
+        // let width = 1280
+        // let height = 720
+        let width = 256
+        let height = 144
         let bitmapCount: Int = pixel_data.count
         let elementLength: Int = sizeof(PixelData)
         let render: CGColorRenderingIntent = CGColorRenderingIntent.RenderingIntentDefault
@@ -210,6 +200,7 @@ class DroneViewController: UIViewController, AnalogueStickDelegate, MKMapViewDel
             let new_image = UIImage(CGImage: cgimage!)
             self.videoImage.image =  new_image
         }
+        debugPrint("Finished processing image")
     }
         
     func imageWithImage(image:UIImage, scaledToSize newSize:CGSize) -> UIImage{
@@ -414,18 +405,15 @@ class DroneViewController: UIViewController, AnalogueStickDelegate, MKMapViewDel
     var latestLong: Double = 0.0
     var latestAlt: Double = 0.0
 
-    func onLocationUpdate(newLoc: CLLocationCoordinate2D) {
-        
-        debugPrint("in onLocationUpdate")
-        
+    func onLocationUpdate(newLoc: CLLocationCoordinate2D, yaw: Double) {
         self.locations.append(newLoc)
         
-        drawMarker(newLoc)
+        drawMarker(newLoc, yaw: yaw)
         
-        // Center curent location in map view. May be annoying when user is trying to
-        // scroll to a different part of the map (TODO).
-        //let region = MKCoordinateRegionMake(newLoc, MKCoordinateSpanMake(0.01, 0.01))
-        //self.mapView.setRegion(region, animated: true)
+        if (locations.count == 0) {
+            let region = MKCoordinateRegionMake(newLoc, MKCoordinateSpanMake(0.01, 0.01))
+            self.mapView.setRegion(region, animated: true)
+        }
         
         drawPath()
     }
@@ -461,11 +449,11 @@ class DroneViewController: UIViewController, AnalogueStickDelegate, MKMapViewDel
         socket.emit("waypoint_cmd", waypointArgs)
     }
 
-    func drawMarker(coordinate: CLLocationCoordinate2D) {
+    func drawMarker(coordinate: CLLocationCoordinate2D, yaw: Double) {
         if (marker != nil) {
             mapView.removeAnnotation(marker!)
         }
-        marker = CurrentLocationAnnotation(coordinate: coordinate)
+        marker = CurrentLocationAnnotation(coordinate: coordinate, angle: yaw)
         mapView.addAnnotation(marker!)
     }
 
@@ -477,18 +465,24 @@ class DroneViewController: UIViewController, AnalogueStickDelegate, MKMapViewDel
             self.mapView.removeOverlay(path!)
         }
         self.path = MKPolyline(coordinates: &locations, count: locations.count)
+        
+        // TODO: area visualizations - improve latency
+        for (index, location) in locations.enumerate() {
+            if (index % 5 == 0) {
+                let circle : MKCircle = MKCircle(centerCoordinate: location, radius: 10)
+                //self.mapView.addOverlay(circle)
+            }
+        }
+        
         self.mapView.addOverlay(self.path!)
     }
     
     func mapView(mapView: MKMapView, viewForAnnotation annotation: MKAnnotation) -> MKAnnotationView? {
         if (annotation is CurrentLocationAnnotation) {
-            if let currentLocIcon = self.mapView.dequeueReusableAnnotationViewWithIdentifier("currentLocIcon") {
-                return currentLocIcon
-            } else {
-                let currentLocIcon = MKAnnotationView(annotation: annotation, reuseIdentifier: "currentLocIcon")
-                currentLocIcon.image = UIImage(named: "current_location_icon")
-                return currentLocIcon
-            }
+            let angle = (annotation as! CurrentLocationAnnotation).angle
+            let currentLocIcon = MKAnnotationView(annotation: annotation, reuseIdentifier: "currentLocIcon")
+            currentLocIcon.image = UIImage(named: "current_loc_icon")?.rotate(CGFloat(angle))
+            return currentLocIcon
         }
         else if (annotation is WaypointAnnotation) {
             if let waypointIcon = self.mapView.dequeueReusableAnnotationViewWithIdentifier("waypointIcon") {
@@ -520,6 +514,7 @@ class DroneViewController: UIViewController, AnalogueStickDelegate, MKMapViewDel
         } else if (overlay is MKCircle) {
             let circleRenderer = MKCircleRenderer(overlay: overlay)
             circleRenderer.fillColor = UIColor.blueColor()
+            circleRenderer.alpha = 0.01
             return circleRenderer
         }
         return MKPolylineRenderer();
