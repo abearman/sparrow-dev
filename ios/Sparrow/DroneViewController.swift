@@ -61,8 +61,6 @@ class DroneViewController: UIViewController, AnalogueStickDelegate, MKMapViewDel
 //        onLocationUpdate(startLoc, yaw: startYaw)
 
         debugPrint("Connecting to server control socket...")
-        
-        // Creating the socket
         initializeSocket()
     }
 
@@ -478,14 +476,10 @@ class DroneViewController: UIViewController, AnalogueStickDelegate, MKMapViewDel
     
     func mapView(mapView: MKMapView, viewForAnnotation annotation: MKAnnotation) -> MKAnnotationView? {
         if (annotation is CurrentLocationAnnotation) {
-            if let currentLocIcon = self.mapView.dequeueReusableAnnotationViewWithIdentifier("currentLocIcon") {
-                return currentLocIcon
-            } else {
-                let angle = (annotation as! CurrentLocationAnnotation).angle
-                let currentLocIcon = MKAnnotationView(annotation: annotation, reuseIdentifier: "currentLocIcon")
-                currentLocIcon.image = UIImage(named: "current_loc_icon")?.rotate(CGFloat(angle))
-                return currentLocIcon
-            }
+            let angle = (annotation as! CurrentLocationAnnotation).angle
+            let currentLocIcon = MKAnnotationView(annotation: annotation, reuseIdentifier: "currentLocIcon")
+            currentLocIcon.image = UIImage(named: "current_loc_icon")?.rotate(CGFloat(angle))
+            return currentLocIcon
         }
         else if (annotation is WaypointAnnotation) {
             if let waypointIcon = self.mapView.dequeueReusableAnnotationViewWithIdentifier("waypointIcon") {
