@@ -17,6 +17,8 @@
 		492AF8851CC9B34B00A805F3 /* SparrowUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 492AF8841CC9B34B00A805F3 /* SparrowUITests.swift */; };
 		492AF89E1CC9BA0D00A805F3 /* Joystick.m in Sources */ = {isa = PBXBuildFile; fileRef = 492AF89D1CC9BA0D00A805F3 /* Joystick.m */; };
 		492AF8A01CC9CE6600A805F3 /* JSONHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 492AF89F1CC9CE6600A805F3 /* JSONHelper.swift */; };
+		4949CEB51CE0745200959856 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 4949CEB41CE0745200959856 /* libz.tbd */; };
+		4949CEB91CE0748C00959856 /* NSData+GZIP.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4949CEB81CE0748C00959856 /* NSData+GZIP.swift */; };
 		4981885C1CCAB92C00029A6D /* AnalogueStick.m in Sources */ = {isa = PBXBuildFile; fileRef = 4981885B1CCAB92C00029A6D /* AnalogueStick.m */; };
 		498188611CCAB98600029A6D /* analogue_bg.png in Resources */ = {isa = PBXBuildFile; fileRef = 4981885D1CCAB98600029A6D /* analogue_bg.png */; };
 		498188621CCAB98600029A6D /* analogue_bg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4981885E1CCAB98600029A6D /* analogue_bg@2x.png */; };
@@ -61,7 +63,6 @@
 		BD9220691CD970B4005DB301 /* SARMenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD9220681CD970B4005DB301 /* SARMenuViewController.swift */; };
 		BDDE047A1CD15A9E00E61271 /* CurrentLocationAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDDE04791CD15A9E00E61271 /* CurrentLocationAnnotation.swift */; };
 		C1C8124B1CD94B110087ED4D /* WaypointAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1C8124A1CD94B110087ED4D /* WaypointAnnotation.swift */; };
-		C1CF83EE1CDC29DB00C93EB3 /* ImageRotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1CF83ED1CDC29DB00C93EB3 /* ImageRotation.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -100,6 +101,10 @@
 		492AF89C1CC9BA0D00A805F3 /* Joystick.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Joystick.h; sourceTree = "<group>"; };
 		492AF89D1CC9BA0D00A805F3 /* Joystick.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Joystick.m; sourceTree = "<group>"; };
 		492AF89F1CC9CE6600A805F3 /* JSONHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JSONHelper.swift; sourceTree = "<group>"; };
+		4949CEB41CE0745200959856 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
+		4949CEB61CE0748C00959856 /* include.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = include.h; sourceTree = "<group>"; };
+		4949CEB71CE0748C00959856 /* module.modulemap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.module-map"; path = module.modulemap; sourceTree = "<group>"; };
+		4949CEB81CE0748C00959856 /* NSData+GZIP.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSData+GZIP.swift"; sourceTree = "<group>"; };
 		4981885A1CCAB92C00029A6D /* AnalogueStick.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AnalogueStick.h; sourceTree = "<group>"; };
 		4981885B1CCAB92C00029A6D /* AnalogueStick.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AnalogueStick.m; sourceTree = "<group>"; };
 		4981885D1CCAB98600029A6D /* analogue_bg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = analogue_bg.png; sourceTree = "<group>"; };
@@ -154,6 +159,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4949CEB51CE0745200959856 /* libz.tbd in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -177,6 +183,7 @@
 		492AF8531CC9B34B00A805F3 = {
 			isa = PBXGroup;
 			children = (
+				4949CEB41CE0745200959856 /* libz.tbd */,
 				492AF85E1CC9B34B00A805F3 /* Sparrow */,
 				492AF8781CC9B34B00A805F3 /* SparrowTests */,
 				492AF8831CC9B34B00A805F3 /* SparrowUITests */,
@@ -204,6 +211,7 @@
 				C1C8124A1CD94B110087ED4D /* WaypointAnnotation.swift */,
 				C1C8124C1CD970AD0087ED4D /* SARMenuViewController.swift */,
 				BDDE04791CD15A9E00E61271 /* CurrentLocationAnnotation.swift */,
+				4949CEBA1CE0749000959856 /* zlib */,
 				492AF8961CC9B59000A805F3 /* DroneControlComponents */,
 				492AF8681CC9B34B00A805F3 /* Main.storyboard */,
 				492AF89F1CC9CE6600A805F3 /* JSONHelper.swift */,
@@ -246,6 +254,16 @@
 				492AF89D1CC9BA0D00A805F3 /* Joystick.m */,
 			);
 			name = DroneControlComponents;
+			sourceTree = "<group>";
+		};
+		4949CEBA1CE0749000959856 /* zlib */ = {
+			isa = PBXGroup;
+			children = (
+				4949CEB61CE0748C00959856 /* include.h */,
+				4949CEB71CE0748C00959856 /* module.modulemap */,
+				4949CEB81CE0748C00959856 /* NSData+GZIP.swift */,
+			);
+			name = zlib;
 			sourceTree = "<group>";
 		};
 		498188651CCAB9BC00029A6D /* AnalogStickAssets */ = {
@@ -466,6 +484,7 @@
 				4981888B1CCADEB700029A6D /* SocketParsable.swift in Sources */,
 				4981887D1CCADEB700029A6D /* SocketAnyEvent.swift in Sources */,
 				492AF8631CC9B34B00A805F3 /* Sparrow.xcdatamodeld in Sources */,
+				4949CEB91CE0748C00959856 /* NSData+GZIP.swift in Sources */,
 				492AF8601CC9B34B00A805F3 /* AppDelegate.swift in Sources */,
 				492AF89E1CC9BA0D00A805F3 /* Joystick.m in Sources */,
 				4981887C1CCADEB700029A6D /* SocketAckManager.swift in Sources */,

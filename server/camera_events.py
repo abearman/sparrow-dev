@@ -1,11 +1,12 @@
 # Events and associated callbacks for server-side sockets
-
-from flask import session
+from threading import Thread
+from flask import session, copy_current_request_context
 from flask.ext.socketio import emit, join_room, leave_room
 from server_state import socketio
 from mission_state import frame_counter
 
 import base64
+import json
 
 from PIL import Image
 import sys
@@ -16,18 +17,28 @@ import matplotlib.pyplot as plt
 import matplotlib.image as mpimg
 import numpy as np
 
+import zlib
+import lz4
+
+import eventlet
+eventlet.monkey_patch()
+
 CAMERA_NAMESPACE = "/camera"
 
 @socketio.on('connect', namespace=CAMERA_NAMESPACE)
 def on_connect():
-    print "[socket][camera][connect]: Connection received"
+    print("[socket][camera][connect]: Connection received")
+
+@socketio.on("ios_frame")
+def on_ios_frame():
+    print("[socket][camera][ios_frame]: ios frame sent")
 
 @socketio.on("wide_angle_upload", namespace=CAMERA_NAMESPACE)
 def wide_angle_upload(json):
     # JSON arg should have a timestamp and base64 encoded string
     # for image data
     timestamp = json["timestamp"]
-    print "[camera][wide_angle_upload]: " + timestamp
+    print("[camera][wide_angle_upload]: " + timestamp)
     encoded_image = json["image64"]
     decoded_image = base64.b64decode(encoded_image)
     # Save image
@@ -39,14 +50,24 @@ def wide_angle_upload(json):
 
 @socketio.on("frame") #, namespace=CAMERA_NAMESPACE)
 def frame_upload(data):
-    print "[camera][frame]: frame received"
-    print "[camera][frame]: saving image"
-    byteArray = bytearray(data['image'])    
+    print("[camera][frame]: frame received")
+    byteArray = bytearray(data['image'])
+    
     global frame_counter
     with open('frame_' + str(frame_counter) + '.rgba', 'w') as file_:
         file_.write(byteArray)
         frame_counter = frame_counter + 1
-    print "[camera][frame]: image processing complete"
+
+    @copy_current_request_context
+    def send_frame_to_ios(byteArray):
+        compressed = zlib.compress(buffer(byteArray), 9)
+        encoded = base64.b64encode(compressed)
+        ios_frame_data = {'image': encoded}
+        print("[camera][frame]: emitting ios frame")
+        emit("ios_frame", ios_frame_data, broadcast=True)
+
+    eventlet.spawn(send_frame_to_ios, byteArray)
+    print("[camera][frame]: finished image handling")
 
 def view_yuv(data):
     width = 1280
@@ -62,13 +83,11 @@ def view_yuv(data):
     k = 0
     for i in range(0, height/2):
         for j in range(0, width/2):
-            # u.append(ord(f_uv.read(1)));
             u.append(ord(data[width*height + k]))
             ++k
  
     for i in range(0, height/2):
         for j in range(0, width/2):
-            # v.append(ord(f_uv.read(1)));
             v.append(ord(data[width*height + k]))
             ++k
 
@@ -76,7 +95,6 @@ def view_yuv(data):
 
     for i in range(0,height):
         for j in range(0, width):
-            # y.append(ord(f_y.read(1)));                        
             y.append(ord(data[l]))
             ++l
             Y_val = y[(i*width)+j]

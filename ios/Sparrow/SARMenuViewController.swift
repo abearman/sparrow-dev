@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import Darwin
 
 class SARMenuViewController: UITableViewController {
     
@@ -14,6 +15,16 @@ class SARMenuViewController: UITableViewController {
     
     var data = ["Line", "Radial", "Sector"]
     var rowHeight = 40
+    
+    let PI = 3.141596
+    let STEP : Double = 20
+    let DEGREE_STEP = 0.0002
+    let RADIAL_OFFSETS : [(dNorth: Double, dEast: Double)] =
+        [(1, 0), (1, 1), (-1, 1), (-1, -1), (2, -1), (2, 2), (-2, 2), (-2, -2), (3, -2), (3, 3)]
+    let LINE_OFFSETS : [(dNorth: Double, dEast: Double)] =
+        [(0, 1), (-4, 1), (-4, 2), (0, 2), (0, 3), (-4, 3), (-4, 4), (0, 4), (0, 5), (-4, 5)]
+    let SECTOR_OFFSETS : [(dNorth: Double, dEast: Double)] =
+        [(4, 0), (3, -1), (2, 0), (1, 1), (2, 2), (2, 0), (2, -2), (1, -1), (2, 0)]
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -44,17 +55,59 @@ class SARMenuViewController: UITableViewController {
         return CGFloat(rowHeight)
     }
     
+    func getLocationMeters(origLat: Double, origLon: Double, dNorth: Double, dEast: Double) -> (Double, Double) {
+        let earth_radius : Double = 6378137.0
+        let dLat : Double = dNorth / earth_radius
+        let dLon : Double = dEast / (earth_radius * cos(PI*origLat/180))
+        
+        let newLat = origLat + (dLat * 180/PI)
+        let newLon = origLon + (dLon * 180/PI)
+        return (newLat, newLon)
+    }
+    
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        let selectedCell = tableView.cellForRowAtIndexPath(indexPath)!
-        let sar_type = String(selectedCell.textLabel)
+        //let selectedCell = tableView.cellForRowAtIndexPath(indexPath)!
+        var offsets : [(dNorth: Double, dEast: Double)] = []
+        var sar_type : String = ""
+        if indexPath.row == 0 {
+            sar_type = "line"
+            offsets = LINE_OFFSETS
+        } else if indexPath.row == 1 {
+            sar_type = "radial"
+            offsets = RADIAL_OFFSETS
+        } else if indexPath.row == 2 {
+            sar_type = "sector"
+            offsets = SECTOR_OFFSETS
+        }
         print(sar_type)
-        let sarArgs = [
-            "lat": delegate!.latestLat,
-            "lon": delegate!.latestLong,
-            "altitude": delegate!.latestAlt,
-            "sar_type": sar_type
-        ]
-        delegate!.socket.emit("sar_path", sarArgs)
+        
+        let priority = DISPATCH_QUEUE_PRIORITY_DEFAULT
+        dispatch_async(dispatch_get_global_queue(priority, 0)) {
+            let originalLat = self.delegate!.latestLat
+            let originalLong = self.delegate!.latestLong
+            for offset in offsets {
+                // let nextWaypoint = self.getLocationMeters(self.delegate!.latestLat, origLon: self.delegate!.latestLong, dNorth: Double(offset.dNorth * self.STEP), dEast: Double(offset.dEast * self.STEP))
+                let nextWaypoint = (originalLat + offset.dNorth * self.DEGREE_STEP,
+                                    originalLong + offset.dEast * self.DEGREE_STEP)
+                let waypointArgs = [
+                    "lat": nextWaypoint.0,
+                    "lon": nextWaypoint.1
+                ]
+                self.delegate!.socket.emit("waypoint_cmd", waypointArgs)
+                let distance = sqrt(pow(Double(offset.dNorth * self.STEP), 2) + pow(Double(offset.dEast * self.STEP), 2))
+                sleep(UInt32(distance / 2.0))
+            }
+            print("FINISHED SAR PATH")
+        }
+        
+//        let sarArgs = [
+//            "lat": delegate!.latestLat,
+//            "lon": delegate!.latestLong,
+//            "altitude": delegate!.latestAlt,
+//            "sar_type": sar_type
+//        ]
+//        delegate!.socket.emit("sar_path", sarArgs)
+        
         self.dismissViewControllerAnimated(true, completion: nil)
     }
 

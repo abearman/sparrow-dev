@@ -14,6 +14,7 @@ class DroneViewController: UIViewController, AnalogueStickDelegate, MKMapViewDel
     
     @IBOutlet weak var mapView: MKMapView!
     @IBOutlet weak var cameraView: UIView!
+    @IBOutlet weak var videoImage: UIImageView!
     @IBOutlet weak var dropPinButton:UIButton!
     @IBOutlet weak var sarPathButton: UIButton!
     @IBOutlet weak var launchButton:UIButton!
@@ -75,7 +76,7 @@ class DroneViewController: UIViewController, AnalogueStickDelegate, MKMapViewDel
 // =================================== SERVER ===================================
     
     // The IP address that the server is running on
-    let HOSTNAME = "10.34.171.76"
+    let HOSTNAME = "10.31.102.97"
     let PORT = "5000"
     
     private var buildSocketAddr: String {
@@ -94,6 +95,16 @@ class DroneViewController: UIViewController, AnalogueStickDelegate, MKMapViewDel
         socket.on("gps_pos_ack") {[weak self] data, ack in
             debugPrint("received gps_pos_ack event")
             self?.handleGPSPos(data)
+            return
+        }
+        
+        // video frame rendering
+        self.socket.on("ios_frame") {[weak self] data, ack in
+            debugPrint("received ios_frame event")
+            let priority = DISPATCH_QUEUE_PRIORITY_DEFAULT
+            dispatch_async(dispatch_get_global_queue(priority, 0)) {
+                self?.handleFrame(data)
+            }
             return
         }
         
@@ -135,7 +146,61 @@ class DroneViewController: UIViewController, AnalogueStickDelegate, MKMapViewDel
 
         }
     }
+    
+    struct PixelData {
+        var a: UInt8 = 0
+        var r: UInt8 = 0
+        var g: UInt8 = 0
+        var b: UInt8 = 0
+    }
+    
+    func handleFrame(data: AnyObject) {
         
+        debugPrint("in handleFrame")
+        
+        // Unpack JSON data
+        let encoded = data[0]["image"] as! String
+        let image_data = NSData(base64EncodedString: encoded, options: NSDataBase64DecodingOptions(rawValue: 0))
+        var compressed_image_bytes = Array(UnsafeBufferPointer(start: UnsafePointer<UInt8>(image_data!.bytes), count: image_data!.length))
+        
+        let decompressed_data : NSData = try! image_data!.gunzippedData()
+        var image_bytes = Array(UnsafeBufferPointer(start: UnsafePointer<UInt8>(decompressed_data.bytes), count: decompressed_data.length))
+        
+        // let count = 921600
+        let count = 36864
+        
+        debugPrint("Data length received: ", image_data!.length)
+        debugPrint("Pixel count: ", count)
+        
+        
+        // Create pixel data array
+        var pixel_data = [PixelData](count: count, repeatedValue: PixelData())
+        
+        for i in 0 ..< count {
+            pixel_data[i].a = 255
+            pixel_data[i].r = image_bytes[3 * i]
+            pixel_data[i].g = image_bytes[3 * i + 1]
+            pixel_data[i].b = image_bytes[3 * i + 2]
+        }
+        
+        // let width = 1280
+        // let height = 720
+        let width = 256
+        let height = 144
+        let bitmapCount: Int = pixel_data.count
+        let elementLength: Int = sizeof(PixelData)
+        let render: CGColorRenderingIntent = CGColorRenderingIntent.RenderingIntentDefault
+        let rgbColorSpace = CGColorSpaceCreateDeviceRGB()
+        let bitmapInfo: CGBitmapInfo = CGBitmapInfo(rawValue: CGImageAlphaInfo.PremultipliedFirst.rawValue)
+        let providerRef: CGDataProvider? = CGDataProviderCreateWithCFData(NSData(bytes: &pixel_data, length: bitmapCount * elementLength))
+        let cgimage: CGImage? = CGImageCreate(width, height, 8, 32, width * elementLength, rgbColorSpace, bitmapInfo, providerRef, nil, true, render)
+        
+        if cgimage != nil {
+            debugPrint("Generated image")
+            let new_image = UIImage(CGImage: cgimage!)
+            self.videoImage.image =  new_image
+        }
+    }
         
     func imageWithImage(image:UIImage, scaledToSize newSize:CGSize) -> UIImage{
         UIGraphicsBeginImageContextWithOptions(newSize, false, 0.0);
@@ -145,7 +210,6 @@ class DroneViewController: UIViewController, AnalogueStickDelegate, MKMapViewDel
         return newImage
     }
     
-
     
     func HTTPsendRequest(request: NSMutableURLRequest, callback: ((String, String?) -> Void)!) {
         let task = NSURLSession.sharedSession().dataTaskWithRequest(request,completionHandler :
@@ -178,47 +242,78 @@ class DroneViewController: UIViewController, AnalogueStickDelegate, MKMapViewDel
     
 // =================================== MOVEMENT CONTROL ===================================
     
-    var inFlight: Bool = false
+    var isInFlight: Bool = false    // Same as !isLanded
+    var isLanding: Bool = false
+    var isTakingOff: Bool = false
     
     @IBAction func launchButtonClicked(sender: AnyObject) {
-        if (self.inFlight) {
-            debugPrint("Sending land request")
-            HTTPPostJSON(buildSocketAddr + "/control/land", jsonObj: []) {
-                    (data: String, error: String?) -> Void in
-                    if error != nil {
-                        print(error)
-                    } else {
-                        print("data is : \n\n\n")
-                        debugPrint("Land request completed.")
-                        print(data)
-                    }
-            }
-            self.inFlight = false
-        } else {
+        // Takeoff command
+        if (!isInFlight) {
             debugPrint("Sending take off request")
+            isInFlight = true
+            isTakingOff = true
+            updateLaunchButton()  // Update button to gray, "Taking Off"
             HTTPPostJSON(buildSocketAddr + "/control/take_off", jsonObj: []) {
-                    (data: String, error: String?) -> Void in
-                    if error != nil {
-                        print(error)
-                    } else {
-                        print("data is : \n\n\n")
-                        debugPrint("Take off request completed.")
-                        print(data)
-                    }
+                (data: String, error: String?) -> Void in
+                if error != nil {
+                    print(error)
+                } else {  // Done taking off
+                    print("data is : \n\n\n")
+                    debugPrint("Take off request completed.")
+                    print(data)
+                    self.isTakingOff = false
+                    self.updateLaunchButton()  // Update button to reenable red, "LAND"
+                }
             }
-            self.inFlight = true
+            
+        // Land command
+        } else {
+            debugPrint("Sending land request")
+            isLanding = true
+            updateLaunchButton()  // Update button to gray, "Landing"
+            HTTPPostJSON(buildSocketAddr + "/control/land", jsonObj: []) {
+                (data: String, error: String?) -> Void in
+                if error != nil {
+                    print(error)
+                } else {  // Done landing
+                    print("data is : \n\n\n")
+                    debugPrint("Land request completed.")
+                    print(data)
+                    self.isLanding = false
+                    self.isInFlight = false
+                    self.updateLaunchButton()  // Update button to reenable green, "LAUNCH"
+                }
+            }
         }
-        self.updateLaunchButton()
     }
     
     func updateLaunchButton() {
-        if (self.inFlight) {
+        if (!isInFlight && !isTakingOff && !isLanding) {  // On ground, waiting for launch
+            launchButton.setTitle("LAUNCH", forState: UIControlState.Normal)
+            launchButton.backgroundColor = UIColor.greenColor()
+        } else if (isInFlight && isTakingOff && !isLanding) {  // Taking off
+            launchButton.setTitle("TAKING OFF", forState: UIControlState.Normal)
+            launchButton.backgroundColor = UIColor.lightGrayColor()
+        } else if (isInFlight && !isTakingOff && !isLanding) {  // In flight, waiting for land
             launchButton.setTitle("LAND", forState: UIControlState.Normal)
             launchButton.backgroundColor = UIColor.redColor()
+        } else if (isInFlight && !isTakingOff && isLanding) {  // Landing
+            launchButton.setTitle("LANDING", forState: UIControlState.Normal)
+            launchButton.backgroundColor = UIColor.lightGrayColor()
+        }
+            
+        /*if (inFlight) {
+            if (isLanding) {
+                launchButton.setTitle("LANDING", forState: UIControlState.Normal)
+                launchButton.backgroundColor = UIColor.lightGrayColor()
+            } else {
+                launchButton.setTitle("LAND", forState: UIControlState.Normal)
+                launchButton.backgroundColor = UIColor.redColor()
+            }
         } else {
             launchButton.setTitle("LAUNCH", forState: UIControlState.Normal)
             launchButton.backgroundColor = UIColor.greenColor()
-        }
+        }*/
     }
 
     @IBAction func altitudeSliderChange(sender: AnyObject) {
@@ -319,8 +414,8 @@ class DroneViewController: UIViewController, AnalogueStickDelegate, MKMapViewDel
         
         // Center curent location in map view. May be annoying when user is trying to
         // scroll to a different part of the map (TODO).
-        let region = MKCoordinateRegionMake(newLoc, MKCoordinateSpanMake(0.01, 0.01))
-        self.mapView.setRegion(region, animated: true)
+        //let region = MKCoordinateRegionMake(newLoc, MKCoordinateSpanMake(0.01, 0.01))
+        //self.mapView.setRegion(region, animated: true)
         
         drawPath()
     }
@@ -372,6 +467,15 @@ class DroneViewController: UIViewController, AnalogueStickDelegate, MKMapViewDel
             self.mapView.removeOverlay(path!)
         }
         self.path = MKPolyline(coordinates: &locations, count: locations.count)
+        
+        // TODO: area visualizations - improve latency
+        for (index, location) in locations.enumerate() {
+            if (index % 5 == 0) {
+                let circle : MKCircle = MKCircle(centerCoordinate: location, radius: 10)
+                //self.mapView.addOverlay(circle)
+            }
+        }
+        
         self.mapView.addOverlay(self.path!)
     }
     
@@ -416,6 +520,7 @@ class DroneViewController: UIViewController, AnalogueStickDelegate, MKMapViewDel
         } else if (overlay is MKCircle) {
             let circleRenderer = MKCircleRenderer(overlay: overlay)
             circleRenderer.fillColor = UIColor.blueColor()
+            circleRenderer.alpha = 0.01
             return circleRenderer
         }
         return MKPolylineRenderer();
