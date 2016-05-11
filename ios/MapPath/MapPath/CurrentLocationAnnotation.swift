@@ -1,9 +1,9 @@
 //
 //  CurrentLocationAnnotation.swift
-//  Sparrow
+//  MapPath
 //
-//  Created by Pavitra Rengarajan on 4/24/16.
-//  Copyright © 2016 Andrew Lim. All rights reserved.
+//  Created by Catherine Dong on 5/3/16.
+//  Copyright © 2016 Sparrow. All rights reserved.
 //
 
 import Foundation
@@ -11,11 +11,9 @@ import MapKit
 
 class CurrentLocationAnnotation: NSObject, MKAnnotation {
     let coordinate: CLLocationCoordinate2D
-    let angle: Double
     
-    init(coordinate: CLLocationCoordinate2D, angle: Double) {
+    init(coordinate: CLLocationCoordinate2D) {
         self.coordinate = coordinate
-        self.angle = angle
         super.init()
     }
     
