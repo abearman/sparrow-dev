@@ -60,8 +60,6 @@
 		49CC318E1CCB24CF00E9A905 /* Oswald-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 49CC317E1CCB248400E9A905 /* Oswald-Regular.ttf */; };
 		49CC318F1CCB24D100E9A905 /* Oswald-RegularItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 49CC317F1CCB248400E9A905 /* Oswald-RegularItalic.ttf */; };
 		49CC31901CCB24D300E9A905 /* Oswald-Stencil.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 49CC31801CCB248400E9A905 /* Oswald-Stencil.ttf */; };
-		BD2DC7581CE027C100AAC56B /* NSData+GZIP.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD2DC7571CE027C100AAC56B /* NSData+GZIP.swift */; };
-		BD2DC75D1CE0280000AAC56B /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = BD2DC75C1CE0280000AAC56B /* libz.tbd */; };
 		BD9220691CD970B4005DB301 /* SARMenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD9220681CD970B4005DB301 /* SARMenuViewController.swift */; };
 		BDDE047A1CD15A9E00E61271 /* CurrentLocationAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDDE04791CD15A9E00E61271 /* CurrentLocationAnnotation.swift */; };
 		C116D24C1CE2F73C005A8C56 /* ImageRotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = C116D24B1CE2F73C005A8C56 /* ImageRotation.swift */; };
@@ -150,10 +148,6 @@
 		49CC317E1CCB248400E9A905 /* Oswald-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Oswald-Regular.ttf"; sourceTree = "<group>"; };
 		49CC317F1CCB248400E9A905 /* Oswald-RegularItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Oswald-RegularItalic.ttf"; sourceTree = "<group>"; };
 		49CC31801CCB248400E9A905 /* Oswald-Stencil.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Oswald-Stencil.ttf"; sourceTree = "<group>"; };
-		BD2DC7571CE027C100AAC56B /* NSData+GZIP.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSData+GZIP.swift"; sourceTree = "<group>"; };
-		BD2DC7591CE027CB00AAC56B /* module.modulemap */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.module-map"; path = module.modulemap; sourceTree = "<group>"; };
-		BD2DC75A1CE027D200AAC56B /* include.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = include.h; sourceTree = "<group>"; };
-		BD2DC75C1CE0280000AAC56B /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		BD9220681CD970B4005DB301 /* SARMenuViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SARMenuViewController.swift; sourceTree = "<group>"; };
 		BDDE04791CD15A9E00E61271 /* CurrentLocationAnnotation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CurrentLocationAnnotation.swift; sourceTree = "<group>"; };
 		C116D24B1CE2F73C005A8C56 /* ImageRotation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageRotation.swift; sourceTree = "<group>"; };
@@ -332,16 +326,6 @@
 				49CC31801CCB248400E9A905 /* Oswald-Stencil.ttf */,
 			);
 			name = Fonts;
-			sourceTree = "<group>";
-		};
-		BD2DC75B1CE027DB00AAC56B /* LibZ */ = {
-			isa = PBXGroup;
-			children = (
-				BD2DC7571CE027C100AAC56B /* NSData+GZIP.swift */,
-				BD2DC75A1CE027D200AAC56B /* include.h */,
-				BD2DC7591CE027CB00AAC56B /* module.modulemap */,
-			);
-			name = LibZ;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
