@@ -24,20 +24,26 @@ CONTROL_NAMESPACE = "/"
 @socketio.on('connect', namespace=CONTROL_NAMESPACE)
 def on_connect():
 		print "[socket][control][connect]: Connection received"
-		eventlet.spawn(listen_for_location_change, [mission_state.vehicle.location.global_relative_frame])
+		eventlet.spawn(listen_for_location_change, 
+			[mission_state.vehicle.location.global_relative_frame, mission_state.vehicle.attitude.yaw])
 
 
 # Updates the location of the drone on a 1 Hz cycle
 def listen_for_location_change(vehicle_location_param):
 		vehicle_location = vehicle_location_param[0]
+		vehicle_yaw = vehicle_location_param[1]
 		while True:
 			current_lat = mission_state.vehicle.location.global_relative_frame.lat
 			current_lon = mission_state.vehicle.location.global_relative_frame.lon
 			current_alt = mission_state.vehicle.location.global_relative_frame.alt
-			if (vehicle_location.lat != current_lat) or (vehicle_location.lon != current_lon) or (vehicle_location.alt != current_alt):
-						loc = {'lat': current_lat,
-									 'lon': current_lon,
-									 'alt': current_alt}
+			current_yaw = mission_state.vehicle.attitude.yaw
+			if (vehicle_location.lat != current_lat) or (vehicle_location.lon != current_lon) or (vehicle_location.alt != current_alt) or (vehicle_yaw != current_yaw):
+						loc = {
+							'lat': current_lat,
+							'lon': current_lon,
+							'alt': current_alt,
+							'yaw': current_yaw
+						}
 						json_loc = json.dumps(loc)
 						print "[socket][control][gps_pos]: ", str(json_loc)
 						socketio.emit("gps_pos_ack", json_loc, broadcast=True)

@@ -43,16 +43,6 @@ class DroneViewController: UIViewController, AnalogueStickDelegate, MKMapViewDel
             rotationSlider.continuous = false
         }
     }
-    
-    
-// TODO: Are these variables necessary?
-//    weak var delegate: AnalogueStickDelegate?
-//    var detailItem: AnyObject? {
-//        didSet {
-//            // Update the view.
-//            self.configureView()
-//        }
-//    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -65,9 +55,9 @@ class DroneViewController: UIViewController, AnalogueStickDelegate, MKMapViewDel
         let longPressRec = UILongPressGestureRecognizer(target: self, action: "dropWaypoint:")
         self.mapView.addGestureRecognizer(longPressRec)
         // TODO: remove dummy initial location below
-        let startLoc = CLLocationCoordinate2DMake(37.430020, -122.173302)
-        let startYaw = 3.14
-        onLocationUpdate(startLoc, yaw: startYaw)
+//        let startLoc = CLLocationCoordinate2DMake(37.430020, -122.173302)
+//        let startYaw = M_PI/2.0
+//        onLocationUpdate(startLoc, yaw: startYaw)
 
         debugPrint("Connecting to server control socket...")
         
@@ -85,7 +75,7 @@ class DroneViewController: UIViewController, AnalogueStickDelegate, MKMapViewDel
 // =================================== SERVER ===================================
     
     // The IP address that the server is running on
-    let HOSTNAME = "10.34.170.213"
+    let HOSTNAME = "10.34.171.76"
     let PORT = "5000"
     
     private var buildSocketAddr: String {
@@ -392,9 +382,7 @@ class DroneViewController: UIViewController, AnalogueStickDelegate, MKMapViewDel
             } else {
                 let angle = (annotation as! CurrentLocationAnnotation).angle
                 let currentLocIcon = MKAnnotationView(annotation: annotation, reuseIdentifier: "currentLocIcon")
-                let icon = UIImageView(image: UIImage(named: "current_loc_icon"))
-                icon.transform = CGAffineTransformMakeRotation(CGFloat(angle))
-                currentLocIcon.image = icon.image
+                currentLocIcon.image = UIImage(named: "current_loc_icon")?.rotate(CGFloat(angle))
                 return currentLocIcon
             }
         }
