@@ -405,17 +405,14 @@ class DroneViewController: UIViewController, AnalogueStickDelegate, MKMapViewDel
     var latestAlt: Double = 0.0
 
     func onLocationUpdate(newLoc: CLLocationCoordinate2D, yaw: Double) {
-        
-        debugPrint("in onLocationUpdate")
-        
         self.locations.append(newLoc)
         
         drawMarker(newLoc, yaw: yaw)
         
-        // Center curent location in map view. May be annoying when user is trying to
-        // scroll to a different part of the map (TODO).
-        //let region = MKCoordinateRegionMake(newLoc, MKCoordinateSpanMake(0.01, 0.01))
-        //self.mapView.setRegion(region, animated: true)
+        if (locations.count == 0) {
+            let region = MKCoordinateRegionMake(newLoc, MKCoordinateSpanMake(0.01, 0.01))
+            self.mapView.setRegion(region, animated: true)
+        }
         
         drawPath()
     }
