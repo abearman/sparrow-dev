@@ -208,7 +208,7 @@ def waypointCommand(json):
 	else:
 		alt = vehicle.location.global_relative_frame.alt
 	waypoint_location = LocationGlobalRelative(lat, lon, alt)
-	vehicle.simple_goto(waypoint_location, airspeed = 3)
+	vehicle.simple_goto(waypoint_location, airspeed = 1.0)
 
 @socketio.on('lateral_cmd') #, namespace=CONTROL_NAMESPACE)
 def lateralChangeDiscrete(json):

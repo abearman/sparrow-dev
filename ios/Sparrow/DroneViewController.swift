@@ -66,7 +66,7 @@ class DroneViewController: UIViewController, AnalogueStickDelegate, MKMapViewDel
         let longPressRec = UILongPressGestureRecognizer(target: self, action: #selector(DroneViewController.dropWaypoint(_:)))
         self.mapView.addGestureRecognizer(longPressRec)
         // TODO: remove dummy initial location below
-        let startLoc = CLLocationCoordinate2DMake(37.430020, -122.173302)
+        let startLoc = CLLocationCoordinate2DMake(37.4188687, -122.16482)
         onLocationUpdate(startLoc)
         
         // on load set a default zoom
@@ -89,7 +89,7 @@ class DroneViewController: UIViewController, AnalogueStickDelegate, MKMapViewDel
 // =================================== SERVER ===================================
     
     // The IP address that the server is running on
-    let HOSTNAME = "10.34.170.213"
+    let HOSTNAME = "10.31.53.50"
     let PORT = "5000"
     
     
@@ -115,10 +115,11 @@ class DroneViewController: UIViewController, AnalogueStickDelegate, MKMapViewDel
         // video frame rendering
         self.socket.on("ios_frame") {[weak self] data, ack in
             debugPrint("received ios_frame event")
-            let priority = DISPATCH_QUEUE_PRIORITY_DEFAULT
-            dispatch_async(dispatch_get_global_queue(priority, 0)) {
-                self?.handleFrame(data)
-            }
+            self?.handleFrame(data)
+//            let priority = DISPATCH_QUEUE_PRIORITY_DEFAULT
+//            dispatch_async(dispatch_get_global_queue(priority, 0)) {
+//                self?.handleFrame(data)
+//            }
             return
         }
         
@@ -215,6 +216,7 @@ class DroneViewController: UIViewController, AnalogueStickDelegate, MKMapViewDel
             let new_image = UIImage(CGImage: cgimage!)
             self.videoImage.image =  new_image
         }
+        debugPrint("Finished processing image")
     }
         
     func imageWithImage(image:UIImage, scaledToSize newSize:CGSize) -> UIImage{
