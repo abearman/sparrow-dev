@@ -75,11 +75,12 @@ def take_off():
 @control_api.route("/control/land", methods = ["POST"])
 def land():
 		print "[/control/land]: landing drone"
-		mission_state.vehicle.mode = VehicleMode("LAND")
+		vehicle = mission_state.vehicle
+		vehicle.mode = VehicleMode("LAND")
 
 		while True:
-				print " Altitude: ", mission_state.vehicle.location.global_relative_frame.alt
-				if mission_state.vehicle.location.global_relative_frame.alt <= 0.5:
+				print " Altitude: ", vehicle.location.global_relative_frame.alt
+				if vehicle.location.global_relative_frame.alt <= 0.5 and not vehicle.armed:
 						print "Landed on ground"
 						break
 				time.sleep(1)
