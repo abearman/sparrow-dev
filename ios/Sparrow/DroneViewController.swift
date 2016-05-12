@@ -22,6 +22,11 @@ class DroneViewController: UIViewController, AnalogueStickDelegate, MKMapViewDel
     @IBOutlet weak var coordinateLabel:UILabel!
     @IBOutlet weak var altitudeReadingLabel:UILabel!
     
+    @IBOutlet weak var lateralButtonLeft: UIButton!
+    @IBOutlet weak var lateralButtonRight: UIButton!
+    @IBOutlet weak var lateralButtonUp: UIButton!
+    @IBOutlet weak var lateralButtonDown: UIButton!
+    
     @IBOutlet weak var analogueStick: AnalogueStick!
     @IBOutlet weak var altitudeSlider: UISlider! {
         didSet {
@@ -53,6 +58,8 @@ class DroneViewController: UIViewController, AnalogueStickDelegate, MKMapViewDel
         launchButton.enabled = false  // Disable the launch button until a connection is received
         launchButton.alpha = 0.5
         
+        updateLateralButtons(false)
+    
         analogueStick.delegate = self
         
         waypointButton.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
@@ -83,7 +90,7 @@ class DroneViewController: UIViewController, AnalogueStickDelegate, MKMapViewDel
     
     // The IP address that the server is running on
 
-    let HOSTNAME = "10.30.115.122"
+    let HOSTNAME = "10.28.96.78"
     let PORT = "5000"
     
     private var buildSocketAddr: String {
@@ -101,6 +108,7 @@ class DroneViewController: UIViewController, AnalogueStickDelegate, MKMapViewDel
         // Waits for connection with vehicle
         socket.on("connect") {[weak self] data, ack in
             debugPrint("received connect event")
+            // Enable launch button
             self?.launchButton.enabled = true
             self?.launchButton.alpha = 1.0
         }
@@ -324,20 +332,31 @@ class DroneViewController: UIViewController, AnalogueStickDelegate, MKMapViewDel
                 self?.launchButton.setTitle("LAUNCH", forState: UIControlState.Normal)
                 self?.launchButton.backgroundColor = UIColor(red: 123.0/255.0, green: 220.0/255.0, blue: 153.0/255.0, alpha: 1.0)
                 self?.launchButton.enabled = true
+                self?.updateLateralButtons(false)
             } else if (isInFlight && isTakingOff && !isLanding) {  // Taking off
                 self?.launchButton.setTitle("TAKING OFF", forState: UIControlState.Normal)
                 self?.launchButton.backgroundColor = UIColor.lightGrayColor()
                 self?.launchButton.enabled = false
+                self?.updateLateralButtons(false)
             } else if (isInFlight && !isTakingOff && !isLanding) {  // In flight, waiting for land
                 self?.launchButton.setTitle("LAND", forState: UIControlState.Normal)
                 self?.launchButton.backgroundColor = UIColor.redColor()
                 self?.launchButton.enabled = true
+                self?.updateLateralButtons(true)
             } else if (isInFlight && !isTakingOff && isLanding) {  // Landing
                 self?.launchButton.setTitle("LANDING", forState: UIControlState.Normal)
                 self?.launchButton.backgroundColor = UIColor.lightGrayColor()
                 self?.launchButton.enabled = false
+                self?.updateLateralButtons(false)
             }
         }
+    }
+    
+    func updateLateralButtons(isEnabled: Bool) {
+        lateralButtonRight.enabled = isEnabled
+        lateralButtonLeft.enabled = isEnabled
+        lateralButtonUp.enabled = isEnabled
+        lateralButtonDown.enabled = isEnabled
     }
 
     @IBAction func altitudeSliderChange(sender: AnyObject) {
