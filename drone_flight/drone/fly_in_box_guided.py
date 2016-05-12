@@ -87,11 +87,6 @@ def arm_and_takeoff(aTargetAltitude):
 		time.sleep(0.1)
 	print "Armed!"
 
-	#print "Local location (before takeoff): ", vehicle.location.local_frame
-	#print "Taking off!"
-	#vehicle.simple_takeoff(aTargetAltitude)
-
-
 	#print "Sending new mavlink message"
 	#msg = vehicle.message_factory.command_long_encode(
 	# 0, 0, # target_system, target_component 

@@ -53,7 +53,7 @@ class DroneViewController: UIViewController, AnalogueStickDelegate, MKMapViewDel
         mapView.delegate = self
         mapView.layer.borderWidth = 2
         mapView.layer.borderColor = UIColor.darkGrayColor().CGColor
-        let longPressRec = UILongPressGestureRecognizer(target: self, action: "dropWaypoint:")
+        let longPressRec = UILongPressGestureRecognizer(target: self, action: #selector(DroneViewController.dropWaypoint(_:)))
         self.mapView.addGestureRecognizer(longPressRec)
         // TODO: remove dummy initial location below
         // let startLoc = CLLocationCoordinate2DMake(37.430020, -122.173302)
@@ -74,7 +74,8 @@ class DroneViewController: UIViewController, AnalogueStickDelegate, MKMapViewDel
 // =================================== SERVER ===================================
     
     // The IP address that the server is running on
-    let HOSTNAME = "10.31.102.97"
+
+    let HOSTNAME = "10.1.1.110"
     let PORT = "5000"
     
     private var buildSocketAddr: String {

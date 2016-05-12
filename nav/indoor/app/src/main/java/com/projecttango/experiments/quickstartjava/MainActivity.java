@@ -365,6 +365,7 @@ public class MainActivity extends Activity {
                     json.put("l", Double.toString(tangoPose.rotation[3]));
 
                     try {
+                        System.out.println("Emitting pose update");
                         mSocket.emit("pose_update", json);
                         Log.i(TAG, logMsg);
                     } catch (Exception e) {

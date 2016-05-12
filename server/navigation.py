@@ -344,10 +344,12 @@ gps = GPS()
 
 def getOrigin(originLLAJSON):
 		global origin_ecef
-		originLLA = (originLLAJSON['lat'], originLLAJSON['long'], 0)
+		#originLLA = (originLLAJSON['lat'], originLLAJSON['long'], 0)
+		originLLA = (37.4303241, -122.1736258, 0)
+		print "origin LLA calculated: " + str(originLLA)
 		origin_ecef = gps.lla2ecef(originLLA)
+		print "origin LLA set: " + str(originLLA)
 		print "[navigation][gps_init][origin]: " + str(origin_ecef)
-		return origin_ecef
 
 def getLLAFromNED(NEDJSON):
 		global origin_ecef

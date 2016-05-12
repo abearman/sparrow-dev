@@ -15,7 +15,7 @@ from pymavlink import mavutil
 
 
 def drone_init():
-		is_simulator = True
+		is_simulator = True 
 
 		target = None
 		if is_simulator:
