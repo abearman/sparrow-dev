@@ -103,7 +103,7 @@
                                             </label>
                                             <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="f8G-UI-1Ji" userLabel="Launch Button">
                                                 <rect key="frame" x="864" y="9" width="152" height="43"/>
-                                                <color key="backgroundColor" red="0.46274509800000002" green="0.86274509799999999" blue="0.58823529409999997" alpha="1" colorSpace="calibratedRGB"/>
+                                                <color key="backgroundColor" red="0.46666666666666667" green="0.86274509803921573" blue="0.58823529411764708" alpha="1" colorSpace="calibratedRGB"/>
                                                 <fontDescription key="fontDescription" name="Oswald-Medium" family="Oswald" pointSize="23"/>
                                                 <inset key="contentEdgeInsets" minX="20" minY="0.0" maxX="20" maxY="0.0"/>
                                                 <state key="normal" title="LAUNCH">

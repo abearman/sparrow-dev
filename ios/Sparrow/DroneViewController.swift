@@ -291,7 +291,6 @@ class DroneViewController: UIViewController, AnalogueStickDelegate, MKMapViewDel
                     debugPrint("Take off request completed.")
                     print(data)
                     self.isTakingOff = false
-                    //self.updateLaunchButton()  // Update button to reenable red, "LAND"
                 }
             }
             
@@ -299,7 +298,6 @@ class DroneViewController: UIViewController, AnalogueStickDelegate, MKMapViewDel
         } else {
             debugPrint("Sending land request")
             isLanding = true
-            //updateLaunchButton()  // Update button to gray, "Landing"
             HTTPPostJSON(buildSocketAddr + "/control/land", jsonObj: []) {
                 (data: String, error: String?) -> Void in
                 if error != nil {
@@ -310,7 +308,6 @@ class DroneViewController: UIViewController, AnalogueStickDelegate, MKMapViewDel
                     print(data)
                     self.isLanding = false
                     self.isInFlight = false
-                    //self.updateLaunchButton()  // Update button to reenable green, "LAUNCH"
                 }
             }
         }
@@ -323,7 +320,7 @@ class DroneViewController: UIViewController, AnalogueStickDelegate, MKMapViewDel
             let isLanding = (self?.isLanding)!
             if !isInFlight && !isTakingOff && !isLanding {  // On ground, waiting for launch
                 self?.launchButton.setTitle("LAUNCH", forState: UIControlState.Normal)
-                self?.launchButton.backgroundColor = UIColor.greenColor()
+                self?.launchButton.backgroundColor = UIColor(red: 123.0/255.0, green: 220.0/255.0, blue: 153.0/255.0, alpha: 1.0)
                 self?.launchButton.enabled = true
             } else if (isInFlight && isTakingOff && !isLanding) {  // Taking off
                 self?.launchButton.setTitle("TAKING OFF", forState: UIControlState.Normal)
@@ -339,21 +336,6 @@ class DroneViewController: UIViewController, AnalogueStickDelegate, MKMapViewDel
                 self?.launchButton.enabled = false
             }
         }
-        
-        
-        
-        /*if (inFlight) {
-            if (isLanding) {
-                launchButton.setTitle("LANDING", forState: UIControlState.Normal)
-                launchButton.backgroundColor = UIColor.lightGrayColor()
-            } else {
-                launchButton.setTitle("LAND", forState: UIControlState.Normal)
-                launchButton.backgroundColor = UIColor.redColor()
-            }
-        } else {
-            launchButton.setTitle("LAUNCH", forState: UIControlState.Normal)
-            launchButton.backgroundColor = UIColor.greenColor()
-        }*/
     }
 
     @IBAction func altitudeSliderChange(sender: AnyObject) {
