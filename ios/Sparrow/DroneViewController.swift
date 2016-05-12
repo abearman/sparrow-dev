@@ -16,6 +16,7 @@ class DroneViewController: UIViewController, AnalogueStickDelegate, MKMapViewDel
     @IBOutlet weak var cameraView: UIView!
     @IBOutlet weak var videoImage: UIImageView!
     @IBOutlet weak var dropPinButton:UIButton!
+    @IBOutlet weak var waypointButton: UIButton!
     @IBOutlet weak var sarPathButton: UIButton!
     @IBOutlet weak var launchButton:UIButton!
     @IBOutlet weak var coordinateLabel:UILabel!
@@ -50,6 +51,9 @@ class DroneViewController: UIViewController, AnalogueStickDelegate, MKMapViewDel
         
         analogueStick.delegate = self
         
+        waypointButton.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
+        waypointButton.setTitleColor(UIColor.grayColor(), forState: UIControlState.Selected)
+
         mapView.delegate = self
         mapView.layer.borderWidth = 2
         mapView.layer.borderColor = UIColor.darkGrayColor().CGColor
@@ -410,7 +414,7 @@ class DroneViewController: UIViewController, AnalogueStickDelegate, MKMapViewDel
         
         drawMarker(newLoc, yaw: yaw)
         
-        if (locations.count == 0) {
+        if (locations.count == 1) {
             let region = MKCoordinateRegionMake(newLoc, MKCoordinateSpanMake(0.01, 0.01))
             self.mapView.setRegion(region, animated: true)
         }
@@ -433,11 +437,33 @@ class DroneViewController: UIViewController, AnalogueStickDelegate, MKMapViewDel
         }
     }
     
+    @IBAction func waypointButtonToggle(sender: AnyObject) {
+        if (!waypointButton.selected) {
+            waypointButton.selected = true
+            waypointButton.tintColor = UIColor.darkGrayColor()
+            waypointButton.backgroundColor = UIColor.darkGrayColor()
+        } else {
+            waypointButton.selected = false
+            waypointButton.tintColor = UIColor.lightGrayColor()
+            waypointButton.backgroundColor = UIColor.lightGrayColor()
+        }
+    }
+    
+    func waypointButtonDeselect() {
+        waypointButton.selected = false
+        waypointButton.tintColor = UIColor.lightGrayColor()
+        waypointButton.backgroundColor = UIColor.lightGrayColor()
+    }
+    
     func dropWaypoint(gestureRecognizer: UILongPressGestureRecognizer) {
         if (gestureRecognizer.state != UIGestureRecognizerState.Began) {
             return;
         }
         
+        if (!waypointButton.selected) {
+            return;
+        }
+
         let touchPoint = gestureRecognizer.locationInView(self.mapView)
         let loc = self.mapView.convertPoint(touchPoint, toCoordinateFromView: self.mapView)
         let waypoint = WaypointAnnotation(coordinate: loc)
@@ -447,6 +473,7 @@ class DroneViewController: UIViewController, AnalogueStickDelegate, MKMapViewDel
             "lon": loc.longitude
         ]
         socket.emit("waypoint_cmd", waypointArgs)
+        waypointButtonDeselect()
     }
 
     func drawMarker(coordinate: CLLocationCoordinate2D, yaw: Double) {
@@ -479,6 +506,7 @@ class DroneViewController: UIViewController, AnalogueStickDelegate, MKMapViewDel
     
     func mapView(mapView: MKMapView, viewForAnnotation annotation: MKAnnotation) -> MKAnnotationView? {
         if (annotation is CurrentLocationAnnotation) {
+            // Direction is only correct if map is oriented with North up
             let angle = (annotation as! CurrentLocationAnnotation).angle
             let currentLocIcon = MKAnnotationView(annotation: annotation, reuseIdentifier: "currentLocIcon")
             currentLocIcon.image = UIImage(named: "current_loc_icon")?.rotate(CGFloat(angle))
