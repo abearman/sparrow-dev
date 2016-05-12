@@ -268,14 +268,6 @@ class DroneViewController: UIViewController, AnalogueStickDelegate, MKMapViewDel
         didSet { updateLaunchButton() }
     }
     
-    /*enum VehicleMode {
-        case ARMING,
-        case TAKING_OFF,
-        case GUIDED,
-        case LAND
-    }
-    var mode:*/
-    
     @IBAction func launchButtonClicked(sender: AnyObject) {
         // Takeoff command
         if (!isInFlight) {
