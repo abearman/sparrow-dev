@@ -193,12 +193,7 @@ def altitudeChange(json):
 		print "[socket][control][altitude]: " + str(json)
 		dalt = float(json['dalt'])
 		curr_alt = vehicle.location.global_relative_frame.alt
-		if (curr_alt + dalt < 2):
-			change_altitude_global(2)
-		elif (curr_alt + dalt > 10):
-			change_altitude_global(10)
-		else:
-			change_altitude_global(curr_alt + dalt)
+		change_altitude_global(curr_alt + dalt)
 
 @socketio.on('rotation_cmd') # , namespace=CONTROL_NAMESPACE)
 def rotationChange(json):

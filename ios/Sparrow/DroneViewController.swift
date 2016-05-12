@@ -50,6 +50,9 @@ class DroneViewController: UIViewController, AnalogueStickDelegate, MKMapViewDel
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        launchButton.enabled = false  // Disable the launch button until a connection is received
+        launchButton.alpha = 0.5
+        
         analogueStick.delegate = self
         
         waypointButton.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
@@ -94,6 +97,13 @@ class DroneViewController: UIViewController, AnalogueStickDelegate, MKMapViewDel
     func initializeSocket() {
         socket = SocketIOClient(socketURL: NSURL(string: buildSocketAddr)!)
         socket.onAny {print("Got event: \($0.event), with items: \($0.items)")}
+        
+        // Waits for connection with vehicle
+        socket.on("connect") {[weak self] data, ack in
+            debugPrint("received connect event")
+            self?.launchButton.enabled = true
+            self?.launchButton.alpha = 1.0
+        }
         
         // Constant fetching for latest GPS coordinates
         socket.on("gps_pos_ack") {[weak self] data, ack in
