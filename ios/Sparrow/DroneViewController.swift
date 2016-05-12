@@ -66,6 +66,7 @@ class DroneViewController: UIViewController, AnalogueStickDelegate, MKMapViewDel
         waypointButton.setTitleColor(UIColor.grayColor(), forState: UIControlState.Selected)
 
         mapView.delegate = self
+        mapView.rotateEnabled = false
         mapView.layer.borderWidth = 2
         mapView.layer.borderColor = UIColor.darkGrayColor().CGColor
         let longPressRec = UILongPressGestureRecognizer(target: self, action: #selector(DroneViewController.dropWaypoint(_:)))
