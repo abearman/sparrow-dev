@@ -75,7 +75,7 @@ class DroneViewController: UIViewController, AnalogueStickDelegate, MKMapViewDel
     
     // The IP address that the server is running on
 
-    let HOSTNAME = "10.1.1.110"
+    let HOSTNAME = "10.28.96.191"
     let PORT = "5000"
     
     private var buildSocketAddr: String {
