@@ -72,7 +72,6 @@ void VideoOverlayApp::OnFrameAvailable(const TangoImageBuffer* buffer) {
   // The memory needs to be allocated after we get the first frame because we
   // need to know the size of the image.
   if (!is_yuv_texture_available_) {
-    LOGE("ALLOCATING YUV BUFFER");
     yuv_width_ = buffer->width;
     yuv_height_ = buffer->height;
     uv_buffer_offset_ = yuv_width_ * yuv_height_;
@@ -197,21 +196,6 @@ std::vector<uint8_t> VideoOverlayApp::Render() {
   glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
   std::lock_guard<std::mutex> lock(yuv_buffer_mutex_);
   RenderYUV();
-  /*
-  switch (current_texture_method_) {
-    case TextureMethod::kYUV:
-      LOGE("RENDER YUV");
-      RenderYUV();
-      break;
-    case TextureMethod::kTextureId:
-      LOGE("RENDER RGB");
-      RenderTextureId();
-      break;
-  }
-   */
-
-//  LOGE("YUV_BUFFER: %d", yuv_buffer_.size());
-  // std::vector<uint8_t> yuv = std::vector<uint8_t>(yuv_buffer_);
 
   std::vector<uint8_t> rgb_buffer;
   rgb_buffer.resize(2764800);
@@ -236,7 +220,6 @@ std::vector<uint8_t> VideoOverlayApp::Render() {
               &rgb_buffer[rgb_index + 2]);
     }
   }
-  // LOGE("RETURNING RGB BUFFER...", yuv_buffer_.size());
 
   // Rescale image
   int width = 1280;
@@ -260,28 +243,9 @@ std::vector<uint8_t> VideoOverlayApp::Render() {
   }
 
   return rescaled_rgb_buffer;
-  // return rgb_buffer;
-  // return yuv;
-
-//  std::vector<GLubyte> rgb = std::vector<GLubyte>(rgb_buffer_);
-//  return rgb;
-
-  /*
-  TangoImageBuffer* yuv = new TangoImageBuffer();
-  TangoSupport_getLatestImageBuffer(yuv_manager_, &yuv);
-  return yuv;
-  */
-
-  /*
-  cv::Mat yuv_frame, rgb_img;
-  yuv_frame.create(720*3/2, 1280, CV_8UC1);
-  memcpy(yuv_frame.data, yuv->data, 720*3/2*1280);  // yuv image
-  cv::cvtColor(yuv_frame, rgb_img, CV_YUV2RGB_NV21); // rgb image
-   */
 }
 
 void VideoOverlayApp::FreeBufferData() {
-  LOGE("FREEING YUV BUFFER");
   is_yuv_texture_available_ = false;
   swap_buffer_signal_ = false;
   rgb_buffer_.clear();
@@ -301,7 +265,6 @@ void VideoOverlayApp::AllocateTexture(GLuint texture_id, int width,
 
 void VideoOverlayApp::RenderYUV() {
   if (!is_yuv_texture_available_) {
-//    LOGE("YUV_TEXTURE_NOT AVAILABLE");
     return;
   }
   {

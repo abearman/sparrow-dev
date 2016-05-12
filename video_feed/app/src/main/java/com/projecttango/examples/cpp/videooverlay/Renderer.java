@@ -64,8 +64,6 @@ public class Renderer implements GLSurfaceView.Renderer {
 
         });
        mSocket.connect();
-      // mSocket = new Socket("http://" + addr + ":" + port + "/camera");
-      // mSocket.open();
       System.out.println("Socket connection has been established");
     } catch (URISyntaxException e) {
       e.printStackTrace();
@@ -77,28 +75,6 @@ public class Renderer implements GLSurfaceView.Renderer {
   // Render loop of the Gl context.
   public void onDrawFrame(GL10 gl) {
     byte[] img_data = TangoJNINative.render();
-    // mSocket.send(img_data);
-    //img_data.length == 2764800
-//    img_data.length == 1.5*1280*720
-//    if (sendFrame && img_data.length == 1.5*1280*720) {
-//      int[] rgb_data = new int[2764800];
-//      GPUImageNativeLibrary.YUVtoRBGA(img_data, 1280, 720, rgb_data);
-//      System.out.println("Image data: " + rgb_data.length);
-//      System.out.println("Sending image");
-//
-//      ByteBuffer byteBuffer = ByteBuffer.allocate(rgb_data.length * 4);
-//      IntBuffer intBuffer = byteBuffer.asIntBuffer();
-//      intBuffer.put(rgb_data);
-//
-//      byte[] byte_data = byteBuffer.array();
-//
-//      byte[] encoded_data = Base64.encode(byte_data, Base64.DEFAULT);
-//      JSONObject json = new JSONObject();
-//      try {
-//        json.put("image64", encoded_data);
-//      } catch (JSONException e) {
-//        e.printStackTrace();
-//      }
 
     if (sendFrame && img_data.length == (2764800 / 25)) {
       System.out.println("SENDING FRAME");
@@ -109,23 +85,14 @@ public class Renderer implements GLSurfaceView.Renderer {
         e.printStackTrace();
       }
       sendFrame = false;
-    mSocket.emit("frame", json, new Ack() {
-      @Override
-      public void call(Object... args) {
-        System.out.println("Image received");
-        sendFrame = true;
-      }
-    });
-  }
-    // img_data = null;
-    /*
-    AsyncTask.execute(new Runnable() {
-      @Override
-      public void run() {
-        mSocket.emit("frame", img_data);
-      }
-    });
-    */
+      mSocket.emit("frame", json, new Ack() {
+        @Override
+        public void call(Object... args) {
+          System.out.println("Image received");
+          sendFrame = true;
+        }
+      });
+    }
   }
 
   // Called when the surface size changes.
