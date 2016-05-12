@@ -93,11 +93,11 @@ class DroneViewController: UIViewController, AnalogueStickDelegate, MKMapViewDel
     
     func initializeSocket() {
         socket = SocketIOClient(socketURL: NSURL(string: buildSocketAddr)!)
-        //socket.onAny {print("Got event: \($0.event), with items: \($0.items)")}
+        socket.onAny {print("Got event: \($0.event), with items: \($0.items)")}
         
         // Constant fetching for latest GPS coordinates
         socket.on("gps_pos_ack") {[weak self] data, ack in
-            //debugPrint("received gps_pos_ack event")
+            debugPrint("received gps_pos_ack event")
             self?.handleGPSPos(data)
             return
         }
@@ -120,7 +120,7 @@ class DroneViewController: UIViewController, AnalogueStickDelegate, MKMapViewDel
     
     func handleGPSPos(data: AnyObject) {
 
-        //debugPrint("in handleGPSPos")
+        debugPrint("in handleGPSPos")
         
         // Unpack JSON data
         let encodedData = data[0].dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false)!
@@ -130,9 +130,9 @@ class DroneViewController: UIViewController, AnalogueStickDelegate, MKMapViewDel
                 let longitude = jsonData["lon"] as? Double
                 let altitude = jsonData["alt"] as? Double
                 let yaw = jsonData["yaw"] as? Double
-                //debugPrint("got latitude: ", latitude)
-                //debugPrint("got longitude: ", longitude)
-                //debugPrint("got altitude: ", altitude)
+                debugPrint("got latitude: ", latitude)
+                debugPrint("got longitude: ", longitude)
+                debugPrint("got altitude: ", altitude)
                 latestLat = latitude!
                 latestLong = longitude!
                 latestAlt = altitude!
