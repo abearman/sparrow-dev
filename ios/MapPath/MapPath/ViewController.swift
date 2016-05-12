@@ -12,6 +12,7 @@ import MapKit
 class ViewController: UIViewController, MKMapViewDelegate {
 
     @IBOutlet weak var mapView: MKMapView!
+    @IBOutlet weak var waypointButton: UIButton!
     var locations: [CLLocationCoordinate2D] = []
     var path: MKPolyline?
     var marker: MKAnnotation?
@@ -24,6 +25,8 @@ class ViewController: UIViewController, MKMapViewDelegate {
         self.mapView.addGestureRecognizer(longPressRec)
 //        let startLoc = CLLocationCoordinate2DMake(37.421513, -122.168934)
 //        onLocationUpdate(startLoc)
+        waypointButton.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
+        waypointButton.setTitleColor(UIColor.grayColor(), forState: UIControlState.Selected)
     }
 
     
@@ -66,6 +69,24 @@ class ViewController: UIViewController, MKMapViewDelegate {
             self.pinLocations.append(pin)
             self.mapView.addAnnotation(pin)
         }
+    }
+    
+    @IBAction func waypointButtonToggle(sender: AnyObject) {
+        if (!waypointButton.selected) {
+            waypointButton.selected = true
+            waypointButton.tintColor = UIColor.darkGrayColor()
+            waypointButton.backgroundColor = UIColor.darkGrayColor()
+        } else {
+            waypointButton.selected = false
+            waypointButton.tintColor = UIColor.lightGrayColor()
+            waypointButton.backgroundColor = UIColor.lightGrayColor()
+        }
+    }
+    
+    func waypointButtonDeselect() {
+        waypointButton.selected = false
+        waypointButton.tintColor = UIColor.lightGrayColor()
+        waypointButton.backgroundColor = UIColor.lightGrayColor()
     }
     
     func drawMarker(coordinate: CLLocationCoordinate2D) {
@@ -137,11 +158,17 @@ class ViewController: UIViewController, MKMapViewDelegate {
             return;
         }
         
+        if (!waypointButton.selected) {
+            return;
+        }
+        
         let touchPoint = gestureRecognizer.locationInView(self.mapView)
         let loc = self.mapView.convertPoint(touchPoint, toCoordinateFromView: self.mapView)
         let waypoint = WaypointAnnotation(coordinate: loc)
         self.mapView.addAnnotation(waypoint)
         // TODO: send goto waypoint message to server
+        
+        waypointButtonDeselect()
     }
     
     func mapView(mapView: MKMapView, didAddAnnotationViews views: [MKAnnotationView]) {
