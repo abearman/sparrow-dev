@@ -17,8 +17,10 @@ class SARMenuViewController: UITableViewController {
     var rowHeight = 40
     
     let PI = 3.141596
-    let STEP : Double = 20
-    let DEGREE_STEP = 0.0002
+    // let STEP : Double = 20
+    // let DEGREE_STEP = 0.0002 // 20 m
+    let STEP : Double = 3
+    let DEGREE_STEP = 0.00003
     let RADIAL_OFFSETS : [(dNorth: Double, dEast: Double)] =
         [(1, 0), (1, 1), (-1, 1), (-1, -1), (2, -1), (2, 2), (-2, 2), (-2, -2), (3, -2), (3, 3)]
     let LINE_OFFSETS : [(dNorth: Double, dEast: Double)] =
@@ -95,7 +97,7 @@ class SARMenuViewController: UITableViewController {
                 ]
                 self.delegate!.socket.emit("waypoint_cmd", waypointArgs)
                 let distance = sqrt(pow(Double(offset.dNorth * self.STEP), 2) + pow(Double(offset.dEast * self.STEP), 2))
-                sleep(UInt32(distance / 2.0))
+                sleep(UInt32(distance / 0.5)) // change back to 2
             }
             print("FINISHED SAR PATH")
         }

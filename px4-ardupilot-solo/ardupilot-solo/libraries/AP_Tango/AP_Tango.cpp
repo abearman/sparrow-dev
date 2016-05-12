@@ -11,6 +11,6 @@ void AP_Tango::set_location(Location loc_param) {
 	location = loc_param;
 }
 
-Location AP_Tango::get_location() {
+Location AP_Tango::get_location() const {
 	return location;
 }

@@ -46,6 +46,8 @@ class NavEKF
 {
 public:
     typedef float ftype;
+		//for the hacky funciton pointer to gcs_send_text_p
+    typedef void (*gcs_send_t_p)(gcs_severity, const prog_char_t*);
 #if defined(MATH_CHECK_INDEXES) && (MATH_CHECK_INDEXES == 1)
     typedef VectorN<ftype,2> Vector2;
     typedef VectorN<ftype,3> Vector3;

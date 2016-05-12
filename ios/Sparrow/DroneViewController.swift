@@ -57,12 +57,12 @@ class DroneViewController: UIViewController, AnalogueStickDelegate, MKMapViewDel
         mapView.delegate = self
         mapView.layer.borderWidth = 2
         mapView.layer.borderColor = UIColor.darkGrayColor().CGColor
-        let longPressRec = UILongPressGestureRecognizer(target: self, action: "dropWaypoint:")
+        let longPressRec = UILongPressGestureRecognizer(target: self, action: #selector(DroneViewController.dropWaypoint(_:)))
         self.mapView.addGestureRecognizer(longPressRec)
         // TODO: remove dummy initial location below
-//        let startLoc = CLLocationCoordinate2DMake(37.430020, -122.173302)
-//        let startYaw = M_PI/2.0
-//        onLocationUpdate(startLoc, yaw: startYaw)
+        // let startLoc = CLLocationCoordinate2DMake(37.430020, -122.173302)
+        // let startYaw = M_PI/2.0
+        // onLocationUpdate(startLoc, yaw: startYaw)
 
         debugPrint("Connecting to server control socket...")
         initializeSocket()
@@ -78,7 +78,8 @@ class DroneViewController: UIViewController, AnalogueStickDelegate, MKMapViewDel
 // =================================== SERVER ===================================
     
     // The IP address that the server is running on
-    let HOSTNAME = "10.31.102.97"
+
+    let HOSTNAME = "10.1.1.110"
     let PORT = "5000"
     
     private var buildSocketAddr: String {
@@ -103,10 +104,11 @@ class DroneViewController: UIViewController, AnalogueStickDelegate, MKMapViewDel
         // video frame rendering
         self.socket.on("ios_frame") {[weak self] data, ack in
             debugPrint("received ios_frame event")
-            let priority = DISPATCH_QUEUE_PRIORITY_DEFAULT
-            dispatch_async(dispatch_get_global_queue(priority, 0)) {
-                self?.handleFrame(data)
-            }
+            self?.handleFrame(data)
+//            let priority = DISPATCH_QUEUE_PRIORITY_DEFAULT
+//            dispatch_async(dispatch_get_global_queue(priority, 0)) {
+//                self?.handleFrame(data)
+//            }
             return
         }
         
@@ -202,6 +204,7 @@ class DroneViewController: UIViewController, AnalogueStickDelegate, MKMapViewDel
             let new_image = UIImage(CGImage: cgimage!)
             self.videoImage.image =  new_image
         }
+        debugPrint("Finished processing image")
     }
         
     func imageWithImage(image:UIImage, scaledToSize newSize:CGSize) -> UIImage{

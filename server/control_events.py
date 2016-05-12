@@ -30,9 +30,10 @@ def on_connect():
 
 
 # Updates the location of the drone on a 1 Hz cycle
-def listen_for_location_change(vehicle_location_param):
-		vehicle_location = vehicle_location_param[0]
-		vehicle_yaw = vehicle_location_param[1]
+# Arguments are a tuple
+def listen_for_location_change(vehicle_location_params):
+		vehicle_location = vehicle_location_params[0]
+		vehicle_yaw = vehicle_location_params[1]
 		while True:
 			current_lat = mission_state.vehicle.location.global_relative_frame.lat
 			current_lon = mission_state.vehicle.location.global_relative_frame.lon
@@ -55,17 +56,16 @@ def listen_for_location_change(vehicle_location_param):
 #	print "[socket][control][gps_pos]: " + str(json)
 #	emit("gps_pos_ack", json, broadcast=True)
 
-"""
 @socketio.on('gps_pos') # , namespace=CONTROL_NAMESPACE)
 def gpsChange(json):
+		print "GOT TO GPS_POS FUNC"
 		loc = json
 		global gps_init
 		if gps_init == False:
-			navigation.getOrigin(json)
+			navigation.getOrigin(json)  # sets mission_state.origin_ecef in navigation.py
 			gps_init = True
 			print "[socket][control][gps_pos]: " + str(json)
 			emit("gps_pos_ack", json, broadcast=True)
-"""
 
 STEP = 10
 RADIAL_OFFSETS = [(1, 0), (1, 1), (-1, 1), (-1, -1), (2, -1), (2, 2), (-2, 2), (-2, -2), (3, -2), (3, 3)]
@@ -96,14 +96,6 @@ def get_location_metres(original_location, dNorth, dEast):
 
 
 @socketio.on('sar_path')
-<<<<<<< HEAD
-def flySARPath(json):
-	lat = json['lat']
-	lon = json['lon']
-	altitude = json['altitude']
-	path_type = json['sar_type']
-	waypoint_list = [(lat, lon, altitude)]
-=======
 def flySARPath(data):
 	print "[socket][control][sar_path]: " + str(data)
 
@@ -120,7 +112,6 @@ def flySARPath(data):
 	cmds.add(Command( 0, 0, 0, mavutil.mavlink.MAV_FRAME_GLOBAL_RELATIVE_ALT, mavutil.mavlink.MAV_CMD_NAV_TAKEOFF, 0, 0, 0, 0, 0, 0, 0, 0, 4))
 
 	waypoint_list = None
->>>>>>> 989181f7eba1257e9cd0550a7644439c29722ac7
 	if path_type == 'line':
 		waypoint_list = LINE_OFFSETS
 	elif path_type == 'sector':
@@ -223,7 +214,7 @@ def waypointCommand(json):
 	else:
 		alt = vehicle.location.global_relative_frame.alt
 	waypoint_location = LocationGlobalRelative(lat, lon, alt)
-	vehicle.simple_goto(waypoint_location, airspeed = 3)
+	vehicle.simple_goto(waypoint_location, airspeed = 1.0)
 
 @socketio.on('lateral_cmd') #, namespace=CONTROL_NAMESPACE)
 def lateralChangeDiscrete(json):
@@ -231,13 +222,13 @@ def lateralChangeDiscrete(json):
 	direction = json['direction']
 	# args are x_vel, y_vel, z_vel, duration
 	if direction == "left":
-		send_ned_velocity(-1, 0, 0, 10)
+		send_ned_velocity(-1, 0, 0, 1)
 	elif direction == "right":
-		send_ned_velocity(1, 0, 0, 10)
+		send_ned_velocity(1, 0, 0, 1)
 	elif direction == "forward":
-		send_ned_velocity(0, -1, 0, 10)
+		send_ned_velocity(0, -1, 0, 1)
 	elif direction == "back":
-		send_ned_velocity(0, 1, 0, 10)
+		send_ned_velocity(0, 1, 0, 1)
 	elif direction == "stop":
 		send_ned_velocity(0, 0, 0, 1)
 
