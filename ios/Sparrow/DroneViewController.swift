@@ -21,6 +21,7 @@ class DroneViewController: UIViewController, AnalogueStickDelegate, MKMapViewDel
     @IBOutlet weak var launchButton:UIButton!
     @IBOutlet weak var coordinateLabel:UILabel!
     @IBOutlet weak var altitudeReadingLabel:UILabel!
+    
     @IBOutlet weak var analogueStick: AnalogueStick!
     @IBOutlet weak var altitudeSlider: UISlider! {
         didSet {
@@ -79,7 +80,7 @@ class DroneViewController: UIViewController, AnalogueStickDelegate, MKMapViewDel
     
     // The IP address that the server is running on
 
-    let HOSTNAME = "10.28.96.191"
+    let HOSTNAME = "10.30.115.122"
     let PORT = "5000"
     
     private var buildSocketAddr: String {
@@ -92,11 +93,11 @@ class DroneViewController: UIViewController, AnalogueStickDelegate, MKMapViewDel
     
     func initializeSocket() {
         socket = SocketIOClient(socketURL: NSURL(string: buildSocketAddr)!)
-        socket.onAny {print("Got event: \($0.event), with items: \($0.items)")}
+        //socket.onAny {print("Got event: \($0.event), with items: \($0.items)")}
         
-        // constant fetching for latest GPS coordinates
+        // Constant fetching for latest GPS coordinates
         socket.on("gps_pos_ack") {[weak self] data, ack in
-            debugPrint("received gps_pos_ack event")
+            //debugPrint("received gps_pos_ack event")
             self?.handleGPSPos(data)
             return
         }
@@ -119,7 +120,7 @@ class DroneViewController: UIViewController, AnalogueStickDelegate, MKMapViewDel
     
     func handleGPSPos(data: AnyObject) {
 
-        debugPrint("in handleGPSPos")
+        //debugPrint("in handleGPSPos")
         
         // Unpack JSON data
         let encodedData = data[0].dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false)!
@@ -129,16 +130,26 @@ class DroneViewController: UIViewController, AnalogueStickDelegate, MKMapViewDel
                 let longitude = jsonData["lon"] as? Double
                 let altitude = jsonData["alt"] as? Double
                 let yaw = jsonData["yaw"] as? Double
-                debugPrint("got latitude: ", latitude)
-                debugPrint("got longitude: ", longitude)
-                debugPrint("got altitude: ", altitude)
+                //debugPrint("got latitude: ", latitude)
+                //debugPrint("got longitude: ", longitude)
+                //debugPrint("got altitude: ", altitude)
                 latestLat = latitude!
                 latestLong = longitude!
                 latestAlt = altitude!
                 
                 // Update coordinate label
-                coordinateLabel.text = "(" + String(format: "%.3f", latitude!) + "N, " + String(format: "%.3f", longitude!) + "W)"
-                altitudeReadingLabel.text = String(format: "%.3f", altitude!) + " m"
+                if let latitudeVal = latitude {
+                    if let longitudeVal = longitude {
+                        coordinateLabel.text = "(" + String(format: "%.3f", latitudeVal) + "N, " + String(format: "%.3f", longitudeVal) + "W)"
+                    }
+                }
+            
+                // Update altitude label
+                if var altitudeVal = altitude {
+                    if altitudeVal < 0.0 { altitudeVal = 0.0 }
+                    altitudeReadingLabel.text = String(format: "%.3f", altitudeVal) + " m"
+                }
+                
                 
                 // Update MKMapView
                 let loc = CLLocationCoordinate2DMake(latitude!, longitude!)
@@ -247,9 +258,23 @@ class DroneViewController: UIViewController, AnalogueStickDelegate, MKMapViewDel
     
 // =================================== MOVEMENT CONTROL ===================================
     
-    var isInFlight: Bool = false    // Same as !isLanded
-    var isLanding: Bool = false
-    var isTakingOff: Bool = false
+    var isInFlight: Bool = false  {  // Same as !isLanded
+        didSet { updateLaunchButton() }
+    }
+    var isLanding: Bool = false {
+        didSet { updateLaunchButton() }
+    }
+    var isTakingOff: Bool = false {
+        didSet { updateLaunchButton() }
+    }
+    
+    /*enum VehicleMode {
+        case ARMING,
+        case TAKING_OFF,
+        case GUIDED,
+        case LAND
+    }
+    var mode:*/
     
     @IBAction func launchButtonClicked(sender: AnyObject) {
         // Takeoff command
@@ -257,7 +282,6 @@ class DroneViewController: UIViewController, AnalogueStickDelegate, MKMapViewDel
             debugPrint("Sending take off request")
             isInFlight = true
             isTakingOff = true
-            updateLaunchButton()  // Update button to gray, "Taking Off"
             HTTPPostJSON(buildSocketAddr + "/control/take_off", jsonObj: []) {
                 (data: String, error: String?) -> Void in
                 if error != nil {
@@ -267,7 +291,7 @@ class DroneViewController: UIViewController, AnalogueStickDelegate, MKMapViewDel
                     debugPrint("Take off request completed.")
                     print(data)
                     self.isTakingOff = false
-                    self.updateLaunchButton()  // Update button to reenable red, "LAND"
+                    //self.updateLaunchButton()  // Update button to reenable red, "LAND"
                 }
             }
             
@@ -275,7 +299,7 @@ class DroneViewController: UIViewController, AnalogueStickDelegate, MKMapViewDel
         } else {
             debugPrint("Sending land request")
             isLanding = true
-            updateLaunchButton()  // Update button to gray, "Landing"
+            //updateLaunchButton()  // Update button to gray, "Landing"
             HTTPPostJSON(buildSocketAddr + "/control/land", jsonObj: []) {
                 (data: String, error: String?) -> Void in
                 if error != nil {
@@ -286,27 +310,38 @@ class DroneViewController: UIViewController, AnalogueStickDelegate, MKMapViewDel
                     print(data)
                     self.isLanding = false
                     self.isInFlight = false
-                    self.updateLaunchButton()  // Update button to reenable green, "LAUNCH"
+                    //self.updateLaunchButton()  // Update button to reenable green, "LAUNCH"
                 }
             }
         }
     }
     
     func updateLaunchButton() {
-        if (!isInFlight && !isTakingOff && !isLanding) {  // On ground, waiting for launch
-            launchButton.setTitle("LAUNCH", forState: UIControlState.Normal)
-            launchButton.backgroundColor = UIColor.greenColor()
-        } else if (isInFlight && isTakingOff && !isLanding) {  // Taking off
-            launchButton.setTitle("TAKING OFF", forState: UIControlState.Normal)
-            launchButton.backgroundColor = UIColor.lightGrayColor()
-        } else if (isInFlight && !isTakingOff && !isLanding) {  // In flight, waiting for land
-            launchButton.setTitle("LAND", forState: UIControlState.Normal)
-            launchButton.backgroundColor = UIColor.redColor()
-        } else if (isInFlight && !isTakingOff && isLanding) {  // Landing
-            launchButton.setTitle("LANDING", forState: UIControlState.Normal)
-            launchButton.backgroundColor = UIColor.lightGrayColor()
+        dispatch_async(dispatch_get_main_queue()) { [weak self] in
+            let isInFlight = (self?.isInFlight)!
+            let isTakingOff = (self?.isTakingOff)!
+            let isLanding = (self?.isLanding)!
+            if !isInFlight && !isTakingOff && !isLanding {  // On ground, waiting for launch
+                self?.launchButton.setTitle("LAUNCH", forState: UIControlState.Normal)
+                self?.launchButton.backgroundColor = UIColor.greenColor()
+                self?.launchButton.enabled = true
+            } else if (isInFlight && isTakingOff && !isLanding) {  // Taking off
+                self?.launchButton.setTitle("TAKING OFF", forState: UIControlState.Normal)
+                self?.launchButton.backgroundColor = UIColor.lightGrayColor()
+                self?.launchButton.enabled = false
+            } else if (isInFlight && !isTakingOff && !isLanding) {  // In flight, waiting for land
+                self?.launchButton.setTitle("LAND", forState: UIControlState.Normal)
+                self?.launchButton.backgroundColor = UIColor.redColor()
+                self?.launchButton.enabled = true
+            } else if (isInFlight && !isTakingOff && isLanding) {  // Landing
+                self?.launchButton.setTitle("LANDING", forState: UIControlState.Normal)
+                self?.launchButton.backgroundColor = UIColor.lightGrayColor()
+                self?.launchButton.enabled = false
+            }
         }
-            
+        
+        
+        
         /*if (inFlight) {
             if (isLanding) {
                 launchButton.setTitle("LANDING", forState: UIControlState.Normal)
