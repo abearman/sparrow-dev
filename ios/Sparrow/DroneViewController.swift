@@ -63,10 +63,10 @@ class DroneViewController: UIViewController, AnalogueStickDelegate, MKMapViewDel
         analogueStick.delegate = self
         
         waypointButton.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
-        waypointButton.setTitleColor(UIColor.grayColor(), forState: UIControlState.Selected)
 
         mapView.delegate = self
         mapView.rotateEnabled = false
+        mapView.showsCompass = true
         mapView.layer.borderWidth = 2
         mapView.layer.borderColor = UIColor.darkGrayColor().CGColor
         let longPressRec = UILongPressGestureRecognizer(target: self, action: #selector(DroneViewController.dropWaypoint(_:)))
@@ -91,7 +91,7 @@ class DroneViewController: UIViewController, AnalogueStickDelegate, MKMapViewDel
     
     // The IP address that the server is running on
 
-    let HOSTNAME = "10.28.96.78"
+    let HOSTNAME = "10.1.1.188"
     let PORT = "5000"
     
     private var buildSocketAddr: String {
@@ -479,19 +479,17 @@ class DroneViewController: UIViewController, AnalogueStickDelegate, MKMapViewDel
     @IBAction func waypointButtonToggle(sender: AnyObject) {
         if (!waypointButton.selected) {
             waypointButton.selected = true
-            waypointButton.tintColor = UIColor.darkGrayColor()
-            waypointButton.backgroundColor = UIColor.darkGrayColor()
+            waypointButton.backgroundColor = UIColor(red: 21.0/255.0, green: 126.0/255.0, blue: 251.0/255.0, alpha: 0.5)
+
         } else {
             waypointButton.selected = false
-            waypointButton.tintColor = UIColor.lightGrayColor()
-            waypointButton.backgroundColor = UIColor.lightGrayColor()
+            waypointButton.backgroundColor = UIColor(red: 21.0/255.0, green: 126.0/255.0, blue: 251.0/255.0, alpha: 1.0)
         }
     }
     
     func waypointButtonDeselect() {
         waypointButton.selected = false
-        waypointButton.tintColor = UIColor.lightGrayColor()
-        waypointButton.backgroundColor = UIColor.lightGrayColor()
+        waypointButton.backgroundColor = UIColor(red: 21.0/255.0, green: 126.0/255.0, blue: 251.0/255.0, alpha: 1.0)
     }
     
     func dropWaypoint(gestureRecognizer: UILongPressGestureRecognizer) {

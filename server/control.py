@@ -15,7 +15,7 @@ from pymavlink import mavutil
 
 
 def drone_init():
-		is_simulator = True 
+		is_simulator = False 
 
 		target = None
 		if is_simulator:
@@ -23,7 +23,7 @@ def drone_init():
 			from dronekit_sitl import SITL
 			sitl = SITL()
 			sitl.download('copter', '3.3', verbose=True)
-			sitl_args = ['-I0', '--model', 'quad', '--home=37.430020,-122.173302,28,353'] #'--home=-35.363261,149.165230,584,353']
+			sitl_args = ['-I0', '--model', 'quad', '--home=37.430020,-122.173302,28,0'] #'--home=-35.363261,149.165230,584,353']
 			sitl.launch(sitl_args, await_ready=True, restart=True)
 			target = 'tcp:127.0.0.1:5760' 
 		else:
