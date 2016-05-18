@@ -11,6 +11,12 @@ void AP_Tango::set_location(Location loc_param) {
 	location = loc_param;
 }
 
+void AP_Tango::set_velocity(float xvel_param, float yvel_param, float zvel_param) {
+	xvel = xvel_param;
+	yvel = yvel_param;
+	zvel = zvel_param;
+}
+
 Location AP_Tango::get_location() const {
 	return location;
 }
