@@ -934,7 +934,7 @@ bool AP_AHRS_DCM::get_position(struct Location &loc) const
     if (_flags.fly_forward && _have_position) {
         location_update(loc, _gps.ground_course_cd() * 0.01f, _gps.ground_speed() * _gps.get_lag());
     }
-    else if(_flags.fly_forward){
+    else if(_flags.fly_forward && _tango.is_connected()){
         location_update(loc, _tango.ground_course_cd() * 0.01f, _tango.ground_speed() * _tango.get_lag());
     }
     return _have_position;
@@ -974,7 +974,7 @@ bool AP_AHRS_DCM::airspeed_estimate(float *airspeed_ret) const
                                         gnd_speed + _wind_max);
         *airspeed_ret = true_airspeed / get_EAS2TAS();
 	}
-    else if(ret && _wind_max > 0){
+    else if((ret && _wind_max > 0) && _tango.is_connected() ){
         float gnd_speed = _tango.ground_speed();
         float true_airspeed = *airspeed_ret * get_EAS2TAS();
         true_airspeed = constrain_float(true_airspeed,
