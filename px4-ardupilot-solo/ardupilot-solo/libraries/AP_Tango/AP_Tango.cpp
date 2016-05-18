@@ -58,7 +58,7 @@ void AP_Tango::set_ground_course_cd(int32_t gc) {
 ////////////// Accuracies //////////////////////////
 bool AP_Tango::horizontal_accuracy(float &hacc) {
 	*hacc = horizontal_accuracy;
-	return hacc;
+	return true;
 }
 
 void AP_Tango::set_horizontal_accuracy(float ha) {
@@ -67,7 +67,7 @@ void AP_Tango::set_horizontal_accuracy(float ha) {
 
 bool AP_Tango::speed_accuracy(float &sacc) {
 	*sacc = speed_accuracy;
-	return sacc;
+	return true;
 }
 
 void AP_Tango::set_speed_accuracy(float sa) {
