@@ -22,3 +22,17 @@ bool AP_Tango::is_connected() const {
 void AP_Tango::set_is_connected(bool isConnected) {
 	isTangoConnected = isConnected;
 }
+
+void AP_Tango::ground_speed(){
+
+}
+
+void AP_Tango::ground_course_cd(){
+
+}
+
+void AP_Tango::get_lag(){
+
+}
+
+
