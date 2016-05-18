@@ -10,7 +10,8 @@ public:
 	Location get_location() const;
 	bool is_connected() const;
 	void set_is_connected(bool isConnected);
-	float ground_speed() const
+
+	float ground_speed() const;
 	const Vector3f &velocity() const;
 	int32_t ground_course_cd() const;
 	float get_lag() const; 

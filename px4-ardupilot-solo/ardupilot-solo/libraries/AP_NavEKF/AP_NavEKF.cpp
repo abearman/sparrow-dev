@@ -4202,7 +4202,8 @@ void NavEKF::readGpsData()
 				// Don't need to do this for the Tango
 
 				// Check if GPS can output vertical velocity and set GPS fusion mode accordingly
-        if (!_ahrs->get_tango().have_vertical_velocity()) {
+				// UPDATE: Added Tango. Tango always has vertical velocity so don't need to check
+        if (!_ahrs->get_tango().is_connected()) {
             // vertical velocity should not be fused
             if (_fusionModeGPS == 0) {
                 _fusionModeGPS = 1;
@@ -5270,9 +5271,9 @@ bool NavEKF::calcGpsGoodToAlign(void)
 {
 
     // calculate absolute difference between GPS vert vel and inertial vert vel
-		// UPDATE: Added Tango
+		// UPDATE: Added Tango. Tango always has vertical velocity so don't need to check
     float velDiffAbs;
-		if (_ahrs->get_tango().have_vertical_velocity()) {
+		if (_ahrs->get_tango().is_connected()) {
 				velDiffAbs = fabsf(velNED.z - state.velocity.z);
     else if (_ahrs->get_gps().have_vertical_velocity()) {
         velDiffAbs = fabsf(velNED.z - state.velocity.z);
@@ -5354,13 +5355,14 @@ bool NavEKF::calcGpsGoodToAlign(void)
       bool gpsDriftFail = gpsDriftNE > 3.0f && !vehicleArmed;
 
       // Check that the vertical GPS vertical velocity is reasonable after noise filtering
+			// UPDATE: Added Tango. Tango always has vertical velocity so don't need to check
       bool gpsVertVelFail;
-      if (_ahrs->get_gps().have_vertical_velocity() && !vehicleArmed) {
+      if (_ahrs->get_tango().is_connected() && !vehicleArmed) {
           // check that the average vertical GPS velocity is close to zero
           gpsVertVelFilt = 0.1f * velNED.z + 0.9f * gpsVertVelFilt;
           gpsVertVelFilt = constrain_float(gpsVertVelFilt,-10.0f,10.0f);
           gpsVertVelFail = (fabsf(gpsVertVelFilt) > 0.3f);
-      } else if ((_fusionModeGPS == 0) && !_ahrs->get_gps().have_vertical_velocity()) {
+      } else if ((_fusionModeGPS == 0) && !_ahrs->get_tango().is_connected()) {
           // If the EKF settings require vertical GPS velocity and the receiver is not outputting it, then fail
           gpsVertVelFail = true;
       } else {
