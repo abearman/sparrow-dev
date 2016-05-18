@@ -8,6 +8,7 @@ public:
 	AP_Tango();
 	void set_location(Location loc);
 	Location get_location() const;
+	void set_velocity(float xvel, float yvel, float zvel);
 	bool is_connected() const;
 	void set_is_connected(bool isConnected);
 	float ground_speed() const
@@ -20,6 +21,9 @@ public:
 
 private:
 	Location location;
+	float xvel = xvel;
+	float yvel = yvel;
+	float zvel = zvel;
 	bool isTangoConnected;
 	float ground_speed;
 };
