@@ -1160,34 +1160,53 @@ void GCS_MAVLINK::handleMessage(mavlink_message_t* msg)
         }
 
 				case MAV_CMD_NAV_SEND_TANGO_GPS: {
-                    // param1 : xvel
-                    // param2 : yvel
-                    // param3 : zvel
+          // param1 : xvel [m/s]
+          // param2 : yvel [m/s]
+          // param3 : zvel [m/s]
 					// param4 : latitude
 					// param5 : longitude
 					// param6 : altitude [meters]
+					// param7 : timestamp [seconds] 
 
 					gcs_send_text_P(SEVERITY_HIGH,PSTR("Sending GPS coords from Tango"));
 
-                    float xvel = packet.param1;
-                    float yvel = packet.param2;
-                    float zvel = packet.param3;
+          float xvel = packet.param1;
+          float yvel = packet.param2;
+          float zvel = packet.param3;
 					float latitude = packet.param4;
 					float longitude = packet.param5;
 					float altitude = packet.param6;
-                    uint32_t time_stamp = packet.param7;
+          uint32_t time_stamp = packet.param7;
 
-					if (send_tango_coords(xvel, yvel, zvel, latitude, longitude, altitude, time_stamp)) {
+					if (send_tango_pos_vel(xvel, yvel, zvel, latitude, longitude, altitude, time_stamp)) {
 						gcs_send_text_P(SEVERITY_HIGH,PSTR("MAV_CMD_NAV_SEND_TANGO_GPS Accepted"));
-						int32_t tango_lat = get_tango_coords();
+						int32_t tango_lat = get_tango_lat();
 						char buffer2[100];
-						gcs_send_text_P(SEVERITY_HIGH,PSTR(itoa(tango_lat, buffer2, 10)));
+						gcs_send_text_P(SEVERITY_HIGH, PSTR(itoa(tango_lat, buffer2, 10)));
           	result = MAV_RESULT_ACCEPTED;
           } else {
-						gcs_send_text_P(SEVERITY_HIGH,PSTR("MAV_CMD_NAV_SEND_TANGO_GPS Failed"));
+						gcs_send_text_P(SEVERITY_HIGH, PSTR("MAV_CMD_NAV_SEND_TANGO_GPS Failed"));
           	result = MAV_RESULT_FAILED;
           }
           break;
+				}
+
+				case MAV_CMD_NAV_SEND_TANGO_HEADING_AND_ACCURACY: {
+					// param6 : Ground course [centidegrees]
+          // param7 : Accuracy 
+					gcs_send_text_P(SEVERITY_HIGH,PSTR("Sending gc and accuracy from Tango"));
+
+					int32_t ground_course = packet.param6
+					float accuracy = packet.param7
+
+					if (send_tango_gc_and_accuracy(ground_course, accuracy)) {
+						gcs_send_text_P(SEVERITY_HIGH, PSTR("MAV_CMD_NAV_SEND_TANGO_HEADING_AND_ACCURACY Accepted"));
+						result = MAV_RESULT_ACCEPTED
+					} else {
+						gcs_send_text_P(SEVERITY_HIGH, PSTR("MAV_CMD_NAV_SEND_TANGO_HEADING_AND_ACCURACY Failed"));
+            result = MAV_RESULT_FAILED;	
+					}
+					break;
 				}
 
         case MAV_CMD_NAV_LOITER_UNLIM:
