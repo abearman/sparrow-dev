@@ -7,14 +7,17 @@ AP_Tango::AP_Tango() {
 	location.alt = 20 * 100;						// Stanford altitude in centimeters	
 }
 
-void AP_Tango::set_location(Location loc_param) {
-	location = loc_param;
-}
-
+////////////// Location //////////////////////////
 Location AP_Tango::get_location() const {
 	return location;
 }
 
+void AP_Tango::set_location(Location loc_param) {
+  location = loc_param;
+}
+/////////////////////////////////////////////////
+
+////////////// Status //////////////////////////
 bool AP_Tango::is_connected() const {
 	return isTangoConnected;
 }
@@ -22,18 +25,71 @@ bool AP_Tango::is_connected() const {
 void AP_Tango::set_is_connected(bool isConnected) {
 	isTangoConnected = isConnected;
 }
+/////////////////////////////////////////////////
 
-float AP_Tango::ground_speed(){
-
+////////////// Velocity/ground speed //////////////////////////
+float AP_Tango::ground_speed() {
+  return ground_speed;
 }
 
-int32_t AP_Tango::ground_course_cd(){
-
+void AP_Tango::set_ground_speed(float gs) {
+	ground_speed = gs;
 }
 
+Vector3f& AP_Tango::velocity {
+	return velocity;
+}
+
+void AP_Tango::set_velocity(float v) {
+	velocity = v;
+}
+/////////////////////////////////////////////////
+
+////////////// Ground course //////////////////////////
+int32_t AP_Tango::ground_course_cd() {
+	return ground_course_cd; 
+}
+
+void AP_Tango::set_ground_course_cd(int32_t gc) {
+	ground_course_cd = gc;
+}
+/////////////////////////////////////////////////
+
+////////////// Accuracies //////////////////////////
+bool AP_Tango::horizontal_accuracy(float &hacc) {
+	*hacc = horizontal_accuracy;
+	return hacc;
+}
+
+void AP_Tango::set_horizontal_accuracy(float ha) {
+	horizontal_accuracy = ha;
+}
+
+bool AP_Tango::speed_accuracy(float &sacc) {
+	*sacc = speed_accuracy;
+	return sacc;
+}
+
+void AP_Tango::set_speed_accuracy(float sa) {
+	speed_accuracy = sa;
+}
+/////////////////////////////////////////////////
+
+////////////// Timestamp //////////////////////////
+uint32_t AP_Tango::last_message_time_ms() {
+	return last_tango_time_ms;
+}
+
+void AP_Tango:set_last_message_time_speed_ms(uint32_t timestamp) {
+	last_tango_time_ms = timestamp;
+}
+/////////////////////////////////////////////////
+
+////////////// Lag //////////////////////////
 float AP_Tango::get_lag() const { 
 	return 0.2f;
 } 
+/////////////////////////////////////////////////
 
 
 
