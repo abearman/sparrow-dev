@@ -1,5 +1,5 @@
 
-static bool send_tango_coords(float xvel, float yvel, float zvel, float lat, float lng, float alt) {
+static bool send_tango_coords(float xvel, float yvel, float zvel, float lat, float lng, float alt, uint32_t time_stamp) {
 		int32_t lat_int = lat * 10000000;	// lat * 10**7
 		int32_t lng_int = lng * 10000000;	// lng * 10**7 
 		int32_t alt_int = alt * 100;	 	// Converts meters to cm	
@@ -9,6 +9,7 @@ static bool send_tango_coords(float xvel, float yvel, float zvel, float lat, flo
 		tango_loc.alt = alt_int;
 		tango.set_location(tango_loc);
 		tango.set_velocity(xvel, yvel, zvel);
+		tango.set_last_message_time_speed_ms(time_stamp);
 		tango.set_is_connected(true);
 		return true;
 }

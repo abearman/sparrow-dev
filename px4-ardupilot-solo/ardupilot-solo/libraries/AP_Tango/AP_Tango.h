@@ -8,7 +8,7 @@ public:
 	AP_Tango();
 	void set_location(Location loc);
 	Location get_location() const;
-	void set_velocity(float xvel, float yvel, float zvel);
+
 	bool is_connected() const;
 	void set_is_connected(bool isConnected);
 
@@ -16,7 +16,7 @@ public:
 	void set_ground_speed(float gs);
 
 	const Vector3f &velocity() const;
-	void set_velocity(Vector3f &v);
+	void set_velocity(float xvel, float yvel, float zvel);
 
 	int32_t ground_course_cd() const;
 	void set_ground_course_cd(int32_t gc);

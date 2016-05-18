@@ -1175,8 +1175,9 @@ void GCS_MAVLINK::handleMessage(mavlink_message_t* msg)
 					float latitude = packet.param4;
 					float longitude = packet.param5;
 					float altitude = packet.param6;
+                    uint32_t time_stamp = packet.param7;
 
-					if (send_tango_coords(xvel, yvel, zvel, latitude, longitude, altitude)) {
+					if (send_tango_coords(xvel, yvel, zvel, latitude, longitude, altitude, time_stamp)) {
 						gcs_send_text_P(SEVERITY_HIGH,PSTR("MAV_CMD_NAV_SEND_TANGO_GPS Accepted"));
 						int32_t tango_lat = get_tango_coords();
 						char buffer2[100];

@@ -6,16 +6,13 @@ AP_Tango::AP_Tango() {
 	location.lng = -122.1697 * 10000000;		// Stanford longitude * 10**&
 	location.alt = 20 * 100;						// Stanford altitude in centimeters	
 }
-
-void AP_Tango::set_location(Location loc_param) {
-	location = loc_param;
-}
-
+////////////// Velocity //////////////////////////
 void AP_Tango::set_velocity(float xvel_param, float yvel_param, float zvel_param) {
 	xvel = xvel_param;
 	yvel = yvel_param;
 	zvel = zvel_param;
 }
+////////////////////////////////////////////////
 
 ////////////// Location //////////////////////////
 Location AP_Tango::get_location() const {
@@ -50,8 +47,10 @@ Vector3f& AP_Tango::velocity {
 	return velocity;
 }
 
-void AP_Tango::set_velocity(float v) {
-	velocity = v;
+void AP_Tango::set_velocity(float xvel, float yvel, float zvel) {
+	velocity[0] = xvel;
+	velocity[1] = yvel;
+	velocity[2] = zvel;
 }
 /////////////////////////////////////////////////
 
