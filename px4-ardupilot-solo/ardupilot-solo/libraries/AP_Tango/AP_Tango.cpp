@@ -23,16 +23,17 @@ void AP_Tango::set_is_connected(bool isConnected) {
 	isTangoConnected = isConnected;
 }
 
-void AP_Tango::ground_speed(){
+float AP_Tango::ground_speed(){
 
 }
 
-void AP_Tango::ground_course_cd(){
+int32_t AP_Tango::ground_course_cd(){
 
 }
 
-void AP_Tango::get_lag(){
+float AP_Tango::get_lag() const { 
+	return 0.2f;
+} 
 
-}
 
 
