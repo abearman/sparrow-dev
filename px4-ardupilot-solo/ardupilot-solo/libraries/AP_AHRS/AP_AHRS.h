@@ -290,7 +290,7 @@ public:
         if (_gps.status() >= AP_GPS::GPS_OK_FIX_2D) {
             return _gps.ground_speed();
         }
-        else if(_tango.status() >= AP_TANGO::TANGO_OK{
+        else if(_tango.is_connected()) {
             return _tango.ground_speed();
         }
         return 0.0f;

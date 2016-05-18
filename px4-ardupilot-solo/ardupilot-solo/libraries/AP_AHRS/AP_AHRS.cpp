@@ -142,7 +142,7 @@ bool AP_AHRS::airspeed_estimate(float *airspeed_ret) const
                                                     gnd_speed + _wind_max);
                     *airspeed_ret = true_airspeed / get_EAS2TAS();
 		}
-        else if(_wind_max > 0 && _tango.status() >= AP_TANGO::TANGO_OK){
+        else if(_wind_max > 0 && _tango.is_connected()){
                     float gnd_speed = _tango.ground_speed();
                     float true_airspeed = *airspeed_ret * get_EAS2TAS();
                     true_airspeed = constrain_float(true_airspeed,
@@ -192,7 +192,7 @@ Vector2f AP_AHRS::groundspeed_vector(void)
     float airspeed;
     bool gotAirspeed = airspeed_estimate_true(&airspeed);
     bool gotGPS = (_gps.status() >= AP_GPS::GPS_OK_FIX_2D);
-    bool gotTango = (_tango.status() >= AP_TANGO::TANGO_OK);
+    bool gotTango = (_tango.is_connected());
     if (gotAirspeed) {
 	    Vector3f wind = wind_estimate();
 	    Vector2f wind2d = Vector2f(wind.x, wind.y);
