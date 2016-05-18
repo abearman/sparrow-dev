@@ -142,6 +142,15 @@ bool AP_AHRS::airspeed_estimate(float *airspeed_ret) const
                                                     gnd_speed + _wind_max);
                     *airspeed_ret = true_airspeed / get_EAS2TAS();
 		}
+        else if(_wind_max > 0 && _tango.status() >= AP_TANGO::TANGO_OK){
+                    float gnd_speed = _tango.ground_speed();
+                    float true_airspeed = *airspeed_ret * get_EAS2TAS();
+                    true_airspeed = constrain_float(true_airspeed,
+                                                    gnd_speed - _wind_max, 
+                                                    gnd_speed + _wind_max);
+                    *airspeed_ret = true_airspeed / get_EAS2TAS();
+
+        }
 		return true;
 	}
 	return false;
@@ -183,6 +192,7 @@ Vector2f AP_AHRS::groundspeed_vector(void)
     float airspeed;
     bool gotAirspeed = airspeed_estimate_true(&airspeed);
     bool gotGPS = (_gps.status() >= AP_GPS::GPS_OK_FIX_2D);
+    bool gotTango = (_tango.status() >= AP_TANGO::TANGO_OK);
     if (gotAirspeed) {
 	    Vector3f wind = wind_estimate();
 	    Vector2f wind2d = Vector2f(wind.x, wind.y);
@@ -195,6 +205,11 @@ Vector2f AP_AHRS::groundspeed_vector(void)
         float cog = radians(_gps.ground_course_cd()*0.01f);
         gndVelGPS = Vector2f(cosf(cog), sinf(cog)) * _gps.ground_speed();
     }
+    if (gotTango){
+        float cog = radians(_tango.ground_course_cd()*0.01f);
+        gndVelTango = Vector2f(cosf(cog), sinf(cog)) * _tango.ground_speed();
+    }
+
     // If both ADS and GPS data is available, apply a complementary filter
     if (gotAirspeed && gotGPS) {
 	    // The LPF is applied to the GPS and the HPF is applied to the air data estimate
@@ -215,6 +230,13 @@ Vector2f AP_AHRS::groundspeed_vector(void)
 	    _lastGndVelADS = gndVelADS;
 	    // Sum the HP and LP filter outputs
 	    return _hp + _lp;
+    }
+    if (gotAirspeed && gotTango){
+        const float alpha = 1.0f - beta; 
+        _lp = gndVelTango * beta  + _lp * alpha;
+        _hp = (gndVelADS - _lastGndVelADS) + _hp * alpha;
+        _lastGndVelADS = gndVelADS;
+        return _hp + _lp;
     }
     // Only ADS data is available return ADS estimate
     if (gotAirspeed && !gotGPS) {

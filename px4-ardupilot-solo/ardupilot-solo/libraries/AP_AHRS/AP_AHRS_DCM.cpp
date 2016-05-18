@@ -4,7 +4,7 @@
  *
  *       AHRS system using DCM matrices
  *
- *       Based on DCM code by Doug Weibel, Jordi Muñoz and Jose Julio. DIYDrones.com
+ *       Based on DCM code by Doug Weibel, Jordi MuÃ±oz and Jose Julio. DIYDrones.com
  *
  *       Adapted for the general ArduPilot AHRS interface by Andrew Tridgell
 
@@ -257,7 +257,7 @@ AP_AHRS_DCM::renorm(Vector3f const &a, Vector3f &result)
  *  to approximations rather than identities. In effect, the axes in the two frames of reference no
  *  longer describe a rigid body. Fortunately, numerical error accumulates very slowly, so it is a
  *  simple matter to stay ahead of it.
- *  We call the process of enforcing the orthogonality conditions ÒrenormalizationÓ.
+ *  We call the process of enforcing the orthogonality conditions Ã’renormalizationÃ“.
  */
 void
 AP_AHRS_DCM::normalize(void)
@@ -352,14 +352,6 @@ bool AP_AHRS_DCM::have_gps(void) const
     return true;
 }
 
-bool AP_AHRS_DCM::have_tango(void) const
-{
-	if (_tango.is_connected()) {
-		return true;
-	}
-	return false;
-}
-
 /*
   when we are getting the initial attitude we want faster gains so
   that if the board starts upside down we quickly approach the right
@@ -381,7 +373,7 @@ bool AP_AHRS_DCM::use_compass(void)
         // no compass available
         return false;
     }
-    if (!_flags.fly_forward || (!have_gps() && !have_tango())) {
+    if (!_flags.fly_forward || !have_gps()) {
         // we don't have any alterative to the compass
         return true;
     }
@@ -640,17 +632,12 @@ AP_AHRS_DCM::drift_correction(float deltat)
         _last_airspeed = airspeed.length();
     }
 
-		// use GPS for positioning with any fix, even a 2D fix
     if (have_gps()) {
-        // If we have good gps, use the GPS, otherwise use the Tango 
-				if (_gps.status() >= AP_GPS::GPS_OK_FIX_3D) {
-					_last_lat = _gps.location().lat;
-					_last_lng = _gps.location().lng;
-				} else {
-					_last_lat = _tango.get_location().lat;
-					_last_lng = _tango.get_location().lng;
-				}
-
+        // use GPS for positioning with any fix, even a 2D fix
+        //_last_lat = _tango.get_location().lat;
+        //_last_lng = _tango.get_location().lng;
+				_last_lat = _gps.location().lat;
+				_last_lng = _gps.location().lng;
         _position_offset_north = 0;
         _position_offset_east = 0;
 
@@ -947,6 +934,9 @@ bool AP_AHRS_DCM::get_position(struct Location &loc) const
     if (_flags.fly_forward && _have_position) {
         location_update(loc, _gps.ground_course_cd() * 0.01f, _gps.ground_speed() * _gps.get_lag());
     }
+    else if(_flags.fly_forward){
+        location_update(loc, _tango.ground_course_cd() * 0.01f, _tango.ground_speed() * _tango.get_lag());
+    }
     return _have_position;
 }
 
@@ -969,6 +959,11 @@ bool AP_AHRS_DCM::airspeed_estimate(float *airspeed_ret) const
 		ret = true;
 	}
 
+    if(have_tango()){
+        *airspeed_ret = _last_airspeed;
+        ret = true;
+    }
+
 	if (ret && _wind_max > 0 && _gps.status() >= AP_GPS::GPS_OK_FIX_2D) {
 		// constrain the airspeed by the ground speed
 		// and AHRS_WIND_MAX
@@ -979,6 +974,16 @@ bool AP_AHRS_DCM::airspeed_estimate(float *airspeed_ret) const
                                         gnd_speed + _wind_max);
         *airspeed_ret = true_airspeed / get_EAS2TAS();
 	}
+    else if(ret && _wind_max > 0){
+        float gnd_speed = _tango.ground_speed();
+        float true_airspeed = *airspeed_ret * get_EAS2TAS();
+        true_airspeed = constrain_float(true_airspeed,
+                                        gnd_speed - _wind_max, 
+                                        gnd_speed + _wind_max);
+        *airspeed_ret = true_airspeed / get_EAS2TAS();
+    }
+
+
 	return ret;
 }
 

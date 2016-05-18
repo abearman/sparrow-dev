@@ -287,10 +287,13 @@ public:
 
     // return ground speed estimate in meters/second. Used by ground vehicles.
     float groundspeed(void) const {
-        if (_gps.status() <= AP_GPS::NO_FIX) {
-            return 0.0f;
+        if (_gps.status() >= AP_GPS::GPS_OK_FIX_2D) {
+            return _gps.ground_speed();
         }
-        return _gps.ground_speed();
+        else if(_tango.status() >= AP_TANGO::TANGO_OK{
+            return _tango.ground_speed();
+        }
+        return 0.0f;
     }
 
     // return true if we will use compass for yaw
