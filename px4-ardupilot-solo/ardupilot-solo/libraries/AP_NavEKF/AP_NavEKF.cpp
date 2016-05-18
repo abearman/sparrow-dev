@@ -5298,7 +5298,7 @@ bool NavEKF::calcGpsGoodToAlign(void)
 			hdopFail = _ahrs->get_gps().get_hdop() > 250;
 		}
 
-    // fail if horiziontal position accuracy not sufficient
+    // fail if horizontal position accuracy not sufficient
 		// UPDATE: Added Tango
     float hAcc = 0.0f;
     bool hAccFail;
@@ -5552,7 +5552,7 @@ void NavEKF::calcGpsGoodForFlight(void)
 {
     // use a simple criteria based on the GPS receivers claimed speed accuracy and the EKF innovation consistency checks
 
-    // set up varaibles and constants used by filter that is applied to GPS speed accuracy
+    // set up variables and constants used by filter that is applied to GPS speed accuracy
     const float alpha1 = 0.2f; // coefficient for first stage LPF applied to raw speed accuracy data
     const float tau = 10.0f; // time constant (sec) of peak hold decay
     if (lastTime_ms == 0) {
@@ -5565,7 +5565,7 @@ void NavEKF::calcGpsGoodForFlight(void)
     // get the receivers reported speed accuracy
     float gpsSpdAccRaw;
 		if (_ahrs->get_tango().is_connected()) {
-			if (_ahrs->get_tango().speed_accuracy(gpsSpdAccRaw)) {
+			if (!_ahrs->get_tango().speed_accuracy(gpsSpdAccRaw)) {
 				gpsSpdAccRaw = 0.0f;
 			}
 	  } else if (!_ahrs->get_gps().speed_accuracy(gpsSpdAccRaw)) {
