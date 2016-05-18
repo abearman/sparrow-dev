@@ -352,6 +352,14 @@ bool AP_AHRS_DCM::have_gps(void) const
     return true;
 }
 
+bool AP_AHRS_DCM::have_tango(void) const
+{
+	if (_tango.is_connected()) {
+		return true;
+	}
+	return false;
+}
+
 /*
   when we are getting the initial attitude we want faster gains so
   that if the board starts upside down we quickly approach the right
@@ -373,7 +381,7 @@ bool AP_AHRS_DCM::use_compass(void)
         // no compass available
         return false;
     }
-    if (!_flags.fly_forward || !have_gps()) {
+    if (!_flags.fly_forward || (!have_gps() && !have_tango())) {
         // we don't have any alterative to the compass
         return true;
     }
@@ -632,12 +640,17 @@ AP_AHRS_DCM::drift_correction(float deltat)
         _last_airspeed = airspeed.length();
     }
 
+		// use GPS for positioning with any fix, even a 2D fix
     if (have_gps()) {
-        // use GPS for positioning with any fix, even a 2D fix
-        //_last_lat = _tango.get_location().lat;
-        //_last_lng = _tango.get_location().lng;
-				_last_lat = _gps.location().lat;
-				_last_lng = _gps.location().lng;
+        // If we have good gps, use the GPS, otherwise use the Tango 
+				if (_gps.status() >= AP_GPS::GPS_OK_FIX_3D) {
+					_last_lat = _gps.location().lat;
+					_last_lng = _gps.location().lng;
+				} else {
+					_last_lat = _tango.get_location().lat;
+					_last_lng = _tango.get_location().lng;
+				}
+
         _position_offset_north = 0;
         _position_offset_east = 0;
 

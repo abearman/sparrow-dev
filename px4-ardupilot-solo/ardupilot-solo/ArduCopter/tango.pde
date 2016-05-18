@@ -8,6 +8,7 @@ static bool send_tango_coords(float lat, float lng, float alt) {
 		tango_loc.lng = lng_int;
 		tango_loc.alt = alt_int;
 		tango.set_location(tango_loc);
+		tango.set_is_connected(true);
 		return true;
 }
 

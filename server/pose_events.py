@@ -28,12 +28,12 @@ def pose_update(json):
 
 		counter += 1
 		if counter % 10 == 0:	
-			#print "Tango location: [socket][pose_update]: " + str(lat) + ", " + str(lng) + ", " + str(alt)
+			print "Tango location: [socket][pose_update]: " + str(lat) + ", " + str(lng) + ", " + str(alt)
 			#mission_state.vehicle._master.mav.command_long_send(0, 0, mavutil.mavlink.MAV_CMD_NAV_SEND_TANGO_GPS,
 			#																						0, 0, 0, 0, 0, lat, lng, alt)
-			#print "GPS location: " + str(mission_state.vehicle.location.global_relative_frame)
-			error = abs(mission_state.vehicle.location.global_relative_frame.lat - lat) + abs(mission_state.vehicle.location.global_relative_frame.lon - lng)  
-			print "error: ", error
+			print "GPS location: " + str(mission_state.vehicle.location.global_relative_frame)
+			#error = abs(mission_state.vehicle.location.global_relative_frame.lat - lat) + abs(mission_state.vehicle.location.global_relative_frame.lon - lng)  
+			#print "error: ", error
 
 		emit("pose_update_ack", namespace=POSE_NAMESPACE)		 
 		# print "[socket][pose_current_ack]: " + str(pose)
