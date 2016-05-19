@@ -359,10 +359,14 @@ public class MainActivity extends Activity {
                     json.put("x", Double.toString(tangoPose.translation[0]));
                     json.put("y", Double.toString(tangoPose.translation[1]));
                     json.put("z", Double.toString(tangoPose.translation[2]));
+
                     json.put("i", Double.toString(tangoPose.rotation[0]));
                     json.put("j", Double.toString(tangoPose.rotation[1]));
                     json.put("k", Double.toString(tangoPose.rotation[2]));
                     json.put("l", Double.toString(tangoPose.rotation[3]));
+
+                    json.put("accuracy", Float.toString(tangoPose.accuracy));
+                    json.put("timestamp", Double.toString(tangoPose.timestamp));
 
                     try {
                         System.out.println("Emitting pose update");

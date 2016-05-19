@@ -1160,25 +1160,25 @@ void GCS_MAVLINK::handleMessage(mavlink_message_t* msg)
         }
 
 				case MAV_CMD_NAV_SEND_TANGO_GPS: {
-          // param1 : xvel [m/s]
-          // param2 : yvel [m/s]
-          // param3 : zvel [m/s]
-					// param4 : latitude
-					// param5 : longitude
-					// param6 : altitude [meters]
+					// param1 : latitude
+					// param2 : longitude
+					// param3 : altitude [meters]
+          // param4 : xvel [m/s]
+          // param5 : yvel [m/s]
+          // param6 : zvel [m/s]
 					// param7 : timestamp [seconds] 
 
 					gcs_send_text_P(SEVERITY_HIGH,PSTR("Sending GPS coords from Tango"));
 
-          float xvel = packet.param1;
-          float yvel = packet.param2;
-          float zvel = packet.param3;
-					float latitude = packet.param4;
-					float longitude = packet.param5;
-					float altitude = packet.param6;
+					float latitude = packet.param1;
+					float longitude = packet.param2;
+					float altitude = packet.param3;
+          float xvel = packet.param4;
+          float yvel = packet.param5;
+          float zvel = packet.param6;
           uint32_t time_stamp = packet.param7;
 
-					if (send_tango_pos_vel(xvel, yvel, zvel, latitude, longitude, altitude, time_stamp)) {
+					if (send_tango_pos_vel(latitude, longitude, altitude, latitude, longitude, altitude, time_stamp)) {
 						gcs_send_text_P(SEVERITY_HIGH,PSTR("MAV_CMD_NAV_SEND_TANGO_GPS Accepted"));
 						int32_t tango_lat = get_tango_lat();
 						char buffer2[100];

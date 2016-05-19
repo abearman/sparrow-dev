@@ -23,20 +23,37 @@ def pose_update(json):
 		global pose
 		global counter
 		pose = json
-		# print "[socket][pose_update]: update GPS"
+		
 		(lat, lng, alt) = navigation.getLLAFromNED(json)
-
+		xvel = json[""]
+    yvel = json[""]
+    zvel = json[""]
+		timestamp = json["timestamp"]
+		accuracy = json["accuracy"]  # Horizontal accuracy
+		ground_course = json["ground_course"]
+	
 		counter += 1
 		if counter % 10 == 0:	
 			print "Tango location: [socket][pose_update]: " + str(lat) + ", " + str(lng) + ", " + str(alt)
-			#mission_state.vehicle._master.mav.command_long_send(0, 0, mavutil.mavlink.MAV_CMD_NAV_SEND_TANGO_GPS,
-			#																						0, 0, 0, 0, 0, lat, lng, alt)
+		
+			mission_state.vehicle._master.mav.command_long_send(
+					0, 0,	# target system, target component 
+					mavutil.mavlink.MAV_CMD_NAV_SEND_TANGO_GPS,	# command 
+					0,	# confirmation
+					lat, lng, alt, xvel, yvel, zvel, timestamp)	  # params 1-7
+		
+			mission_state.vehicle._master.mav.command_long_send(
+					0, 0,	# target system, target component
+					mavutil.mavlink.mavutil.mavlink.MAV_CMD_NAV_SEND_TANGO_HEADING_AND_ACCURACY,	#command
+					0,	# confirmation
+					0, 0, 0, 0, 0,	# params 1-5
+					accuracy, ground_course)  # params 6-7
+	
 			print "GPS location: " + str(mission_state.vehicle.location.global_relative_frame)
 			#error = abs(mission_state.vehicle.location.global_relative_frame.lat - lat) + abs(mission_state.vehicle.location.global_relative_frame.lon - lng)  
 			#print "error: ", error
 
 		emit("pose_update_ack", namespace=POSE_NAMESPACE)		 
-		# print "[socket][pose_current_ack]: " + str(pose)
 		emit('pose_current_ack', pose, namespace=POSE_NAMESPACE, broadcast=True)
 
 @socketio.on("path_config", namespace=POSE_NAMESPACE)

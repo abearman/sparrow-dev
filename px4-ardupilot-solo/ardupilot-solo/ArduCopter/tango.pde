@@ -1,5 +1,5 @@
 
-static bool send_tango_pos_vel(float xvel, float yvel, float zvel, float lat, float lng, float alt, uint32_t time_stamp) {
+static bool send_tango_pos_vel(float lat, float lng, float alt, float xvel, float yvel, float zvel, uint32_t time_stamp) {
 		int32_t lat_int = lat * 10000000;	// lat * 10**7
 		int32_t lng_int = lng * 10000000;	// lng * 10**7 
 		int32_t alt_int = alt * 100;	 	// Converts meters to cm	
