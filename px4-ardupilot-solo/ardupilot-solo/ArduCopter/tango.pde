@@ -10,7 +10,7 @@ static bool send_tango_pos_vel(float lat, float lng, float alt, float xvel, floa
 		tango_loc.alt = alt_int;
 		tango.set_location(tango_loc);
 
-		tango.set_velocity(xvel, yvel, zvel);
+		tango.set_velocity(xvel, yvel, zvel);		// Ground speed gets set based on these 3 components
 		tango.set_last_message_time_speed_ms(time_stamp);
 		tango.set_is_connected(true);
 		return true;

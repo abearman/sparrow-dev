@@ -117,6 +117,9 @@ public class MainActivity extends Activity {
     private ArrayList<double[]> pastLocations = new ArrayList<double[]>();
     private ArrayList<Double> pastTimestamps = new ArrayList<Double>();
 
+    // for ground course (a.k.a heading) calculation
+    private double[] initialEulerAngle = null;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -381,6 +384,12 @@ public class MainActivity extends Activity {
                         zVel = (zPos - lastZPos) / timeInSeconds;
                     }
 
+                    // Calculate ground course
+                    if (initialEulerAngle == null) {
+                        initialEulerAngle = quaternionToEuler(tangoPose.rotation);
+                    }
+                    double eulerAngle[] = quaternionToEuler(tangoPose.rotation);
+
                     json.put("x", Double.toString(xPos));
                     json.put("y", Double.toString(yPos));
                     json.put("z", Double.toString(zPos));
@@ -495,6 +504,24 @@ public class MainActivity extends Activity {
                 // Ignoring onFrameAvailable Events
             }
         });
+    }
+
+    /**
+     * Converts a quaternion to a euler angle.
+     *
+     * @param quaternion
+     * @return euler
+     */
+    private double[] quaternionToEuler(double[] quaternion) {
+        double q0 = quaternion[0];
+        double q1 = quaternion[1];
+        double q2 = quaternion[2];
+        double q3 = quaternion[3];
+        double eulerX = Math.atan2( 2*(q0*q1 + q2*q3), 1 - 2*(q1*q1 +q2*q2) );
+        double eulerY = Math.asin(2 *(q0*q2 - q3*q1) );
+        double eulerZ = Math.atan2( 2*(q0*q3 + q1*q2), 1 - 2*(q2*q2 + q3*q3) );
+        double[] euler = {eulerX, eulerY, eulerZ};
+        return euler;
     }
 
     /**

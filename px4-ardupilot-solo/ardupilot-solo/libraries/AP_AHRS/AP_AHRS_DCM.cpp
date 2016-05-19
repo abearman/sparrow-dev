@@ -934,8 +934,11 @@ bool AP_AHRS_DCM::get_position(struct Location &loc) const
     if (_flags.fly_forward && _have_position) {
         location_update(loc, _gps.ground_course_cd() * 0.01f, _gps.ground_speed() * _gps.get_lag());
     }
+		// We use the compass for ground course here because the Tango doesn't give reliable headings
     else if(_flags.fly_forward && _tango.is_connected()){
-        location_update(loc, _tango.ground_course_cd() * 0.01f, _tango.ground_speed() * _tango.get_lag());
+				float heading = _compass->calculate_heading(_dcm_matrix); // Radians
+				float heading_in_degrees = degrees(heading); // Degrees
+        location_update(loc, heading_in_degrees, _tango.ground_speed() * _tango.get_lag());
     }
     return _have_position;
 }

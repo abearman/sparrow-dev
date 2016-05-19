@@ -16,9 +16,6 @@ public:
 	void set_velocity(float xvel, float yvel, float zvel);
 	float ground_speed() const;
 
-	int32_t ground_course_cd() const;
-	void set_ground_course_cd(int32_t gc);
-
 	bool horizontal_accuracy(float &hacc) const;
 	void set_horizontal_accuracy(float ha);
 	bool speed_accuracy(float &sacc) const;
@@ -37,7 +34,6 @@ private:
 	bool isTangoConnected;
 	Location location;									///< last fix location
 	Vector3f velocity;                  ///< 3D velocity in m/s, in NED format
-	int32_t ground_course_cd;           ///< ground course in 100ths of a degree
 
 	float speed_accuracy;
   float horizontal_accuracy;

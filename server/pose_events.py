@@ -30,7 +30,6 @@ def pose_update(json):
     zvel = json["z_vel"]
 		timestamp = json["timestamp"]
 		accuracy = json["accuracy"]  # Horizontal accuracy
-		ground_course = json["ground_course"]
 	
 		counter += 1
 		if counter % 10 == 0:	

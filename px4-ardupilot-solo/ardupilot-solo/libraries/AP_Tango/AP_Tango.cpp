@@ -50,16 +50,6 @@ float AP_Tango::ground_speed() {
 }
 /////////////////////////////////////////////////
 
-////////////// Ground course //////////////////////////
-int32_t AP_Tango::ground_course_cd() {
-	return ground_course_cd; 
-}
-
-void AP_Tango::set_ground_course_cd(int32_t gc) {
-	ground_course_cd = gc;
-}
-/////////////////////////////////////////////////
-
 ////////////// Accuracies //////////////////////////
 bool AP_Tango::horizontal_accuracy(float &hacc) {
 	*hacc = horizontal_accuracy;
