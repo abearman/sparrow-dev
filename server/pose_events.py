@@ -25,9 +25,9 @@ def pose_update(json):
 		pose = json
 		
 		(lat, lng, alt) = navigation.getLLAFromNED(json)
-		xvel = json[""]
-    yvel = json[""]
-    zvel = json[""]
+		xvel = json["x_vel"]
+    yvel = json["y_vel"]
+    zvel = json["z_vel"]
 		timestamp = json["timestamp"]
 		accuracy = json["accuracy"]  # Horizontal accuracy
 		ground_course = json["ground_course"]

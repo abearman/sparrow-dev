@@ -35,14 +35,6 @@ void AP_Tango::set_is_connected(bool isConnected) {
 /////////////////////////////////////////////////
 
 ////////////// Velocity/ground speed //////////////////////////
-float AP_Tango::ground_speed() {
-  return ground_speed;
-}
-
-void AP_Tango::set_ground_speed(float gs) {
-	ground_speed = gs;
-}
-
 Vector3f& AP_Tango::velocity {
 	return velocity;
 }
@@ -51,6 +43,10 @@ void AP_Tango::set_velocity(float xvel, float yvel, float zvel) {
 	velocity[0] = xvel;
 	velocity[1] = yvel;
 	velocity[2] = zvel;
+}
+
+float AP_Tango::ground_speed() {
+	return sqrt(velocity[0]*velocity[0] + velocity[1]*velocity[1] + velocity[2]*velocity[2]);
 }
 /////////////////////////////////////////////////
 
