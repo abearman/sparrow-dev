@@ -27,13 +27,12 @@ public:
 	float get_lag() const;
 	
 private:
-	Location location;
 	float xvel = xvel;
 	float yvel = yvel;
 	float zvel = zvel;
 	bool isTangoConnected;
 	Location location;									///< last fix location
-	Vector3f velocity;                  ///< 3D velocity in m/s, in NED format
+	Vector3f last_velocity;                  ///< 3D velocity in m/s, in NED format
 
 	float speed_accuracy;
   float horizontal_accuracy;
