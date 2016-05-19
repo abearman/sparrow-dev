@@ -2,12 +2,13 @@
 #define __AP_TANGO_H__
 
 #include <AP_Common.h>
+#include <AP_Math.h>
 
 class AP_Tango {
 public:
 	AP_Tango();
 	void set_location(Location loc);
-	Location get_location() const;
+	Location location() const;
 
 	bool is_connected() const;
 	void set_is_connected(bool isConnected);
@@ -27,17 +28,14 @@ public:
 	float get_lag() const;
 	
 private:
-	float xvel = xvel;
-	float yvel = yvel;
-	float zvel = zvel;
-	bool isTangoConnected;
-	Location location;									///< last fix location
-	Vector3f last_velocity;                  ///< 3D velocity in m/s, in NED format
+	bool _is_connected;
+	Location _location;									///< last fix location
+	Vector3f _velocity;                 ///< 3D velocity in m/s, in NED format
 
-	float speed_accuracy;
-  float horizontal_accuracy;
+	float _horizontal_accuracy;
+  float _speed_accuracy;
 	
-	uint32_t last_tango_time_ms;          ///< the system time we got the last Tango timestamp, milliseconds
+	uint32_t _last_message_time_ms;          ///< the system time we got the last Tango timestamp, milliseconds
 };
 
 #endif  /* AP_TANGO */

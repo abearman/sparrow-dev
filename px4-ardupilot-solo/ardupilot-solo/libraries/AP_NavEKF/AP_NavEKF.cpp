@@ -3672,7 +3672,7 @@ bool NavEKF::getPosNED(Vector3f &pos) const
         if(validOrigin) {
 						if (_ahrs->get_tango().is_connected()) {
 								// If the origin has been set and we have Tango GPS, then return the Tango GPS position relative to the origin
-							  const struct Location &tangoloc = _ahrs->get_tango().get_location();
+							  const struct Location &tangoloc = _ahrs->get_tango().location();
                 Vector2f tempPosNE = location_diff(EKF_origin, tangoloc);
                 pos.x = tempPosNE.x;
                 pos.y = tempPosNE.y;
@@ -3831,11 +3831,11 @@ bool NavEKF::getLLH(struct Location &loc) const
             // we could be in constant position mode  becasue the vehicle has taken off without GPS, or has lost GPS
             // in this mode we cannot use the EKF states to estimate position so will return the best available data
 						if (_ahrs->get_tango().is_connected()) {
-								const struct Location &tangoloc = _ahrs->get_tango().get_location();
+								const struct Location &tangoloc = _ahrs->get_tango().location();
                 loc.lat = tangoloc.lat;
                 loc.lng = tangoloc.lng;
 								return true;
-            else if ((_ahrs->get_gps().status() >= AP_GPS::GPS_OK_FIX_2D)) {
+            } else if ((_ahrs->get_gps().status() >= AP_GPS::GPS_OK_FIX_2D)) {
                 // we have a GPS position fix to return
 								const struct Location &gpsloc = _ahrs->get_gps().location();
                 loc.lat = gpsloc.lat;
@@ -3851,7 +3851,7 @@ bool NavEKF::getLLH(struct Location &loc) const
         // If no origin has been defined for the EKF, then we cannot use its position states so return a raw
         // GPS reading if available and return false
 				if (_ahrs->get_tango().is_connected()) {
-						const struct Location &tangoloc = _ahrs->get_tango().get_location();
+						const struct Location &tangoloc = _ahrs->get_tango().location();
             loc = tangoloc;
             loc.flags.relative_alt = 0;
             loc.flags.terrain_alt = 0;
@@ -4189,7 +4189,7 @@ void NavEKF::readGpsData()
 
         // Use the speed accuracy from the GPS if available, otherwise set it to zero.
         // Apply a decaying envelope filter with a 5 second time constant to the raw speed accuracy data
-        float alpha = constrain_float(0.0002f * (lastFixTime_ms - csecondLastFixTime_ms),0.0f,1.0f);
+        float alpha = constrain_float(0.0002f * (lastFixTime_ms - secondLastFixTime_ms),0.0f,1.0f);
         gpsSpdAccuracy *= (1.0f - alpha);
 				float gpsSpdAccRaw;
         if (!_ahrs->get_tango().speed_accuracy(gpsSpdAccRaw)) {
@@ -4217,7 +4217,7 @@ void NavEKF::readGpsData()
         calcGpsGoodForFlight();
 
         // Read the Tango location in WGS-84 lat,long,height coordinates
-        const struct Location &tangoloc = _ahrs->get_tango().get_location();
+        const struct Location &tangoloc = _ahrs->get_tango().location();
 
 				// Set the EKF origin and magnetic field declination if not previously set  and GPS checks have passed
         if (!validOrigin && gpsGoodToAlign) {
@@ -4225,7 +4225,7 @@ void NavEKF::readGpsData()
             // Now we know the location we have an estimate for the magnetic field declination and adjust the earth field accordingly
             alignMagStateDeclination();
             // Set the height of the NED origin to ‘height of baro height datum relative to GPS height datum'
-            EKF_origin.alt = gpsloc.alt - hgtMea;
+            EKF_origin.alt = tangoloc.alt - hgtMea;
         }
 
         // Commence GPS aiding when able to
@@ -4239,13 +4239,13 @@ void NavEKF::readGpsData()
 
         // Convert to local coordinates if we have an origin.
         if (validOrigin) {
-            gpsPosNE = location_diff(EKF_origin, gpsloc);
+            gpsPosNE = location_diff(EKF_origin, tangoloc);
         }
 
 				// calculate a position offset which is applied to NE position and velocity wherever it is used throughout code to allow GPS position jumps to be accommodated gradually
         decayGpsOffset();
 
-    else if ((_ahrs->get_gps().last_message_time_ms() != lastFixTime_ms) &&
+    } else if ((_ahrs->get_gps().last_message_time_ms() != lastFixTime_ms) &&
             (_ahrs->get_gps().status() >= AP_GPS::GPS_OK_FIX_3D)) {
         // store fix time from previous read
         secondLastFixTime_ms = lastFixTime_ms;
@@ -4266,7 +4266,7 @@ void NavEKF::readGpsData()
 
         // Use the speed accuracy from the GPS if available, otherwise set it to zero.
         // Apply a decaying envelope filter with a 5 second time constant to the raw speed accuracy data
-        float alpha = constrain_float(0.0002f * (lastFixTime_ms - csecondLastFixTime_ms),0.0f,1.0f);
+        float alpha = constrain_float(0.0002f * (lastFixTime_ms - secondLastFixTime_ms),0.0f,1.0f);
         gpsSpdAccuracy *= (1.0f - alpha);
         float gpsSpdAccRaw;
         if (!_ahrs->get_gps().speed_accuracy(gpsSpdAccRaw)) {
@@ -4311,7 +4311,7 @@ void NavEKF::readGpsData()
         } else if (_ahrs->get_tango().is_connected()) {
 						setOrigin();
 						alignMagStateDeclination();
-						EKF_origin.alt = tangoloc.alt - hgtMea;
+						EKF_origin.alt = gpsloc.alt - hgtMea;
 				}
 
         // Commence GPS aiding when able to
@@ -5047,7 +5047,7 @@ void NavEKF::send_gps_accuracy(mavlink_channel_t chan)
     float hAcc = -1.0f;
 		if (_ahrs->get_tango().is_connected()) {
 			_ahrs->get_tango().horizontal_accuracy(hAcc);
-		else {
+		} else {
 	    _ahrs->get_gps().horizontal_accuracy(hAcc);
 		}
 
@@ -5200,7 +5200,7 @@ void NavEKF::setOrigin()
 {
 		EKF_origin = _ahrs->get_gps().location();
 		if (_ahrs->get_tango().is_connected()) {
-			EKF_origin = _ahrs->get_tango().get_location();
+			EKF_origin = _ahrs->get_tango().location();
 		}
     validOrigin = true;
 }
@@ -5275,7 +5275,7 @@ bool NavEKF::calcGpsGoodToAlign(void)
     float velDiffAbs;
 		if (_ahrs->get_tango().is_connected()) {
 				velDiffAbs = fabsf(velNED.z - state.velocity.z);
-    else if (_ahrs->get_gps().have_vertical_velocity()) {
+    } else if (_ahrs->get_gps().have_vertical_velocity()) {
         velDiffAbs = fabsf(velNED.z - state.velocity.z);
     } else {
         velDiffAbs = 0.0f;
@@ -5302,7 +5302,7 @@ bool NavEKF::calcGpsGoodToAlign(void)
 		// UPDATE: Added Tango
     float hAcc = 0.0f;
     bool hAccFail;
-		if (!_ahrs->get_tango.is_connected()) {
+		if (!_ahrs->get_tango().is_connected()) {
     	if (_ahrs->get_gps().horizontal_accuracy(hAcc)) {
       	  hAccFail = hAcc > 5.0f;
     	} else {
@@ -5333,11 +5333,15 @@ bool NavEKF::calcGpsGoodToAlign(void)
         yawFail = false;
     }
 
+		bool gpsDriftFail; 
+		bool gpsVertVelFail;
+		bool gpsHorizVelFail;
+
     // Check for significant change in GPS posiiton if disarmed which indicates bad GPS
     // Note: this assumes we are not flying from a moving vehicle, eg boat
 		// UPDATE: Added Tango
 		if (_ahrs->get_tango().is_connected()) {
-			const struct Location &gpsloc = _ahrs->get_tango().get_location();
+			const struct Location &gpsloc = _ahrs->get_tango().location();
 			
 			const float posFiltTimeConst = 10.0f; // time constant used to decay position drift
       // calculate time lapsesd since last GPS fix and limit to prevent numerical errors
@@ -5352,11 +5356,10 @@ bool NavEKF::calcGpsGoodToAlign(void)
       // Fail if more than 3 metres drift after filtering whilst pre-armed when the vehicle is supposed to be stationary
 
 			// This corresponds to a maximum acceptable average drift rate of 0.3 m/s or single glitch event of 3m
-      bool gpsDriftFail = gpsDriftNE > 3.0f && !vehicleArmed;
+      gpsDriftFail = gpsDriftNE > 3.0f && !vehicleArmed;
 
       // Check that the vertical GPS vertical velocity is reasonable after noise filtering
 			// UPDATE: Added Tango. Tango always has vertical velocity so don't need to check
-      bool gpsVertVelFail;
       if (_ahrs->get_tango().is_connected() && !vehicleArmed) {
           // check that the average vertical GPS velocity is close to zero
           gpsVertVelFilt = 0.1f * velNED.z + 0.9f * gpsVertVelFilt;
@@ -5370,7 +5373,6 @@ bool NavEKF::calcGpsGoodToAlign(void)
       }
 		
 			// Check that the horizontal GPS vertical velocity is reasonable after noise filtering
-      bool gpsHorizVelFail;
       if (!vehicleArmed) {
           gpsHorizVelFilt = 0.1f * pythagorous2(velNED.x,velNED.y) + 0.9f * gpsHorizVelFilt;
           gpsHorizVelFilt = constrain_float(gpsHorizVelFilt,-10.0f,10.0f);
@@ -5394,10 +5396,9 @@ bool NavEKF::calcGpsGoodToAlign(void)
 	    gpsDriftNE = min(gpsDriftNE,10.0f);
   	  // Fail if more than 3 metres drift after filtering whilst pre-armed when the vehicle is supposed to be stationary
     	// This corresponds to a maximum acceptable average drift rate of 0.3 m/s or single glitch event of 3m
-    	bool gpsDriftFail = gpsDriftNE > 3.0f && !vehicleArmed;
+    	gpsDriftFail = gpsDriftNE > 3.0f && !vehicleArmed;
 
     	// Check that the vertical GPS vertical velocity is reasonable after noise filtering
-    	bool gpsVertVelFail;
     	if (_ahrs->get_gps().have_vertical_velocity() && !vehicleArmed) {
       	  // check that the average vertical GPS velocity is close to zero
         	gpsVertVelFilt = 0.1f * velNED.z + 0.9f * gpsVertVelFilt;
@@ -5411,7 +5412,6 @@ bool NavEKF::calcGpsGoodToAlign(void)
     	}
 
    	  // Check that the horizontal GPS vertical velocity is reasonable after noise filtering
-   	  bool gpsHorizVelFail;
     	if (!vehicleArmed) {
       	  gpsHorizVelFilt = 0.1f * pythagorous2(velNED.x,velNED.y) + 0.9f * gpsHorizVelFilt;
        	  gpsHorizVelFilt = constrain_float(gpsHorizVelFilt,-10.0f,10.0f);

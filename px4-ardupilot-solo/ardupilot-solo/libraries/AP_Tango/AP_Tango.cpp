@@ -1,82 +1,76 @@
 #include <AP_Tango.h>
 #include <AP_Common.h>
 
+/* Constructor */
 AP_Tango::AP_Tango() {
 	location.lat = 37.4275 * 10000000;     // Stanford latitude * 10**7
 	location.lng = -122.1697 * 10000000;		// Stanford longitude * 10**&
 	location.alt = 20 * 100;						// Stanford altitude in centimeters	
 }
-////////////// Velocity //////////////////////////
-void AP_Tango::set_velocity(float xvel_param, float yvel_param, float zvel_param) {
-	xvel = xvel_param;
-	yvel = yvel_param;
-	zvel = zvel_param;
-}
-////////////////////////////////////////////////
 
 ////////////// Location //////////////////////////
-Location AP_Tango::get_location() const {
-	return location;
+Location AP_Tango::location() const {
+	return _location;
 }
 
 void AP_Tango::set_location(Location loc_param) {
-  location = loc_param;
+  _location = loc_param;
 }
 /////////////////////////////////////////////////
 
 ////////////// Status //////////////////////////
 bool AP_Tango::is_connected() const {
-	return isTangoConnected;
+	return _is_connected;
 }
 
 void AP_Tango::set_is_connected(bool isConnected) {
-	isTangoConnected = isConnected;
+	_is_connected = isConnected;
 }
 /////////////////////////////////////////////////
 
 ////////////// Velocity/ground speed //////////////////////////
-Vector3f& AP_Tango::velocity {
-	return last_velocity;
+Vector3f& AP_Tango::velocity() {
+	return _velocity;
 }
 
 void AP_Tango::set_velocity(float xvel, float yvel, float zvel) {
-	last_velocity[0] = xvel;
-	last_velocity[1] = yvel;
-	last_velocity[2] = zvel;
+	_velocity[0] = xvel;
+	_velocity[1] = yvel;
+	_velocity[2] = zvel;
 }
 
 float AP_Tango::ground_speed() {
-	return sqrt(last_velocity[0]*last_velocity[0] + last_velocity[1]*last_velocity[1] + last_velocity[2]*last_velocity[2]);
+	return sqrt(_velocity[0]*_velocity[0] + _velocity[1]*_velocity[1] + _velocity[2]*_velocity[2]);
 }
 /////////////////////////////////////////////////
 
 ////////////// Accuracies //////////////////////////
 bool AP_Tango::horizontal_accuracy(float &hacc) {
-	*hacc = horizontal_accuracy;
+	*hacc = _horizonal_accuracy;
 	return true;
 }
 
 void AP_Tango::set_horizontal_accuracy(float ha) {
-	horizontal_accuracy = ha;
+	_horizontal_accuracy = ha;
 }
 
 bool AP_Tango::speed_accuracy(float &sacc) {
-	*sacc = speed_accuracy;
+	*sacc = _speed_accuracy;
 	return true;
 }
 
 void AP_Tango::set_speed_accuracy(float sa) {
-	speed_accuracy = sa;
+	_speed_accuracy = sa;
 }
 /////////////////////////////////////////////////
 
 ////////////// Timestamp //////////////////////////
 uint32_t AP_Tango::last_message_time_ms() {
-	return last_tango_time_ms;
+	return _last_message_time_ms; 
 }
 
-void AP_Tango:set_last_message_time_speed_ms(uint32_t timestamp) {
-	last_tango_time_ms = timestamp;
+void AP_Tango:set_last_message_time_ms(uint32_t timestamp) {
+	_last_message_time_ms = timestamp;
 }
 /////////////////////////////////////////////////
 

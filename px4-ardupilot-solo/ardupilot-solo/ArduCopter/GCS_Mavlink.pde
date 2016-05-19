@@ -1178,7 +1178,7 @@ void GCS_MAVLINK::handleMessage(mavlink_message_t* msg)
           float zvel = packet.param6;
           uint32_t time_stamp = packet.param7;
 
-					if (send_tango_pos_vel(latitude, longitude, altitude, latitude, longitude, altitude, time_stamp)) {
+					if (send_tango_info(latitude, longitude, altitude, latitude, longitude, altitude, time_stamp)) {
 						gcs_send_text_P(SEVERITY_HIGH,PSTR("MAV_CMD_NAV_SEND_TANGO_GPS Accepted"));
 						int32_t tango_lat = get_tango_lat();
 						char buffer2[100];
@@ -1196,16 +1196,9 @@ void GCS_MAVLINK::handleMessage(mavlink_message_t* msg)
           // param7 : Accuracy 
 					gcs_send_text_P(SEVERITY_HIGH,PSTR("Sending gc and accuracy from Tango"));
 
-					int32_t ground_course = packet.param6
-					float accuracy = packet.param7
-
-					if (send_tango_gc_and_accuracy(ground_course, accuracy)) {
-						gcs_send_text_P(SEVERITY_HIGH, PSTR("MAV_CMD_NAV_SEND_TANGO_HEADING_AND_ACCURACY Accepted"));
-						result = MAV_RESULT_ACCEPTED
-					} else {
-						gcs_send_text_P(SEVERITY_HIGH, PSTR("MAV_CMD_NAV_SEND_TANGO_HEADING_AND_ACCURACY Failed"));
-            result = MAV_RESULT_FAILED;	
-					}
+					// TODO: Delete this command and move accuracy to the other mavlink command
+					int32_t ground_course = packet.param6;
+					float accuracy = packet.param7;
 					break;
 				}
 

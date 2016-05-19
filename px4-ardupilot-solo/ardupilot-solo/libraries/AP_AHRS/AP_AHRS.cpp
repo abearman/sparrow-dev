@@ -189,6 +189,7 @@ Vector2f AP_AHRS::groundspeed_vector(void)
     // Generate estimate of ground speed vector using air data system
     Vector2f gndVelADS;
     Vector2f gndVelGPS;
+		Vector2f gndVelTango;
     float airspeed;
     bool gotAirspeed = airspeed_estimate_true(&airspeed);
     bool gotGPS = (_gps.status() >= AP_GPS::GPS_OK_FIX_2D);
@@ -205,8 +206,9 @@ Vector2f AP_AHRS::groundspeed_vector(void)
         float cog = radians(_gps.ground_course_cd()*0.01f);
         gndVelGPS = Vector2f(cosf(cog), sinf(cog)) * _gps.ground_speed();
     }
-    if (gotTango){
-        float cog = radians(_tango.ground_course_cd()*0.01f);
+    if (gotTango) {
+				// Not using ground_course here because the Tango's bearing isn't accurate or North-based
+				float cog = radians(yaw_sensor / 100);
         gndVelTango = Vector2f(cosf(cog), sinf(cog)) * _tango.ground_speed();
     }
 
