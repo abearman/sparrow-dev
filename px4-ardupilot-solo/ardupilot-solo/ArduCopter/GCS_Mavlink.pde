@@ -1192,12 +1192,10 @@ void GCS_MAVLINK::handleMessage(mavlink_message_t* msg)
 				}
 
 				case MAV_CMD_NAV_SEND_TANGO_HEADING_AND_ACCURACY: {
-					// param6 : Ground course [centidegrees]
           // param7 : Accuracy 
 					gcs_send_text_P(SEVERITY_HIGH,PSTR("Sending gc and accuracy from Tango"));
 
 					// TODO: Delete this command and move accuracy to the other mavlink command
-					int32_t ground_course = packet.param6;
 					float accuracy = packet.param7;
 					break;
 				}
