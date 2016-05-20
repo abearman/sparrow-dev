@@ -8,6 +8,8 @@
 
 import Foundation
 import Darwin
+import MapKit
+import UIKit
 
 class SARMenuViewController: UITableViewController {
     
@@ -67,7 +69,14 @@ class SARMenuViewController: UITableViewController {
         return (newLat, newLon)
     }
     
+    var sarLocations: [CLLocationCoordinate2D] = []
+    var sarPreviewPath: MKPolyline?
+    
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        
+        self.dismissViewControllerAnimated(true, completion: nil)
+        
+        
         //let selectedCell = tableView.cellForRowAtIndexPath(indexPath)!
         var offsets : [(dNorth: Double, dEast: Double)] = []
         var sar_type : String = ""
@@ -83,24 +92,44 @@ class SARMenuViewController: UITableViewController {
         }
         print(sar_type)
         
-        let priority = DISPATCH_QUEUE_PRIORITY_DEFAULT
-        dispatch_async(dispatch_get_global_queue(priority, 0)) {
-            let originalLat = self.delegate!.latestLat
-            let originalLong = self.delegate!.latestLong
-            for offset in offsets {
-                // let nextWaypoint = self.getLocationMeters(self.delegate!.latestLat, origLon: self.delegate!.latestLong, dNorth: Double(offset.dNorth * self.STEP), dEast: Double(offset.dEast * self.STEP))
-                let nextWaypoint = (originalLat + offset.dNorth * self.DEGREE_STEP,
-                                    originalLong + offset.dEast * self.DEGREE_STEP)
-                let waypointArgs = [
-                    "lat": nextWaypoint.0,
-                    "lon": nextWaypoint.1
-                ]
-                self.delegate!.socket.emit("waypoint_cmd", waypointArgs)
-                let distance = sqrt(pow(Double(offset.dNorth * self.STEP), 2) + pow(Double(offset.dEast * self.STEP), 2))
-                sleep(UInt32(distance / 0.5)) // change back to 2
-            }
-            print("FINISHED SAR PATH")
+        let originalLat = self.delegate!.latestLat
+        let originalLong = self.delegate!.latestLong
+        for offset in offsets {
+            let nextWaypoint = (originalLat + offset.dNorth * self.DEGREE_STEP,
+                                originalLong + offset.dEast * self.DEGREE_STEP)
+            let loc = CLLocationCoordinate2DMake(nextWaypoint.0, nextWaypoint.1)
+            sarLocations.append(loc)
         }
+        sarPreviewPath = MKPolyline(coordinates: &sarLocations, count: sarLocations.count)
+        self.delegate?.mapView.addOverlay(sarPreviewPath!)
+        
+        let delayTime = dispatch_time(DISPATCH_TIME_NOW, Int64(3 * Double(NSEC_PER_SEC)))
+        dispatch_after(delayTime, dispatch_get_main_queue()) {
+            self.delegate?.mapView.removeOverlay(self.sarPreviewPath!)
+            
+            let priority = DISPATCH_QUEUE_PRIORITY_DEFAULT
+            dispatch_async(dispatch_get_global_queue(priority, 0)) {
+                let originalLat = self.delegate!.latestLat
+                let originalLong = self.delegate!.latestLong
+                for offset in offsets {
+                    // let nextWaypoint = self.getLocationMeters(self.delegate!.latestLat, origLon: self.delegate!.latestLong, dNorth: Double(offset.dNorth * self.STEP), dEast: Double(offset.dEast * self.STEP))
+                    let nextWaypoint = (originalLat + offset.dNorth * self.DEGREE_STEP,
+                                        originalLong + offset.dEast * self.DEGREE_STEP)
+                    let waypointArgs = [
+                        "lat": nextWaypoint.0,
+                        "lon": nextWaypoint.1
+                    ]
+                    self.delegate!.socket.emit("waypoint_cmd", waypointArgs)
+                    let distance = sqrt(pow(Double(offset.dNorth * self.STEP), 2) + pow(Double(offset.dEast * self.STEP), 2))
+                    sleep(UInt32(distance / 0.5)) // change back to 2
+                }
+                print("FINISHED SAR PATH")
+            }
+            
+        }
+        
+        
+        
         
 //        let sarArgs = [
 //            "lat": delegate!.latestLat,
@@ -110,7 +139,7 @@ class SARMenuViewController: UITableViewController {
 //        ]
 //        delegate!.socket.emit("sar_path", sarArgs)
         
-        self.dismissViewControllerAnimated(true, completion: nil)
+        
     }
 
 }

@@ -53,6 +53,7 @@ import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.net.URISyntaxException;
 import java.nio.FloatBuffer;
 import java.text.DecimalFormat;
@@ -111,6 +112,13 @@ public class MainActivity extends Activity {
 
     // collision detector
     private CollisionDetector collisionDetector;
+
+    // for velocity
+    private ArrayList<double[]> pastLocations = new ArrayList<double[]>();
+    private ArrayList<Double> pastTimestamps = new ArrayList<Double>();
+
+    // for ground course (a.k.a heading) calculation
+    private double[] initialEulerAngle = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -355,14 +363,52 @@ public class MainActivity extends Activity {
                 try{
                     //HttpPost post = new HttpPost("http://" + addr + ":" + port + "/pose/update");
 
+                    double xPos = tangoPose.translation[0];  // In meters
+                    double yPos = tangoPose.translation[1];
+                    double zPos = tangoPose.translation[2];
+                    double timestamp = tangoPose.timestamp;  // In milliseconds
 
-                    json.put("x", Double.toString(tangoPose.translation[0]));
-                    json.put("y", Double.toString(tangoPose.translation[1]));
-                    json.put("z", Double.toString(tangoPose.translation[2]));
+                    // Calculate velocity (3 directions, m/s)
+                    double xVel = 0.0;  // If pastLocations is empty, we'll set velocity = 0
+                    double yVel = 0.0;
+                    double zVel = 0.0;
+                    if (!pastLocations.isEmpty() && !pastTimestamps.isEmpty()) {
+                        double[] lastPos = pastLocations.get(pastLocations.size() - 1);
+                        double lastXPos = lastPos[0];
+                        double lastYPos = lastPos[1];
+                        double lastZPos = lastPos[2];
+                        double lastTimestamp = pastTimestamps.get(pastTimestamps.size() - 1);
+                        double timeInSeconds = (timestamp - lastTimestamp) / 1000;
+                        xVel = (xPos - lastXPos) / timeInSeconds;
+                        yVel = (yPos - lastYPos) / timeInSeconds;
+                        zVel = (zPos - lastZPos) / timeInSeconds;
+                    }
+
+                    // Calculate ground course
+                    if (initialEulerAngle == null) {
+                        initialEulerAngle = quaternionToEuler(tangoPose.rotation);
+                    }
+                    double eulerAngle[] = quaternionToEuler(tangoPose.rotation);
+
+                    json.put("x", Double.toString(xPos));
+                    json.put("y", Double.toString(yPos));
+                    json.put("z", Double.toString(zPos));
+
+                    json.put("x_vel", Double.toString(xVel));
+                    json.put("y_vel", Double.toString(yVel));
+                    json.put("z_vel", Double.toString(zVel));
+
                     json.put("i", Double.toString(tangoPose.rotation[0]));
                     json.put("j", Double.toString(tangoPose.rotation[1]));
                     json.put("k", Double.toString(tangoPose.rotation[2]));
                     json.put("l", Double.toString(tangoPose.rotation[3]));
+
+                    json.put("accuracy", Float.toString(tangoPose.accuracy));
+                    json.put("timestamp", Double.toString(timestamp));
+
+                    // Store past location in order to calculate velocity
+                    pastLocations.add(tangoPose.translation);
+                    pastTimestamps.add(tangoPose.timestamp);
 
                     try {
                         System.out.println("Emitting pose update");
@@ -458,6 +504,24 @@ public class MainActivity extends Activity {
                 // Ignoring onFrameAvailable Events
             }
         });
+    }
+
+    /**
+     * Converts a quaternion to a euler angle.
+     *
+     * @param quaternion
+     * @return euler
+     */
+    private double[] quaternionToEuler(double[] quaternion) {
+        double q0 = quaternion[0];
+        double q1 = quaternion[1];
+        double q2 = quaternion[2];
+        double q3 = quaternion[3];
+        double eulerX = Math.atan2( 2*(q0*q1 + q2*q3), 1 - 2*(q1*q1 +q2*q2) );
+        double eulerY = Math.asin(2 *(q0*q2 - q3*q1) );
+        double eulerZ = Math.atan2( 2*(q0*q3 + q1*q2), 1 - 2*(q2*q2 + q3*q3) );
+        double[] euler = {eulerX, eulerY, eulerZ};
+        return euler;
     }
 
     /**

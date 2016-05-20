@@ -124,6 +124,7 @@ private:
     float           yaw_error_compass();
     void            euler_angles(void);
     bool            have_gps(void) const;
+		bool						have_tango(void) const;
     bool            use_fast_gains(void) const;
 
     // primary representation of attitude of board used for all inertial calculations

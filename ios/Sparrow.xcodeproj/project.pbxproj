@@ -60,6 +60,7 @@
 		49CC318E1CCB24CF00E9A905 /* Oswald-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 49CC317E1CCB248400E9A905 /* Oswald-Regular.ttf */; };
 		49CC318F1CCB24D100E9A905 /* Oswald-RegularItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 49CC317F1CCB248400E9A905 /* Oswald-RegularItalic.ttf */; };
 		49CC31901CCB24D300E9A905 /* Oswald-Stencil.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 49CC31801CCB248400E9A905 /* Oswald-Stencil.ttf */; };
+		BD2DC7BB1CE5054C00AAC56B /* logo.png in Resources */ = {isa = PBXBuildFile; fileRef = BD2DC7BA1CE5054C00AAC56B /* logo.png */; };
 		BD9220691CD970B4005DB301 /* SARMenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD9220681CD970B4005DB301 /* SARMenuViewController.swift */; };
 		BDDE047A1CD15A9E00E61271 /* CurrentLocationAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDDE04791CD15A9E00E61271 /* CurrentLocationAnnotation.swift */; };
 		C116D24C1CE2F73C005A8C56 /* ImageRotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = C116D24B1CE2F73C005A8C56 /* ImageRotation.swift */; };
@@ -148,6 +149,7 @@
 		49CC317E1CCB248400E9A905 /* Oswald-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Oswald-Regular.ttf"; sourceTree = "<group>"; };
 		49CC317F1CCB248400E9A905 /* Oswald-RegularItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Oswald-RegularItalic.ttf"; sourceTree = "<group>"; };
 		49CC31801CCB248400E9A905 /* Oswald-Stencil.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Oswald-Stencil.ttf"; sourceTree = "<group>"; };
+		BD2DC7BA1CE5054C00AAC56B /* logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = logo.png; sourceTree = "<group>"; };
 		BD9220681CD970B4005DB301 /* SARMenuViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SARMenuViewController.swift; sourceTree = "<group>"; };
 		BDDE04791CD15A9E00E61271 /* CurrentLocationAnnotation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CurrentLocationAnnotation.swift; sourceTree = "<group>"; };
 		C116D24B1CE2F73C005A8C56 /* ImageRotation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageRotation.swift; sourceTree = "<group>"; };
@@ -185,6 +187,7 @@
 			isa = PBXGroup;
 			children = (
 				4949CEB41CE0745200959856 /* libz.tbd */,
+				BD2DC7BA1CE5054C00AAC56B /* logo.png */,
 				492AF85E1CC9B34B00A805F3 /* Sparrow */,
 				492AF8781CC9B34B00A805F3 /* SparrowTests */,
 				492AF8831CC9B34B00A805F3 /* SparrowUITests */,
@@ -445,6 +448,7 @@
 				49CC31901CCB24D300E9A905 /* Oswald-Stencil.ttf in Resources */,
 				49CC31821CCB24B400E9A905 /* Oswald-Bold.ttf in Resources */,
 				492AF86C1CC9B34B00A805F3 /* Assets.xcassets in Resources */,
+				BD2DC7BB1CE5054C00AAC56B /* logo.png in Resources */,
 				49CC318D1CCB24CD00E9A905 /* Oswald-MediumItalic.ttf in Resources */,
 				498188611CCAB98600029A6D /* analogue_bg.png in Resources */,
 				49CC31841CCB24B900E9A905 /* Oswald-Demi-BoldItalic.ttf in Resources */,

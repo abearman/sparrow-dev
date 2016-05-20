@@ -1160,27 +1160,46 @@ void GCS_MAVLINK::handleMessage(mavlink_message_t* msg)
         }
 
 				case MAV_CMD_NAV_SEND_TANGO_GPS: {
-					// param5 : latitude
-					// param6 : longitude
-					// param7 : altitude [meters]
+					// param1 : latitude
+					// param2 : longitude
+					// param3 : altitude [meters]
+          // param4 : xvel [m/s]
+          // param5 : yvel [m/s]
+          // param6 : zvel [m/s]
+					// param7 : timestamp [seconds] 
 
 					gcs_send_text_P(SEVERITY_HIGH,PSTR("Sending GPS coords from Tango"));
 
-					float latitude = packet.param5;
-					float longitude = packet.param6;
-					float altitude = packet.param7;
+					float latitude = packet.param1;
+					float longitude = packet.param2;
+					float altitude = packet.param3;
+          float xvel = packet.param4;
+          float yvel = packet.param5;
+          float zvel = packet.param6;
+          uint32_t time_stamp = packet.param7;
 
-					if (send_tango_coords(latitude, longitude, altitude)) {
+					if (send_tango_info(latitude, longitude, altitude, latitude, longitude, altitude, time_stamp)) {
 						gcs_send_text_P(SEVERITY_HIGH,PSTR("MAV_CMD_NAV_SEND_TANGO_GPS Accepted"));
-						int32_t tango_lat = get_tango_coords();
+						int32_t tango_lat = get_tango_lat();
 						char buffer2[100];
-						gcs_send_text_P(SEVERITY_HIGH,PSTR(itoa(tango_lat, buffer2, 10)));
+						gcs_send_text_P(SEVERITY_HIGH, PSTR(itoa(tango_lat, buffer2, 10)));
           	result = MAV_RESULT_ACCEPTED;
           } else {
-						gcs_send_text_P(SEVERITY_HIGH,PSTR("MAV_CMD_NAV_SEND_TANGO_GPS Failed"));
+						gcs_send_text_P(SEVERITY_HIGH, PSTR("MAV_CMD_NAV_SEND_TANGO_GPS Failed"));
           	result = MAV_RESULT_FAILED;
           }
           break;
+				}
+
+				case MAV_CMD_NAV_SEND_TANGO_HEADING_AND_ACCURACY: {
+					// param6 : Ground course [centidegrees]
+          // param7 : Accuracy 
+					gcs_send_text_P(SEVERITY_HIGH,PSTR("Sending gc and accuracy from Tango"));
+
+					// TODO: Delete this command and move accuracy to the other mavlink command
+					int32_t ground_course = packet.param6;
+					float accuracy = packet.param7;
+					break;
 				}
 
         case MAV_CMD_NAV_LOITER_UNLIM:

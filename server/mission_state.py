@@ -10,4 +10,6 @@ airspeed = 3;
 
 frame_counter = 0;
 gps_init = False;
-origin_ecef = (37.4, -122.17, 20)
+
+origin_lla = (37.430032, -122.173439, 20)
+origin_ecef = (37.430032, -122.173439, 20)

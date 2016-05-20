@@ -16,10 +16,17 @@ class DroneViewController: UIViewController, AnalogueStickDelegate, MKMapViewDel
     @IBOutlet weak var cameraView: UIView!
     @IBOutlet weak var videoImage: UIImageView!
     @IBOutlet weak var dropPinButton:UIButton!
+    @IBOutlet weak var waypointButton: UIButton!
     @IBOutlet weak var sarPathButton: UIButton!
     @IBOutlet weak var launchButton:UIButton!
     @IBOutlet weak var coordinateLabel:UILabel!
     @IBOutlet weak var altitudeReadingLabel:UILabel!
+    
+    @IBOutlet weak var lateralButtonLeft: UIButton!
+    @IBOutlet weak var lateralButtonRight: UIButton!
+    @IBOutlet weak var lateralButtonUp: UIButton!
+    @IBOutlet weak var lateralButtonDown: UIButton!
+    
     @IBOutlet weak var analogueStick: AnalogueStick!
     @IBOutlet weak var altitudeSlider: UISlider! {
         didSet {
@@ -48,9 +55,18 @@ class DroneViewController: UIViewController, AnalogueStickDelegate, MKMapViewDel
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        launchButton.enabled = false  // Disable the launch button until a connection is received
+        launchButton.alpha = 0.5
+        
+        updateLateralButtons(false)
+    
         analogueStick.delegate = self
         
+        waypointButton.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
+
         mapView.delegate = self
+        mapView.rotateEnabled = false
+        mapView.showsCompass = true
         mapView.layer.borderWidth = 2
         mapView.layer.borderColor = UIColor.darkGrayColor().CGColor
         let longPressRec = UILongPressGestureRecognizer(target: self, action: #selector(DroneViewController.dropWaypoint(_:)))
@@ -75,7 +91,7 @@ class DroneViewController: UIViewController, AnalogueStickDelegate, MKMapViewDel
     
     // The IP address that the server is running on
 
-    let HOSTNAME = "10.1.1.110"
+    let HOSTNAME = "10.31.102.97"
     let PORT = "5000"
     
     private var buildSocketAddr: String {
@@ -90,7 +106,15 @@ class DroneViewController: UIViewController, AnalogueStickDelegate, MKMapViewDel
         socket = SocketIOClient(socketURL: NSURL(string: buildSocketAddr)!)
         socket.onAny {print("Got event: \($0.event), with items: \($0.items)")}
         
-        // constant fetching for latest GPS coordinates
+        // Waits for connection with vehicle
+        socket.on("connect") {[weak self] data, ack in
+            debugPrint("received connect event")
+            // Enable launch button
+            self?.launchButton.enabled = true
+            self?.launchButton.alpha = 1.0
+        }
+        
+        // Constant fetching for latest GPS coordinates
         socket.on("gps_pos_ack") {[weak self] data, ack in
             debugPrint("received gps_pos_ack event")
             self?.handleGPSPos(data)
@@ -133,8 +157,18 @@ class DroneViewController: UIViewController, AnalogueStickDelegate, MKMapViewDel
                 latestAlt = altitude!
                 
                 // Update coordinate label
-                coordinateLabel.text = "(" + String(format: "%.3f", latitude!) + "N, " + String(format: "%.3f", longitude!) + "W)"
-                altitudeReadingLabel.text = String(format: "%.3f", altitude!) + " m"
+                if let latitudeVal = latitude {
+                    if let longitudeVal = longitude {
+                        coordinateLabel.text = "(" + String(format: "%.3f", latitudeVal) + "N, " + String(format: "%.3f", longitudeVal) + "W)"
+                    }
+                }
+            
+                // Update altitude label
+                if var altitudeVal = altitude {
+                    if altitudeVal < 0.0 { altitudeVal = 0.0 }
+                    altitudeReadingLabel.text = String(format: "%.3f", altitudeVal) + " m"
+                }
+                
                 
                 // Update MKMapView
                 let loc = CLLocationCoordinate2DMake(latitude!, longitude!)
@@ -243,9 +277,15 @@ class DroneViewController: UIViewController, AnalogueStickDelegate, MKMapViewDel
     
 // =================================== MOVEMENT CONTROL ===================================
     
-    var isInFlight: Bool = false    // Same as !isLanded
-    var isLanding: Bool = false
-    var isTakingOff: Bool = false
+    var isInFlight: Bool = false  {  // Same as !isLanded
+        didSet { updateLaunchButton() }
+    }
+    var isLanding: Bool = false {
+        didSet { updateLaunchButton() }
+    }
+    var isTakingOff: Bool = false {
+        didSet { updateLaunchButton() }
+    }
     
     @IBAction func launchButtonClicked(sender: AnyObject) {
         // Takeoff command
@@ -253,7 +293,6 @@ class DroneViewController: UIViewController, AnalogueStickDelegate, MKMapViewDel
             debugPrint("Sending take off request")
             isInFlight = true
             isTakingOff = true
-            updateLaunchButton()  // Update button to gray, "Taking Off"
             HTTPPostJSON(buildSocketAddr + "/control/take_off", jsonObj: []) {
                 (data: String, error: String?) -> Void in
                 if error != nil {
@@ -263,7 +302,6 @@ class DroneViewController: UIViewController, AnalogueStickDelegate, MKMapViewDel
                     debugPrint("Take off request completed.")
                     print(data)
                     self.isTakingOff = false
-                    self.updateLaunchButton()  // Update button to reenable red, "LAND"
                 }
             }
             
@@ -271,7 +309,6 @@ class DroneViewController: UIViewController, AnalogueStickDelegate, MKMapViewDel
         } else {
             debugPrint("Sending land request")
             isLanding = true
-            updateLaunchButton()  // Update button to gray, "Landing"
             HTTPPostJSON(buildSocketAddr + "/control/land", jsonObj: []) {
                 (data: String, error: String?) -> Void in
                 if error != nil {
@@ -282,39 +319,45 @@ class DroneViewController: UIViewController, AnalogueStickDelegate, MKMapViewDel
                     print(data)
                     self.isLanding = false
                     self.isInFlight = false
-                    self.updateLaunchButton()  // Update button to reenable green, "LAUNCH"
                 }
             }
         }
     }
     
     func updateLaunchButton() {
-        if (!isInFlight && !isTakingOff && !isLanding) {  // On ground, waiting for launch
-            launchButton.setTitle("LAUNCH", forState: UIControlState.Normal)
-            launchButton.backgroundColor = UIColor.greenColor()
-        } else if (isInFlight && isTakingOff && !isLanding) {  // Taking off
-            launchButton.setTitle("TAKING OFF", forState: UIControlState.Normal)
-            launchButton.backgroundColor = UIColor.lightGrayColor()
-        } else if (isInFlight && !isTakingOff && !isLanding) {  // In flight, waiting for land
-            launchButton.setTitle("LAND", forState: UIControlState.Normal)
-            launchButton.backgroundColor = UIColor.redColor()
-        } else if (isInFlight && !isTakingOff && isLanding) {  // Landing
-            launchButton.setTitle("LANDING", forState: UIControlState.Normal)
-            launchButton.backgroundColor = UIColor.lightGrayColor()
-        }
-            
-        /*if (inFlight) {
-            if (isLanding) {
-                launchButton.setTitle("LANDING", forState: UIControlState.Normal)
-                launchButton.backgroundColor = UIColor.lightGrayColor()
-            } else {
-                launchButton.setTitle("LAND", forState: UIControlState.Normal)
-                launchButton.backgroundColor = UIColor.redColor()
+        dispatch_async(dispatch_get_main_queue()) { [weak self] in
+            let isInFlight = (self?.isInFlight)!
+            let isTakingOff = (self?.isTakingOff)!
+            let isLanding = (self?.isLanding)!
+            if !isInFlight && !isTakingOff && !isLanding {  // On ground, waiting for launch
+                self?.launchButton.setTitle("LAUNCH", forState: UIControlState.Normal)
+                self?.launchButton.backgroundColor = UIColor(red: 123.0/255.0, green: 220.0/255.0, blue: 153.0/255.0, alpha: 1.0)
+                self?.launchButton.enabled = true
+                self?.updateLateralButtons(false)
+            } else if (isInFlight && isTakingOff && !isLanding) {  // Taking off
+                self?.launchButton.setTitle("TAKING OFF", forState: UIControlState.Normal)
+                self?.launchButton.backgroundColor = UIColor.lightGrayColor()
+                self?.launchButton.enabled = false
+                self?.updateLateralButtons(false)
+            } else if (isInFlight && !isTakingOff && !isLanding) {  // In flight, waiting for land
+                self?.launchButton.setTitle("LAND", forState: UIControlState.Normal)
+                self?.launchButton.backgroundColor = UIColor.redColor()
+                self?.launchButton.enabled = true
+                self?.updateLateralButtons(true)
+            } else if (isInFlight && !isTakingOff && isLanding) {  // Landing
+                self?.launchButton.setTitle("LANDING", forState: UIControlState.Normal)
+                self?.launchButton.backgroundColor = UIColor.lightGrayColor()
+                self?.launchButton.enabled = false
+                self?.updateLateralButtons(false)
             }
-        } else {
-            launchButton.setTitle("LAUNCH", forState: UIControlState.Normal)
-            launchButton.backgroundColor = UIColor.greenColor()
-        }*/
+        }
+    }
+    
+    func updateLateralButtons(isEnabled: Bool) {
+        lateralButtonRight.enabled = isEnabled
+        lateralButtonLeft.enabled = isEnabled
+        lateralButtonUp.enabled = isEnabled
+        lateralButtonDown.enabled = isEnabled
     }
 
     @IBAction func altitudeSliderChange(sender: AnyObject) {
@@ -410,7 +453,7 @@ class DroneViewController: UIViewController, AnalogueStickDelegate, MKMapViewDel
         
         drawMarker(newLoc, yaw: yaw)
         
-        if (locations.count == 0) {
+        if (locations.count == 1) {
             let region = MKCoordinateRegionMake(newLoc, MKCoordinateSpanMake(0.01, 0.01))
             self.mapView.setRegion(region, animated: true)
         }
@@ -433,11 +476,31 @@ class DroneViewController: UIViewController, AnalogueStickDelegate, MKMapViewDel
         }
     }
     
+    @IBAction func waypointButtonToggle(sender: AnyObject) {
+        if (!waypointButton.selected) {
+            waypointButton.selected = true
+            waypointButton.backgroundColor = UIColor(red: 21.0/255.0, green: 126.0/255.0, blue: 251.0/255.0, alpha: 0.5)
+
+        } else {
+            waypointButton.selected = false
+            waypointButton.backgroundColor = UIColor(red: 21.0/255.0, green: 126.0/255.0, blue: 251.0/255.0, alpha: 1.0)
+        }
+    }
+    
+    func waypointButtonDeselect() {
+        waypointButton.selected = false
+        waypointButton.backgroundColor = UIColor(red: 21.0/255.0, green: 126.0/255.0, blue: 251.0/255.0, alpha: 1.0)
+    }
+    
     func dropWaypoint(gestureRecognizer: UILongPressGestureRecognizer) {
         if (gestureRecognizer.state != UIGestureRecognizerState.Began) {
             return;
         }
         
+        if (!waypointButton.selected) {
+            return;
+        }
+
         let touchPoint = gestureRecognizer.locationInView(self.mapView)
         let loc = self.mapView.convertPoint(touchPoint, toCoordinateFromView: self.mapView)
         let waypoint = WaypointAnnotation(coordinate: loc)
@@ -447,6 +510,7 @@ class DroneViewController: UIViewController, AnalogueStickDelegate, MKMapViewDel
             "lon": loc.longitude
         ]
         socket.emit("waypoint_cmd", waypointArgs)
+        waypointButtonDeselect()
     }
 
     func drawMarker(coordinate: CLLocationCoordinate2D, yaw: Double) {
@@ -479,6 +543,7 @@ class DroneViewController: UIViewController, AnalogueStickDelegate, MKMapViewDel
     
     func mapView(mapView: MKMapView, viewForAnnotation annotation: MKAnnotation) -> MKAnnotationView? {
         if (annotation is CurrentLocationAnnotation) {
+            // Direction is only correct if map is oriented with North up
             let angle = (annotation as! CurrentLocationAnnotation).angle
             let currentLocIcon = MKAnnotationView(annotation: annotation, reuseIdentifier: "currentLocIcon")
             currentLocIcon.image = UIImage(named: "current_loc_icon")?.rotate(CGFloat(angle))
