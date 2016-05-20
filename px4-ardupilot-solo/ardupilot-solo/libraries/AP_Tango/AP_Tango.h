@@ -13,7 +13,7 @@ public:
 	bool is_connected() const;
 	void set_is_connected(bool isConnected);
 
-	const Vector3f &velocity() const;
+	Vector3f velocity() const;
 	void set_velocity(float xvel, float yvel, float zvel);
 	float ground_speed() const;
 

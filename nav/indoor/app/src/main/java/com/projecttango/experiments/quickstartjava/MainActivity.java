@@ -117,9 +117,6 @@ public class MainActivity extends Activity {
     private ArrayList<double[]> pastLocations = new ArrayList<double[]>();
     private ArrayList<Double> pastTimestamps = new ArrayList<Double>();
 
-    // for ground course (a.k.a heading) calculation
-    private double[] initialEulerAngle = null;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -383,12 +380,6 @@ public class MainActivity extends Activity {
                         yVel = (yPos - lastYPos) / timeInSeconds;
                         zVel = (zPos - lastZPos) / timeInSeconds;
                     }
-
-                    // Calculate ground course
-                    if (initialEulerAngle == null) {
-                        initialEulerAngle = quaternionToEuler(tangoPose.rotation);
-                    }
-                    double eulerAngle[] = quaternionToEuler(tangoPose.rotation);
 
                     json.put("x", Double.toString(xPos));
                     json.put("y", Double.toString(yPos));
