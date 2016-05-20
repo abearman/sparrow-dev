@@ -94,7 +94,6 @@ typedef enum MAV_CMD
 	MAV_CMD_OVERRIDE_GOTO=252, /* Hold / continue the current action |MAV_GOTO_DO_HOLD: hold MAV_GOTO_DO_CONTINUE: continue with next item in mission plan| MAV_GOTO_HOLD_AT_CURRENT_POSITION: Hold at current position MAV_GOTO_HOLD_AT_SPECIFIED_POSITION: hold at specified position| MAV_FRAME coordinate frame of hold point| Desired yaw angle in degrees| Latitude / X position| Longitude / Y position| Altitude / Z position|  */
 	MAV_CMD_MISSION_START=300, /* start running a mission |first_item: the first mission item to run| last_item:  the last mission item to run (after this item is run, the mission ends)|  */
 	MAV_CMD_NAV_SEND_TANGO_GPS=301, /* Allows the Google Tango's converted GPS coordinates, and 3D velocity vector, to be sent to the drone |Latitude| Longitude| Altitude| x velocity| y velocity| z velocity| Timestamp|  */
-	MAV_CMD_NAV_SEND_TANGO_HEADING_AND_ACCURACY=302, /* Allows the Google Tango's ground course (in centidegrees), and accuracy sent to the drone |Empty| Empty| Empty| Empty| Empty| Ground course (centidegrees)| Accuracy|  */
 	MAV_CMD_COMPONENT_ARM_DISARM=400, /* Arms / Disarms a component |1 to arm, 0 to disarm|  */
 	MAV_CMD_START_RX_PAIR=500, /* Starts receiver pairing |0:Spektrum| 0:Spektrum DSM2, 1:Spektrum DSMX|  */
 	MAV_CMD_REQUEST_AUTOPILOT_CAPABILITIES=520, /* Request autopilot capabilities |1: Request autopilot version| Reserved (all remaining params)|  */
