@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        jar="/Users/andrew/.gradle/caches/modules-2/files-2.1/io.socket/engine.io-client/0.7.0/c1b1d30e2d2231b2eae1438a44943a409b976dac/engine.io-client-0.7.0.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="c1b1d30e2d2231b2eae1438a44943a409b976dac">
+        <dex dex="/Users/andrew/Documents/Stanford/Senior/Winter/CS210/dev/tango-examples-c/cpp_video_overlay_example/app/build/intermediates/pre-dexed/debug/engine.io-client-0.7.0-76a1c35f6b3a757ac24f77d666c4e45bb23ad8ff.jar" />
+    </item>
+    <item
+        jar="/Users/andrew/Documents/Stanford/Senior/Winter/CS210/dev/tango-examples-c/cpp_video_overlay_example/app/build/intermediates/exploded-aar/jp.co.cyberagent.android.gpuimage/gpuimage-library/1.4.1/jars/classes.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="eb9f1cef6b29492df701111c555908cb53dece35">
+        <dex dex="/Users/andrew/Documents/Stanford/Senior/Winter/CS210/dev/tango-examples-c/cpp_video_overlay_example/app/build/intermediates/pre-dexed/debug/classes-487dfd6bba150f87654b8f6dccbc9274ccda36ff.jar" />
+    </item>
+    <item
+        jar="/Users/andrew/.gradle/caches/modules-2/files-2.1/io.socket/socket.io-client/0.7.0/ce278c97bc9f74c7945d647f6d441d6013163362/socket.io-client-0.7.0.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="ce278c97bc9f74c7945d647f6d441d6013163362">
+        <dex dex="/Users/andrew/Documents/Stanford/Senior/Winter/CS210/dev/tango-examples-c/cpp_video_overlay_example/app/build/intermediates/pre-dexed/debug/socket.io-client-0.7.0-8154ef0c15b265542f2a55250d48f6e7caed4d3e.jar" />
+    </item>
+    <item
+        jar="/Users/andrew/.gradle/caches/modules-2/files-2.1/com.squareup.okhttp3/okhttp-ws/3.0.1/bd9b51a0188fc8f14bf840a0d326755545206116/okhttp-ws-3.0.1.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="bd9b51a0188fc8f14bf840a0d326755545206116">
+        <dex dex="/Users/andrew/Documents/Stanford/Senior/Winter/CS210/dev/tango-examples-c/cpp_video_overlay_example/app/build/intermediates/pre-dexed/debug/okhttp-ws-3.0.1-c56da262224bbf9b37e5541b7b164d2ce70ce0e6.jar" />
+    </item>
+    <item
+        jar="/Users/andrew/.gradle/caches/modules-2/files-2.1/com.squareup.okhttp3/okhttp/3.0.1/b34c1f2d993044656e87f88970b6818e99e886ba/okhttp-3.0.1.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="b34c1f2d993044656e87f88970b6818e99e886ba">
+        <dex dex="/Users/andrew/Documents/Stanford/Senior/Winter/CS210/dev/tango-examples-c/cpp_video_overlay_example/app/build/intermediates/pre-dexed/debug/okhttp-3.0.1-68ecf94164f5fb86ea96ce3a5fce82548071114a.jar" />
+    </item>
+    <item
+        jar="/Users/andrew/.gradle/caches/modules-2/files-2.1/com.squareup.okio/okio/1.6.0/98476622f10715998eacf9240d6b479f12c66143/okio-1.6.0.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="98476622f10715998eacf9240d6b479f12c66143">
+        <dex dex="/Users/andrew/Documents/Stanford/Senior/Winter/CS210/dev/tango-examples-c/cpp_video_overlay_example/app/build/intermediates/pre-dexed/debug/okio-1.6.0-183a2bc884aa17481e401fd5751f25d2eef38e7d.jar" />
+    </item>
+
+</items>
