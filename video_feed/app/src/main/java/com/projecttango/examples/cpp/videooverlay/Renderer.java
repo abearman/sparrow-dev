@@ -48,11 +48,11 @@ import java.net.*;
  */
 public class Renderer implements GLSurfaceView.Renderer {
 
-  private static final String addr = "10.1.1.188";
+  private static final String addr = "";
   private static final int port = 5000;
   private Socket mSocket;
 
-  Renderer() {
+  Renderer(String server_addr) {
     try {
         mSocket = IO.socket("http://" + addr + ":" + port); // + "/camera");
         mSocket.on(Socket.EVENT_CONNECT, new Emitter.Listener() {
