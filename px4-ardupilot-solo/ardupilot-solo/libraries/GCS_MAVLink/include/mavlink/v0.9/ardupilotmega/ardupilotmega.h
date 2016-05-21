@@ -56,7 +56,6 @@ enum MAV_CMD
 	MAV_CMD_NAV_RETURN_TO_LAUNCH=20, /* Return to launch location |Empty| Empty| Empty| Empty| Empty| Empty| Empty|  */
 	MAV_CMD_NAV_LAND=21, /* Land at location |Empty| Empty| Empty| Desired yaw angle.| Latitude| Longitude| Altitude|  */
 	MAV_CMD_NAV_TAKEOFF=22, /* Takeoff from ground / hand |Minimum pitch (if airspeed sensor present), desired pitch without sensor| Empty| Empty| Yaw angle (if magnetometer present), ignored without magnetometer| Latitude| Longitude| Altitude|  */
-	MAV_CMD_NAV_SEND_TANGO_GPS=301, /* Allows the Google Tango's converted GPS coordinates to be sent to the drone |Empty|Empty |Empty|Empty|Latitude|Longitude|Altitude| */
 	MAV_CMD_NAV_ROI=80, /* Sets the region of interest (ROI) for a sensor set or the
             vehicle itself. This can then be used by the vehicles control
             system to control the vehicle attitude and the attitude of various

@@ -79,8 +79,8 @@ public class MainActivity extends Activity {
 
     private static final String addr = "10.1.1.188";
     private static final int port = 5000;
-    private static final String sTranslationFormat = "x%fy%fz%f";
-    private static final String sRotationFormat = "i%fj%fk%fl%f";
+    private static final String sTranslationFormat = "x: %f y: %f z: %f";
+    private static final String sRotationFormat = "i: %f j: %f k: %f l: %f";
 
     private static final int SECS_TO_MILLISECS = 1000;
     private static final double UPDATE_INTERVAL_MS = 100.0;
@@ -385,6 +385,8 @@ public class MainActivity extends Activity {
                     json.put("y", Double.toString(yPos));
                     json.put("z", Double.toString(zPos));
 
+                    System.out.println("Added new json vars");
+
                     json.put("x_vel", Double.toString(xVel));
                     json.put("y_vel", Double.toString(yVel));
                     json.put("z_vel", Double.toString(zVel));
@@ -403,8 +405,9 @@ public class MainActivity extends Activity {
 
                     try {
                         System.out.println("Emitting pose update");
+                        System.out.println("Json: " + json);
                         mSocket.emit("pose_update", json);
-                        Log.i(TAG, logMsg);
+                        //Log.i(TAG, logMsg);
                     } catch (Exception e) {
                         System.out.println("Exception when emitting");
                         e.printStackTrace();

@@ -34,8 +34,8 @@ class AP_AHRS_NavEKF : public AP_AHRS_DCM
 {
 public:
     // Constructor
-    AP_AHRS_NavEKF(AP_InertialSensor &ins, AP_Baro &baro, AP_GPS &gps, RangeFinder &rng, AP_Tango &tango) :
-    AP_AHRS_DCM(ins, baro, gps, tango),
+    AP_AHRS_NavEKF(AP_InertialSensor &ins, AP_Baro &baro, AP_GPS &gps, RangeFinder &rng) :
+    AP_AHRS_DCM(ins, baro, gps),
         EKF(this, baro, rng),
         ekf_started(false),
         startup_delay_ms(1000),
@@ -47,7 +47,6 @@ public:
         ekfStarting(false)
         {
         }
-
 
     // return the smoothed gyro vector corrected for drift
     const Vector3f &get_gyro(void) const;

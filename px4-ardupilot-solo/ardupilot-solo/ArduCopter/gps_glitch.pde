@@ -3,9 +3,10 @@
 bool gps_glitch_switch_mode_on_resolve = false;
 
 static void gps_glitch_update() {
-    bool glitch = ahrs.get_NavEKF().getGpsGlitchStatus();
+		bool glitch = ahrs.get_NavEKF().getGpsGlitchStatus();
 
     if (glitch && !failsafe.gps_glitch) {
+				gcs_send_text_P(SEVERITY_HIGH,PSTR("Calling gps_glitch_on_event"));
         gps_glitch_on_event();
     } else if (!glitch && failsafe.gps_glitch) {
         gps_glitch_off_event();
@@ -44,6 +45,7 @@ static bool gps_glitch_action_mode(uint8_t mode) {
 }
 
 static void gps_glitch_on_event() {
+		gcs_send_text_P(SEVERITY_HIGH,PSTR("Got gps glitch event"));
     failsafe.gps_glitch = true;
 
     if (motors.armed() && gps_glitch_action_mode(control_mode) && !failsafe.radio) {

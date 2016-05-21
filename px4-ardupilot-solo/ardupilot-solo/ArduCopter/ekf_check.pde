@@ -133,11 +133,15 @@ static void failsafe_ekf_event()
     failsafe.ekf = true;
     Log_Write_Error(ERROR_SUBSYSTEM_FAILSAFE_EKFINAV, ERROR_CODE_FAILSAFE_OCCURRED);
 
+		gcs_send_text_P(SEVERITY_HIGH,PSTR("failsafe ekf event occurred"));
+
     // take action based on fs_ekf_action parameter
     switch (g.fs_ekf_action) {
         case FS_EKF_ACTION_ALTHOLD:
             // AltHold
+						gcs_send_text_P(SEVERITY_HIGH,PSTR("The action was FS EKF ACTION ALTHOLD"));
             if (failsafe.radio || !set_mode(ALT_HOLD)) {
+								gcs_send_text_P(SEVERITY_HIGH,PSTR("Landing with pause"));
                 set_mode_land_with_pause();
             }
             break;

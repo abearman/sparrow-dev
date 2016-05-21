@@ -26,23 +26,27 @@ def pose_update(json):
 		
 		(lat, lng, alt) = navigation.getLLAFromNED(json)
 		xvel = json["x_vel"]
-    yvel = json["y_vel"]
-    zvel = json["z_vel"]
+		yvel = json["y_vel"]
+		zvel = json["z_vel"]
 		timestamp = json["timestamp"]
 		accuracy = json["accuracy"]  # Horizontal accuracy
 	
 		counter += 1
 		if counter % 10 == 0:	
 			print "Tango location: [socket][pose_update]: " + str(lat) + ", " + str(lng) + ", " + str(alt)
-		
+			print "Tango velocity: [socket][pose_update]: " + str(xvel) + ", " + str(yvel) + ", " + str(zvel)
+			print "Tango timestamp: " + str(timestamp)	
+			print "Drone location: " + str(mission_state.vehicle.location.global_relative_frame)
+			print "Drone velocity: " + str(mission_state.vehicle.velocity)	
+	
 			mission_state.vehicle._master.mav.command_long_send(
 					0, 0,	# target system, target component 
 					mavutil.mavlink.MAV_CMD_NAV_SEND_TANGO_GPS,	# command 
 					0,	# confirmation
-					lat, lng, alt, xvel, yvel, zvel, timestamp)	  # params 1-7
+					lat, lng, alt, xvel, yvel, zvel, timestamp)		# params 1-7
 	
-			print "GPS location: " + str(mission_state.vehicle.location.global_relative_frame)
-			#error = abs(mission_state.vehicle.location.global_relative_frame.lat - lat) + abs(mission_state.vehicle.location.global_relative_frame.lon - lng)  
+			#print "GPS location: " + str(mission_state.vehicle.location.global_relative_frame)
+			#error = abs(mission_state.vehicle.location.global_relative_frame.lat - lat) + abs(mission_state.vehicle.location.global_relative_frame.lon - lng)	
 			#print "error: ", error
 
 		emit("pose_update_ack", namespace=POSE_NAMESPACE)		 
