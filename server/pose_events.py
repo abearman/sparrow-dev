@@ -40,13 +40,6 @@ def pose_update(json):
 					mavutil.mavlink.MAV_CMD_NAV_SEND_TANGO_GPS,	# command 
 					0,	# confirmation
 					lat, lng, alt, xvel, yvel, zvel, timestamp)	  # params 1-7
-		
-			mission_state.vehicle._master.mav.command_long_send(
-					0, 0,	# target system, target component
-					mavutil.mavlink.mavutil.mavlink.MAV_CMD_NAV_SEND_TANGO_HEADING_AND_ACCURACY,	#command
-					0,	# confirmation
-					0, 0, 0, 0, 0,	# params 1-5
-					accuracy, ground_course)  # params 6-7
 	
 			print "GPS location: " + str(mission_state.vehicle.location.global_relative_frame)
 			#error = abs(mission_state.vehicle.location.global_relative_frame.lat - lat) + abs(mission_state.vehicle.location.global_relative_frame.lon - lng)  

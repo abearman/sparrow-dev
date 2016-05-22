@@ -13,7 +13,7 @@ public:
 	bool is_connected() const;
 	void set_is_connected(bool isConnected);
 
-	const Vector3f &velocity() const;
+	Vector3f velocity() const;
 	void set_velocity(float xvel, float yvel, float zvel);
 	float ground_speed() const;
 
@@ -32,10 +32,10 @@ private:
 	Location _location;									///< last fix location
 	Vector3f _velocity;                 ///< 3D velocity in m/s, in NED format
 
-	float _horizontal_accuracy;
-  float _speed_accuracy;
+	float _horizontal_accuracy = 1.0;		 /// These are temporary values 
+  float _speed_accuracy = 1.0;
 	
-	uint32_t _last_message_time_ms;          ///< the system time we got the last Tango timestamp, milliseconds
+	uint32_t _last_message_time_ms;     ///< the system time we got the last Tango timestamp, milliseconds
 };
 
 #endif  /* AP_TANGO */

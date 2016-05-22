@@ -3,9 +3,9 @@
 
 /* Constructor */
 AP_Tango::AP_Tango() {
-	location.lat = 37.4275 * 10000000;     // Stanford latitude * 10**7
-	location.lng = -122.1697 * 10000000;		// Stanford longitude * 10**&
-	location.alt = 20 * 100;						// Stanford altitude in centimeters	
+	_location.lat = 37.4275 * 10000000;     // Stanford latitude * 10**7
+	_location.lng = -122.1697 * 10000000;		// Stanford longitude * 10**&
+	_location.alt = 20 * 100;						// Stanford altitude in centimeters	
 }
 
 ////////////// Location //////////////////////////
@@ -29,7 +29,7 @@ void AP_Tango::set_is_connected(bool isConnected) {
 /////////////////////////////////////////////////
 
 ////////////// Velocity/ground speed //////////////////////////
-Vector3f& AP_Tango::velocity() {
+Vector3f AP_Tango::velocity() const {
 	return _velocity;
 }
 
@@ -39,14 +39,14 @@ void AP_Tango::set_velocity(float xvel, float yvel, float zvel) {
 	_velocity[2] = zvel;
 }
 
-float AP_Tango::ground_speed() {
+float AP_Tango::ground_speed() const {
 	return sqrt(_velocity[0]*_velocity[0] + _velocity[1]*_velocity[1] + _velocity[2]*_velocity[2]);
 }
 /////////////////////////////////////////////////
 
 ////////////// Accuracies //////////////////////////
-bool AP_Tango::horizontal_accuracy(float &hacc) {
-	*hacc = _horizonal_accuracy;
+bool AP_Tango::horizontal_accuracy(float &hacc) const {
+	hacc = _horizontal_accuracy;
 	return true;
 }
 
@@ -54,8 +54,8 @@ void AP_Tango::set_horizontal_accuracy(float ha) {
 	_horizontal_accuracy = ha;
 }
 
-bool AP_Tango::speed_accuracy(float &sacc) {
-	*sacc = _speed_accuracy;
+bool AP_Tango::speed_accuracy(float &sacc) const {
+	sacc = _speed_accuracy;
 	return true;
 }
 
@@ -65,11 +65,11 @@ void AP_Tango::set_speed_accuracy(float sa) {
 /////////////////////////////////////////////////
 
 ////////////// Timestamp //////////////////////////
-uint32_t AP_Tango::last_message_time_ms() {
+uint32_t AP_Tango::last_message_time_ms() const {
 	return _last_message_time_ms; 
 }
 
-void AP_Tango:set_last_message_time_ms(uint32_t timestamp) {
+void AP_Tango::set_last_message_time_ms(uint32_t timestamp) {
 	_last_message_time_ms = timestamp;
 }
 /////////////////////////////////////////////////

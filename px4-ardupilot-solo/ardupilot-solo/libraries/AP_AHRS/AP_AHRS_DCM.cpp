@@ -946,37 +946,37 @@ bool AP_AHRS_DCM::get_position(struct Location &loc) const
 // return an airspeed estimate if available
 bool AP_AHRS_DCM::airspeed_estimate(float *airspeed_ret) const
 {
-	bool ret = false;
-	if (airspeed_sensor_enabled()) {
-		*airspeed_ret = _airspeed->get_airspeed();
-		return true;
-	}
+		bool ret = false;
+		if (airspeed_sensor_enabled()) {
+				*airspeed_ret = _airspeed->get_airspeed();
+				return true;
+		}
 
     if (!_flags.wind_estimation) {
         return false;
     }
 
-	// estimate it via GPS speed and wind
-	if (have_gps()) {
-		*airspeed_ret = _last_airspeed;
-		ret = true;
-	}
+		// estimate it via GPS speed and wind
+		if (have_gps()) {
+				*airspeed_ret = _last_airspeed;
+				ret = true;
+		}
 
-    if(have_tango()){
+  	if(_tango.is_connected()){
         *airspeed_ret = _last_airspeed;
         ret = true;
     }
 
-	if (ret && _wind_max > 0 && _gps.status() >= AP_GPS::GPS_OK_FIX_2D) {
-		// constrain the airspeed by the ground speed
-		// and AHRS_WIND_MAX
+		if (ret && _wind_max > 0 && _gps.status() >= AP_GPS::GPS_OK_FIX_2D) {
+				// constrain the airspeed by the ground speed
+				// and AHRS_WIND_MAX
         float gnd_speed = _gps.ground_speed();
         float true_airspeed = *airspeed_ret * get_EAS2TAS();
-		true_airspeed = constrain_float(true_airspeed,
+				true_airspeed = constrain_float(true_airspeed,
                                         gnd_speed - _wind_max, 
                                         gnd_speed + _wind_max);
         *airspeed_ret = true_airspeed / get_EAS2TAS();
-	}
+		}
     else if((ret && _wind_max > 0) && _tango.is_connected() ){
         float gnd_speed = _tango.ground_speed();
         float true_airspeed = *airspeed_ret * get_EAS2TAS();
