@@ -66,6 +66,9 @@
                         <rect key="frame" x="0.0" y="0.0" width="1024" height="768"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="it6-1N-EKc">
+                                <rect key="frame" x="0.0" y="75" width="1025" height="644"/>
+                            </mapView>
                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Ftw-HF-cR4" userLabel="Control Bar">
                                 <rect key="frame" x="0.0" y="20" width="1024" height="55"/>
                                 <connections>
@@ -120,9 +123,6 @@
                                     <segue destination="bA1-XH-u2U" kind="embed" id="lK0-ym-PF4"/>
                                 </connections>
                             </containerView>
-                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="it6-1N-EKc">
-                                <rect key="frame" x="0.0" y="75" width="1025" height="644"/>
-                            </mapView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -461,7 +461,7 @@
         <image name="stanford" width="1200" height="674"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="d78-ZE-q6L"/>
-        <segue reference="iHh-ZV-Mch"/>
+        <segue reference="VN3-GM-F87"/>
+        <segue reference="lK0-ym-PF4"/>
     </inferredMetricsTieBreakers>
 </document>
