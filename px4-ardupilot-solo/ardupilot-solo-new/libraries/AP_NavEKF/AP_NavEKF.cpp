@@ -817,7 +817,10 @@ void NavEKF::SelectVelPosFusion()
             // If we can do optical flow nav (valid flow data and hieght above ground estimate, then go into flow nav mode.
             // Stay in that mode until the vehicle is dis-armed.
             if (vehicleArmed && !useAirspeed() && !assume_zero_sideslip()) {
-                if (optFlowBackup) {
+								if (_ahrs->get_tango().is_connected()) {
+										_fusionModeGPS = 0;
+										constPosMode = false;	
+								} else if (optFlowBackup) {
                     // we can do optical flow only nav
                     _fusionModeGPS = 3;
                     PV_AidingMode = AID_RELATIVE;
@@ -4204,10 +4207,7 @@ void NavEKF::readGpsData()
 				// Check if GPS can output vertical velocity and set GPS fusion mode accordingly
 				// UPDATE: Added Tango. Tango always has vertical velocity so don't need to check
         if (!_ahrs->get_tango().is_connected()) {
-            // vertical velocity should not be fused
-            if (_fusionModeGPS == 0) {
-                _fusionModeGPS = 1;
-            }
+						_fusionModeGPS = 0;
         }
 
         // Monitor quality of the GPS velocity data for alignment
@@ -4986,10 +4986,10 @@ void  NavEKF::getFilterStatus(nav_filter_status &status) const
     status.flags.horiz_vel = someHorizRefData && notDeadReckoning && filterHealthy;      // horizontal velocity estimate valid
     status.flags.vert_vel = someVertRefData && filterHealthy;        // vertical velocity estimate valid
     status.flags.horiz_pos_rel = ((doingFlowNav && gndOffsetValid) || doingWindRelNav || doingNormalGpsNav) && notDeadReckoning && filterHealthy;   // relative horizontal position estimate valid
-    status.flags.horiz_pos_abs = (_ahrs->get_tango().is_connected() || (!gpsAidingBad && doingNormalGpsNav)) && notDeadReckoning && filterHealthy; // absolute horizontal position estimate valid
+    status.flags.horiz_pos_abs = ((_ahrs->get_tango().is_connected()) || ((!gpsAidingBad && doingNormalGpsNav)) && notDeadReckoning && filterHealthy); // absolute horizontal position estimate valid
     status.flags.vert_pos = !hgtTimeout && filterHealthy;            // vertical position estimate valid
     status.flags.terrain_alt = gndOffsetValid && filterHealthy;		// terrain height estimate valid
-    status.flags.const_pos_mode = constPosMode && filterHealthy;     // constant position mode
+    status.flags.const_pos_mode = (_ahrs->get_tango().is_connected()) || (constPosMode && filterHealthy);     // constant position mode
     status.flags.pred_horiz_pos_rel = (optFlowNavPossible || gpsNavPossible) && filterHealthy; // we should be able to estimate a relative position when we enter flight mode
     status.flags.pred_horiz_pos_abs = gpsNavPossible && filterHealthy; // we should be able to estimate an absolute position when we enter flight mode
     status.flags.takeoff_detected = takeOffDetected; // takeoff for optical flow navigation has been detected

@@ -321,12 +321,23 @@ static bool position_ok()
 bool ekf_position_ok()
 {
     if (!ahrs.have_inertial_nav()) {
+				gcs_send_text_P(SEVERITY_HIGH, PSTR("Returning false because ahrs.have_inertial_nav is false"));
         // do not allow navigation with dcm position
         return false;
     }
 
     // with EKF use filter status and ekf check
     nav_filter_status filt_status = inertial_nav.get_filter_status();
+
+		if (filt_status.flags.horiz_pos_abs) {
+			gcs_send_text_P(SEVERITY_HIGH, PSTR("horiz_pos_abs is true"));
+		}
+		if (filt_status.flags.pred_horiz_pos_abs) {
+			gcs_send_text_P(SEVERITY_HIGH, PSTR("pred_horiz_pos_abs is true"));
+		}
+		if (!filt_status.flags.const_pos_mode) {
+			gcs_send_text_P(SEVERITY_HIGH, PSTR("const_pos_mode is false"));
+		}	
 
     // if disarmed we accept a predicted horizontal position
     if (!motors.armed()) {

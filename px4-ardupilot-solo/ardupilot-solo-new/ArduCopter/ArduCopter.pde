@@ -86,6 +86,9 @@
 #include <math.h>
 #include <stdio.h>
 #include <stdarg.h>
+#include <stdlib.h>
+#include <sstream>
+#include <string>
 
 // Common dependencies
 #include <AP_Common.h>

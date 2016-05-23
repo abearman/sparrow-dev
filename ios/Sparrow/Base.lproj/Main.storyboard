@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10116" systemVersion="15B42" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="lZr-Lc-zbu">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10116" systemVersion="15B42" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="dlJ-eF-oDH">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
@@ -55,7 +55,7 @@
         <!--Drone Controller-->
         <scene sceneID="Hgn-Cm-gzH">
             <objects>
-                <viewController id="lZr-Lc-zbu" userLabel="Drone Controller" customClass="DroneViewController" customModule="Sparrow" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="lZr-Lc-zbu" userLabel="Drone Controller" customClass="MapViewController" customModule="Sparrow" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="llt-1G-RT1"/>
                         <viewControllerLayoutGuide type="bottom" id="kUo-d4-RPJ"/>
@@ -64,266 +64,392 @@
                         <rect key="frame" x="0.0" y="0.0" width="1024" height="768"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <stackView opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="7he-PM-k4J">
+                            <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Ftw-HF-cR4" userLabel="Control Bar">
                                 <rect key="frame" x="0.0" y="20" width="1024" height="60"/>
-                                <subviews>
-                                    <view contentMode="scaleToFill" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="J8f-fi-mHA" userLabel="Top Bar">
-                                        <rect key="frame" x="0.0" y="0.0" width="1024" height="60"/>
-                                        <subviews>
-                                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" image="logo_icon" translatesAutoresizingMaskIntoConstraints="NO" id="XSi-qw-Jys">
-                                                <rect key="frame" x="10" y="10" width="40" height="40"/>
-                                                <constraints>
-                                                    <constraint firstAttribute="height" constant="40" id="j8v-8b-QBL"/>
-                                                    <constraint firstAttribute="width" constant="40" id="s2a-8V-V1z"/>
-                                                </constraints>
-                                            </imageView>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="POS" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="If3-Rp-Qj0" userLabel="Position Label">
-                                                <rect key="frame" x="75" y="18" width="63" height="24"/>
-                                                <fontDescription key="fontDescription" name="Oswald-Medium" family="Oswald" pointSize="20"/>
-                                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
-                                                <nil key="highlightedColor"/>
-                                            </label>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="(0.000N, 0.000W)" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gf4-sk-fBR" userLabel="Coordinate Label">
-                                                <rect key="frame" x="124" y="9" width="244" height="42"/>
-                                                <fontDescription key="fontDescription" name="Oswald-Light" family="Oswald" pointSize="20"/>
-                                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
-                                                <nil key="highlightedColor"/>
-                                            </label>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="ALT" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AjX-QD-ZDc" userLabel="Altitude Title Label">
-                                                <rect key="frame" x="287" y="16" width="56" height="26"/>
-                                                <fontDescription key="fontDescription" name="Oswald-Medium" family="Oswald" pointSize="20"/>
-                                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
-                                                <nil key="highlightedColor"/>
-                                            </label>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="00" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CIh-XW-P1V" userLabel="Altitude Reading Label">
-                                                <rect key="frame" x="331" y="8" width="72" height="43"/>
-                                                <fontDescription key="fontDescription" name="Oswald-Light" family="Oswald" pointSize="20"/>
-                                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
-                                                <nil key="highlightedColor"/>
-                                            </label>
-                                            <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="f8G-UI-1Ji" userLabel="Launch Button">
-                                                <rect key="frame" x="864" y="9" width="152" height="43"/>
-                                                <color key="backgroundColor" red="0.46666666666666667" green="0.86274509803921573" blue="0.58823529411764708" alpha="1" colorSpace="calibratedRGB"/>
-                                                <fontDescription key="fontDescription" name="Oswald-Medium" family="Oswald" pointSize="23"/>
-                                                <inset key="contentEdgeInsets" minX="20" minY="0.0" maxX="20" maxY="0.0"/>
-                                                <state key="normal" title="LAUNCH">
-                                                    <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                                </state>
-                                                <connections>
-                                                    <action selector="launchButtonClicked:" destination="lZr-Lc-zbu" eventType="touchUpInside" id="nUm-Ji-51K"/>
-                                                </connections>
-                                            </button>
-                                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="j84-sP-DcN" userLabel="Drop Pin Button">
-                                                <rect key="frame" x="731" y="9.5" width="125" height="42.5"/>
-                                                <color key="backgroundColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                                <fontDescription key="fontDescription" name="Oswald-Light" family="Oswald" pointSize="23"/>
-                                                <color key="tintColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
-                                                <inset key="contentEdgeInsets" minX="20" minY="0.0" maxX="20" maxY="0.0"/>
-                                                <state key="normal" title="DROP PIN">
-                                                    <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                                </state>
-                                                <connections>
-                                                    <action selector="dropPinButtonClicked:" destination="lZr-Lc-zbu" eventType="touchUpInside" id="QUQ-FD-R76"/>
-                                                </connections>
-                                            </button>
-                                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DRT-cW-FhC" userLabel="Drop Pin Button">
-                                                <rect key="frame" x="598" y="9" width="125" height="43"/>
-                                                <color key="backgroundColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                                <fontDescription key="fontDescription" name="Oswald-Light" family="Oswald" pointSize="23"/>
-                                                <color key="tintColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
-                                                <inset key="contentEdgeInsets" minX="20" minY="0.0" maxX="20" maxY="0.0"/>
-                                                <state key="normal" title="SAR PATH">
-                                                    <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                                </state>
-                                                <connections>
-                                                    <action selector="sarPathButtonClicked:" destination="lZr-Lc-zbu" eventType="touchUpInside" id="fGr-bG-XkD"/>
-                                                    <segue destination="U7T-H5-HmE" kind="popoverPresentation" identifier="popoverSegue" popoverAnchorView="DRT-cW-FhC" id="3xC-Wn-PGT">
-                                                        <popoverArrowDirection key="popoverArrowDirection" up="YES" down="YES" left="YES" right="YES"/>
-                                                    </segue>
-                                                </connections>
-                                            </button>
-                                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qAA-h1-L42" userLabel="Drop Pin Button">
-                                                <rect key="frame" x="462" y="9" width="128" height="43"/>
-                                                <color key="backgroundColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                                <fontDescription key="fontDescription" name="Oswald-Light" family="Oswald" pointSize="23"/>
-                                                <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                                <inset key="contentEdgeInsets" minX="20" minY="0.0" maxX="20" maxY="0.0"/>
-                                                <state key="normal" title="WAYPOINT">
-                                                    <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                                </state>
-                                                <connections>
-                                                    <action selector="waypointButtonToggle:" destination="lZr-Lc-zbu" eventType="touchUpInside" id="OLJ-p1-ZP0"/>
-                                                </connections>
-                                            </button>
-                                        </subviews>
-                                        <color key="backgroundColor" white="0.0" alpha="0.80458192567567566" colorSpace="calibratedWhite"/>
-                                        <constraints>
-                                            <constraint firstItem="gf4-sk-fBR" firstAttribute="leading" secondItem="If3-Rp-Qj0" secondAttribute="trailing" constant="5" id="1gO-en-aXi"/>
-                                            <constraint firstItem="CIh-XW-P1V" firstAttribute="leading" secondItem="AjX-QD-ZDc" secondAttribute="trailing" constant="5" id="Na1-ZJ-0hU"/>
-                                            <constraint firstItem="If3-Rp-Qj0" firstAttribute="leading" secondItem="XSi-qw-Jys" secondAttribute="trailing" constant="40" id="PWe-ht-DM7"/>
-                                            <constraint firstAttribute="height" constant="60" id="dQt-OZ-8Ee"/>
-                                            <constraint firstAttribute="trailing" secondItem="f8G-UI-1Ji" secondAttribute="trailing" constant="6" id="eCn-kG-wQa"/>
-                                            <constraint firstItem="XSi-qw-Jys" firstAttribute="leading" secondItem="J8f-fi-mHA" secondAttribute="leading" constant="10" id="ePR-3h-4v0"/>
-                                            <constraint firstItem="gf4-sk-fBR" firstAttribute="centerY" secondItem="If3-Rp-Qj0" secondAttribute="centerY" id="ldQ-mX-5SW"/>
-                                            <constraint firstItem="AjX-QD-ZDc" firstAttribute="leading" secondItem="gf4-sk-fBR" secondAttribute="trailing" constant="30" id="m2Y-Lf-NUW"/>
-                                            <constraint firstItem="AjX-QD-ZDc" firstAttribute="centerY" secondItem="CIh-XW-P1V" secondAttribute="centerY" id="oBQ-ru-4RT"/>
-                                        </constraints>
-                                    </view>
-                                </subviews>
-                                <constraints>
-                                    <constraint firstAttribute="trailing" secondItem="J8f-fi-mHA" secondAttribute="trailing" id="SuJ-bL-bf6"/>
-                                </constraints>
-                            </stackView>
-                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="0mV-Gp-vom" userLabel="Camera View">
-                                <rect key="frame" x="-1" y="80" width="1025" height="689"/>
-                                <subviews>
-                                    <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="it6-1N-EKc">
-                                        <rect key="frame" x="0.0" y="0.0" width="1025" height="689"/>
-                                    </mapView>
-                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" restorationIdentifier="right" contentHorizontalAlignment="center" contentVerticalAlignment="center" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="T9B-QI-ACR">
-                                        <rect key="frame" x="915" y="508" width="70" height="70"/>
-                                        <color key="backgroundColor" red="0.31614871010000001" green="0.64871861009999998" blue="0.86274509799999999" alpha="0.0" colorSpace="calibratedRGB"/>
-                                        <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                        <state key="normal">
-                                            <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                        </state>
-                                        <connections>
-                                            <action selector="lateralButtonDown:" destination="lZr-Lc-zbu" eventType="touchDown" id="dbm-Ac-4zz"/>
-                                            <action selector="lateralButtonUp:" destination="lZr-Lc-zbu" eventType="touchUpInside" id="cJC-4V-JaK"/>
-                                            <action selector="lateralButtonUp:" destination="lZr-Lc-zbu" eventType="touchUpOutside" id="zMv-dv-yMy"/>
-                                        </connections>
-                                    </button>
-                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" restorationIdentifier="back" contentHorizontalAlignment="center" contentVerticalAlignment="center" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JD4-wa-iPa">
-                                        <rect key="frame" x="847" y="573" width="70" height="70"/>
-                                        <color key="backgroundColor" red="0.31614871010000001" green="0.64871861009999998" blue="0.86274509799999999" alpha="0.0" colorSpace="calibratedRGB"/>
-                                        <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                        <state key="normal">
-                                            <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                        </state>
-                                        <connections>
-                                            <action selector="lateralButtonDown:" destination="lZr-Lc-zbu" eventType="touchDown" id="R9X-jD-pjz"/>
-                                            <action selector="lateralButtonUp:" destination="lZr-Lc-zbu" eventType="touchUpOutside" id="6nC-d0-Wup"/>
-                                            <action selector="lateralButtonUp:" destination="lZr-Lc-zbu" eventType="touchUpInside" id="cBx-Mq-JV5"/>
-                                        </connections>
-                                    </button>
-                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" restorationIdentifier="left" contentHorizontalAlignment="center" contentVerticalAlignment="center" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="885-05-WMq">
-                                        <rect key="frame" x="779" y="508" width="70" height="70"/>
-                                        <color key="backgroundColor" red="0.31614871010000001" green="0.64871861009999998" blue="0.86274509799999999" alpha="0.0" colorSpace="calibratedRGB"/>
-                                        <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                        <state key="normal">
-                                            <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                        </state>
-                                        <connections>
-                                            <action selector="lateralButtonDown:" destination="lZr-Lc-zbu" eventType="touchDown" id="0c4-K3-epe"/>
-                                            <action selector="lateralButtonUp:" destination="lZr-Lc-zbu" eventType="touchUpInside" id="4UD-io-ey3"/>
-                                            <action selector="lateralButtonUp:" destination="lZr-Lc-zbu" eventType="touchUpOutside" id="F3c-su-SNl"/>
-                                        </connections>
-                                    </button>
-                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" restorationIdentifier="forward" contentHorizontalAlignment="center" contentVerticalAlignment="center" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Exs-gh-uXv">
-                                        <rect key="frame" x="847" y="437" width="70" height="70"/>
-                                        <color key="backgroundColor" red="0.31614871010000001" green="0.64871861009999998" blue="0.86274509799999999" alpha="0.0" colorSpace="calibratedRGB"/>
-                                        <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                        <connections>
-                                            <action selector="lateralButtonDown:" destination="lZr-Lc-zbu" eventType="touchDown" id="Exh-PQ-SSU"/>
-                                            <action selector="lateralButtonUp:" destination="lZr-Lc-zbu" eventType="touchUpInside" id="9rt-tP-LYI"/>
-                                            <action selector="lateralButtonUp:" destination="lZr-Lc-zbu" eventType="touchUpOutside" id="H3z-6M-1ho"/>
-                                        </connections>
-                                    </button>
-                                    <slider opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" minValue="-5" maxValue="5" translatesAutoresizingMaskIntoConstraints="NO" id="FG0-rd-ofc" userLabel="Altitude Slider">
-                                        <rect key="frame" x="-18" y="503" width="204" height="31"/>
-                                        <color key="minimumTrackTintColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
-                                        <color key="maximumTrackTintColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
-                                        <connections>
-                                            <action selector="altitudeSliderChange:" destination="lZr-Lc-zbu" eventType="valueChanged" id="qWo-L7-30b"/>
-                                            <action selector="altitudeSliderReleased:" destination="lZr-Lc-zbu" eventType="touchUpOutside" id="7QX-Br-8Rw"/>
-                                            <action selector="altitudeSliderReleased:" destination="lZr-Lc-zbu" eventType="touchUpInside" id="xOJ-QH-te0"/>
-                                        </connections>
-                                    </slider>
-                                    <slider opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" minValue="-180" maxValue="180" translatesAutoresizingMaskIntoConstraints="NO" id="0bV-ba-Rxq" userLabel="Rotation Slider">
-                                        <rect key="frame" x="175" y="624" width="204" height="31"/>
-                                        <color key="minimumTrackTintColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
-                                        <color key="maximumTrackTintColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                        <connections>
-                                            <action selector="rotationSliderChange:" destination="lZr-Lc-zbu" eventType="valueChanged" id="De1-Qh-1uA"/>
-                                            <action selector="rotationSliderReleased:" destination="lZr-Lc-zbu" eventType="touchUpInside" id="IVs-kJ-CWW"/>
-                                            <action selector="rotationSliderReleased:" destination="lZr-Lc-zbu" eventType="touchUpOutside" id="Tw4-7z-Mui"/>
-                                        </connections>
-                                    </slider>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="stanford" translatesAutoresizingMaskIntoConstraints="NO" id="fd7-dc-5A4">
-                                        <rect key="frame" x="6" y="8" width="256" height="144"/>
-                                        <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                    </imageView>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="lateral_buttons" translatesAutoresizingMaskIntoConstraints="NO" id="hWy-S2-VMF">
-                                        <rect key="frame" x="779" y="437" width="206" height="206"/>
-                                    </imageView>
-                                </subviews>
-                                <constraints>
-                                    <constraint firstItem="FG0-rd-ofc" firstAttribute="leading" secondItem="0mV-Gp-vom" secondAttribute="leading" constant="-55" id="drI-1t-Al4"/>
-                                </constraints>
-                            </view>
-                            <view contentMode="scaleToFill" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="hyV-fQ-y4M" customClass="AnalogueStick">
-                                <rect key="frame" x="874" y="630" width="130" height="130"/>
-                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                            </view>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="+5" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zrT-zk-fNp">
-                                <rect key="frame" x="31" y="473" width="21" height="21"/>
-                                <fontDescription key="fontDescription" name="Oswald-Medium" family="Oswald" pointSize="21"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="-180" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="H1z-2y-7mU">
-                                <rect key="frame" x="89" y="707" width="47" height="24"/>
-                                <fontDescription key="fontDescription" name="Oswald-Medium" family="Oswald" pointSize="21"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="+180" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QcV-Wj-8y7">
-                                <rect key="frame" x="343" y="707" width="47" height="24"/>
+                                <connections>
+                                    <segue destination="oap-Pp-LXB" kind="embed" id="VN3-GM-F87"/>
+                                </connections>
+                            </containerView>
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="it6-1N-EKc">
+                                <rect key="frame" x="-1" y="80" width="1025" height="649"/>
+                            </mapView>
+                            <slider opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" minValue="-180" maxValue="180" translatesAutoresizingMaskIntoConstraints="NO" id="0bV-ba-Rxq" userLabel="Rotation Slider">
+                                <rect key="frame" x="107" y="664" width="204" height="31"/>
+                                <color key="minimumTrackTintColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="maximumTrackTintColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <connections>
+                                    <action selector="rotationSliderChange:" destination="lZr-Lc-zbu" eventType="valueChanged" id="De1-Qh-1uA"/>
+                                    <action selector="rotationSliderReleased:" destination="lZr-Lc-zbu" eventType="touchUpInside" id="IVs-kJ-CWW"/>
+                                    <action selector="rotationSliderReleased:" destination="lZr-Lc-zbu" eventType="touchUpOutside" id="Tw4-7z-Mui"/>
+                                </connections>
+                            </slider>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="-180" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="H1z-2y-7mU">
+                                <rect key="frame" x="54" y="670" width="47" height="24"/>
                                 <fontDescription key="fontDescription" name="Oswald-Medium" family="Oswald" pointSize="21"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="-5" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="64G-Ws-nrZ">
-                                <rect key="frame" x="31" y="708" width="18" height="21"/>
+                                <rect key="frame" x="54" y="626" width="18" height="21"/>
                                 <fontDescription key="fontDescription" name="Oswald-Medium" family="Oswald" pointSize="21"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="+180" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QcV-Wj-8y7">
+                                <rect key="frame" x="317" y="670" width="47" height="24"/>
+                                <fontDescription key="fontDescription" name="Oswald-Medium" family="Oswald" pointSize="21"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="+5" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zrT-zk-fNp">
+                                <rect key="frame" x="54" y="388" width="21" height="21"/>
+                                <fontDescription key="fontDescription" name="Oswald-Medium" family="Oswald" pointSize="21"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <slider opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" minValue="-5" maxValue="5" translatesAutoresizingMaskIntoConstraints="NO" id="FG0-rd-ofc" userLabel="Altitude Slider">
+                                <rect key="frame" x="-39" y="496" width="204" height="31"/>
+                                <color key="minimumTrackTintColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="maximumTrackTintColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                <connections>
+                                    <action selector="altitudeSliderChange:" destination="lZr-Lc-zbu" eventType="valueChanged" id="qWo-L7-30b"/>
+                                    <action selector="altitudeSliderReleased:" destination="lZr-Lc-zbu" eventType="touchUpOutside" id="7QX-Br-8Rw"/>
+                                    <action selector="altitudeSliderReleased:" destination="lZr-Lc-zbu" eventType="touchUpInside" id="xOJ-QH-te0"/>
+                                </connections>
+                            </slider>
+                            <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6fv-hd-1ZE" userLabel="Lateral Commands">
+                                <rect key="frame" x="798" y="493" width="206" height="206"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <connections>
+                                    <segue destination="bA1-XH-u2U" kind="embed" id="lK0-ym-PF4"/>
+                                </connections>
+                            </containerView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="QcV-Wj-8y7" firstAttribute="leading" secondItem="0bV-ba-Rxq" secondAttribute="trailing" constant="6" id="AY3-eU-T5P"/>
-                            <constraint firstItem="0bV-ba-Rxq" firstAttribute="leading" secondItem="H1z-2y-7mU" secondAttribute="trailing" constant="1" id="BtF-cC-2TW"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="hyV-fQ-y4M" secondAttribute="trailing" id="GTJ-Tq-UJj"/>
-                            <constraint firstItem="kUo-d4-RPJ" firstAttribute="top" secondItem="0mV-Gp-vom" secondAttribute="bottom" id="NMW-oy-v2H"/>
-                            <constraint firstItem="kUo-d4-RPJ" firstAttribute="top" secondItem="hyV-fQ-y4M" secondAttribute="bottom" id="e8o-Ik-ugV"/>
-                            <constraint firstItem="0mV-Gp-vom" firstAttribute="leading" secondItem="SBc-q4-Qws" secondAttribute="leadingMargin" constant="-20" id="gJn-6m-UM0"/>
-                            <constraint firstItem="hyV-fQ-y4M" firstAttribute="top" secondItem="0mV-Gp-vom" secondAttribute="bottom" constant="11" id="lGi-bC-acc"/>
-                            <constraint firstItem="0mV-Gp-vom" firstAttribute="top" secondItem="llt-1G-RT1" secondAttribute="bottom" constant="57" id="lv8-am-DLg"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="0mV-Gp-vom" secondAttribute="trailing" constant="-20" id="o7i-Gv-eZS"/>
+                            <constraint firstItem="kUo-d4-RPJ" firstAttribute="top" secondItem="6fv-hd-1ZE" secondAttribute="bottom" constant="20" id="2fO-Se-VmO"/>
+                            <constraint firstAttribute="trailing" secondItem="Ftw-HF-cR4" secondAttribute="trailing" id="5Lx-Xo-pcu"/>
+                            <constraint firstItem="Ftw-HF-cR4" firstAttribute="top" secondItem="llt-1G-RT1" secondAttribute="bottom" id="9SW-7U-a6e"/>
+                            <constraint firstItem="it6-1N-EKc" firstAttribute="top" secondItem="Ftw-HF-cR4" secondAttribute="bottom" id="Gjg-sj-wS2"/>
+                            <constraint firstItem="Ftw-HF-cR4" firstAttribute="leading" secondItem="SBc-q4-Qws" secondAttribute="leading" id="S2T-Ia-d5M"/>
+                            <constraint firstItem="6fv-hd-1ZE" firstAttribute="leading" secondItem="SBc-q4-Qws" secondAttribute="leadingMargin" constant="778" id="SQU-U9-kMx"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="6fv-hd-1ZE" secondAttribute="trailing" id="ULu-dr-Zmh"/>
+                            <constraint firstItem="kUo-d4-RPJ" firstAttribute="top" secondItem="it6-1N-EKc" secondAttribute="bottom" constant="-10" id="coR-hN-jV9"/>
+                            <constraint firstItem="6fv-hd-1ZE" firstAttribute="top" secondItem="llt-1G-RT1" secondAttribute="bottom" constant="473" id="glX-G2-GIK"/>
+                            <constraint firstItem="Ftw-HF-cR4" firstAttribute="centerX" secondItem="it6-1N-EKc" secondAttribute="centerX" id="hPn-IE-i2k"/>
+                            <constraint firstAttribute="bottom" secondItem="Ftw-HF-cR4" secondAttribute="bottom" constant="688" id="kQi-zf-hCY"/>
+                            <constraint firstItem="Ftw-HF-cR4" firstAttribute="trailing" secondItem="it6-1N-EKc" secondAttribute="trailing" id="ywA-bO-GkZ"/>
                         </constraints>
                     </view>
+                    <tabBarItem key="tabBarItem" title="Map" id="xPU-ng-IcZ" userLabel="Map"/>
                     <navigationItem key="navigationItem" id="nwN-Qr-eHe"/>
                     <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="iPad"/>
                     <connections>
-                        <outlet property="altitudeReadingLabel" destination="CIh-XW-P1V" id="9hD-zn-rKv"/>
                         <outlet property="altitudeSlider" destination="FG0-rd-ofc" id="g3F-Om-IY9"/>
-                        <outlet property="analogueStick" destination="hyV-fQ-y4M" id="gue-aA-jHV"/>
-                        <outlet property="cameraView" destination="0mV-Gp-vom" id="TpX-Rh-ae9"/>
-                        <outlet property="coordinateLabel" destination="gf4-sk-fBR" id="rVZ-NL-odZ"/>
-                        <outlet property="dropPinButton" destination="j84-sP-DcN" id="vw6-Nr-67M"/>
-                        <outlet property="lateralButtonDown" destination="JD4-wa-iPa" id="iR3-0C-Kd9"/>
-                        <outlet property="lateralButtonLeft" destination="885-05-WMq" id="Zan-lm-uRh"/>
-                        <outlet property="lateralButtonRight" destination="T9B-QI-ACR" id="N8w-e9-NEo"/>
-                        <outlet property="lateralButtonUp" destination="Exs-gh-uXv" id="pkz-yw-aSi"/>
-                        <outlet property="launchButton" destination="f8G-UI-1Ji" id="1Cf-JW-ptO"/>
                         <outlet property="mapView" destination="it6-1N-EKc" id="NFJ-oK-7tM"/>
                         <outlet property="rotationSlider" destination="0bV-ba-Rxq" id="CFW-ch-NlO"/>
-                        <outlet property="sarPathButton" destination="DRT-cW-FhC" id="k3L-sc-pOW"/>
-                        <outlet property="videoImage" destination="fd7-dc-5A4" id="7Od-PJ-mYx"/>
-                        <outlet property="waypointButton" destination="qAA-h1-L42" id="cgf-1H-xt7"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="f5n-xx-WEw" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1386" y="1001"/>
+            <point key="canvasLocation" x="1070" y="-45"/>
+        </scene>
+        <!--Video Feed-->
+        <scene sceneID="FTM-WW-UuW">
+            <objects>
+                <viewController title="Video Feed" id="lGD-MD-FCz" customClass="VideoFeedViewController" customModule="Sparrow" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="gZW-O4-AOv"/>
+                        <viewControllerLayoutGuide type="bottom" id="Yis-tj-vGm"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="ncH-Oh-fPS">
+                        <rect key="frame" x="0.0" y="0.0" width="1024" height="768"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="kQt-cz-3dm" userLabel="Control Bar">
+                                <rect key="frame" x="0.0" y="20" width="1024" height="60"/>
+                                <connections>
+                                    <segue destination="oap-Pp-LXB" kind="embed" id="d78-ZE-q6L"/>
+                                </connections>
+                            </containerView>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="stanford" translatesAutoresizingMaskIntoConstraints="NO" id="fd7-dc-5A4" userLabel="Image Still">
+                                <rect key="frame" x="0.0" y="80" width="1024" height="639"/>
+                                <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="639" id="SWA-1k-NKu"/>
+                                </constraints>
+                            </imageView>
+                            <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Gt1-Ts-64k" userLabel="Lateral Commands">
+                                <rect key="frame" x="798" y="493" width="206" height="206"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <connections>
+                                    <segue destination="bA1-XH-u2U" kind="embed" id="iHh-ZV-Mch"/>
+                                </connections>
+                            </containerView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="Gt1-Ts-64k" firstAttribute="top" secondItem="gZW-O4-AOv" secondAttribute="bottom" constant="473" id="FR4-Us-dh5"/>
+                            <constraint firstItem="Gt1-Ts-64k" firstAttribute="leading" secondItem="ncH-Oh-fPS" secondAttribute="leadingMargin" constant="778" id="Ij7-wy-eZk"/>
+                            <constraint firstItem="kQt-cz-3dm" firstAttribute="top" secondItem="gZW-O4-AOv" secondAttribute="bottom" id="OCm-Jp-ny1"/>
+                            <constraint firstItem="Yis-tj-vGm" firstAttribute="top" secondItem="fd7-dc-5A4" secondAttribute="bottom" id="Q10-r0-Hok"/>
+                            <constraint firstItem="Yis-tj-vGm" firstAttribute="top" secondItem="Gt1-Ts-64k" secondAttribute="bottom" constant="20" id="QOV-Wh-f03"/>
+                            <constraint firstItem="kQt-cz-3dm" firstAttribute="trailing" secondItem="fd7-dc-5A4" secondAttribute="trailing" id="R86-f4-eca"/>
+                            <constraint firstItem="kQt-cz-3dm" firstAttribute="leading" secondItem="fd7-dc-5A4" secondAttribute="leading" id="TTn-GY-YNu"/>
+                            <constraint firstItem="fd7-dc-5A4" firstAttribute="top" secondItem="kQt-cz-3dm" secondAttribute="bottom" id="edx-CR-SlJ"/>
+                            <constraint firstItem="fd7-dc-5A4" firstAttribute="leading" secondItem="ncH-Oh-fPS" secondAttribute="leadingMargin" constant="-20" id="pjz-v2-EqI"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="fd7-dc-5A4" secondAttribute="trailing" constant="-20" id="vHU-fY-Gx4"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="Gt1-Ts-64k" secondAttribute="trailing" id="yJx-tH-aP4"/>
+                        </constraints>
+                    </view>
+                    <tabBarItem key="tabBarItem" title="Video Feed" id="EP8-4O-TFh" userLabel="Video Feed"/>
+                    <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="iPad"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="ZJb-7T-sMq" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="278" y="2129"/>
+        </scene>
+        <!--Drone Tab Bar Controller-->
+        <scene sceneID="Z77-Y1-KVB">
+            <objects>
+                <tabBarController id="dlJ-eF-oDH" customClass="DroneTabBarController" customModule="Sparrow" customModuleProvider="target" sceneMemberID="viewController">
+                    <tabBar key="tabBar" contentMode="scaleToFill" id="m6E-Zn-h2Z">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="49"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    </tabBar>
+                    <connections>
+                        <segue destination="lZr-Lc-zbu" kind="relationship" relationship="viewControllers" id="8mB-K4-7jD"/>
+                        <segue destination="lGD-MD-FCz" kind="relationship" relationship="viewControllers" id="UPQ-eL-Mpv"/>
+                    </connections>
+                </tabBarController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="uyn-Ss-ezT" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="144" y="941"/>
+        </scene>
+        <!--Control Bar View Controller-->
+        <scene sceneID="kxZ-8T-4w3">
+            <objects>
+                <viewController id="oap-Pp-LXB" customClass="ControlBarViewController" customModule="Sparrow" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="FbI-ha-frU">
+                        <rect key="frame" x="0.0" y="0.0" width="1024" height="60"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="logo_icon" translatesAutoresizingMaskIntoConstraints="NO" id="XSi-qw-Jys">
+                                <rect key="frame" x="20" y="10" width="40" height="40"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="40" id="444-NB-uR7"/>
+                                    <constraint firstAttribute="width" constant="40" id="PWf-fs-P5E"/>
+                                </constraints>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="POS" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="If3-Rp-Qj0" userLabel="Coordinate Title Label">
+                                <rect key="frame" x="80" y="16" width="32" height="28"/>
+                                <fontDescription key="fontDescription" name="Oswald-Medium" family="Oswald" pointSize="20"/>
+                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="(0.000N, 0.000W)" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gf4-sk-fBR" userLabel="Coordinate Reading Label">
+                                <rect key="frame" x="121" y="16" width="130" height="28"/>
+                                <fontDescription key="fontDescription" name="Oswald-Light" family="Oswald" pointSize="20"/>
+                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="00" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CIh-XW-P1V" userLabel="Altitude Reading Label">
+                                <rect key="frame" x="318" y="16" width="20" height="28"/>
+                                <fontDescription key="fontDescription" name="Oswald-Light" family="Oswald" pointSize="20"/>
+                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qAA-h1-L42" userLabel="Waypoint Button">
+                                <rect key="frame" x="497" y="14" width="128" height="32"/>
+                                <color key="backgroundColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="128" id="k9I-N1-AdL"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="Oswald-Light" family="Oswald" pointSize="23"/>
+                                <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <inset key="contentEdgeInsets" minX="20" minY="0.0" maxX="20" maxY="0.0"/>
+                                <state key="normal" title="WAYPOINT">
+                                    <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                </state>
+                                <connections>
+                                    <action selector="waypointButtonToggle:" destination="oap-Pp-LXB" eventType="touchUpInside" id="HiC-qa-2gs"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DRT-cW-FhC" userLabel="SAR Path Button">
+                                <rect key="frame" x="633" y="14" width="122" height="32"/>
+                                <color key="backgroundColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="122" id="A4s-ka-Bhr"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="Oswald-Light" family="Oswald" pointSize="23"/>
+                                <color key="tintColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                <inset key="contentEdgeInsets" minX="20" minY="0.0" maxX="20" maxY="0.0"/>
+                                <state key="normal" title="SAR PATH">
+                                    <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                </state>
+                                <connections>
+                                    <segue destination="U7T-H5-HmE" kind="popoverPresentation" identifier="popoverSegue" popoverAnchorView="DRT-cW-FhC" id="3xC-Wn-PGT">
+                                        <popoverArrowDirection key="popoverArrowDirection" up="YES" down="YES" left="YES" right="YES"/>
+                                    </segue>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="j84-sP-DcN" userLabel="Drop Pin Button">
+                                <rect key="frame" x="763" y="14" width="120" height="32"/>
+                                <color key="backgroundColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <fontDescription key="fontDescription" name="Oswald-Light" family="Oswald" pointSize="23"/>
+                                <color key="tintColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                <inset key="contentEdgeInsets" minX="20" minY="0.0" maxX="20" maxY="0.0"/>
+                                <state key="normal" title="DROP PIN">
+                                    <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                </state>
+                                <connections>
+                                    <action selector="dropPinButtonClicked:" destination="oap-Pp-LXB" eventType="touchUpInside" id="42d-gQ-zlB"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="f8G-UI-1Ji" userLabel="Launch Button">
+                                <rect key="frame" x="891" y="14" width="113" height="32"/>
+                                <color key="backgroundColor" red="0.46666666666666667" green="0.86274509803921573" blue="0.58823529411764708" alpha="1" colorSpace="calibratedRGB"/>
+                                <fontDescription key="fontDescription" name="Oswald-Medium" family="Oswald" pointSize="23"/>
+                                <inset key="contentEdgeInsets" minX="20" minY="0.0" maxX="20" maxY="0.0"/>
+                                <state key="normal" title="LAUNCH">
+                                    <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                </state>
+                                <connections>
+                                    <action selector="launchButtonClicked:" destination="oap-Pp-LXB" eventType="touchUpInside" id="sks-fQ-tvF"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="ALT" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AjX-QD-ZDc" userLabel="Altitude Title Label">
+                                <rect key="frame" x="278" y="16" width="32" height="28"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="32" id="iVG-zQ-dON"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="Oswald-Medium" family="Oswald" pointSize="20"/>
+                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" red="0.1215686275" green="0.12941176469999999" blue="0.14117647059999999" alpha="1" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstItem="CIh-XW-P1V" firstAttribute="centerY" secondItem="qAA-h1-L42" secondAttribute="centerY" id="4wt-iH-Yh9"/>
+                            <constraint firstItem="gf4-sk-fBR" firstAttribute="baseline" secondItem="AjX-QD-ZDc" secondAttribute="baseline" id="6Lr-CO-lan"/>
+                            <constraint firstItem="gf4-sk-fBR" firstAttribute="centerY" secondItem="XSi-qw-Jys" secondAttribute="centerY" id="Jbr-o0-dPi"/>
+                            <constraint firstItem="CIh-XW-P1V" firstAttribute="leading" secondItem="AjX-QD-ZDc" secondAttribute="trailing" constant="8" symbolic="YES" id="S9W-xX-dF4"/>
+                            <constraint firstItem="f8G-UI-1Ji" firstAttribute="baseline" secondItem="j84-sP-DcN" secondAttribute="baseline" id="Ykl-aG-c78"/>
+                            <constraint firstAttribute="leadingMargin" secondItem="XSi-qw-Jys" secondAttribute="leading" id="awf-T5-87D"/>
+                            <constraint firstItem="f8G-UI-1Ji" firstAttribute="leading" secondItem="j84-sP-DcN" secondAttribute="trailing" constant="8" symbolic="YES" id="bXc-Gk-KG0"/>
+                            <constraint firstItem="XSi-qw-Jys" firstAttribute="centerY" secondItem="FbI-ha-frU" secondAttribute="centerY" id="cCP-Yn-7Im"/>
+                            <constraint firstItem="gf4-sk-fBR" firstAttribute="leading" secondItem="If3-Rp-Qj0" secondAttribute="trailing" constant="9" id="dBo-rI-gCB"/>
+                            <constraint firstItem="j84-sP-DcN" firstAttribute="leading" secondItem="DRT-cW-FhC" secondAttribute="trailing" constant="8" symbolic="YES" id="dFk-KE-qCj"/>
+                            <constraint firstItem="If3-Rp-Qj0" firstAttribute="leading" secondItem="XSi-qw-Jys" secondAttribute="trailing" constant="20" id="hFe-Tf-grd"/>
+                            <constraint firstItem="DRT-cW-FhC" firstAttribute="leading" secondItem="qAA-h1-L42" secondAttribute="trailing" constant="8" symbolic="YES" id="jJK-B2-Cbt"/>
+                            <constraint firstItem="j84-sP-DcN" firstAttribute="baseline" secondItem="DRT-cW-FhC" secondAttribute="baseline" id="jMP-KU-odX"/>
+                            <constraint firstItem="AjX-QD-ZDc" firstAttribute="baseline" secondItem="CIh-XW-P1V" secondAttribute="baseline" id="khp-Bh-HKf"/>
+                            <constraint firstItem="gf4-sk-fBR" firstAttribute="baseline" secondItem="If3-Rp-Qj0" secondAttribute="baseline" id="olG-i8-v70"/>
+                            <constraint firstItem="DRT-cW-FhC" firstAttribute="baseline" secondItem="qAA-h1-L42" secondAttribute="baseline" id="qOq-yE-KQn"/>
+                            <constraint firstItem="AjX-QD-ZDc" firstAttribute="leading" secondItem="gf4-sk-fBR" secondAttribute="trailing" constant="27" id="tRG-Qq-jHu"/>
+                            <constraint firstItem="qAA-h1-L42" firstAttribute="leading" secondItem="FbI-ha-frU" secondAttribute="leading" constant="497" id="wW0-T7-2Bn"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="altitudeReadingLabel" destination="CIh-XW-P1V" id="SPL-fO-lmT"/>
+                        <outlet property="coordinateReadingLabel" destination="gf4-sk-fBR" id="afv-x5-faj"/>
+                        <outlet property="dropPinButton" destination="j84-sP-DcN" id="t7c-8M-grJ"/>
+                        <outlet property="launchButton" destination="f8G-UI-1Ji" id="tZp-wo-YWO"/>
+                        <outlet property="sarButton" destination="DRT-cW-FhC" id="6o3-3s-3ou"/>
+                        <outlet property="waypointButton" destination="qAA-h1-L42" id="FfW-S3-FEX"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="kPn-c1-lKR" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1392" y="620"/>
+        </scene>
+        <!--Lateral Commands View Controller-->
+        <scene sceneID="yRe-ym-OvP">
+            <objects>
+                <viewController id="bA1-XH-u2U" userLabel="Lateral Commands View Controller" customClass="LateralMovementViewController" customModule="Sparrow" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="WQ8-XE-Ys9">
+                        <rect key="frame" x="0.0" y="0.0" width="206" height="206"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="lateral_buttons" translatesAutoresizingMaskIntoConstraints="NO" id="hWy-S2-VMF">
+                                <rect key="frame" x="0.0" y="0.0" width="206" height="206"/>
+                            </imageView>
+                            <button opaque="NO" contentMode="scaleToFill" restorationIdentifier="forward" contentHorizontalAlignment="center" contentVerticalAlignment="center" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Exs-gh-uXv" userLabel="Lateral Button Up">
+                                <rect key="frame" x="64" y="0.0" width="78" height="70"/>
+                                <color key="backgroundColor" red="0.31614871010000001" green="0.64871861009999998" blue="0.86274509799999999" alpha="0.0" colorSpace="calibratedRGB"/>
+                                <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <connections>
+                                    <action selector="lateralButtonDown:" destination="bA1-XH-u2U" eventType="touchDown" id="xHC-hA-De0"/>
+                                    <action selector="lateralButtonUp:" destination="bA1-XH-u2U" eventType="touchUpInside" id="en8-No-HK3"/>
+                                    <action selector="lateralButtonUp:" destination="bA1-XH-u2U" eventType="touchUpOutside" id="uet-Ox-Xbe"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" restorationIdentifier="back" contentHorizontalAlignment="center" contentVerticalAlignment="center" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JD4-wa-iPa" userLabel="Lateral Button Down">
+                                <rect key="frame" x="64" y="135" width="78" height="71"/>
+                                <color key="backgroundColor" red="0.31614871010000001" green="0.64871861009999998" blue="0.86274509799999999" alpha="0.0" colorSpace="calibratedRGB"/>
+                                <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <state key="normal">
+                                    <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                </state>
+                                <connections>
+                                    <action selector="lateralButtonDown:" destination="bA1-XH-u2U" eventType="touchDown" id="yo0-Ta-MXC"/>
+                                    <action selector="lateralButtonUp:" destination="bA1-XH-u2U" eventType="touchUpInside" id="Xnb-Bn-fg4"/>
+                                    <action selector="lateralButtonUp:" destination="bA1-XH-u2U" eventType="touchUpOutside" id="qH1-XM-J6c"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" restorationIdentifier="right" contentHorizontalAlignment="center" contentVerticalAlignment="center" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="T9B-QI-ACR" userLabel="Lateral Button Right">
+                                <rect key="frame" x="132" y="70" width="78" height="70"/>
+                                <color key="backgroundColor" red="0.31614871010000001" green="0.64871861009999998" blue="0.86274509799999999" alpha="0.0" colorSpace="calibratedRGB"/>
+                                <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <state key="normal">
+                                    <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                </state>
+                                <connections>
+                                    <action selector="lateralButtonDown:" destination="bA1-XH-u2U" eventType="touchDown" id="FCM-dE-W0v"/>
+                                    <action selector="lateralButtonUp:" destination="bA1-XH-u2U" eventType="touchUpOutside" id="aig-mH-hj2"/>
+                                    <action selector="lateralButtonUp:" destination="bA1-XH-u2U" eventType="touchUpInside" id="bm3-vs-grZ"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" restorationIdentifier="left" contentHorizontalAlignment="center" contentVerticalAlignment="center" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="885-05-WMq" userLabel="Lateral Button Left">
+                                <rect key="frame" x="-4" y="70" width="78" height="70"/>
+                                <color key="backgroundColor" red="0.31614871010000001" green="0.64871861009999998" blue="0.86274509799999999" alpha="0.0" colorSpace="calibratedRGB"/>
+                                <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <state key="normal">
+                                    <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                </state>
+                                <connections>
+                                    <action selector="lateralButtonDown:" destination="bA1-XH-u2U" eventType="touchDown" id="jpE-4t-MHW"/>
+                                    <action selector="lateralButtonUp:" destination="bA1-XH-u2U" eventType="touchUpInside" id="3Qf-Ce-vn1"/>
+                                    <action selector="lateralButtonUp:" destination="bA1-XH-u2U" eventType="touchUpOutside" id="kMG-ak-r52"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                        <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="Exs-gh-uXv" firstAttribute="leading" secondItem="WQ8-XE-Ys9" secondAttribute="leadingMargin" constant="48" id="07o-Cy-kAX"/>
+                            <constraint firstAttribute="bottomMargin" secondItem="T9B-QI-ACR" secondAttribute="bottom" constant="66" id="5J5-IV-WhP"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="JD4-wa-iPa" secondAttribute="trailing" constant="48" id="BEW-IJ-XB2"/>
+                            <constraint firstItem="T9B-QI-ACR" firstAttribute="top" secondItem="WQ8-XE-Ys9" secondAttribute="topMargin" constant="70" id="J0c-1K-91I"/>
+                            <constraint firstItem="T9B-QI-ACR" firstAttribute="leading" secondItem="WQ8-XE-Ys9" secondAttribute="leadingMargin" constant="116" id="UV3-sL-lif"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="885-05-WMq" secondAttribute="trailing" constant="116" id="Yhc-tE-zZp"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="Exs-gh-uXv" secondAttribute="trailing" constant="48" id="fPs-K6-Usy"/>
+                            <constraint firstItem="JD4-wa-iPa" firstAttribute="top" secondItem="WQ8-XE-Ys9" secondAttribute="topMargin" constant="135" id="iXy-fV-NyC"/>
+                            <constraint firstAttribute="bottomMargin" secondItem="Exs-gh-uXv" secondAttribute="bottom" constant="136" id="iv8-7p-YsY"/>
+                            <constraint firstAttribute="bottomMargin" secondItem="885-05-WMq" secondAttribute="bottom" constant="66" id="jrZ-nX-qjw"/>
+                            <constraint firstItem="885-05-WMq" firstAttribute="leading" secondItem="WQ8-XE-Ys9" secondAttribute="leadingMargin" constant="-20" id="l3A-Ia-88N"/>
+                            <constraint firstAttribute="topMargin" secondItem="Exs-gh-uXv" secondAttribute="top" id="m0C-pN-BZk"/>
+                            <constraint firstItem="JD4-wa-iPa" firstAttribute="leading" secondItem="WQ8-XE-Ys9" secondAttribute="leadingMargin" constant="48" id="nkN-tb-PG4"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="T9B-QI-ACR" secondAttribute="trailing" constant="-20" id="pH8-hU-rgO"/>
+                            <constraint firstItem="885-05-WMq" firstAttribute="top" secondItem="WQ8-XE-Ys9" secondAttribute="topMargin" constant="70" id="pxV-3O-Yr2"/>
+                            <constraint firstAttribute="bottomMargin" secondItem="JD4-wa-iPa" secondAttribute="bottom" id="rQn-af-gEl"/>
+                        </constraints>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="OzO-3u-PFi" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1300" y="1457"/>
         </scene>
     </scenes>
     <resources>
@@ -331,4 +457,8 @@
         <image name="logo_icon" width="50" height="48"/>
         <image name="stanford" width="1200" height="674"/>
     </resources>
+    <inferredMetricsTieBreakers>
+        <segue reference="VN3-GM-F87"/>
+        <segue reference="lK0-ym-PF4"/>
+    </inferredMetricsTieBreakers>
 </document>

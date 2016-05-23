@@ -13,7 +13,7 @@ import UIKit
 
 class SARMenuViewController: UITableViewController {
     
-    var delegate: DroneViewController? = nil
+    var delegate: MapViewController? = nil
     
     var data = ["Line", "Radial", "Sector"]
     var rowHeight = 40
@@ -34,7 +34,7 @@ class SARMenuViewController: UITableViewController {
         super.viewDidLoad()
         let height = data.count * Int(rowHeight) - 1
         self.preferredContentSize = CGSize(width: 300, height: height)
-
+        
     }
     
     // MARK: - Table view data source
@@ -131,15 +131,15 @@ class SARMenuViewController: UITableViewController {
         
         
         
-//        let sarArgs = [
-//            "lat": delegate!.latestLat,
-//            "lon": delegate!.latestLong,
-//            "altitude": delegate!.latestAlt,
-//            "sar_type": sar_type
-//        ]
-//        delegate!.socket.emit("sar_path", sarArgs)
+        //        let sarArgs = [
+        //            "lat": delegate!.latestLat,
+        //            "lon": delegate!.latestLong,
+        //            "altitude": delegate!.latestAlt,
+        //            "sar_type": sar_type
+        //        ]
+        //        delegate!.socket.emit("sar_path", sarArgs)
         
         
     }
-
+    
 }

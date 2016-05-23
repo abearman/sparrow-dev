@@ -1,49 +1,29 @@
 //
-//  DroneViewController.swift
+//  SocketHelper.swift
 //  Sparrow
 //
 //  Created by Amy Bearman on 5/22/16.
 //  Copyright © 2016 Andrew Lim. All rights reserved.
 //
 
-import UIKit
+import Foundation
 
-class DroneViewController: UIViewController {
+class SocketHelper {
     
     // The IP address that the server is running on
     
-    let HOSTNAME = "10.30.117.101"
+    let HOSTNAME = "10.1.1.188"
     let PORT = "5000"
     
     var states: Dictionary<String, String>?
     
-    lazy var buildSocketAddr: String = {
-        "http://\(self.HOSTNAME):\(self.PORT)"
+    lazy var socket: SocketIOClient = { [weak self] in
+        return SocketIOClient(socketURL: NSURL(string: (self?.buildSocketAddr)!)!)
     }()
     
-    lazy var socket: SocketIOClient = {
-        return SocketIOClient(socketURL: NSURL(string: self.buildSocketAddr)!)
+    lazy var buildSocketAddr: String = { [weak self] in
+        return "http://\(self?.HOSTNAME):\(self?.PORT)"
     }()
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        debugPrint("Connecting to server control socket...")
-        initializeSocket()
-        connectToSocket()
-    }
-    
-    func initializeSocket() {
-        socket.onAny {print("Got event: \($0.event), with items: \($0.items)")}
-    }
-
-    func connectToSocket() {
-        socket.connect()
-    }
-    
-    func handleGPSPos(data: AnyObject) {
-        debugPrint("in handleGPSPos")
-    }
     
     func HTTPsendRequest(request: NSMutableURLRequest, callback: ((String, String?) -> Void)!) {
         let task = NSURLSession.sharedSession().dataTaskWithRequest(request,completionHandler :
@@ -70,17 +50,6 @@ class DroneViewController: UIViewController {
             NSUTF8StringEncoding)!
         request.HTTPBody = data
         HTTPsendRequest(request,callback: callback)
-    }
-    
-    override func viewDidLayoutSubviews() {
-        // Get tab bar controller
-        for childVC in self.childViewControllers {
-            if let controlBarVC = childVC as? ControlBarViewController {
-                if let droneTBC = self.tabBarController as? DroneTabBarController {
-                    controlBarVC.droneTBC = droneTBC
-                }
-            }
-        }
     }
     
 }

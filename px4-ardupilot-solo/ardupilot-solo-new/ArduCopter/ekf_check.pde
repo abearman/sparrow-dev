@@ -84,13 +84,16 @@ void ekf_check()
 static bool ekf_over_threshold()
 {
 #if AP_AHRS_NAVEKF_AVAILABLE
+		gcs_send_text_P(SEVERITY_HIGH, PSTR("Got to ekf_over_threshold method"));
     // return false immediately if disabled
     if (g.fs_ekf_thresh <= 0.0f) {
+				gcs_send_text_P(SEVERITY_HIGH, PSTR("Returning false because g.fs_ekf_thresh < 0.0"));
         return false;
     }
 
     // return true immediately if position is bad
     if (!ekf_position_ok() && !optflow_position_ok()) {
+				gcs_send_text_P(SEVERITY_HIGH, PSTR("Returning true because ekf_position_ok is false and optflow_position_ok is false"));
         return true;
     }
 
@@ -102,6 +105,14 @@ static bool ekf_over_threshold()
     float vel_variance;
     ahrs.get_NavEKF().getVariances(vel_variance, posVar, hgtVar, magVar, tasVar, offset);
     compass_variance = magVar.length();
+
+		char compass_output[50];
+		snprintf(compass_output, 50, "%f", compass_variance);
+		gcs_send_text_P(SEVERITY_HIGH, PSTR(compass_output));
+
+		char velocity_output[50];
+    snprintf(velocity_output, 50, "%f", vel_variance);
+    gcs_send_text_P(SEVERITY_HIGH, PSTR(velocity_output));
 
     // return true if compass and velocity variance over the threshold
     return (compass_variance >= g.fs_ekf_thresh && vel_variance >= g.fs_ekf_thresh);
