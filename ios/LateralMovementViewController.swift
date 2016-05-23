@@ -30,6 +30,5 @@ class LateralMovementViewController: DroneViewController {
         socket.emit("lateral_cmd", lateralCommandArgs)
     }
     
-
     
 }

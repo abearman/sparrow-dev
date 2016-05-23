@@ -75,46 +75,22 @@
                                     <segue destination="oap-Pp-LXB" kind="embed" id="VN3-GM-F87"/>
                                 </connections>
                             </containerView>
-                            <slider opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" minValue="-180" maxValue="180" translatesAutoresizingMaskIntoConstraints="NO" id="0bV-ba-Rxq" userLabel="Rotation Slider">
-                                <rect key="frame" x="107" y="664" width="204" height="31"/>
-                                <color key="minimumTrackTintColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
-                                <color key="maximumTrackTintColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                            <containerView opaque="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="i3v-Ev-9lf" userLabel="Altitude Slider">
+                                <rect key="frame" x="20" y="406" width="48" height="257"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <connections>
-                                    <action selector="rotationSliderChange:" destination="lZr-Lc-zbu" eventType="valueChanged" id="De1-Qh-1uA"/>
-                                    <action selector="rotationSliderReleased:" destination="lZr-Lc-zbu" eventType="touchUpInside" id="IVs-kJ-CWW"/>
-                                    <action selector="rotationSliderReleased:" destination="lZr-Lc-zbu" eventType="touchUpOutside" id="Tw4-7z-Mui"/>
+                                    <segue destination="vRM-lx-WyO" kind="embed" id="i81-yK-5au"/>
                                 </connections>
-                            </slider>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="-180" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="H1z-2y-7mU">
-                                <rect key="frame" x="54" y="670" width="47" height="24"/>
-                                <fontDescription key="fontDescription" name="Oswald-Medium" family="Oswald" pointSize="21"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="-5" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="64G-Ws-nrZ">
-                                <rect key="frame" x="54" y="626" width="18" height="21"/>
-                                <fontDescription key="fontDescription" name="Oswald-Medium" family="Oswald" pointSize="21"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="+180" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QcV-Wj-8y7">
-                                <rect key="frame" x="317" y="670" width="47" height="24"/>
-                                <fontDescription key="fontDescription" name="Oswald-Medium" family="Oswald" pointSize="21"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="+5" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zrT-zk-fNp">
-                                <rect key="frame" x="54" y="388" width="21" height="21"/>
-                                <fontDescription key="fontDescription" name="Oswald-Medium" family="Oswald" pointSize="21"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <slider opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" minValue="-5" maxValue="5" translatesAutoresizingMaskIntoConstraints="NO" id="FG0-rd-ofc" userLabel="Altitude Slider">
-                                <rect key="frame" x="-39" y="496" width="204" height="31"/>
-                                <color key="minimumTrackTintColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
-                                <color key="maximumTrackTintColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                            </containerView>
+                            <containerView opaque="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Uz6-la-qot" userLabel="Rotation Slider">
+                                <rect key="frame" x="68" y="663" width="298" height="48"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <connections>
-                                    <action selector="altitudeSliderChange:" destination="lZr-Lc-zbu" eventType="valueChanged" id="qWo-L7-30b"/>
-                                    <action selector="altitudeSliderReleased:" destination="lZr-Lc-zbu" eventType="touchUpOutside" id="7QX-Br-8Rw"/>
-                                    <action selector="altitudeSliderReleased:" destination="lZr-Lc-zbu" eventType="touchUpInside" id="xOJ-QH-te0"/>
+                                    <segue destination="M3z-Vg-ycn" kind="embed" id="AWe-JQ-cQK"/>
                                 </connections>
-                            </slider>
+                            </containerView>
                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6fv-hd-1ZE" userLabel="Lateral Commands">
                                 <rect key="frame" x="798" y="493" width="206" height="206"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -145,14 +121,12 @@
                     <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="iPad"/>
                     <connections>
-                        <outlet property="altitudeSlider" destination="FG0-rd-ofc" id="g3F-Om-IY9"/>
                         <outlet property="mapView" destination="it6-1N-EKc" id="NFJ-oK-7tM"/>
-                        <outlet property="rotationSlider" destination="0bV-ba-Rxq" id="CFW-ch-NlO"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="f5n-xx-WEw" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1070" y="-45"/>
+            <point key="canvasLocation" x="1074" y="3"/>
         </scene>
         <!--Video Feed-->
         <scene sceneID="FTM-WW-UuW">
@@ -176,6 +150,22 @@
                                 <rect key="frame" x="0.0" y="76" width="1024" height="643"/>
                                 <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                             </imageView>
+                            <containerView opaque="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="hJF-0f-oEV" userLabel="Altitude Slider">
+                                <rect key="frame" x="20" y="406" width="48" height="257"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <connections>
+                                    <segue destination="vRM-lx-WyO" kind="embed" id="hep-eL-Bf7"/>
+                                </connections>
+                            </containerView>
+                            <containerView opaque="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="RkD-kr-bP7" userLabel="Rotation Slider">
+                                <rect key="frame" x="68" y="663" width="298" height="48"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <connections>
+                                    <segue destination="M3z-Vg-ycn" kind="embed" id="DOK-FB-rSf"/>
+                                </connections>
+                            </containerView>
                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Gt1-Ts-64k" userLabel="Lateral Commands">
                                 <rect key="frame" x="798" y="493" width="206" height="206"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -454,6 +444,86 @@
             </objects>
             <point key="canvasLocation" x="1300" y="1457"/>
         </scene>
+        <!--Rotation Slider View Controller-->
+        <scene sceneID="QoR-l6-Rzd">
+            <objects>
+                <viewController id="M3z-Vg-ycn" customClass="RotationSliderViewController" customModule="Sparrow" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="dWL-mc-Agg">
+                        <rect key="frame" x="0.0" y="0.0" width="298" height="48"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <slider opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" minValue="-180" maxValue="180" translatesAutoresizingMaskIntoConstraints="NO" id="0bV-ba-Rxq" userLabel="Rotation Slider">
+                                <rect key="frame" x="45" y="6" width="204" height="31"/>
+                                <color key="minimumTrackTintColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="maximumTrackTintColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <connections>
+                                    <action selector="rotationSliderChange:" destination="M3z-Vg-ycn" eventType="valueChanged" id="4ei-iH-Ecs"/>
+                                    <action selector="rotationSliderReleased:" destination="M3z-Vg-ycn" eventType="touchUpOutside" id="4VH-Nt-Mf5"/>
+                                    <action selector="rotationSliderReleased:" destination="M3z-Vg-ycn" eventType="touchUpInside" id="S1I-Vu-BRP"/>
+                                </connections>
+                            </slider>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="+180" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QcV-Wj-8y7">
+                                <rect key="frame" x="255" y="9" width="42" height="24"/>
+                                <fontDescription key="fontDescription" name="Oswald-Medium" family="Oswald" pointSize="21"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="-180" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="H1z-2y-7mU">
+                                <rect key="frame" x="0.0" y="9" width="47" height="24"/>
+                                <fontDescription key="fontDescription" name="Oswald-Medium" family="Oswald" pointSize="21"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                        <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    </view>
+                    <connections>
+                        <outlet property="rotationSlider" destination="0bV-ba-Rxq" id="dOs-mR-4iE"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="77F-C2-Uny" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1640" y="1097"/>
+        </scene>
+        <!--Altitude Slider View Controller-->
+        <scene sceneID="tNR-7O-mf2">
+            <objects>
+                <viewController id="vRM-lx-WyO" customClass="AltitudeSliderViewController" customModule="Sparrow" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="0at-i9-6QY">
+                        <rect key="frame" x="0.0" y="0.0" width="48" height="257"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="+5" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zrT-zk-fNp">
+                                <rect key="frame" x="14" y="0.0" width="21" height="21"/>
+                                <fontDescription key="fontDescription" name="Oswald-Medium" family="Oswald" pointSize="21"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <slider opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" minValue="-5" maxValue="5" translatesAutoresizingMaskIntoConstraints="NO" id="FG0-rd-ofc" userLabel="Altitude Slider">
+                                <rect key="frame" x="-78" y="114" width="204" height="31"/>
+                                <color key="minimumTrackTintColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="maximumTrackTintColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                <connections>
+                                    <action selector="altitudeSliderChange:" destination="vRM-lx-WyO" eventType="valueChanged" id="HCR-RG-ONd"/>
+                                    <action selector="altitudeSliderReleased:" destination="vRM-lx-WyO" eventType="touchUpInside" id="YUR-WT-SIR"/>
+                                    <action selector="altitudeSliderReleased:" destination="vRM-lx-WyO" eventType="touchUpOutside" id="kS5-nw-cDC"/>
+                                </connections>
+                            </slider>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="-5" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="64G-Ws-nrZ">
+                                <rect key="frame" x="15" y="236" width="18" height="21"/>
+                                <fontDescription key="fontDescription" name="Oswald-Medium" family="Oswald" pointSize="21"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                        <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    </view>
+                    <connections>
+                        <outlet property="altitudeSlider" destination="FG0-rd-ofc" id="MJz-8g-mv7"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Stb-8n-ULL" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="645" y="740.5"/>
+        </scene>
     </scenes>
     <resources>
         <image name="lateral_buttons" width="148" height="148"/>
@@ -461,7 +531,9 @@
         <image name="stanford" width="1200" height="674"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="VN3-GM-F87"/>
-        <segue reference="lK0-ym-PF4"/>
+        <segue reference="d78-ZE-q6L"/>
+        <segue reference="DOK-FB-rSf"/>
+        <segue reference="iHh-ZV-Mch"/>
+        <segue reference="hep-eL-Bf7"/>
     </inferredMetricsTieBreakers>
 </document>

@@ -13,30 +13,6 @@ import MapKit
 class MapViewController: DroneViewController, MKMapViewDelegate {
         
     @IBOutlet weak var mapView: MKMapView!
-        
-    @IBOutlet weak var altitudeSlider: UISlider! {
-        didSet {
-            altitudeSlider.transform = CGAffineTransformMakeRotation(CGFloat(-M_PI_2))
-            let thumbImage = UIImage(named:"slider_thumb")
-            let ratio : CGFloat = CGFloat (0.8)
-            let size = CGSizeMake(thumbImage!.size.width * ratio, thumbImage!.size.height * ratio)
-            altitudeSlider.setThumbImage(self.imageWithImage(thumbImage!, scaledToSize: size), forState: UIControlState.Normal)
-            altitudeSlider.setMaximumTrackImage(UIImage(named:"slider_track"), forState: UIControlState.Normal)
-            altitudeSlider.setMinimumTrackImage(UIImage(named:"slider_track"), forState: UIControlState.Normal)
-            altitudeSlider.continuous = false
-        }
-    }
-    @IBOutlet weak var rotationSlider: UISlider! {
-        didSet {
-            let thumbImage = UIImage(named:"slider_thumb")
-            let ratio : CGFloat = CGFloat (0.8)
-            let size = CGSizeMake(thumbImage!.size.width * ratio, thumbImage!.size.height * ratio)
-            rotationSlider.setThumbImage(self.imageWithImage(thumbImage!, scaledToSize: size), forState: UIControlState.Normal)
-            rotationSlider.setMaximumTrackImage(UIImage(named:"slider_track"), forState: UIControlState.Normal)
-            rotationSlider.setMinimumTrackImage(UIImage(named:"slider_track"), forState: UIControlState.Normal)
-            rotationSlider.continuous = false
-        }
-    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -135,55 +111,6 @@ class MapViewController: DroneViewController, MKMapViewDelegate {
                 controlBarVC.waypointButton.backgroundColor = UIColor(red: 21.0/255.0, green: 126.0/255.0, blue: 251.0/255.0, alpha: 1.0)
             }
         }
-    }
-    
-    @IBAction func altitudeSliderChange(sender: AnyObject) {
-        debugPrint("Altitude slider changed to %f", self.altitudeSlider.value)
-        let altitudeCommandArgs = [
-            "dalt": self.altitudeSlider.value
-        ]
-        socket.emit("altitude_cmd", altitudeCommandArgs)
-    }  
-    
-    @IBAction func altitudeSliderReleased(sender: AnyObject) {
-        let initialValue = self.altitudeSlider.value
-        let finalValue = Float(0)
-        UIView.animateWithDuration(0.15, delay: 0, options: .CurveLinear, animations: { () -> Void in
-            self.altitudeSlider.setValue(initialValue, animated: true)
-            }) { (completed) -> Void in
-                UIView.animateWithDuration(0.15, delay: 0, options: .CurveLinear, animations: { () -> Void in
-                    self.altitudeSlider.setValue(finalValue, animated: true)
-                    }, completion: nil)
-        }
-    }
-    
-    @IBAction func rotationSliderChange(sender: AnyObject) {
-        debugPrint("Rotation slider changed to %f", self.rotationSlider.value)
-        let rotationCommandArgs = [
-            "heading": self.rotationSlider.value
-        ]
-        debugPrint("Emitting rotation_cmd...")
-        socket.emit("rotation_cmd", rotationCommandArgs)
-    }
-    
-    @IBAction func rotationSliderReleased(sender: AnyObject) {
-        let initialValue = self.rotationSlider.value
-        let finalValue = Float(0)
-        UIView.animateWithDuration(0.15, delay: 0, options: .CurveLinear, animations: { () -> Void in
-            self.rotationSlider.setValue(initialValue, animated: true)
-            }) { (completed) -> Void in
-                UIView.animateWithDuration(0.15, delay: 0.1, options: .CurveLinear, animations: { () -> Void in
-                    self.rotationSlider.setValue(finalValue, animated: true)
-                    }, completion: nil)
-        }
-    }
-    
-    func imageWithImage(image:UIImage, scaledToSize newSize:CGSize) -> UIImage{
-        UIGraphicsBeginImageContextWithOptions(newSize, false, 0.0);
-        image.drawInRect(CGRectMake(0, 0, newSize.width, newSize.height))
-        let newImage:UIImage = UIGraphicsGetImageFromCurrentImageContext()
-        UIGraphicsEndImageContext()
-        return newImage
     }
     
 // =================================== MAP VIEW ===================================
