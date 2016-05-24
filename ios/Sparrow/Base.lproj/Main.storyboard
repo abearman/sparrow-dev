@@ -23,6 +23,7 @@
             <string>Oswald-Medium</string>
             <string>Oswald-Medium</string>
             <string>Oswald-Medium</string>
+            <string>Oswald-Medium</string>
         </mutableArray>
     </customFonts>
     <scenes>
@@ -54,6 +55,49 @@
             </objects>
             <point key="canvasLocation" x="2514" y="225"/>
         </scene>
+        <!--Summary View Controller-->
+        <scene sceneID="X88-kZ-Xzt">
+            <objects>
+                <viewController id="UbD-0i-51w" customClass="SummaryViewController" customModule="Sparrow" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="gTv-bx-XQx"/>
+                        <viewControllerLayoutGuide type="bottom" id="Mqo-g7-FGg"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="cZj-sp-il8">
+                        <rect key="frame" x="0.0" y="0.0" width="900" height="700"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="Yik-ib-Xck">
+                                <rect key="frame" x="17" y="89" width="863" height="591"/>
+                            </mapView>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="iUh-TB-oDC">
+                                <rect key="frame" x="847" y="20" width="33" height="33"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="30"/>
+                                <state key="normal" title="X">
+                                    <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
+                                </state>
+                                <connections>
+                                    <action selector="close:" destination="UbD-0i-51w" eventType="touchUpInside" id="SV6-fo-Zgq"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="POINTS OF INTEREST" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nf7-3n-kGB">
+                                <rect key="frame" x="332" y="28" width="236" height="41"/>
+                                <fontDescription key="fontDescription" name="Oswald-Medium" family="Oswald" pointSize="30"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+                    <size key="freeformSize" width="900" height="700"/>
+                    <connections>
+                        <outlet property="summaryMap" destination="Yik-ib-Xck" id="Aqt-In-F0v"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="25G-NA-cS0" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2514" y="976"/>
+        </scene>
         <!--Drone Controller-->
         <scene sceneID="Hgn-Cm-gzH">
             <objects>
@@ -76,7 +120,7 @@
                                 </connections>
                             </containerView>
                             <containerView opaque="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="i3v-Ev-9lf" userLabel="Altitude Slider">
-                                <rect key="frame" x="20" y="406" width="48" height="257"/>
+                                <rect key="frame" x="20" y="497" width="66" height="147"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <connections>
@@ -217,8 +261,8 @@
                                     <segue destination="bA1-XH-u2U" kind="embed" id="iHh-ZV-Mch"/>
                                 </connections>
                             </containerView>
-                            <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hJF-0f-oEV" userLabel="Altitude Slider">
-                                <rect key="frame" x="20" y="482" width="79" height="179"/>
+                            <containerView opaque="NO" contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="hJF-0f-oEV" userLabel="Altitude Slider">
+                                <rect key="frame" x="20" y="474" width="79" height="179"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <connections>
@@ -411,11 +455,14 @@
                         <outlet property="launchButton" destination="f8G-UI-1Ji" id="tZp-wo-YWO"/>
                         <outlet property="sarButton" destination="DRT-cW-FhC" id="6o3-3s-3ou"/>
                         <outlet property="waypointButton" destination="qAA-h1-L42" id="FfW-S3-FEX"/>
+                        <segue destination="UbD-0i-51w" kind="popoverPresentation" identifier="summarySegue" popoverAnchorView="FbI-ha-frU" id="7Zx-ZQ-X55">
+                            <popoverArrowDirection key="popoverArrowDirection" up="YES" down="YES" left="YES" right="YES"/>
+                        </segue>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="kPn-c1-lKR" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1392" y="619.5"/>
+            <point key="canvasLocation" x="1368" y="583.5"/>
         </scene>
         <!--Lateral Commands View Controller-->
         <scene sceneID="yRe-ym-OvP">
@@ -561,7 +608,7 @@
                         <viewControllerLayoutGuide type="bottom" id="CDq-zU-wqM"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="0at-i9-6QY">
-                        <rect key="frame" x="0.0" y="0.0" width="79" height="179"/>
+                        <rect key="frame" x="0.0" y="0.0" width="66" height="147"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="alt_arrows" translatesAutoresizingMaskIntoConstraints="NO" id="Dsr-2a-ai7">
@@ -602,9 +649,9 @@
         <image name="stanford" width="1200" height="674"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="hep-eL-Bf7"/>
-        <segue reference="DOK-FB-rSf"/>
-        <segue reference="iHh-ZV-Mch"/>
-        <segue reference="d78-ZE-q6L"/>
+        <segue reference="lK0-ym-PF4"/>
+        <segue reference="VN3-GM-F87"/>
+        <segue reference="i81-yK-5au"/>
+        <segue reference="AWe-JQ-cQK"/>
     </inferredMetricsTieBreakers>
 </document>

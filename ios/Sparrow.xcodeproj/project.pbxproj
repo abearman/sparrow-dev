@@ -69,6 +69,7 @@
 		BDD1F01A1CF3985000DF3B52 /* AltitudeSliderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDD1F0191CF3985000DF3B52 /* AltitudeSliderViewController.swift */; };
 		BDDE047A1CD15A9E00E61271 /* CurrentLocationAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDDE04791CD15A9E00E61271 /* CurrentLocationAnnotation.swift */; };
 		C116D24C1CE2F73C005A8C56 /* ImageRotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = C116D24B1CE2F73C005A8C56 /* ImageRotation.swift */; };
+		C13F56001CF4546D009FF68B /* SummaryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C13F55FF1CF4546D009FF68B /* SummaryViewController.swift */; };
 		C1C8124B1CD94B110087ED4D /* WaypointAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1C8124A1CD94B110087ED4D /* WaypointAnnotation.swift */; };
 /* End PBXBuildFile section */
 
@@ -160,6 +161,7 @@
 		BDD1F0191CF3985000DF3B52 /* AltitudeSliderViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AltitudeSliderViewController.swift; sourceTree = "<group>"; };
 		BDDE04791CD15A9E00E61271 /* CurrentLocationAnnotation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CurrentLocationAnnotation.swift; sourceTree = "<group>"; };
 		C116D24B1CE2F73C005A8C56 /* ImageRotation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageRotation.swift; sourceTree = "<group>"; };
+		C13F55FF1CF4546D009FF68B /* SummaryViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SummaryViewController.swift; sourceTree = "<group>"; };
 		C1C8124A1CD94B110087ED4D /* WaypointAnnotation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WaypointAnnotation.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -341,6 +343,7 @@
 				BDD1F0131CF37BDC00DF3B52 /* SARMenuViewController.swift */,
 				C1C8124A1CD94B110087ED4D /* WaypointAnnotation.swift */,
 				BDDE04791CD15A9E00E61271 /* CurrentLocationAnnotation.swift */,
+				C13F55FF1CF4546D009FF68B /* SummaryViewController.swift */,
 			);
 			name = "Map View";
 			sourceTree = "<group>";
@@ -525,6 +528,7 @@
 				4981888E1CCADEB700029A6D /* SwiftRegex.swift in Sources */,
 				4981887B1CCADEB700029A6D /* SocketAckEmitter.swift in Sources */,
 				4981888F1CCADEB700029A6D /* WebSocket.swift in Sources */,
+				C13F56001CF4546D009FF68B /* SummaryViewController.swift in Sources */,
 				4981885C1CCAB92C00029A6D /* AnalogueStick.m in Sources */,
 				498188851CCADEB700029A6D /* SocketEventHandler.swift in Sources */,
 				4981888A1CCADEB700029A6D /* SocketPacket.swift in Sources */,
