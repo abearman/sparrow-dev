@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10116" systemVersion="15B42" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="dlJ-eF-oDH">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10116" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="dlJ-eF-oDH">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
@@ -9,6 +9,8 @@
     </dependencies>
     <customFonts key="customFonts">
         <mutableArray key="Oswald-Light.ttf">
+            <string>Oswald-Light</string>
+            <string>Oswald-Light</string>
             <string>Oswald-Light</string>
             <string>Oswald-Light</string>
             <string>Oswald-Light</string>
@@ -39,7 +41,7 @@
                                 <rect key="frame" x="0.0" y="28" width="600" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="JMr-VM-zZo" id="YSC-2h-UaB">
-                                    <rect key="frame" x="0.0" y="0.0" width="600" height="43.5"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="600" height="43"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </tableViewCellContentView>
                             </tableViewCell>
@@ -99,6 +101,53 @@
                                     <segue destination="bA1-XH-u2U" kind="embed" id="lK0-ym-PF4"/>
                                 </connections>
                             </containerView>
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="dzn-gk-tVR">
+                                <rect key="frame" x="764" y="93" width="240" height="98"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Step" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aBJ-UY-u7M">
+                                        <rect key="frame" x="15" y="13" width="36" height="21"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <slider opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="3" minValue="1.5" maxValue="4.5" translatesAutoresizingMaskIntoConstraints="NO" id="5Gp-0r-Oa8">
+                                        <rect key="frame" x="66" y="8" width="160" height="31"/>
+                                        <connections>
+                                            <action selector="stepSliderChanged:" destination="lZr-Lc-zbu" eventType="touchUpInside" id="74Z-QG-qgL"/>
+                                            <action selector="stepSliderChanged:" destination="lZr-Lc-zbu" eventType="touchUpOutside" id="Pgg-U0-XSL"/>
+                                        </connections>
+                                    </slider>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Klb-9H-dae" userLabel="Waypoint Button">
+                                        <rect key="frame" x="7" y="54" width="111" height="36"/>
+                                        <color key="backgroundColor" red="1" green="0.38325883776203218" blue="0.43442281662179161" alpha="1" colorSpace="calibratedRGB"/>
+                                        <fontDescription key="fontDescription" name="Oswald-Light" family="Oswald" pointSize="23"/>
+                                        <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        <inset key="contentEdgeInsets" minX="20" minY="0.0" maxX="20" maxY="0.0"/>
+                                        <state key="normal" title="Cancel">
+                                            <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="sarCancelButtonClicked:" destination="lZr-Lc-zbu" eventType="touchUpOutside" id="Caf-eP-2qT"/>
+                                            <action selector="sarCancelButtonClicked:" destination="lZr-Lc-zbu" eventType="touchUpInside" id="HGr-vv-Wh5"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Hfu-xb-m3P" userLabel="Waypoint Button">
+                                        <rect key="frame" x="122" y="54" width="111" height="36"/>
+                                        <color key="backgroundColor" red="0.46666666670000001" green="0.86274509799999999" blue="0.58823529409999997" alpha="1" colorSpace="calibratedRGB"/>
+                                        <fontDescription key="fontDescription" name="Oswald-Light" family="Oswald" pointSize="23"/>
+                                        <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        <inset key="contentEdgeInsets" minX="20" minY="0.0" maxX="20" maxY="0.0"/>
+                                        <state key="normal" title="Confirm">
+                                            <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="sarConfirmButtonClicked:" destination="lZr-Lc-zbu" eventType="touchUpInside" id="K5b-HL-Ap9"/>
+                                            <action selector="sarConfirmButtonClicked:" destination="lZr-Lc-zbu" eventType="touchUpOutside" id="qrs-We-Y2V"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -122,6 +171,10 @@
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="iPad"/>
                     <connections>
                         <outlet property="mapView" destination="it6-1N-EKc" id="NFJ-oK-7tM"/>
+                        <outlet property="sarControlCancelButton" destination="Klb-9H-dae" id="cyg-Ln-j03"/>
+                        <outlet property="sarControlConfirmButton" destination="Hfu-xb-m3P" id="Q4S-E1-MK4"/>
+                        <outlet property="sarControlView" destination="dzn-gk-tVR" id="RAK-YX-uq4"/>
+                        <outlet property="sarStepSlider" destination="5Gp-0r-Oa8" id="moR-fl-cKQ"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="f5n-xx-WEw" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -221,6 +274,10 @@
         <scene sceneID="kxZ-8T-4w3">
             <objects>
                 <viewController id="oap-Pp-LXB" customClass="ControlBarViewController" customModule="Sparrow" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="EJm-eZ-0HX"/>
+                        <viewControllerLayoutGuide type="bottom" id="WbA-8u-IcK"/>
+                    </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="FbI-ha-frU">
                         <rect key="frame" x="0.0" y="0.0" width="1024" height="55"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -361,6 +418,10 @@
         <scene sceneID="yRe-ym-OvP">
             <objects>
                 <viewController id="bA1-XH-u2U" userLabel="Lateral Commands View Controller" customClass="LateralMovementViewController" customModule="Sparrow" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="8qg-IW-CLh"/>
+                        <viewControllerLayoutGuide type="bottom" id="9JI-qz-DQE"/>
+                    </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="WQ8-XE-Ys9">
                         <rect key="frame" x="0.0" y="0.0" width="206" height="206"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -448,6 +509,10 @@
         <scene sceneID="QoR-l6-Rzd">
             <objects>
                 <viewController id="M3z-Vg-ycn" customClass="RotationSliderViewController" customModule="Sparrow" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="YWJ-aG-6Pj"/>
+                        <viewControllerLayoutGuide type="bottom" id="1US-uV-wDb"/>
+                    </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="dWL-mc-Agg">
                         <rect key="frame" x="0.0" y="0.0" width="298" height="48"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -488,6 +553,10 @@
         <scene sceneID="tNR-7O-mf2">
             <objects>
                 <viewController id="vRM-lx-WyO" customClass="AltitudeSliderViewController" customModule="Sparrow" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="w5o-lb-aj6"/>
+                        <viewControllerLayoutGuide type="bottom" id="CDq-zU-wqM"/>
+                    </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="0at-i9-6QY">
                         <rect key="frame" x="0.0" y="0.0" width="48" height="257"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -531,9 +600,9 @@
         <image name="stanford" width="1200" height="674"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="d78-ZE-q6L"/>
-        <segue reference="DOK-FB-rSf"/>
-        <segue reference="iHh-ZV-Mch"/>
-        <segue reference="hep-eL-Bf7"/>
+        <segue reference="VN3-GM-F87"/>
+        <segue reference="i81-yK-5au"/>
+        <segue reference="lK0-ym-PF4"/>
+        <segue reference="AWe-JQ-cQK"/>
     </inferredMetricsTieBreakers>
 </document>

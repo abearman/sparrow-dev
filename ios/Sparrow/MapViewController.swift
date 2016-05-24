@@ -13,10 +13,18 @@ import MapKit
 class MapViewController: DroneViewController, MKMapViewDelegate {
         
     @IBOutlet weak var mapView: MKMapView!
+    @IBOutlet weak var sarControlView: UIView!
+    @IBOutlet weak var sarStepSlider: UISlider!
+    @IBOutlet weak var sarControlCancelButton: UIButton!
+    @IBOutlet weak var sarControlConfirmButton: UIButton!
+    
+    var pathType: String = "";
+    var offsets : [(dNorth: Double, dEast: Double)] = [];
 
     override func viewDidLoad() {
         super.viewDidLoad()
-            
+        
+        sarControlView.hidden = true
         mapView.delegate = self
         mapView.rotateEnabled = false
         mapView.showsCompass = true
@@ -37,7 +45,6 @@ class MapViewController: DroneViewController, MKMapViewDelegate {
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
-    
     
     
 // =================================== SERVER ===================================
@@ -240,5 +247,71 @@ class MapViewController: DroneViewController, MKMapViewDelegate {
             }
         }
     }
+    
+    var sarLocations: [CLLocationCoordinate2D] = []
+    var sarPreviewPath: MKPolyline?
+    let DEFAULT_STEP : Double = 3
+    
+    func drawPreview() {
+        let step : Double = Double(self.sarStepSlider.value)
+        let degreeStep : Double = step * 0.00001
+        let originalLat = self.latestLat
+        let originalLong = self.latestLong
+        for offset in offsets {
+            let nextWaypoint = (originalLat + offset.dNorth * degreeStep,
+                                originalLong + offset.dEast * degreeStep)
+            let loc = CLLocationCoordinate2DMake(nextWaypoint.0, nextWaypoint.1)
+            sarLocations.append(loc)
+        }
+        
+        // show the preview
+        sarPreviewPath = MKPolyline(coordinates: &sarLocations, count: sarLocations.count)
+        self.mapView.addOverlay(sarPreviewPath!)
+    }
+    
+    @IBAction func sarConfirmButtonClicked(sender: AnyObject) {
+        self.sarControlView.hidden = true
+        self.sarStepSlider.value = Float(DEFAULT_STEP)
+        self.mapView.removeOverlay(sarPreviewPath!)
+        self.sarLocations = []
+        
+        let step : Double = Double(self.sarStepSlider.value)
+        let degreeStep : Double = step * 0.00001
+        
+        // travel the path
+        let priority = DISPATCH_QUEUE_PRIORITY_DEFAULT
+        dispatch_async(dispatch_get_global_queue(priority, 0)) {
+            let originalLat = self.latestLat
+            let originalLong = self.latestLong
+            for offset in self.offsets {
+                // let nextWaypoint = self.getLocationMeters(self.delegate!.latestLat, origLon: self.delegate!.latestLong, dNorth: Double(offset.dNorth * self.STEP), dEast: Double(offset.dEast * self.STEP))
+                let nextWaypoint = (originalLat + offset.dNorth * degreeStep,
+                                    originalLong + offset.dEast * degreeStep)
+                let waypointArgs = [
+                    "lat": nextWaypoint.0,
+                    "lon": nextWaypoint.1
+                ]
+                self.socket.emit("waypoint_cmd", waypointArgs)
+                let distance = sqrt(pow(Double(offset.dNorth * step), 2) + pow(Double(offset.dEast * step), 2))
+                sleep(UInt32(distance / 0.5)) // change back to 2
+            }
+            print("FINISHED SAR PATH")
+        }
+        
+    }
+    
+    @IBAction func sarCancelButtonClicked(sender: AnyObject) {
+        self.sarControlView.hidden = true
+        self.sarStepSlider.value = Float(DEFAULT_STEP)
+        self.mapView.removeOverlay(sarPreviewPath!)
+        self.sarLocations = []
+    }
+    
+    @IBAction func stepSliderChanged(sender: AnyObject) {
+        self.mapView.removeOverlay(sarPreviewPath!)
+        self.sarLocations = []
+        drawPreview()
+    }
+    
     
 }
