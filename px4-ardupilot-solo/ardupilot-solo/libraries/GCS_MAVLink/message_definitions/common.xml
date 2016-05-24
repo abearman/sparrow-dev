@@ -603,16 +603,6 @@
                     <param index="6">Longitude</param>
                     <param index="7">Altitude</param>
                 </entry>
-							 <entry value="301" name="MAV_CMD_NAV_SEND_TANGO_GPS">
-										<description>Allows the Google Tango's converted GPS coordinates, and 3D velocity vector, to be sent to the drone</description>
-										<param index="1">Latitude</param>
-										<param index="2">Longitude</param>
-                    <param index="3">Altitude</param>
-                    <param index="4">x velocity</param>
-                    <param index="5">y velocity</param>
-                    <param index="6">z velocity</param>
-                    <param index="7">Timestamp</param>
-							 </entry>
                <entry value="30" name="MAV_CMD_NAV_CONTINUE_AND_CHANGE_ALT">
                    <description>Continue on the current course and climb/descend to specified altitude.  When the altitude is reached continue to the next command (i.e., don't proceed to the next command until the desired altitude is reached.</description>
                     <param index="1">Empty</param>

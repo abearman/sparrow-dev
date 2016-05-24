@@ -108,7 +108,6 @@
 #include <GCS_MAVLink.h>        // MAVLink GCS definitions
 #include <AP_SerialManager.h>   // Serial manager library
 #include <AP_GPS.h>             // ArduPilot GPS library
-#include <AP_Tango.h>						// ArduPilot Tango library
 #include <DataFlash.h>          // ArduPilot Mega Flash Memory Library
 #include <AP_ADC.h>             // ArduPilot Mega Analog to Digital Converter Library
 #include <AP_ADC_AnalogSource.h>
@@ -273,16 +272,11 @@ static RangeFinder sonar;
 static bool sonar_enabled = true; // enable user switch for sonar
 #endif
 
-////////////////////////////////////////////////////////////////////////////////
-// Tango
-////////////////////////////////////////////////////////////////////////////////
-static AP_Tango tango;
-
 // Inertial Navigation EKF
 #if AP_AHRS_NAVEKF_AVAILABLE
-AP_AHRS_NavEKF ahrs(ins, barometer, gps, sonar, tango);
+AP_AHRS_NavEKF ahrs(ins, barometer, gps, sonar);
 #else
-AP_AHRS_DCM ahrs(ins, barometer, gps, tango);
+AP_AHRS_DCM ahrs(ins, barometer, gps);
 #endif
 
 #if CONFIG_HAL_BOARD == HAL_BOARD_AVR_SITL
@@ -378,7 +372,7 @@ static union {
 ////////////////////////////////////////////////////////////////////////////////
 // This is the state of the flight control system
 // There are multiple states defined such as STABILIZE, ACRO,
-static int8_t control_mode = STABILIZE;
+static int8_t control_mode = GUIDED;
 // Structure used to detect changes in the flight mode control switch
 static struct {
     int8_t debounced_switch_position;   // currently used switch position
@@ -881,7 +875,7 @@ void loop()
 
     // Execute the fast loop
     // ---------------------
-    fast_loop();
+		fast_loop();
 
     // tell the scheduler one tick has passed
     scheduler.tick();

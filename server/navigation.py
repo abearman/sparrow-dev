@@ -19,6 +19,7 @@ import unicodedata
 from math import sqrt, pi, sin, cos, tan, atan, atan2
 from numpy import array, dot
 #from numarray import array, dot, zeros, Float64
+import mission_state
 from mission_state import origin_ecef
 
 #def diag(l):

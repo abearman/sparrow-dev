@@ -8,13 +8,10 @@
 
 /* Begin PBXBuildFile section */
 		492AF8601CC9B34B00A805F3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 492AF85F1CC9B34B00A805F3 /* AppDelegate.swift */; };
-		492AF8631CC9B34B00A805F3 /* Sparrow.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 492AF8611CC9B34B00A805F3 /* Sparrow.xcdatamodeld */; };
-		492AF8671CC9B34B00A805F3 /* DroneViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 492AF8661CC9B34B00A805F3 /* DroneViewController.swift */; };
+		492AF8671CC9B34B00A805F3 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 492AF8661CC9B34B00A805F3 /* MapViewController.swift */; };
 		492AF86A1CC9B34B00A805F3 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 492AF8681CC9B34B00A805F3 /* Main.storyboard */; };
 		492AF86C1CC9B34B00A805F3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 492AF86B1CC9B34B00A805F3 /* Assets.xcassets */; };
 		492AF86F1CC9B34B00A805F3 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 492AF86D1CC9B34B00A805F3 /* LaunchScreen.storyboard */; };
-		492AF87A1CC9B34B00A805F3 /* SparrowTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 492AF8791CC9B34B00A805F3 /* SparrowTests.swift */; };
-		492AF8851CC9B34B00A805F3 /* SparrowUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 492AF8841CC9B34B00A805F3 /* SparrowUITests.swift */; };
 		492AF89E1CC9BA0D00A805F3 /* Joystick.m in Sources */ = {isa = PBXBuildFile; fileRef = 492AF89D1CC9BA0D00A805F3 /* Joystick.m */; };
 		492AF8A01CC9CE6600A805F3 /* JSONHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 492AF89F1CC9CE6600A805F3 /* JSONHelper.swift */; };
 		4949CEB51CE0745200959856 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 4949CEB41CE0745200959856 /* libz.tbd */; };
@@ -61,7 +58,15 @@
 		49CC318F1CCB24D100E9A905 /* Oswald-RegularItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 49CC317F1CCB248400E9A905 /* Oswald-RegularItalic.ttf */; };
 		49CC31901CCB24D300E9A905 /* Oswald-Stencil.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 49CC31801CCB248400E9A905 /* Oswald-Stencil.ttf */; };
 		BD2DC7BB1CE5054C00AAC56B /* logo.png in Resources */ = {isa = PBXBuildFile; fileRef = BD2DC7BA1CE5054C00AAC56B /* logo.png */; };
-		BD9220691CD970B4005DB301 /* SARMenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD9220681CD970B4005DB301 /* SARMenuViewController.swift */; };
+		BDD1EFFA1CF26CF300DF3B52 /* VideoFeedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDD1EFF91CF26CF300DF3B52 /* VideoFeedViewController.swift */; };
+		BDD1F0001CF2712000DF3B52 /* ControlBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDD1EFFF1CF2712000DF3B52 /* ControlBarViewController.swift */; };
+		BDD1F0061CF2797E00DF3B52 /* DroneViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDD1F0051CF2797E00DF3B52 /* DroneViewController.swift */; };
+		BDD1F00A1CF296BD00DF3B52 /* LateralMovementViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDD1F0091CF296BD00DF3B52 /* LateralMovementViewController.swift */; };
+		BDD1F00E1CF37AD600DF3B52 /* ControlBarModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDD1F00D1CF37AD600DF3B52 /* ControlBarModel.swift */; };
+		BDD1F0141CF37BDC00DF3B52 /* SARMenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDD1F0131CF37BDC00DF3B52 /* SARMenuViewController.swift */; };
+		BDD1F0161CF37D0500DF3B52 /* DroneTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDD1F0151CF37D0500DF3B52 /* DroneTabBarController.swift */; };
+		BDD1F0181CF3952400DF3B52 /* RotationSliderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDD1F0171CF3952400DF3B52 /* RotationSliderViewController.swift */; };
+		BDD1F01A1CF3985000DF3B52 /* AltitudeSliderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDD1F0191CF3985000DF3B52 /* AltitudeSliderViewController.swift */; };
 		BDDE047A1CD15A9E00E61271 /* CurrentLocationAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDDE04791CD15A9E00E61271 /* CurrentLocationAnnotation.swift */; };
 		C116D24C1CE2F73C005A8C56 /* ImageRotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = C116D24B1CE2F73C005A8C56 /* ImageRotation.swift */; };
 		C1C8124B1CD94B110087ED4D /* WaypointAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1C8124A1CD94B110087ED4D /* WaypointAnnotation.swift */; };
@@ -87,19 +92,13 @@
 /* Begin PBXFileReference section */
 		492AF85C1CC9B34B00A805F3 /* Sparrow.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Sparrow.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		492AF85F1CC9B34B00A805F3 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		492AF8621CC9B34B00A805F3 /* Sparrow.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Sparrow.xcdatamodel; sourceTree = "<group>"; };
-		492AF8661CC9B34B00A805F3 /* DroneViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DroneViewController.swift; sourceTree = "<group>"; };
+		492AF8661CC9B34B00A805F3 /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 		492AF8691CC9B34B00A805F3 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		492AF86B1CC9B34B00A805F3 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		492AF86E1CC9B34B00A805F3 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		492AF8701CC9B34B00A805F3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		492AF8751CC9B34B00A805F3 /* SparrowTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SparrowTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		492AF8791CC9B34B00A805F3 /* SparrowTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SparrowTests.swift; sourceTree = "<group>"; };
-		492AF87B1CC9B34B00A805F3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		492AF8801CC9B34B00A805F3 /* SparrowUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SparrowUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		492AF8841CC9B34B00A805F3 /* SparrowUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SparrowUITests.swift; sourceTree = "<group>"; };
-		492AF8861CC9B34B00A805F3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		492AF8921CC9B57E00A805F3 /* Sparrow-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Sparrow-Bridging-Header.h"; sourceTree = "<group>"; };
 		492AF89C1CC9BA0D00A805F3 /* Joystick.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Joystick.h; sourceTree = "<group>"; };
 		492AF89D1CC9BA0D00A805F3 /* Joystick.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Joystick.m; sourceTree = "<group>"; };
 		492AF89F1CC9CE6600A805F3 /* JSONHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JSONHelper.swift; sourceTree = "<group>"; };
@@ -150,11 +149,18 @@
 		49CC317F1CCB248400E9A905 /* Oswald-RegularItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Oswald-RegularItalic.ttf"; sourceTree = "<group>"; };
 		49CC31801CCB248400E9A905 /* Oswald-Stencil.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Oswald-Stencil.ttf"; sourceTree = "<group>"; };
 		BD2DC7BA1CE5054C00AAC56B /* logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = logo.png; sourceTree = "<group>"; };
-		BD9220681CD970B4005DB301 /* SARMenuViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SARMenuViewController.swift; sourceTree = "<group>"; };
+		BDD1EFF91CF26CF300DF3B52 /* VideoFeedViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoFeedViewController.swift; sourceTree = "<group>"; };
+		BDD1EFFF1CF2712000DF3B52 /* ControlBarViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ControlBarViewController.swift; sourceTree = "<group>"; };
+		BDD1F0051CF2797E00DF3B52 /* DroneViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DroneViewController.swift; sourceTree = "<group>"; };
+		BDD1F0091CF296BD00DF3B52 /* LateralMovementViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LateralMovementViewController.swift; path = ../LateralMovementViewController.swift; sourceTree = "<group>"; };
+		BDD1F00D1CF37AD600DF3B52 /* ControlBarModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ControlBarModel.swift; sourceTree = "<group>"; };
+		BDD1F0131CF37BDC00DF3B52 /* SARMenuViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SARMenuViewController.swift; path = ../SARMenuViewController.swift; sourceTree = "<group>"; };
+		BDD1F0151CF37D0500DF3B52 /* DroneTabBarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DroneTabBarController.swift; sourceTree = "<group>"; };
+		BDD1F0171CF3952400DF3B52 /* RotationSliderViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RotationSliderViewController.swift; sourceTree = "<group>"; };
+		BDD1F0191CF3985000DF3B52 /* AltitudeSliderViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AltitudeSliderViewController.swift; sourceTree = "<group>"; };
 		BDDE04791CD15A9E00E61271 /* CurrentLocationAnnotation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CurrentLocationAnnotation.swift; sourceTree = "<group>"; };
 		C116D24B1CE2F73C005A8C56 /* ImageRotation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageRotation.swift; sourceTree = "<group>"; };
 		C1C8124A1CD94B110087ED4D /* WaypointAnnotation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WaypointAnnotation.swift; sourceTree = "<group>"; };
-		C1C8124C1CD970AD0087ED4D /* SARMenuViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SARMenuViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -189,8 +195,6 @@
 				4949CEB41CE0745200959856 /* libz.tbd */,
 				BD2DC7BA1CE5054C00AAC56B /* logo.png */,
 				492AF85E1CC9B34B00A805F3 /* Sparrow */,
-				492AF8781CC9B34B00A805F3 /* SparrowTests */,
-				492AF8831CC9B34B00A805F3 /* SparrowUITests */,
 				492AF85D1CC9B34B00A805F3 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -208,44 +212,21 @@
 		492AF85E1CC9B34B00A805F3 /* Sparrow */ = {
 			isa = PBXGroup;
 			children = (
-				C116D24B1CE2F73C005A8C56 /* ImageRotation.swift */,
-				BD9220681CD970B4005DB301 /* SARMenuViewController.swift */,
-				492AF85F1CC9B34B00A805F3 /* AppDelegate.swift */,
-				492AF8661CC9B34B00A805F3 /* DroneViewController.swift */,
-				C1C8124A1CD94B110087ED4D /* WaypointAnnotation.swift */,
-				C1C8124C1CD970AD0087ED4D /* SARMenuViewController.swift */,
-				BDDE04791CD15A9E00E61271 /* CurrentLocationAnnotation.swift */,
+				BDD1F0121CF37B7400DF3B52 /* Helper Swift Files */,
+				BDD1F0151CF37D0500DF3B52 /* DroneTabBarController.swift */,
+				BDD1F0051CF2797E00DF3B52 /* DroneViewController.swift */,
+				492AF8661CC9B34B00A805F3 /* MapViewController.swift */,
+				BDD1EFF91CF26CF300DF3B52 /* VideoFeedViewController.swift */,
+				BDD1F00F1CF37ADF00DF3B52 /* Manual Controls */,
+				BDD1F0111CF37B4900DF3B52 /* Map View */,
+				492AF8681CC9B34B00A805F3 /* Main.storyboard */,
 				4949CEBA1CE0749000959856 /* zlib */,
 				492AF8961CC9B59000A805F3 /* DroneControlComponents */,
-				492AF8681CC9B34B00A805F3 /* Main.storyboard */,
-				492AF89F1CC9CE6600A805F3 /* JSONHelper.swift */,
+				BDD1F0101CF37AEF00DF3B52 /* Supporting Files */,
 				49CC31811CCB249400E9A905 /* Fonts */,
 				498188901CCADEC400029A6D /* SocketIO */,
-				492AF86B1CC9B34B00A805F3 /* Assets.xcassets */,
-				492AF86D1CC9B34B00A805F3 /* LaunchScreen.storyboard */,
-				492AF8701CC9B34B00A805F3 /* Info.plist */,
-				492AF8611CC9B34B00A805F3 /* Sparrow.xcdatamodeld */,
-				492AF8921CC9B57E00A805F3 /* Sparrow-Bridging-Header.h */,
 			);
 			path = Sparrow;
-			sourceTree = "<group>";
-		};
-		492AF8781CC9B34B00A805F3 /* SparrowTests */ = {
-			isa = PBXGroup;
-			children = (
-				492AF8791CC9B34B00A805F3 /* SparrowTests.swift */,
-				492AF87B1CC9B34B00A805F3 /* Info.plist */,
-			);
-			path = SparrowTests;
-			sourceTree = "<group>";
-		};
-		492AF8831CC9B34B00A805F3 /* SparrowUITests */ = {
-			isa = PBXGroup;
-			children = (
-				492AF8841CC9B34B00A805F3 /* SparrowUITests.swift */,
-				492AF8861CC9B34B00A805F3 /* Info.plist */,
-			);
-			path = SparrowUITests;
 			sourceTree = "<group>";
 		};
 		492AF8961CC9B59000A805F3 /* DroneControlComponents */ = {
@@ -329,6 +310,48 @@
 				49CC31801CCB248400E9A905 /* Oswald-Stencil.ttf */,
 			);
 			name = Fonts;
+			sourceTree = "<group>";
+		};
+		BDD1F00F1CF37ADF00DF3B52 /* Manual Controls */ = {
+			isa = PBXGroup;
+			children = (
+				BDD1EFFF1CF2712000DF3B52 /* ControlBarViewController.swift */,
+				BDD1F00D1CF37AD600DF3B52 /* ControlBarModel.swift */,
+				BDD1F0091CF296BD00DF3B52 /* LateralMovementViewController.swift */,
+				BDD1F0171CF3952400DF3B52 /* RotationSliderViewController.swift */,
+				BDD1F0191CF3985000DF3B52 /* AltitudeSliderViewController.swift */,
+			);
+			name = "Manual Controls";
+			sourceTree = "<group>";
+		};
+		BDD1F0101CF37AEF00DF3B52 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				492AF85F1CC9B34B00A805F3 /* AppDelegate.swift */,
+				492AF86D1CC9B34B00A805F3 /* LaunchScreen.storyboard */,
+				492AF8701CC9B34B00A805F3 /* Info.plist */,
+				492AF86B1CC9B34B00A805F3 /* Assets.xcassets */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		BDD1F0111CF37B4900DF3B52 /* Map View */ = {
+			isa = PBXGroup;
+			children = (
+				BDD1F0131CF37BDC00DF3B52 /* SARMenuViewController.swift */,
+				C1C8124A1CD94B110087ED4D /* WaypointAnnotation.swift */,
+				BDDE04791CD15A9E00E61271 /* CurrentLocationAnnotation.swift */,
+			);
+			name = "Map View";
+			sourceTree = "<group>";
+		};
+		BDD1F0121CF37B7400DF3B52 /* Helper Swift Files */ = {
+			isa = PBXGroup;
+			children = (
+				C116D24B1CE2F73C005A8C56 /* ImageRotation.swift */,
+				492AF89F1CC9CE6600A805F3 /* JSONHelper.swift */,
+			);
+			name = "Helper Swift Files";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -483,18 +506,19 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BD9220691CD970B4005DB301 /* SARMenuViewController.swift in Sources */,
 				C116D24C1CE2F73C005A8C56 /* ImageRotation.swift in Sources */,
 				498188801CCADEB700029A6D /* SocketEngineClient.swift in Sources */,
+				BDD1F00E1CF37AD600DF3B52 /* ControlBarModel.swift in Sources */,
 				4981887F1CCADEB700029A6D /* SocketEngine.swift in Sources */,
 				4981888B1CCADEB700029A6D /* SocketParsable.swift in Sources */,
 				4981887D1CCADEB700029A6D /* SocketAnyEvent.swift in Sources */,
-				492AF8631CC9B34B00A805F3 /* Sparrow.xcdatamodeld in Sources */,
 				4949CEB91CE0748C00959856 /* NSData+GZIP.swift in Sources */,
 				492AF8601CC9B34B00A805F3 /* AppDelegate.swift in Sources */,
 				492AF89E1CC9BA0D00A805F3 /* Joystick.m in Sources */,
+				BDD1F0181CF3952400DF3B52 /* RotationSliderViewController.swift in Sources */,
 				4981887C1CCADEB700029A6D /* SocketAckManager.swift in Sources */,
 				498188821CCADEB700029A6D /* SocketEnginePollable.swift in Sources */,
+				BDD1F0141CF37BDC00DF3B52 /* SARMenuViewController.swift in Sources */,
 				BDDE047A1CD15A9E00E61271 /* CurrentLocationAnnotation.swift in Sources */,
 				4981887E1CCADEB700029A6D /* SocketClientSpec.swift in Sources */,
 				498188841CCADEB700029A6D /* SocketEngineWebsocket.swift in Sources */,
@@ -507,14 +531,20 @@
 				498188831CCADEB700029A6D /* SocketEngineSpec.swift in Sources */,
 				498188871CCADEB700029A6D /* SocketIOClientOption.swift in Sources */,
 				498188811CCADEB700029A6D /* SocketEnginePacketType.swift in Sources */,
+				BDD1F0061CF2797E00DF3B52 /* DroneViewController.swift in Sources */,
 				498188881CCADEB700029A6D /* SocketIOClientStatus.swift in Sources */,
 				492AF8A01CC9CE6600A805F3 /* JSONHelper.swift in Sources */,
+				BDD1F0161CF37D0500DF3B52 /* DroneTabBarController.swift in Sources */,
 				498188861CCADEB700029A6D /* SocketIOClient.swift in Sources */,
+				BDD1EFFA1CF26CF300DF3B52 /* VideoFeedViewController.swift in Sources */,
+				BDD1F00A1CF296BD00DF3B52 /* LateralMovementViewController.swift in Sources */,
 				4981888C1CCADEB700029A6D /* SocketStringReader.swift in Sources */,
 				4981888D1CCADEB700029A6D /* SocketTypes.swift in Sources */,
+				BDD1F0001CF2712000DF3B52 /* ControlBarViewController.swift in Sources */,
 				C1C8124B1CD94B110087ED4D /* WaypointAnnotation.swift in Sources */,
+				BDD1F01A1CF3985000DF3B52 /* AltitudeSliderViewController.swift in Sources */,
 				498188891CCADEB700029A6D /* SocketLogger.swift in Sources */,
-				492AF8671CC9B34B00A805F3 /* DroneViewController.swift in Sources */,
+				492AF8671CC9B34B00A805F3 /* MapViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -522,7 +552,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				492AF87A1CC9B34B00A805F3 /* SparrowTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -530,7 +559,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				492AF8851CC9B34B00A805F3 /* SparrowUITests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -775,19 +803,6 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
-
-/* Begin XCVersionGroup section */
-		492AF8611CC9B34B00A805F3 /* Sparrow.xcdatamodeld */ = {
-			isa = XCVersionGroup;
-			children = (
-				492AF8621CC9B34B00A805F3 /* Sparrow.xcdatamodel */,
-			);
-			currentVersion = 492AF8621CC9B34B00A805F3 /* Sparrow.xcdatamodel */;
-			path = Sparrow.xcdatamodeld;
-			sourceTree = "<group>";
-			versionGroupType = wrapper.xcdatamodel;
-		};
-/* End XCVersionGroup section */
 	};
 	rootObject = 492AF8541CC9B34B00A805F3 /* Project object */;
 }

@@ -931,11 +931,6 @@ void GCS_MAVLINK::handle_change_alt_request(AP_Mission::Mission_Command &cmd)
 
 void GCS_MAVLINK::handleMessage(mavlink_message_t* msg)
 {
-		char buffer1[100];
-		if (msg->msgid == 76) {
-			gcs_send_text_P(SEVERITY_HIGH,PSTR(itoa(msg->msgid, buffer1, 10)));
-		}
-
     uint8_t result = MAV_RESULT_FAILED;         // assume failure.  Each messages id is responsible for return ACK or NAK if required
     bool send_heartbeat_immediately = false;
 
@@ -1132,13 +1127,10 @@ void GCS_MAVLINK::handleMessage(mavlink_message_t* msg)
     // Pre-Flight calibration requests
     case MAVLINK_MSG_ID_COMMAND_LONG:       // MAV ID: 76
     {
-        gcs_send_text_P(SEVERITY_HIGH,PSTR("Got to Command Long in ArduCopter"));
-				// decode packet
+        // decode packet
         mavlink_command_long_t packet;
         mavlink_msg_command_long_decode(msg, &packet);
-				char buffer[100];
-				gcs_send_text_P(SEVERITY_HIGH,PSTR(itoa(packet.command, buffer, 10)));
-		
+
         switch(packet.command) {
 
         case MAV_CMD_NAV_TAKEOFF: {
@@ -1147,50 +1139,19 @@ void GCS_MAVLINK::handleMessage(mavlink_message_t* msg)
             // param5 : latitude    (not supported)
             // param6 : longitude   (not supported)
             // param7 : altitude [metres]
-						gcs_send_text_P(SEVERITY_HIGH,PSTR("Got to Takeoff in ArduCopter"));
 
             float takeoff_alt = packet.param7 * 100;      // Convert m to cm
 
             if(do_user_takeoff(takeoff_alt, !packet.param3)) {
+								gcs_send_text_P(SEVERITY_HIGH,PSTR("MAV_RESULT_ACCEPTED"));
                 result = MAV_RESULT_ACCEPTED;
             } else {
+								gcs_send_text_P(SEVERITY_HIGH,PSTR("MAV_RESULT_FAILED"));
                 result = MAV_RESULT_FAILED;
             }
             break;
         }
 
-				case MAV_CMD_NAV_SEND_TANGO_GPS: {
-					// param1 : latitude
-					// param2 : longitude
-					// param3 : altitude [meters]
-          // param4 : xvel [m/s]
-          // param5 : yvel [m/s]
-          // param6 : zvel [m/s]
-					// param7 : timestamp [seconds] 
-
-					gcs_send_text_P(SEVERITY_HIGH,PSTR("Sending GPS coords from Tango"));
-
-					float latitude = packet.param1;
-					float longitude = packet.param2;
-					float altitude = packet.param3;
-          float xvel = packet.param4;
-          float yvel = packet.param5;
-          float zvel = packet.param6;
-          uint32_t time_stamp = packet.param7;
-					// TODO: also add accuracy
-	
-					if (send_tango_info(latitude, longitude, altitude, xvel, yvel, zvel, time_stamp)) {
-						gcs_send_text_P(SEVERITY_HIGH,PSTR("MAV_CMD_NAV_SEND_TANGO_GPS Accepted"));
-						int32_t tango_lat = get_tango_lat();
-						char buffer2[100];
-						gcs_send_text_P(SEVERITY_HIGH, PSTR(itoa(tango_lat, buffer2, 10)));
-          	result = MAV_RESULT_ACCEPTED;
-          } else {
-						gcs_send_text_P(SEVERITY_HIGH, PSTR("MAV_CMD_NAV_SEND_TANGO_GPS Failed"));
-          	result = MAV_RESULT_FAILED;
-          }
-          break;
-				}
 
         case MAV_CMD_NAV_LOITER_UNLIM:
             if (set_mode(LOITER)) {
@@ -1283,8 +1244,7 @@ void GCS_MAVLINK::handleMessage(mavlink_message_t* msg)
             break;
 
         case MAV_CMD_MISSION_START:
-            gcs_send_text_P(SEVERITY_HIGH,PSTR("Got to Mission Start in ArduCopter"));
-						if (set_mode(AUTO)) {
+            if (set_mode(AUTO)) {
                 result = MAV_RESULT_ACCEPTED;
             }
             break;
@@ -1335,8 +1295,7 @@ void GCS_MAVLINK::handleMessage(mavlink_message_t* msg)
             break;
 
         case MAV_CMD_COMPONENT_ARM_DISARM:
-						gcs_send_text_P(SEVERITY_LOW, PSTR("Started Arm Disarm command!!! GCS\n"));
-						if (packet.param1 == 1.0f) {
+            if (packet.param1 == 1.0f) {
                 // attempt to arm and return success or failure
                 if (init_arm_motors(true)) {
                     result = MAV_RESULT_ACCEPTED;

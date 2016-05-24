@@ -4,7 +4,7 @@
  *
  *       AHRS system using DCM matrices
  *
- *       Based on DCM code by Doug Weibel, Jordi MuÃ±oz and Jose Julio. DIYDrones.com
+ *       Based on DCM code by Doug Weibel, Jordi Muñoz and Jose Julio. DIYDrones.com
  *
  *       Adapted for the general ArduPilot AHRS interface by Andrew Tridgell
 
@@ -257,7 +257,7 @@ AP_AHRS_DCM::renorm(Vector3f const &a, Vector3f &result)
  *  to approximations rather than identities. In effect, the axes in the two frames of reference no
  *  longer describe a rigid body. Fortunately, numerical error accumulates very slowly, so it is a
  *  simple matter to stay ahead of it.
- *  We call the process of enforcing the orthogonality conditions Ã’renormalizationÃ“.
+ *  We call the process of enforcing the orthogonality conditions ÒrenormalizationÓ.
  */
 void
 AP_AHRS_DCM::normalize(void)
@@ -634,10 +634,8 @@ AP_AHRS_DCM::drift_correction(float deltat)
 
     if (have_gps()) {
         // use GPS for positioning with any fix, even a 2D fix
-        //_last_lat = _tango.get_location().lat;
-        //_last_lng = _tango.get_location().lng;
-				_last_lat = _gps.location().lat;
-				_last_lng = _gps.location().lng;
+        _last_lat = _gps.location().lat;
+        _last_lng = _gps.location().lng;
         _position_offset_north = 0;
         _position_offset_east = 0;
 
@@ -934,59 +932,38 @@ bool AP_AHRS_DCM::get_position(struct Location &loc) const
     if (_flags.fly_forward && _have_position) {
         location_update(loc, _gps.ground_course_cd() * 0.01f, _gps.ground_speed() * _gps.get_lag());
     }
-		// We use the compass for ground course here because the Tango doesn't give reliable headings
-    else if(_flags.fly_forward && _tango.is_connected()){
-				float heading = _compass->calculate_heading(_dcm_matrix); // Radians
-				float heading_in_degrees = degrees(heading); // Degrees
-        location_update(loc, heading_in_degrees, _tango.ground_speed() * _tango.get_lag());
-    }
     return _have_position;
 }
 
 // return an airspeed estimate if available
 bool AP_AHRS_DCM::airspeed_estimate(float *airspeed_ret) const
 {
-		bool ret = false;
-		if (airspeed_sensor_enabled()) {
-				*airspeed_ret = _airspeed->get_airspeed();
-				return true;
-		}
+	bool ret = false;
+	if (airspeed_sensor_enabled()) {
+		*airspeed_ret = _airspeed->get_airspeed();
+		return true;
+	}
 
     if (!_flags.wind_estimation) {
         return false;
     }
 
-		// estimate it via GPS speed and wind
-		if (have_gps()) {
-				*airspeed_ret = _last_airspeed;
-				ret = true;
-		}
+	// estimate it via GPS speed and wind
+	if (have_gps()) {
+		*airspeed_ret = _last_airspeed;
+		ret = true;
+	}
 
-  	if(_tango.is_connected()){
-        *airspeed_ret = _last_airspeed;
-        ret = true;
-    }
-
-		if (ret && _wind_max > 0 && _gps.status() >= AP_GPS::GPS_OK_FIX_2D) {
-				// constrain the airspeed by the ground speed
-				// and AHRS_WIND_MAX
+	if (ret && _wind_max > 0 && _gps.status() >= AP_GPS::GPS_OK_FIX_2D) {
+		// constrain the airspeed by the ground speed
+		// and AHRS_WIND_MAX
         float gnd_speed = _gps.ground_speed();
         float true_airspeed = *airspeed_ret * get_EAS2TAS();
-				true_airspeed = constrain_float(true_airspeed,
+		true_airspeed = constrain_float(true_airspeed,
                                         gnd_speed - _wind_max, 
                                         gnd_speed + _wind_max);
         *airspeed_ret = true_airspeed / get_EAS2TAS();
-		}
-    else if((ret && _wind_max > 0) && _tango.is_connected() ){
-        float gnd_speed = _tango.ground_speed();
-        float true_airspeed = *airspeed_ret * get_EAS2TAS();
-        true_airspeed = constrain_float(true_airspeed,
-                                        gnd_speed - _wind_max, 
-                                        gnd_speed + _wind_max);
-        *airspeed_ret = true_airspeed / get_EAS2TAS();
-    }
-
-
+	}
 	return ret;
 }
 

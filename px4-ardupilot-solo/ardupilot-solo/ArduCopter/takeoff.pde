@@ -9,6 +9,21 @@
 //  must_nagivate is true if mode must also control horizontal position
 bool current_mode_has_user_takeoff(bool must_navigate)
 {
+		if (must_navigate) {
+      gcs_send_text_P(SEVERITY_HIGH, PSTR("Must navigate is true"));
+    }
+    if (control_mode == GUIDED) {
+      gcs_send_text_P(SEVERITY_HIGH, PSTR("Guided"));
+    }
+    if (control_mode == LOITER) {
+      gcs_send_text_P(SEVERITY_HIGH, PSTR("Loiter"));
+    }
+    if (control_mode == ALT_HOLD) {
+      gcs_send_text_P(SEVERITY_HIGH, PSTR("Alt hold"));
+    }
+    if (control_mode == POSHOLD) {
+      gcs_send_text_P(SEVERITY_HIGH, PSTR("Pos hold"));
+    }
     switch (control_mode) {
         case GUIDED:
         case LOITER:
@@ -25,6 +40,19 @@ bool current_mode_has_user_takeoff(bool must_navigate)
 // initiate user takeoff - called when MAVLink TAKEOFF command is received
 static bool do_user_takeoff(float takeoff_alt_cm, bool must_navigate)
 {
+		if (motors.armed()) {
+      gcs_send_text_P(SEVERITY_HIGH, PSTR("Motors armed"));
+    }
+    if (ap.land_complete) {
+      gcs_send_text_P(SEVERITY_HIGH, PSTR("Land complete"));
+    }
+    if (current_mode_has_user_takeoff(must_navigate)) {
+      gcs_send_text_P(SEVERITY_HIGH, PSTR("Has user takeoff"));
+    }
+    if (takeoff_alt_cm > current_loc.alt) {
+      gcs_send_text_P(SEVERITY_HIGH, PSTR("Takeoff alt cm > current_loc.alt"));
+    }
+
     if (motors.armed() && ap.land_complete && current_mode_has_user_takeoff(must_navigate) && takeoff_alt_cm > current_loc.alt) {
         switch(control_mode) {
             case GUIDED:

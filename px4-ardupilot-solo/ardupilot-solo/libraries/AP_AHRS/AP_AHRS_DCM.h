@@ -25,8 +25,8 @@ class AP_AHRS_DCM : public AP_AHRS
 {
 public:
     // Constructors
-    AP_AHRS_DCM(AP_InertialSensor &ins, AP_Baro &baro, AP_GPS &gps, AP_Tango &tango) :
-    AP_AHRS(ins, baro, gps, tango),
+    AP_AHRS_DCM(AP_InertialSensor &ins, AP_Baro &baro, AP_GPS &gps) :
+    AP_AHRS(ins, baro, gps),
         _omega_I_sum_time(0.0f),
         _renorm_val_sum(0.0f),
         _renorm_val_count(0),
@@ -124,7 +124,6 @@ private:
     float           yaw_error_compass();
     void            euler_angles(void);
     bool            have_gps(void) const;
-		bool						have_tango(void) const;
     bool            use_fast_gains(void) const;
 
     // primary representation of attitude of board used for all inertial calculations

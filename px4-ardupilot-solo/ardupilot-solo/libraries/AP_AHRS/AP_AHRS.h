@@ -27,7 +27,6 @@
 #include <AP_Compass.h>
 #include <AP_Airspeed.h>
 #include <AP_GPS.h>
-#include <AP_Tango.h>
 #include <AP_InertialSensor.h>
 #include <AP_Baro.h>
 #include <AP_Param.h>
@@ -63,7 +62,7 @@ class AP_AHRS
 {
 public:
     // Constructor
-    AP_AHRS(AP_InertialSensor &ins, AP_Baro &baro, AP_GPS &gps, AP_Tango &tango) :
+    AP_AHRS(AP_InertialSensor &ins, AP_Baro &baro, AP_GPS &gps) :
         roll(0.0f),
         pitch(0.0f),
         yaw(0.0f),
@@ -78,7 +77,6 @@ public:
         _ins(ins),
         _baro(baro),
         _gps(gps),
-				_tango(tango),
         _cos_roll(1.0f),
         _cos_pitch(1.0f),
         _cos_yaw(1.0f),
@@ -172,10 +170,6 @@ public:
 
     const AP_GPS &get_gps() const {
         return _gps;
-    }
-
-		const AP_Tango &get_tango() const {
-        return _tango;
     }
 
     const AP_InertialSensor &get_ins() const {
@@ -287,13 +281,10 @@ public:
 
     // return ground speed estimate in meters/second. Used by ground vehicles.
     float groundspeed(void) const {
-        if (_gps.status() >= AP_GPS::GPS_OK_FIX_2D) {
-            return _gps.ground_speed();
+        if (_gps.status() <= AP_GPS::NO_FIX) {
+            return 0.0f;
         }
-        else if(_tango.is_connected()) {
-            return _tango.ground_speed();
-        }
-        return 0.0f;
+        return _gps.ground_speed();
     }
 
     // return true if we will use compass for yaw
@@ -419,7 +410,6 @@ protected:
     AP_InertialSensor   &_ins;
     AP_Baro             &_baro;
     const AP_GPS        &_gps;
-		const AP_Tango			&_tango;
 
     // a vector to capture the difference between the controller and body frames
     AP_Vector3f         _trim;

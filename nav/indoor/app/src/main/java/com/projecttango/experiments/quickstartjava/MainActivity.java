@@ -59,6 +59,7 @@ import java.nio.FloatBuffer;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.net.URI;
+import java.util.Date;
 import java.util.List;
 
 import com.github.nkzawa.emitter.Emitter;
@@ -79,8 +80,8 @@ public class MainActivity extends Activity {
 
     private static final String addr = "10.1.1.188";
     private static final int port = 5000;
-    private static final String sTranslationFormat = "x%fy%fz%f";
-    private static final String sRotationFormat = "i%fj%fk%fl%f";
+    private static final String sTranslationFormat = "x: %f y: %f z: %f";
+    private static final String sRotationFormat = "i: %f j: %f k: %f l: %f";
 
     private static final int SECS_TO_MILLISECS = 1000;
     private static final double UPDATE_INTERVAL_MS = 100.0;
@@ -114,8 +115,10 @@ public class MainActivity extends Activity {
     private CollisionDetector collisionDetector;
 
     // for velocity
-    private ArrayList<double[]> pastLocations = new ArrayList<double[]>();
-    private ArrayList<Double> pastTimestamps = new ArrayList<Double>();
+    private double lastTimestamp = System.currentTimeMillis();
+    private double currentTimestamp = System.currentTimeMillis();
+    private double[] lastPosition = new double[3];
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -329,7 +332,7 @@ public class MainActivity extends Activity {
 
     private void setTangoListeners() {
         // Select coordinate frame pairs
-        ArrayList<TangoCoordinateFramePair> framePairs = new ArrayList<TangoCoordinateFramePair>();
+        final ArrayList<TangoCoordinateFramePair> framePairs = new ArrayList<TangoCoordinateFramePair>();
         framePairs.add(new TangoCoordinateFramePair(
                 TangoPoseData.COORDINATE_FRAME_START_OF_SERVICE,
                 TangoPoseData.COORDINATE_FRAME_DEVICE));
@@ -346,9 +349,9 @@ public class MainActivity extends Activity {
                         tangoPose.translation[2]);
                 final String rotationMsg = String.format(sRotationFormat,
                         tangoPose.rotation[0], tangoPose.rotation[1],
-			            tangoPose.rotation[2], tangoPose.rotation[3]);
+                        tangoPose.rotation[2], tangoPose.rotation[3]);
 
-		        PoseData pose = new PoseData(tangoPose);
+                PoseData pose = new PoseData(tangoPose);
 
                 // Output to LogCat
                 String logMsg = translationMsg + "_" + rotationMsg;
@@ -357,57 +360,50 @@ public class MainActivity extends Activity {
                 HttpResponse response;
                 String responseString = null;
                 JSONObject json = new JSONObject();
-                try{
+                try {
                     //HttpPost post = new HttpPost("http://" + addr + ":" + port + "/pose/update");
 
-                    double xPos = tangoPose.translation[0];  // In meters
-                    double yPos = tangoPose.translation[1];
-                    double zPos = tangoPose.translation[2];
-                    double timestamp = tangoPose.timestamp;  // In milliseconds
+                    //currentTimestamp = tangoPose.timestamp;  // In milliseconds
+                    currentTimestamp = System.currentTimeMillis();
+                    double timeInSeconds = (currentTimestamp - lastTimestamp) / 1000;
 
-                    // Calculate velocity (3 directions, m/s)
-                    double xVel = 0.0;  // If pastLocations is empty, we'll set velocity = 0
-                    double yVel = 0.0;
-                    double zVel = 0.0;
-                    if (!pastLocations.isEmpty() && !pastTimestamps.isEmpty()) {
-                        double[] lastPos = pastLocations.get(pastLocations.size() - 1);
-                        double lastXPos = lastPos[0];
-                        double lastYPos = lastPos[1];
-                        double lastZPos = lastPos[2];
-                        double lastTimestamp = pastTimestamps.get(pastTimestamps.size() - 1);
-                        double timeInSeconds = (timestamp - lastTimestamp) / 1000;
-                        xVel = (xPos - lastXPos) / timeInSeconds;
-                        yVel = (yPos - lastYPos) / timeInSeconds;
-                        zVel = (zPos - lastZPos) / timeInSeconds;
-                    }
+                    if (timeInSeconds > 0.1) {   // In seconds
+                        System.out.println("Time in seconds: " + timeInSeconds);
+                        // Calculate velocity (3 directions, m/s)
+                        double xVel = (tangoPose.translation[0] - lastPosition[0]) / timeInSeconds;
+                        double yVel = (tangoPose.translation[1] - lastPosition[1]) / timeInSeconds;
+                        double zVel = (tangoPose.translation[2] - lastPosition[2]) / timeInSeconds;
 
-                    json.put("x", Double.toString(xPos));
-                    json.put("y", Double.toString(yPos));
-                    json.put("z", Double.toString(zPos));
+                        // Send Tango pos_update to server
+                        json.put("x", Double.toString(tangoPose.translation[0]));
+                        json.put("y", Double.toString(tangoPose.translation[1]));
+                        json.put("z", Double.toString(tangoPose.translation[2]));
 
-                    json.put("x_vel", Double.toString(xVel));
-                    json.put("y_vel", Double.toString(yVel));
-                    json.put("z_vel", Double.toString(zVel));
+                        json.put("x_vel", Double.toString(xVel));
+                        json.put("y_vel", Double.toString(yVel));
+                        json.put("z_vel", Double.toString(zVel));
 
-                    json.put("i", Double.toString(tangoPose.rotation[0]));
-                    json.put("j", Double.toString(tangoPose.rotation[1]));
-                    json.put("k", Double.toString(tangoPose.rotation[2]));
-                    json.put("l", Double.toString(tangoPose.rotation[3]));
+                        json.put("i", Double.toString(tangoPose.rotation[0]));
+                        json.put("j", Double.toString(tangoPose.rotation[1]));
+                        json.put("k", Double.toString(tangoPose.rotation[2]));
+                        json.put("l", Double.toString(tangoPose.rotation[3]));
 
-                    json.put("accuracy", Float.toString(tangoPose.accuracy));
-                    json.put("timestamp", Double.toString(timestamp));
+                        json.put("accuracy", Float.toString(tangoPose.accuracy));
+                        json.put("timestamp", Double.toString(currentTimestamp));
 
-                    // Store past location in order to calculate velocity
-                    pastLocations.add(tangoPose.translation);
-                    pastTimestamps.add(tangoPose.timestamp);
+                        try {
+                            System.out.println("Emitting pose update");
+                            System.out.println("Json: " + json);
+                            mSocket.emit("pose_update", json);
+                            //Log.i(TAG, logMsg);
+                        } catch (Exception e) {
+                            System.out.println("Exception when emitting");
+                            e.printStackTrace();
+                        }
 
-                    try {
-                        System.out.println("Emitting pose update");
-                        mSocket.emit("pose_update", json);
-                        Log.i(TAG, logMsg);
-                    } catch (Exception e) {
-                        System.out.println("Exception when emitting");
-                        e.printStackTrace();
+                        // Update last timestamp and position
+                        lastTimestamp = currentTimestamp;
+                        lastPosition = tangoPose.translation;
                     }
 
                     //json.put("pose", logMsg);
@@ -421,8 +417,8 @@ public class MainActivity extends Activity {
                     response.getEntity().getContent().close();
                     */
 
-                } catch(Exception e){
-                        e.printStackTrace();
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
 
 
@@ -453,7 +449,7 @@ public class MainActivity extends Activity {
             @Override
             public void onXyzIjAvailable(final TangoXyzIjData xyzIj) {
 
-                System.out.println("XYZIJ is available");
+                //System.out.println("XYZIJ is available");
 
                 final double currentTimeStamp = xyzIj.timestamp;
                 final double pointCloudFrameDelta = (currentTimeStamp - mXyIjPreviousTimeStamp)
@@ -466,7 +462,7 @@ public class MainActivity extends Activity {
                 if (mXyzIjTimeToNextUpdate < 0.0) {
                     mXyzIjTimeToNextUpdate = UPDATE_INTERVAL_MS;
                     final String pointCountString = "point count: " + Integer.toString(xyzIj.xyzCount);
-                    System.out.println(pointCountString);
+                    //System.out.println(pointCountString);
 
                     runOnUiThread(new Runnable() {
                         @Override
@@ -474,7 +470,7 @@ public class MainActivity extends Activity {
                             mPointCountTextView.setText(pointCountString);
                             String averageDepthString = "average depth: " + FORMAT_THREE_DECIMAL.format(averageDepth);
                             mAverageZTextView.setText(averageDepthString);
-                            System.out.println(averageDepthString);
+                            //System.out.println(averageDepthString);
                             if (collisionDetector.goingToCollide(averageDepth)) {
                                 mCollisionTextView.setText("You're going to collide!");
                             } else {

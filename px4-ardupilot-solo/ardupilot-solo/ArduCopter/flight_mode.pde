@@ -11,16 +11,23 @@
 // ACRO, STABILIZE, ALTHOLD, LAND, DRIFT and SPORT can always be set successfully but the return state of other flight modes should be checked and the caller should deal with failures appropriately
 static bool set_mode(uint8_t mode)
 {
+		gcs_send_text_P(SEVERITY_HIGH,PSTR("Setting flight mode"));
     gps_glitch_mode_change_commanded(mode);
 
     // boolean to record if flight mode could be set
     bool success = false;
-    bool ignore_checks = !motors.armed();   // allow switching to any mode if disarmed.  We rely on the arming check to perform
+    //bool ignore_checks = !motors.armed();   // allow switching to any mode if disarmed.  We rely on the arming check to perform
+		bool ignore_checks = true;
 
     // return immediately if we are already in the desired mode
     if (mode == control_mode) {
-        return true;
+  		 gcs_send_text_P(SEVERITY_HIGH,PSTR("Already in desired flight mode")); 
+	     return true;
     }
+
+		if (mode == ALT_HOLD) {
+			gcs_send_text_P(SEVERITY_HIGH,PSTR("Desired flight mode is ALT_HOLD"));
+		}
 
     switch(mode) {
         case ACRO:

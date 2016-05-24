@@ -15,7 +15,7 @@ from pymavlink import mavutil
 
 
 def drone_init():
-		is_simulator = False 
+		is_simulator = True 
 
 		target = None
 		if is_simulator:
@@ -59,7 +59,9 @@ def arm_and_takeoff(aTargetAltitude):
 		# Confirm vehicle armed before attempting to take off
 		while not mission_state.vehicle.armed:
 				print "[control]: Waiting for arming..."
+				print "mode while arming: ", mission_state.vehicle.mode
 				time.sleep(1)
+		print "Final mode after arming: ", mission_state.vehicle.mode
 
 		print "[control]: Taking off"
 		mission_state.vehicle.simple_takeoff(aTargetAltitude)
