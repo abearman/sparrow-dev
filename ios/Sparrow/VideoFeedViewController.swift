@@ -12,8 +12,7 @@ class VideoFeedViewController: DroneViewController {
     
     @IBOutlet var videoImage: UIImageView! {
         didSet {
-            averageImageColor = videoImage.image?.averagePixelColor()
-            invertUI(averageImageColor!)
+            //averageImageColor = videoImage.image?.averagePixelColor()
         }
     }
     
@@ -21,7 +20,6 @@ class VideoFeedViewController: DroneViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        disableWaypointButtons()
         
         debugPrint("Connecting to server control socket...")
         initializeSocket()
@@ -30,59 +28,8 @@ class VideoFeedViewController: DroneViewController {
     
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
-        invertUI(averageImageColor!)
     }
     
-    // =================================== UPDATE CONTROL UI ===================================
-    
-    func disableWaypointButtons() {
-        for childVC in self.childViewControllers {
-            if let controlBarVC = childVC as? ControlBarViewController {
-                disableButton(controlBarVC.waypointButton)
-                disableButton(controlBarVC.sarButton)
-                disableButton(controlBarVC.dropPinButton)
-            }
-        }
-    }
-    
-    func disableButton(button: UIButton!) {
-        button.enabled = false
-        button.alpha = 0.5
-    }
-    
-    func invertUI(invertedColor: UIColor) {
-        for childVC in self.childViewControllers {
-            if let altitudeSliderVC = childVC as? AltitudeSliderViewController {
-                invertSlider(altitudeSliderVC.altitudeSlider, color: invertedColor)
-                invertLabels(altitudeSliderVC.labels, color: invertedColor)
-            } else if let rotationSliderVC = childVC as? RotationSliderViewController {
-                invertSlider(rotationSliderVC.rotationSlider, color: invertedColor)
-                invertLabels(rotationSliderVC.labels, color: invertedColor)
-            } else if let lateralMovementVC = childVC as? LateralMovementViewController {
-            
-                lateralMovementVC.lateralButtonsView.image =
-                    lateralMovementVC.lateralButtonsView.image?.processPixelsInImage(invertedColor)
-            }
-        }
-    }
-    
-    func invertSlider(slider: UISlider!, color: UIColor) {
-        var sliderImage = UIImage(named: "slider_track")
-        sliderImage = sliderImage!.invertImage()
-        
-        var thumbImage = UIImage(named: "slider_thumb")
-        thumbImage = thumbImage!.invertImage()
-        
-        slider.setThumbImage(thumbImage, forState: UIControlState.Normal)
-        slider.setMaximumTrackImage(sliderImage, forState: UIControlState.Normal)
-        slider.setMinimumTrackImage(sliderImage, forState: UIControlState.Normal)
-    }
-    
-    func invertLabels(labels: [UILabel]!, color: UIColor) {
-        for label in labels {
-            label.textColor = color
-        }
-    }
     
     // =================================== SERVER ===================================
     

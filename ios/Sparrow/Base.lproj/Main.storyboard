@@ -14,9 +14,10 @@
             <string>Oswald-Light</string>
             <string>Oswald-Light</string>
             <string>Oswald-Light</string>
+            <string>Oswald-Light</string>
+            <string>Oswald-Light</string>
         </mutableArray>
         <mutableArray key="Oswald-Medium.ttf">
-            <string>Oswald-Medium</string>
             <string>Oswald-Medium</string>
             <string>Oswald-Medium</string>
             <string>Oswald-Medium</string>
@@ -54,6 +55,49 @@
             </objects>
             <point key="canvasLocation" x="2514" y="225"/>
         </scene>
+        <!--Summary View Controller-->
+        <scene sceneID="X88-kZ-Xzt">
+            <objects>
+                <viewController id="UbD-0i-51w" customClass="SummaryViewController" customModule="Sparrow" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="gTv-bx-XQx"/>
+                        <viewControllerLayoutGuide type="bottom" id="Mqo-g7-FGg"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="cZj-sp-il8">
+                        <rect key="frame" x="0.0" y="0.0" width="900" height="700"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="Yik-ib-Xck">
+                                <rect key="frame" x="17" y="89" width="863" height="591"/>
+                            </mapView>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="iUh-TB-oDC">
+                                <rect key="frame" x="847" y="20" width="33" height="33"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="30"/>
+                                <state key="normal" title="X">
+                                    <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                </state>
+                                <connections>
+                                    <action selector="close:" destination="UbD-0i-51w" eventType="touchUpInside" id="SV6-fo-Zgq"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="POINTS OF INTEREST" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nf7-3n-kGB">
+                                <rect key="frame" x="332" y="28" width="236" height="41"/>
+                                <fontDescription key="fontDescription" name="Oswald-Medium" family="Oswald" pointSize="30"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+                    <size key="freeformSize" width="900" height="700"/>
+                    <connections>
+                        <outlet property="summaryMap" destination="Yik-ib-Xck" id="Aqt-In-F0v"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="25G-NA-cS0" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2514" y="976"/>
+        </scene>
         <!--Drone Controller-->
         <scene sceneID="Hgn-Cm-gzH">
             <objects>
@@ -76,7 +120,7 @@
                                 </connections>
                             </containerView>
                             <containerView opaque="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="i3v-Ev-9lf" userLabel="Altitude Slider">
-                                <rect key="frame" x="20" y="406" width="48" height="257"/>
+                                <rect key="frame" x="20" y="497" width="66" height="147"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <connections>
@@ -99,6 +143,53 @@
                                     <segue destination="bA1-XH-u2U" kind="embed" id="lK0-ym-PF4"/>
                                 </connections>
                             </containerView>
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="dzn-gk-tVR">
+                                <rect key="frame" x="764" y="93" width="240" height="98"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Step" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aBJ-UY-u7M">
+                                        <rect key="frame" x="15" y="13" width="36" height="21"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <slider opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="3" minValue="1.5" maxValue="4.5" translatesAutoresizingMaskIntoConstraints="NO" id="5Gp-0r-Oa8">
+                                        <rect key="frame" x="66" y="8" width="160" height="31"/>
+                                        <connections>
+                                            <action selector="stepSliderChanged:" destination="lZr-Lc-zbu" eventType="touchUpInside" id="74Z-QG-qgL"/>
+                                            <action selector="stepSliderChanged:" destination="lZr-Lc-zbu" eventType="touchUpOutside" id="Pgg-U0-XSL"/>
+                                        </connections>
+                                    </slider>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Klb-9H-dae" userLabel="Waypoint Button">
+                                        <rect key="frame" x="7" y="54" width="111" height="36"/>
+                                        <color key="backgroundColor" red="1" green="0.38325883776203218" blue="0.43442281662179161" alpha="1" colorSpace="calibratedRGB"/>
+                                        <fontDescription key="fontDescription" name="Oswald-Light" family="Oswald" pointSize="23"/>
+                                        <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        <inset key="contentEdgeInsets" minX="20" minY="0.0" maxX="20" maxY="0.0"/>
+                                        <state key="normal" title="Cancel">
+                                            <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="sarCancelButtonClicked:" destination="lZr-Lc-zbu" eventType="touchUpOutside" id="Caf-eP-2qT"/>
+                                            <action selector="sarCancelButtonClicked:" destination="lZr-Lc-zbu" eventType="touchUpInside" id="HGr-vv-Wh5"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Hfu-xb-m3P" userLabel="Waypoint Button">
+                                        <rect key="frame" x="122" y="54" width="111" height="36"/>
+                                        <color key="backgroundColor" red="0.46666666670000001" green="0.86274509799999999" blue="0.58823529409999997" alpha="1" colorSpace="calibratedRGB"/>
+                                        <fontDescription key="fontDescription" name="Oswald-Light" family="Oswald" pointSize="23"/>
+                                        <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        <inset key="contentEdgeInsets" minX="20" minY="0.0" maxX="20" maxY="0.0"/>
+                                        <state key="normal" title="Confirm">
+                                            <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="sarConfirmButtonClicked:" destination="lZr-Lc-zbu" eventType="touchUpInside" id="K5b-HL-Ap9"/>
+                                            <action selector="sarConfirmButtonClicked:" destination="lZr-Lc-zbu" eventType="touchUpOutside" id="qrs-We-Y2V"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -122,6 +213,10 @@
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="iPad"/>
                     <connections>
                         <outlet property="mapView" destination="it6-1N-EKc" id="NFJ-oK-7tM"/>
+                        <outlet property="sarControlCancelButton" destination="Klb-9H-dae" id="cyg-Ln-j03"/>
+                        <outlet property="sarControlConfirmButton" destination="Hfu-xb-m3P" id="Q4S-E1-MK4"/>
+                        <outlet property="sarControlView" destination="dzn-gk-tVR" id="RAK-YX-uq4"/>
+                        <outlet property="sarStepSlider" destination="5Gp-0r-Oa8" id="moR-fl-cKQ"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="f5n-xx-WEw" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -150,15 +245,7 @@
                                 <rect key="frame" x="0.0" y="76" width="1024" height="643"/>
                                 <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                             </imageView>
-                            <containerView opaque="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="hJF-0f-oEV" userLabel="Altitude Slider">
-                                <rect key="frame" x="20" y="406" width="48" height="257"/>
-                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                <connections>
-                                    <segue destination="vRM-lx-WyO" kind="embed" id="hep-eL-Bf7"/>
-                                </connections>
-                            </containerView>
-                            <containerView opaque="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="RkD-kr-bP7" userLabel="Rotation Slider">
+                            <containerView opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="RkD-kr-bP7" userLabel="Rotation Slider">
                                 <rect key="frame" x="68" y="663" width="298" height="48"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -174,20 +261,33 @@
                                     <segue destination="bA1-XH-u2U" kind="embed" id="iHh-ZV-Mch"/>
                                 </connections>
                             </containerView>
+                            <containerView opaque="NO" contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="hJF-0f-oEV" userLabel="Altitude Slider">
+                                <rect key="frame" x="20" y="474" width="79" height="179"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <connections>
+                                    <segue destination="vRM-lx-WyO" kind="embed" id="hep-eL-Bf7"/>
+                                </connections>
+                            </containerView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="fd7-dc-5A4" firstAttribute="trailing" secondItem="kQt-cz-3dm" secondAttribute="trailing" id="8o3-WU-1o5"/>
+                            <constraint firstAttribute="trailing" secondItem="hJF-0f-oEV" secondAttribute="trailing" constant="925" id="9fh-Ok-l6K"/>
                             <constraint firstItem="Gt1-Ts-64k" firstAttribute="top" secondItem="gZW-O4-AOv" secondAttribute="bottom" constant="473" id="FR4-Us-dh5"/>
+                            <constraint firstAttribute="bottom" secondItem="hJF-0f-oEV" secondAttribute="bottom" constant="107" id="HXZ-JK-tBO"/>
                             <constraint firstItem="Gt1-Ts-64k" firstAttribute="leading" secondItem="ncH-Oh-fPS" secondAttribute="leadingMargin" constant="778" id="Ij7-wy-eZk"/>
+                            <constraint firstItem="hJF-0f-oEV" firstAttribute="top" secondItem="ncH-Oh-fPS" secondAttribute="top" constant="482" id="Jet-Pq-rYI"/>
                             <constraint firstItem="kQt-cz-3dm" firstAttribute="top" secondItem="gZW-O4-AOv" secondAttribute="bottom" id="L7C-lg-abO"/>
                             <constraint firstItem="Yis-tj-vGm" firstAttribute="top" secondItem="Gt1-Ts-64k" secondAttribute="bottom" constant="20" id="QOV-Wh-f03"/>
                             <constraint firstItem="fd7-dc-5A4" firstAttribute="leading" secondItem="ncH-Oh-fPS" secondAttribute="leading" id="Qd5-KA-Zp5"/>
+                            <constraint firstItem="RkD-kr-bP7" firstAttribute="top" secondItem="hJF-0f-oEV" secondAttribute="bottom" constant="2" id="YE8-VM-9f7"/>
                             <constraint firstItem="fd7-dc-5A4" firstAttribute="bottom" secondItem="Yis-tj-vGm" secondAttribute="top" id="bfi-60-Yev"/>
                             <constraint firstItem="fd7-dc-5A4" firstAttribute="leading" secondItem="kQt-cz-3dm" secondAttribute="leading" id="hd6-Tb-ry5"/>
                             <constraint firstAttribute="trailing" secondItem="fd7-dc-5A4" secondAttribute="trailing" id="otf-Kq-zrp"/>
                             <constraint firstItem="fd7-dc-5A4" firstAttribute="top" secondItem="kQt-cz-3dm" secondAttribute="bottom" constant="1" id="q1L-IH-RKe"/>
                             <constraint firstAttribute="bottom" secondItem="kQt-cz-3dm" secondAttribute="bottom" constant="693" id="uIm-IA-5MB"/>
+                            <constraint firstItem="hJF-0f-oEV" firstAttribute="leading" secondItem="ncH-Oh-fPS" secondAttribute="leadingMargin" id="w6a-Lo-eZE"/>
                             <constraint firstAttribute="trailingMargin" secondItem="Gt1-Ts-64k" secondAttribute="trailing" id="yJx-tH-aP4"/>
                         </constraints>
                     </view>
@@ -200,7 +300,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ZJb-7T-sMq" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="278" y="2129"/>
+            <point key="canvasLocation" x="276" y="2181"/>
         </scene>
         <!--Drone Tab Bar Controller-->
         <scene sceneID="Z77-Y1-KVB">
@@ -224,6 +324,10 @@
         <scene sceneID="kxZ-8T-4w3">
             <objects>
                 <viewController id="oap-Pp-LXB" customClass="ControlBarViewController" customModule="Sparrow" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="EJm-eZ-0HX"/>
+                        <viewControllerLayoutGuide type="bottom" id="WbA-8u-IcK"/>
+                    </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="FbI-ha-frU">
                         <rect key="frame" x="0.0" y="0.0" width="1024" height="55"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -354,16 +458,23 @@
                         <outlet property="launchButton" destination="f8G-UI-1Ji" id="tZp-wo-YWO"/>
                         <outlet property="sarButton" destination="DRT-cW-FhC" id="6o3-3s-3ou"/>
                         <outlet property="waypointButton" destination="qAA-h1-L42" id="FfW-S3-FEX"/>
+                        <segue destination="UbD-0i-51w" kind="popoverPresentation" identifier="summarySegue" popoverAnchorView="FbI-ha-frU" id="7Zx-ZQ-X55">
+                            <popoverArrowDirection key="popoverArrowDirection" up="YES" down="YES" left="YES" right="YES"/>
+                        </segue>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="kPn-c1-lKR" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1392" y="619.5"/>
+            <point key="canvasLocation" x="1368" y="583.5"/>
         </scene>
         <!--Lateral Commands View Controller-->
         <scene sceneID="yRe-ym-OvP">
             <objects>
                 <viewController id="bA1-XH-u2U" userLabel="Lateral Commands View Controller" customClass="LateralMovementViewController" customModule="Sparrow" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="8qg-IW-CLh"/>
+                        <viewControllerLayoutGuide type="bottom" id="9JI-qz-DQE"/>
+                    </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="WQ8-XE-Ys9">
                         <rect key="frame" x="0.0" y="0.0" width="206" height="206"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -454,6 +565,10 @@
         <scene sceneID="QoR-l6-Rzd">
             <objects>
                 <viewController id="M3z-Vg-ycn" customClass="RotationSliderViewController" customModule="Sparrow" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="YWJ-aG-6Pj"/>
+                        <viewControllerLayoutGuide type="bottom" id="1US-uV-wDb"/>
+                    </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="dWL-mc-Agg">
                         <rect key="frame" x="0.0" y="0.0" width="298" height="48"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -484,7 +599,6 @@
                     </view>
                     <connections>
                         <outlet property="rotationSlider" destination="0bV-ba-Rxq" id="dOs-mR-4iE"/>
-                        <outletCollection property="labels" destination="H1z-2y-7mU" collectionClass="NSMutableArray" id="x6e-qx-aN2"/>
                         <outletCollection property="labels" destination="QcV-Wj-8y7" collectionClass="NSMutableArray" id="pGq-JK-tk7"/>
                     </connections>
                 </viewController>
@@ -496,54 +610,55 @@
         <scene sceneID="tNR-7O-mf2">
             <objects>
                 <viewController id="vRM-lx-WyO" customClass="AltitudeSliderViewController" customModule="Sparrow" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="w5o-lb-aj6"/>
+                        <viewControllerLayoutGuide type="bottom" id="CDq-zU-wqM"/>
+                    </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="0at-i9-6QY">
-                        <rect key="frame" x="0.0" y="0.0" width="48" height="257"/>
+                        <rect key="frame" x="0.0" y="0.0" width="66" height="147"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="+5" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zrT-zk-fNp">
-                                <rect key="frame" x="14" y="0.0" width="21" height="21"/>
-                                <fontDescription key="fontDescription" name="Oswald-Medium" family="Oswald" pointSize="21"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <slider opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" minValue="-5" maxValue="5" translatesAutoresizingMaskIntoConstraints="NO" id="FG0-rd-ofc" userLabel="Altitude Slider">
-                                <rect key="frame" x="-78" y="114" width="204" height="31"/>
-                                <color key="minimumTrackTintColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
-                                <color key="maximumTrackTintColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="alt_arrows" translatesAutoresizingMaskIntoConstraints="NO" id="Dsr-2a-ai7">
+                                <rect key="frame" x="2" y="14" width="74" height="151"/>
+                            </imageView>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" restorationIdentifier="down" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6nh-vy-qXm">
+                                <rect key="frame" x="9" y="103" width="60" height="60"/>
+                                <state key="normal" title="Button"/>
                                 <connections>
-                                    <action selector="altitudeSliderChange:" destination="vRM-lx-WyO" eventType="valueChanged" id="HCR-RG-ONd"/>
-                                    <action selector="altitudeSliderReleased:" destination="vRM-lx-WyO" eventType="touchUpInside" id="YUR-WT-SIR"/>
-                                    <action selector="altitudeSliderReleased:" destination="vRM-lx-WyO" eventType="touchUpOutside" id="kS5-nw-cDC"/>
+                                    <action selector="altitudeButtonDown:" destination="vRM-lx-WyO" eventType="touchDown" id="wjf-pH-K7K"/>
+                                    <action selector="altitudeButtonUp:" destination="vRM-lx-WyO" eventType="touchUpOutside" id="lC5-mY-hwN"/>
+                                    <action selector="altitudeButtonUp:" destination="vRM-lx-WyO" eventType="touchUpInside" id="lYj-Ba-ETj"/>
                                 </connections>
-                            </slider>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="-5" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="64G-Ws-nrZ">
-                                <rect key="frame" x="15" y="236" width="18" height="21"/>
-                                <fontDescription key="fontDescription" name="Oswald-Medium" family="Oswald" pointSize="21"/>
-                                <nil key="highlightedColor"/>
-                            </label>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" restorationIdentifier="up" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FwE-V1-B21">
+                                <rect key="frame" x="9" y="20" width="60" height="60"/>
+                                <state key="normal" title="Button"/>
+                                <connections>
+                                    <action selector="altitudeButtonDown:" destination="vRM-lx-WyO" eventType="touchDown" id="GO5-O0-oWz"/>
+                                    <action selector="altitudeButtonUp:" destination="vRM-lx-WyO" eventType="touchUpInside" id="6kS-L2-Pus"/>
+                                    <action selector="altitudeButtonUp:" destination="vRM-lx-WyO" eventType="touchUpOutside" id="eDc-2t-7M4"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     </view>
-                    <connections>
-                        <outlet property="altitudeSlider" destination="FG0-rd-ofc" id="MJz-8g-mv7"/>
-                        <outletCollection property="labels" destination="zrT-zk-fNp" collectionClass="NSMutableArray" id="dwa-AY-Nw3"/>
-                        <outletCollection property="labels" destination="64G-Ws-nrZ" collectionClass="NSMutableArray" id="QFt-nF-3Rr"/>
-                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Stb-8n-ULL" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="645" y="740.5"/>
+            <point key="canvasLocation" x="644.5" y="739.5"/>
         </scene>
     </scenes>
     <resources>
+        <image name="alt_arrows" width="83" height="174"/>
         <image name="lateral_buttons" width="148" height="148"/>
         <image name="logo_icon" width="50" height="48"/>
         <image name="stanford" width="1200" height="674"/>
     </resources>
     <inferredMetricsTieBreakers>
+        <segue reference="lK0-ym-PF4"/>
         <segue reference="VN3-GM-F87"/>
         <segue reference="i81-yK-5au"/>
         <segue reference="AWe-JQ-cQK"/>
-        <segue reference="lK0-ym-PF4"/>
     </inferredMetricsTieBreakers>
 </document>

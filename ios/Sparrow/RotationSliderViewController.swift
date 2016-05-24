@@ -9,8 +9,6 @@
 import UIKit
 
 class RotationSliderViewController: DroneViewController {
-
-    @IBOutlet var labels: [UILabel]!
     
     @IBOutlet var rotationSlider: UISlider! {
         didSet {

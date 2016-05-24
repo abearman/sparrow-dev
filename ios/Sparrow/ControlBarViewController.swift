@@ -154,6 +154,7 @@ class ControlBarViewController: DroneViewController, UIPopoverPresentationContro
                     print(data)
                     self.isLanding = false
                     self.isInFlight = false
+                    self.performSegueWithIdentifier("summarySegue", sender: nil)
                 }
             }
         }
@@ -220,11 +221,10 @@ class ControlBarViewController: DroneViewController, UIPopoverPresentationContro
     
     func adaptivePresentationStyleForPresentationController(controller: UIPresentationController) -> UIModalPresentationStyle {
         return UIModalPresentationStyle.FullScreen
-        //        return UIModalPresentationStyle.None
+        //return UIModalPresentationStyle.None
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        print(segue.identifier)
         if segue.identifier == "popoverSegue" {
             if let popoverTVC = segue.destinationViewController as? SARMenuViewController {
                 if let droneVC = self.parentViewController as? MapViewController {
@@ -233,6 +233,17 @@ class ControlBarViewController: DroneViewController, UIPopoverPresentationContro
                     popoverTVC.delegate = droneVC
                     segue.destinationViewController.popoverPresentationController!.sourceView = sender as! UIButton
                     segue.destinationViewController.popoverPresentationController!.sourceRect = (sender as! UIButton).bounds
+                }
+            }
+        } else if segue.identifier == "summarySegue" {
+            if let popoverTVC = segue.destinationViewController as? SummaryViewController {
+                if let droneVC = self.parentViewController as? MapViewController {
+                    popoverTVC.modalPresentationStyle = UIModalPresentationStyle.Popover
+                    popoverTVC.popoverPresentationController!.delegate = self
+                    popoverTVC.delegate = droneVC
+                    popoverTVC.popoverPresentationController?.permittedArrowDirections = UIPopoverArrowDirection.init(rawValue: 0)
+                    popoverTVC.popoverPresentationController!.sourceRect = CGRectMake(CGRectGetMidX(self.view.bounds), CGRectGetMidY(self.view.bounds),0,0)
+                    popoverTVC.pinLocations = droneVC.pinLocations
                 }
             }
         }

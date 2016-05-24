@@ -68,8 +68,9 @@
 		BDD1F0181CF3952400DF3B52 /* RotationSliderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDD1F0171CF3952400DF3B52 /* RotationSliderViewController.swift */; };
 		BDD1F01A1CF3985000DF3B52 /* AltitudeSliderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDD1F0191CF3985000DF3B52 /* AltitudeSliderViewController.swift */; };
 		BDD1F01C1CF3B20A00DF3B52 /* UIColorExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDD1F01B1CF3B20A00DF3B52 /* UIColorExtensions.swift */; };
+		BDD1F0521CF520D500DF3B52 /* ImageExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDD1F0511CF520D500DF3B52 /* ImageExtensions.swift */; };
 		BDDE047A1CD15A9E00E61271 /* CurrentLocationAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDDE04791CD15A9E00E61271 /* CurrentLocationAnnotation.swift */; };
-		C116D24C1CE2F73C005A8C56 /* ImageExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C116D24B1CE2F73C005A8C56 /* ImageExtensions.swift */; };
+		C13F56001CF4546D009FF68B /* SummaryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C13F55FF1CF4546D009FF68B /* SummaryViewController.swift */; };
 		C1C8124B1CD94B110087ED4D /* WaypointAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1C8124A1CD94B110087ED4D /* WaypointAnnotation.swift */; };
 /* End PBXBuildFile section */
 
@@ -160,8 +161,9 @@
 		BDD1F0171CF3952400DF3B52 /* RotationSliderViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RotationSliderViewController.swift; sourceTree = "<group>"; };
 		BDD1F0191CF3985000DF3B52 /* AltitudeSliderViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AltitudeSliderViewController.swift; sourceTree = "<group>"; };
 		BDD1F01B1CF3B20A00DF3B52 /* UIColorExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIColorExtensions.swift; sourceTree = "<group>"; };
+		BDD1F0511CF520D500DF3B52 /* ImageExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageExtensions.swift; sourceTree = "<group>"; };
 		BDDE04791CD15A9E00E61271 /* CurrentLocationAnnotation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CurrentLocationAnnotation.swift; sourceTree = "<group>"; };
-		C116D24B1CE2F73C005A8C56 /* ImageExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageExtensions.swift; sourceTree = "<group>"; };
+		C13F55FF1CF4546D009FF68B /* SummaryViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SummaryViewController.swift; sourceTree = "<group>"; };
 		C1C8124A1CD94B110087ED4D /* WaypointAnnotation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WaypointAnnotation.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -343,6 +345,7 @@
 				BDD1F0131CF37BDC00DF3B52 /* SARMenuViewController.swift */,
 				C1C8124A1CD94B110087ED4D /* WaypointAnnotation.swift */,
 				BDDE04791CD15A9E00E61271 /* CurrentLocationAnnotation.swift */,
+				C13F55FF1CF4546D009FF68B /* SummaryViewController.swift */,
 			);
 			name = "Map View";
 			sourceTree = "<group>";
@@ -350,7 +353,7 @@
 		BDD1F0121CF37B7400DF3B52 /* Helper Swift Files */ = {
 			isa = PBXGroup;
 			children = (
-				C116D24B1CE2F73C005A8C56 /* ImageExtensions.swift */,
+				BDD1F0511CF520D500DF3B52 /* ImageExtensions.swift */,
 				BDD1F01B1CF3B20A00DF3B52 /* UIColorExtensions.swift */,
 				492AF89F1CC9CE6600A805F3 /* JSONHelper.swift */,
 			);
@@ -509,7 +512,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C116D24C1CE2F73C005A8C56 /* ImageExtensions.swift in Sources */,
 				498188801CCADEB700029A6D /* SocketEngineClient.swift in Sources */,
 				BDD1F00E1CF37AD600DF3B52 /* ControlBarModel.swift in Sources */,
 				4981887F1CCADEB700029A6D /* SocketEngine.swift in Sources */,
@@ -528,6 +530,7 @@
 				4981888E1CCADEB700029A6D /* SwiftRegex.swift in Sources */,
 				4981887B1CCADEB700029A6D /* SocketAckEmitter.swift in Sources */,
 				4981888F1CCADEB700029A6D /* WebSocket.swift in Sources */,
+				C13F56001CF4546D009FF68B /* SummaryViewController.swift in Sources */,
 				4981885C1CCAB92C00029A6D /* AnalogueStick.m in Sources */,
 				498188851CCADEB700029A6D /* SocketEventHandler.swift in Sources */,
 				4981888A1CCADEB700029A6D /* SocketPacket.swift in Sources */,
@@ -541,6 +544,7 @@
 				498188861CCADEB700029A6D /* SocketIOClient.swift in Sources */,
 				BDD1EFFA1CF26CF300DF3B52 /* VideoFeedViewController.swift in Sources */,
 				BDD1F00A1CF296BD00DF3B52 /* LateralMovementViewController.swift in Sources */,
+				BDD1F0521CF520D500DF3B52 /* ImageExtensions.swift in Sources */,
 				4981888C1CCADEB700029A6D /* SocketStringReader.swift in Sources */,
 				4981888D1CCADEB700029A6D /* SocketTypes.swift in Sources */,
 				BDD1F0001CF2712000DF3B52 /* ControlBarViewController.swift in Sources */,
