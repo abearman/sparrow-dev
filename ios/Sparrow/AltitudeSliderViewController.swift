@@ -9,7 +9,9 @@
 import UIKit
 
 class AltitudeSliderViewController: DroneViewController {
-
+    
+    @IBOutlet var labels: [UILabel]!
+    
     @IBOutlet var altitudeSlider: UISlider! {
         didSet {
             altitudeSlider.transform = CGAffineTransformMakeRotation(CGFloat(-M_PI_2))

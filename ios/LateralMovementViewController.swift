@@ -10,6 +10,8 @@ import UIKit
 
 class LateralMovementViewController: DroneViewController {
     
+    @IBOutlet var lateralButtonsView: UIImageView!
+    
     @IBAction func lateralButtonDown(sender: AnyObject) {
         if let button = sender as? UIButton {
             if let buttonID = button.restorationIdentifier {

@@ -10,9 +10,17 @@ import UIKit
 
 class VideoFeedViewController: DroneViewController {
     
-    @IBOutlet weak var videoImage: UIImageView!
+    @IBOutlet var videoImage: UIImageView! {
+        didSet {
+            averageImageColor = videoImage.image?.averagePixelColor()
+            invertUI(averageImageColor!)
+        }
+    }
+    
+    private var averageImageColor: UIColor?
 
     override func viewDidLoad() {
+        super.viewDidLoad()
         disableWaypointButtons()
         
         debugPrint("Connecting to server control socket...")
@@ -20,7 +28,12 @@ class VideoFeedViewController: DroneViewController {
         connectToSocket()
     }
     
-    // =================================== UPDATE CONTROL BAR ===================================
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        invertUI(averageImageColor!)
+    }
+    
+    // =================================== UPDATE CONTROL UI ===================================
     
     func disableWaypointButtons() {
         for childVC in self.childViewControllers {
@@ -35,6 +48,40 @@ class VideoFeedViewController: DroneViewController {
     func disableButton(button: UIButton!) {
         button.enabled = false
         button.alpha = 0.5
+    }
+    
+    func invertUI(invertedColor: UIColor) {
+        for childVC in self.childViewControllers {
+            if let altitudeSliderVC = childVC as? AltitudeSliderViewController {
+                invertSlider(altitudeSliderVC.altitudeSlider, color: invertedColor)
+                invertLabels(altitudeSliderVC.labels, color: invertedColor)
+            } else if let rotationSliderVC = childVC as? RotationSliderViewController {
+                invertSlider(rotationSliderVC.rotationSlider, color: invertedColor)
+                invertLabels(rotationSliderVC.labels, color: invertedColor)
+            } else if let lateralMovementVC = childVC as? LateralMovementViewController {
+            
+                lateralMovementVC.lateralButtonsView.image =
+                    lateralMovementVC.lateralButtonsView.image?.processPixelsInImage(invertedColor)
+            }
+        }
+    }
+    
+    func invertSlider(slider: UISlider!, color: UIColor) {
+        var sliderImage = UIImage(named: "slider_track")
+        sliderImage = sliderImage!.invertImage()
+        
+        var thumbImage = UIImage(named: "slider_thumb")
+        thumbImage = thumbImage!.invertImage()
+        
+        slider.setThumbImage(thumbImage, forState: UIControlState.Normal)
+        slider.setMaximumTrackImage(sliderImage, forState: UIControlState.Normal)
+        slider.setMinimumTrackImage(sliderImage, forState: UIControlState.Normal)
+    }
+    
+    func invertLabels(labels: [UILabel]!, color: UIColor) {
+        for label in labels {
+            label.textColor = color
+        }
     }
     
     // =================================== SERVER ===================================

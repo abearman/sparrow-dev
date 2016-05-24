@@ -194,6 +194,9 @@
                     <tabBarItem key="tabBarItem" title="Video Feed" id="EP8-4O-TFh" userLabel="Video Feed"/>
                     <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="iPad"/>
+                    <connections>
+                        <outlet property="videoImage" destination="fd7-dc-5A4" id="Gch-dP-WL8"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ZJb-7T-sMq" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -439,6 +442,9 @@
                             <constraint firstAttribute="bottomMargin" secondItem="JD4-wa-iPa" secondAttribute="bottom" id="rQn-af-gEl"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="lateralButtonsView" destination="hWy-S2-VMF" id="cyE-ea-eLI"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="OzO-3u-PFi" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -478,6 +484,8 @@
                     </view>
                     <connections>
                         <outlet property="rotationSlider" destination="0bV-ba-Rxq" id="dOs-mR-4iE"/>
+                        <outletCollection property="labels" destination="H1z-2y-7mU" collectionClass="NSMutableArray" id="x6e-qx-aN2"/>
+                        <outletCollection property="labels" destination="QcV-Wj-8y7" collectionClass="NSMutableArray" id="pGq-JK-tk7"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="77F-C2-Uny" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -518,6 +526,8 @@
                     </view>
                     <connections>
                         <outlet property="altitudeSlider" destination="FG0-rd-ofc" id="MJz-8g-mv7"/>
+                        <outletCollection property="labels" destination="zrT-zk-fNp" collectionClass="NSMutableArray" id="dwa-AY-Nw3"/>
+                        <outletCollection property="labels" destination="64G-Ws-nrZ" collectionClass="NSMutableArray" id="QFt-nF-3Rr"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Stb-8n-ULL" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -531,9 +541,9 @@
         <image name="stanford" width="1200" height="674"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="d78-ZE-q6L"/>
-        <segue reference="DOK-FB-rSf"/>
-        <segue reference="iHh-ZV-Mch"/>
-        <segue reference="hep-eL-Bf7"/>
+        <segue reference="VN3-GM-F87"/>
+        <segue reference="i81-yK-5au"/>
+        <segue reference="AWe-JQ-cQK"/>
+        <segue reference="lK0-ym-PF4"/>
     </inferredMetricsTieBreakers>
 </document>
