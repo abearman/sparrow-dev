@@ -599,7 +599,6 @@
                     </view>
                     <connections>
                         <outlet property="rotationSlider" destination="0bV-ba-Rxq" id="dOs-mR-4iE"/>
-                        <outletCollection property="labels" destination="QcV-Wj-8y7" collectionClass="NSMutableArray" id="pGq-JK-tk7"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="77F-C2-Uny" userLabel="First Responder" sceneMemberID="firstResponder"/>
