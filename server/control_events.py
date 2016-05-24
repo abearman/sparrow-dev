@@ -189,16 +189,14 @@ def altitudeAbsChange(json):
 
 @socketio.on('altitude_cmd')
 def altitudeChange(json):
-		vehicle = mission_state.vehicle
-		print "[socket][control][altitude]: " + str(json)
-		dalt = float(json['dalt'])
-		curr_alt = vehicle.location.global_relative_frame.alt
-		if (curr_alt + dalt < 2):
-			change_altitude_global(2)
- 		elif (curr_alt + dalt > 10):
- 			change_altitude_global(10)
- 		else:
- 			change_altitude_global(curr_alt + dalt)	
+    print "[socket][control][altitude]: " + str(json)
+    direction = json['direction']
+    if direction == "up":
+        send_ned_velocity(0, 0, 1, 1)
+    elif direction == "down":
+        send_ned_velocity(0, 0, -1, 1)
+    elif direction == "stop":
+        send_ned_velocity(0, 0, 0, 1)
 
 @socketio.on('rotation_cmd') # , namespace=CONTROL_NAMESPACE)
 def rotationChange(json):

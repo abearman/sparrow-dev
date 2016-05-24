@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10116" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="dlJ-eF-oDH">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15C50" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="dlJ-eF-oDH">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
@@ -23,8 +23,6 @@
             <string>Oswald-Medium</string>
             <string>Oswald-Medium</string>
             <string>Oswald-Medium</string>
-            <string>Oswald-Medium</string>
-            <string>Oswald-Medium</string>
         </mutableArray>
     </customFonts>
     <scenes>
@@ -41,7 +39,7 @@
                                 <rect key="frame" x="0.0" y="28" width="600" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="JMr-VM-zZo" id="YSC-2h-UaB">
-                                    <rect key="frame" x="0.0" y="0.0" width="600" height="43"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="600" height="43.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </tableViewCellContentView>
                             </tableViewCell>
@@ -104,15 +102,6 @@
                             <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="dzn-gk-tVR">
                                 <rect key="frame" x="764" y="93" width="240" height="98"/>
                                 <subviews>
-<<<<<<< HEAD
-                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" restorationIdentifier="right" contentHorizontalAlignment="center" contentVerticalAlignment="center" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="T9B-QI-ACR">
-                                        <rect key="frame" x="915" y="508" width="70" height="70"/>
-                                        <color key="backgroundColor" red="0.31614871010000001" green="0.64871861009999998" blue="0.86274509799999999" alpha="0.0" colorSpace="calibratedRGB"/>
-                                        <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                        <state key="normal">
-                                            <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                        </state>
-=======
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Step" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aBJ-UY-u7M">
                                         <rect key="frame" x="15" y="13" width="36" height="21"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
@@ -121,7 +110,6 @@
                                     </label>
                                     <slider opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="3" minValue="1.5" maxValue="4.5" translatesAutoresizingMaskIntoConstraints="NO" id="5Gp-0r-Oa8">
                                         <rect key="frame" x="66" y="8" width="160" height="31"/>
->>>>>>> 9b97b4341ba5c7f766ec99dbdad634905d4f6f88
                                         <connections>
                                             <action selector="stepSliderChanged:" destination="lZr-Lc-zbu" eventType="touchUpInside" id="74Z-QG-qgL"/>
                                             <action selector="stepSliderChanged:" destination="lZr-Lc-zbu" eventType="touchUpOutside" id="Pgg-U0-XSL"/>
@@ -213,15 +201,7 @@
                                 <rect key="frame" x="0.0" y="76" width="1024" height="643"/>
                                 <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                             </imageView>
-                            <containerView opaque="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="hJF-0f-oEV" userLabel="Altitude Slider">
-                                <rect key="frame" x="20" y="406" width="48" height="257"/>
-                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                <connections>
-                                    <segue destination="vRM-lx-WyO" kind="embed" id="hep-eL-Bf7"/>
-                                </connections>
-                            </containerView>
-                            <containerView opaque="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="RkD-kr-bP7" userLabel="Rotation Slider">
+                            <containerView opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="RkD-kr-bP7" userLabel="Rotation Slider">
                                 <rect key="frame" x="68" y="663" width="298" height="48"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -237,20 +217,33 @@
                                     <segue destination="bA1-XH-u2U" kind="embed" id="iHh-ZV-Mch"/>
                                 </connections>
                             </containerView>
+                            <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hJF-0f-oEV" userLabel="Altitude Slider">
+                                <rect key="frame" x="20" y="482" width="79" height="179"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <connections>
+                                    <segue destination="vRM-lx-WyO" kind="embed" id="hep-eL-Bf7"/>
+                                </connections>
+                            </containerView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="fd7-dc-5A4" firstAttribute="trailing" secondItem="kQt-cz-3dm" secondAttribute="trailing" id="8o3-WU-1o5"/>
+                            <constraint firstAttribute="trailing" secondItem="hJF-0f-oEV" secondAttribute="trailing" constant="925" id="9fh-Ok-l6K"/>
                             <constraint firstItem="Gt1-Ts-64k" firstAttribute="top" secondItem="gZW-O4-AOv" secondAttribute="bottom" constant="473" id="FR4-Us-dh5"/>
+                            <constraint firstAttribute="bottom" secondItem="hJF-0f-oEV" secondAttribute="bottom" constant="107" id="HXZ-JK-tBO"/>
                             <constraint firstItem="Gt1-Ts-64k" firstAttribute="leading" secondItem="ncH-Oh-fPS" secondAttribute="leadingMargin" constant="778" id="Ij7-wy-eZk"/>
+                            <constraint firstItem="hJF-0f-oEV" firstAttribute="top" secondItem="ncH-Oh-fPS" secondAttribute="top" constant="482" id="Jet-Pq-rYI"/>
                             <constraint firstItem="kQt-cz-3dm" firstAttribute="top" secondItem="gZW-O4-AOv" secondAttribute="bottom" id="L7C-lg-abO"/>
                             <constraint firstItem="Yis-tj-vGm" firstAttribute="top" secondItem="Gt1-Ts-64k" secondAttribute="bottom" constant="20" id="QOV-Wh-f03"/>
                             <constraint firstItem="fd7-dc-5A4" firstAttribute="leading" secondItem="ncH-Oh-fPS" secondAttribute="leading" id="Qd5-KA-Zp5"/>
+                            <constraint firstItem="RkD-kr-bP7" firstAttribute="top" secondItem="hJF-0f-oEV" secondAttribute="bottom" constant="2" id="YE8-VM-9f7"/>
                             <constraint firstItem="fd7-dc-5A4" firstAttribute="bottom" secondItem="Yis-tj-vGm" secondAttribute="top" id="bfi-60-Yev"/>
                             <constraint firstItem="fd7-dc-5A4" firstAttribute="leading" secondItem="kQt-cz-3dm" secondAttribute="leading" id="hd6-Tb-ry5"/>
                             <constraint firstAttribute="trailing" secondItem="fd7-dc-5A4" secondAttribute="trailing" id="otf-Kq-zrp"/>
                             <constraint firstItem="fd7-dc-5A4" firstAttribute="top" secondItem="kQt-cz-3dm" secondAttribute="bottom" constant="1" id="q1L-IH-RKe"/>
                             <constraint firstAttribute="bottom" secondItem="kQt-cz-3dm" secondAttribute="bottom" constant="693" id="uIm-IA-5MB"/>
+                            <constraint firstItem="hJF-0f-oEV" firstAttribute="leading" secondItem="ncH-Oh-fPS" secondAttribute="leadingMargin" id="w6a-Lo-eZE"/>
                             <constraint firstAttribute="trailingMargin" secondItem="Gt1-Ts-64k" secondAttribute="trailing" id="yJx-tH-aP4"/>
                         </constraints>
                     </view>
@@ -260,7 +253,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ZJb-7T-sMq" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="278" y="2129"/>
+            <point key="canvasLocation" x="276" y="2181"/>
         </scene>
         <!--Drone Tab Bar Controller-->
         <scene sceneID="Z77-Y1-KVB">
@@ -568,69 +561,50 @@
                         <viewControllerLayoutGuide type="bottom" id="CDq-zU-wqM"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="0at-i9-6QY">
-                        <rect key="frame" x="0.0" y="0.0" width="48" height="257"/>
+                        <rect key="frame" x="0.0" y="0.0" width="79" height="179"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="+5" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zrT-zk-fNp">
-                                <rect key="frame" x="14" y="0.0" width="21" height="21"/>
-                                <fontDescription key="fontDescription" name="Oswald-Medium" family="Oswald" pointSize="21"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <slider opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" minValue="-5" maxValue="5" translatesAutoresizingMaskIntoConstraints="NO" id="FG0-rd-ofc" userLabel="Altitude Slider">
-                                <rect key="frame" x="-78" y="114" width="204" height="31"/>
-                                <color key="minimumTrackTintColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
-                                <color key="maximumTrackTintColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="alt_arrows" translatesAutoresizingMaskIntoConstraints="NO" id="Dsr-2a-ai7">
+                                <rect key="frame" x="2" y="14" width="74" height="151"/>
+                            </imageView>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" restorationIdentifier="down" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6nh-vy-qXm">
+                                <rect key="frame" x="9" y="103" width="60" height="60"/>
+                                <state key="normal" title="Button"/>
                                 <connections>
-                                    <action selector="altitudeSliderChange:" destination="vRM-lx-WyO" eventType="valueChanged" id="HCR-RG-ONd"/>
-                                    <action selector="altitudeSliderReleased:" destination="vRM-lx-WyO" eventType="touchUpInside" id="YUR-WT-SIR"/>
-                                    <action selector="altitudeSliderReleased:" destination="vRM-lx-WyO" eventType="touchUpOutside" id="kS5-nw-cDC"/>
+                                    <action selector="altitudeButtonDown:" destination="vRM-lx-WyO" eventType="touchDown" id="wjf-pH-K7K"/>
+                                    <action selector="altitudeButtonUp:" destination="vRM-lx-WyO" eventType="touchUpOutside" id="lC5-mY-hwN"/>
+                                    <action selector="altitudeButtonUp:" destination="vRM-lx-WyO" eventType="touchUpInside" id="lYj-Ba-ETj"/>
                                 </connections>
-                            </slider>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="-5" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="64G-Ws-nrZ">
-                                <rect key="frame" x="15" y="236" width="18" height="21"/>
-                                <fontDescription key="fontDescription" name="Oswald-Medium" family="Oswald" pointSize="21"/>
-                                <nil key="highlightedColor"/>
-                            </label>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" restorationIdentifier="up" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FwE-V1-B21">
+                                <rect key="frame" x="9" y="20" width="60" height="60"/>
+                                <state key="normal" title="Button"/>
+                                <connections>
+                                    <action selector="altitudeButtonDown:" destination="vRM-lx-WyO" eventType="touchDown" id="GO5-O0-oWz"/>
+                                    <action selector="altitudeButtonUp:" destination="vRM-lx-WyO" eventType="touchUpInside" id="6kS-L2-Pus"/>
+                                    <action selector="altitudeButtonUp:" destination="vRM-lx-WyO" eventType="touchUpOutside" id="eDc-2t-7M4"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     </view>
-                    <connections>
-<<<<<<< HEAD
-                        <outlet property="altitudeReadingLabel" destination="CIh-XW-P1V" id="9hD-zn-rKv"/>
-                        <outlet property="altitudeSlider" destination="FG0-rd-ofc" id="g3F-Om-IY9"/>
-                        <outlet property="analogueStick" destination="hyV-fQ-y4M" id="gue-aA-jHV"/>
-                        <outlet property="cameraView" destination="0mV-Gp-vom" id="TpX-Rh-ae9"/>
-                        <outlet property="coordinateLabel" destination="gf4-sk-fBR" id="rVZ-NL-odZ"/>
-                        <outlet property="dropPinButton" destination="j84-sP-DcN" id="vw6-Nr-67M"/>
-                        <outlet property="lateralButtonDown" destination="JD4-wa-iPa" id="iR3-0C-Kd9"/>
-                        <outlet property="lateralButtonLeft" destination="885-05-WMq" id="Zan-lm-uRh"/>
-                        <outlet property="lateralButtonRight" destination="T9B-QI-ACR" id="N8w-e9-NEo"/>
-                        <outlet property="lateralButtonUp" destination="Exs-gh-uXv" id="pkz-yw-aSi"/>
-                        <outlet property="launchButton" destination="f8G-UI-1Ji" id="1Cf-JW-ptO"/>
-                        <outlet property="rotationSlider" destination="0bV-ba-Rxq" id="CFW-ch-NlO"/>
-                        <outlet property="sarPathButton" destination="DRT-cW-FhC" id="k3L-sc-pOW"/>
-                        <outlet property="videoImage" destination="fd7-dc-5A4" id="7Od-PJ-mYx"/>
-                        <outlet property="waypointButton" destination="qAA-h1-L42" id="cgf-1H-xt7"/>
-=======
-                        <outlet property="altitudeSlider" destination="FG0-rd-ofc" id="MJz-8g-mv7"/>
->>>>>>> 9b97b4341ba5c7f766ec99dbdad634905d4f6f88
-                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Stb-8n-ULL" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="645" y="740.5"/>
+            <point key="canvasLocation" x="644.5" y="739.5"/>
         </scene>
     </scenes>
     <resources>
+        <image name="alt_arrows" width="83" height="174"/>
         <image name="lateral_buttons" width="148" height="148"/>
         <image name="logo_icon" width="50" height="48"/>
         <image name="stanford" width="1200" height="674"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="VN3-GM-F87"/>
-        <segue reference="i81-yK-5au"/>
-        <segue reference="lK0-ym-PF4"/>
-        <segue reference="AWe-JQ-cQK"/>
+        <segue reference="hep-eL-Bf7"/>
+        <segue reference="DOK-FB-rSf"/>
+        <segue reference="iHh-ZV-Mch"/>
+        <segue reference="d78-ZE-q6L"/>
     </inferredMetricsTieBreakers>
 </document>

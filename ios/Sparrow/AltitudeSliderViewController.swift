@@ -10,6 +10,29 @@ import UIKit
 
 class AltitudeSliderViewController: DroneViewController {
 
+    
+    @IBAction func altitudeButtonDown(sender: AnyObject) {
+        if let button = sender as? UIButton {
+            if let buttonID = button.restorationIdentifier {
+                debugPrint("Altitude button %@ pressed", buttonID)
+                let altitudeCommandArgs = [
+                    "direction": buttonID
+                ]
+                socket.emit("altitude_cmd", altitudeCommandArgs)
+            }
+        }
+    }
+    
+    @IBAction func altitudeButtonUp(sender: AnyObject) {
+        debugPrint("Altitude button released")
+        let lateralCommandArgs = [
+            "direction": "stop"
+        ]
+        socket.emit("altitude_cmd", lateralCommandArgs)
+    }
+    
+    
+    
     @IBOutlet var altitudeSlider: UISlider! {
         didSet {
             altitudeSlider.transform = CGAffineTransformMakeRotation(CGFloat(-M_PI_2))
