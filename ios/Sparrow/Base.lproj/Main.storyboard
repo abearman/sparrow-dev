@@ -198,7 +198,7 @@
                                     <segue destination="LUS-Ou-H15" kind="embed" id="Qv3-VH-fWI"/>
                                 </connections>
                             </containerView>
-                            <view alpha="0.90000000000000002" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="e6b-S7-R1K" userLabel="Overlay View" customClass="OverlayView">
+                            <view alpha="0.90000000000000002" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="e6b-S7-R1K" userLabel="Overlay View">
                                 <rect key="frame" x="0.0" y="75" width="1025" height="693"/>
                                 <subviews>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="start_overlay" translatesAutoresizingMaskIntoConstraints="NO" id="WDk-lj-O3u">
