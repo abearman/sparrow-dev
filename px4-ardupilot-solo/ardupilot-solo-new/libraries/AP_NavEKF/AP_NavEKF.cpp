@@ -4989,7 +4989,7 @@ void  NavEKF::getFilterStatus(nav_filter_status &status) const
     status.flags.horiz_pos_abs = ((_ahrs->get_tango().is_connected()) || ((!gpsAidingBad && doingNormalGpsNav)) && notDeadReckoning && filterHealthy); // absolute horizontal position estimate valid
     status.flags.vert_pos = !hgtTimeout && filterHealthy;            // vertical position estimate valid
     status.flags.terrain_alt = gndOffsetValid && filterHealthy;		// terrain height estimate valid
-    status.flags.const_pos_mode = (_ahrs->get_tango().is_connected()) || (constPosMode && filterHealthy);     // constant position mode
+    status.flags.const_pos_mode = (!_ahrs->get_tango().is_connected()) || (constPosMode && filterHealthy);     // constant position mode
     status.flags.pred_horiz_pos_rel = (optFlowNavPossible || gpsNavPossible) && filterHealthy; // we should be able to estimate a relative position when we enter flight mode
     status.flags.pred_horiz_pos_abs = gpsNavPossible && filterHealthy; // we should be able to estimate an absolute position when we enter flight mode
     status.flags.takeoff_detected = takeOffDetected; // takeoff for optical flow navigation has been detected

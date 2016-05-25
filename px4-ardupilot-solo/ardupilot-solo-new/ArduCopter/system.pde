@@ -310,6 +310,7 @@ static bool position_ok()
 {
     // return false if ekf failsafe has triggered
     if (failsafe.ekf) {
+				gcs_send_text_P(SEVERITY_HIGH, PSTR("Returning ekf failsafe has triggered"));
         return false;
     }
 
@@ -330,13 +331,13 @@ bool ekf_position_ok()
     nav_filter_status filt_status = inertial_nav.get_filter_status();
 
 		if (filt_status.flags.horiz_pos_abs) {
-			gcs_send_text_P(SEVERITY_HIGH, PSTR("horiz_pos_abs is true"));
+			//gcs_send_text_P(SEVERITY_HIGH, PSTR("horiz_pos_abs is true"));
 		}
 		if (filt_status.flags.pred_horiz_pos_abs) {
-			gcs_send_text_P(SEVERITY_HIGH, PSTR("pred_horiz_pos_abs is true"));
+			//gcs_send_text_P(SEVERITY_HIGH, PSTR("pred_horiz_pos_abs is true"));
 		}
 		if (!filt_status.flags.const_pos_mode) {
-			gcs_send_text_P(SEVERITY_HIGH, PSTR("const_pos_mode is false"));
+			//gcs_send_text_P(SEVERITY_HIGH, PSTR("const_pos_mode is false"));
 		}	
 
     // if disarmed we accept a predicted horizontal position
@@ -344,7 +345,10 @@ bool ekf_position_ok()
         return ((filt_status.flags.horiz_pos_abs || filt_status.flags.pred_horiz_pos_abs));
     } else {
         // once armed we require a good absolute position and EKF must not be in const_pos_mode
-        return (filt_status.flags.horiz_pos_abs && !filt_status.flags.const_pos_mode);
+				if (filt_status.flags.horiz_pos_abs && !filt_status.flags.const_pos_mode) { 
+					gcs_send_text_P(SEVERITY_HIGH, PSTR("horiz_pos_abs && !const_pos_mode satisfied"));
+        }	
+				return (filt_status.flags.horiz_pos_abs && !filt_status.flags.const_pos_mode);
     }
 }
 

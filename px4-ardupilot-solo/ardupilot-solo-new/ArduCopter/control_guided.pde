@@ -26,7 +26,9 @@ struct Guided_Limit {
 // guided_init - initialise guided controller
 static bool guided_init(bool ignore_checks)
 {
+		gcs_send_text_P(SEVERITY_HIGH, PSTR("Got to guided_init"));
     if (!ignore_checks && failsafe.gps_glitch) {
+				gcs_send_text_P(SEVERITY_HIGH, PSTR("Return F bc !ignore_checks && failsafe.gps_glitch"));
         return false;
     }
 
@@ -37,7 +39,8 @@ static bool guided_init(bool ignore_checks)
         guided_pos_control_start();
         return true;
     }else{
-        return false;
+      gcs_send_text_P(SEVERITY_HIGH, PSTR("Return F bc !position_ok && !ignore_checks"));  
+			return false;
     }
 }
 

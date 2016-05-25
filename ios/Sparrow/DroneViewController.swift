@@ -12,7 +12,7 @@ class DroneViewController: UIViewController {
     
     // The IP address that the server is running on
     
-    let HOSTNAME = "10.30.117.154"
+    let HOSTNAME = "10.1.1.188"
     let PORT = "5000"
     
     var states: Dictionary<String, String>?
@@ -70,6 +70,25 @@ class DroneViewController: UIViewController {
             NSUTF8StringEncoding)!
         request.HTTPBody = data
         HTTPsendRequest(request,callback: callback)
+    }
+    
+    func processJSONData(data: AnyObject) -> AnyObject? {
+        // Try to unpack JSON data
+        if let arrData = data as? [AnyObject] {
+            if !arrData.isEmpty {
+                if let encodedData = arrData[0].dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false) {
+                    do {
+                        if let jsonData: AnyObject = try NSJSONSerialization.JSONObjectWithData(encodedData, options: .AllowFragments) {
+                            return jsonData
+                        }
+                    } catch {
+                        print("error serializing JSON: \(error)")
+                        
+                    }
+                }
+            }
+        }
+        return nil
     }
     
     func imageWithImage(image:UIImage, scaledToSize newSize:CGSize) -> UIImage{

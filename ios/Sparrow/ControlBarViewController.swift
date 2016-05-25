@@ -64,32 +64,23 @@ class ControlBarViewController: DroneViewController, UIPopoverPresentationContro
     
     override func handleGPSPos(data: AnyObject) {
         super.handleGPSPos(data)
-        
-        // Unpack JSON data
-        let encodedData = data[0].dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false)!
-        do {
-            if let jsonData: AnyObject = try NSJSONSerialization.JSONObjectWithData(encodedData, options: .AllowFragments) {
-                let latitude = jsonData["lat"] as? Double
-                let longitude = jsonData["lon"] as? Double
-                let altitude = jsonData["alt"] as? Double
-                
-                // Update coordinate label
-                if let latitudeVal = latitude {
-                    if let longitudeVal = longitude {
-                        coordinateReadingLabel.text = "(" + String(format: "%.3f", latitudeVal) + "N, " + String(format: "%.3f", longitudeVal) + "W)"
-                    }
-                }
-                
-                // Update altitude label
-                if var altitudeVal = altitude {
-                    if altitudeVal < 0.0 { altitudeVal = 0.0 }
-                    altitudeReadingLabel.text = String(format: "%.3f", altitudeVal) + " m"
+        if let jsonData = processJSONData(data) {
+            let latitude = jsonData["lat"] as? Double
+            let longitude = jsonData["lon"] as? Double
+            let altitude = jsonData["alt"] as? Double
+            
+            // Update coordinate label
+            if let latitudeVal = latitude {
+                if let longitudeVal = longitude {
+                    coordinateReadingLabel.text = "(" + String(format: "%.3f", latitudeVal) + "N, " + String(format: "%.3f", longitudeVal) + "W)"
                 }
             }
             
-        } catch {
-            print("error serializing JSON: \(error)")
-            
+            // Update altitude label
+            if var altitudeVal = altitude {
+                if altitudeVal < 0.0 { altitudeVal = 0.0 }
+                altitudeReadingLabel.text = String(format: "%.3f", altitudeVal) + " m"
+            }
         }
     }
     

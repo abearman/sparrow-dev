@@ -65,29 +65,20 @@ class MapViewController: DroneViewController, MKMapViewDelegate {
     
     override func handleGPSPos(data: AnyObject) {
         super.handleGPSPos(data)
-        
-        // Unpack JSON data
-        let encodedData = data[0].dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false)!
-        do {
-            if let jsonData: AnyObject = try NSJSONSerialization.JSONObjectWithData(encodedData, options: .AllowFragments) {
-                let latitude = jsonData["lat"] as? Double
-                let longitude = jsonData["lon"] as? Double
-                let altitude = jsonData["alt"] as? Double
-                let yaw = jsonData["yaw"] as? Double
-                
-                latestLat = latitude!
-                latestLong = longitude!
-                latestAlt = altitude!
-                
-
-                // Update MKMapView
-                let loc = CLLocationCoordinate2DMake(latitude!, longitude!)
-                onLocationUpdate(loc, yaw: yaw!)
-            }
+        if let jsonData = processJSONData(data) {
+            let latitude = jsonData["lat"] as? Double
+            let longitude = jsonData["lon"] as? Double
+            let altitude = jsonData["alt"] as? Double
+            let yaw = jsonData["yaw"] as? Double
             
-        } catch {
-            print("error serializing JSON: \(error)")
-
+            latestLat = latitude!
+            latestLong = longitude!
+            latestAlt = altitude!
+            
+            
+            // Update MKMapView
+            let loc = CLLocationCoordinate2DMake(latitude!, longitude!)
+            onLocationUpdate(loc, yaw: yaw!)
         }
     }
 
