@@ -198,6 +198,15 @@
                                     <segue destination="LUS-Ou-H15" kind="embed" id="Qv3-VH-fWI"/>
                                 </connections>
                             </containerView>
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="e6b-S7-R1K" userLabel="Overlay View">
+                                <rect key="frame" x="0.0" y="75" width="1025" height="693"/>
+                                <subviews>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="start_overlay" translatesAutoresizingMaskIntoConstraints="NO" id="byN-9x-TPs" userLabel="Overlay Image">
+                                        <rect key="frame" x="0.0" y="0.0" width="1031" height="693"/>
+                                    </imageView>
+                                </subviews>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -225,6 +234,7 @@
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="iPad"/>
                     <connections>
                         <outlet property="mapView" destination="it6-1N-EKc" id="NFJ-oK-7tM"/>
+                        <outlet property="overlayView" destination="e6b-S7-R1K" id="ssf-U2-Wgi"/>
                         <outlet property="sarControlCancelButton" destination="Klb-9H-dae" id="cyg-Ln-j03"/>
                         <outlet property="sarControlConfirmButton" destination="Hfu-xb-m3P" id="Q4S-E1-MK4"/>
                         <outlet property="sarControlView" destination="dzn-gk-tVR" id="RAK-YX-uq4"/>
@@ -566,6 +576,10 @@
         <scene sceneID="ywU-v7-Nvb">
             <objects>
                 <viewController id="LUS-Ou-H15" customClass="VideoFeedViewController" customModule="Sparrow" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="h6q-JG-MnD"/>
+                        <viewControllerLayoutGuide type="bottom" id="AYQ-7f-w9j"/>
+                    </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="PgJ-Wz-PUI">
                         <rect key="frame" x="0.0" y="0.0" width="256" height="144"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -592,5 +606,6 @@
         <image name="lateral_buttons" width="148" height="148"/>
         <image name="logo_icon" width="50" height="48"/>
         <image name="stanford" width="1200" height="674"/>
+        <image name="start_overlay" width="1024" height="768"/>
     </resources>
 </document>

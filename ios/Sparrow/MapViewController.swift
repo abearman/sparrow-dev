@@ -17,6 +17,7 @@ class MapViewController: DroneViewController, MKMapViewDelegate {
     @IBOutlet weak var sarStepSlider: UISlider!
     @IBOutlet weak var sarControlCancelButton: UIButton!
     @IBOutlet weak var sarControlConfirmButton: UIButton!
+    @IBOutlet weak var overlayView: UIView!
     
     var pathType: String = "";
     var offsets : [(dNorth: Double, dEast: Double)] = [];
