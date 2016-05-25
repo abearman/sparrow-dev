@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10116" systemVersion="15B42" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="dlJ-eF-oDH">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10116" systemVersion="15B42" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="lZr-Lc-zbu">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
@@ -111,7 +111,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="it6-1N-EKc">
-                                <rect key="frame" x="0.0" y="75" width="1025" height="644"/>
+                                <rect key="frame" x="0.0" y="75" width="1025" height="693"/>
                             </mapView>
                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Ftw-HF-cR4" userLabel="Control Bar">
                                 <rect key="frame" x="0.0" y="20" width="1024" height="55"/>
@@ -120,7 +120,7 @@
                                 </connections>
                             </containerView>
                             <containerView opaque="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="i3v-Ev-9lf" userLabel="Altitude Slider">
-                                <rect key="frame" x="20" y="493" width="76" height="151"/>
+                                <rect key="frame" x="20" y="541" width="76" height="151"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <connections>
@@ -128,7 +128,7 @@
                                 </connections>
                             </containerView>
                             <containerView opaque="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Uz6-la-qot" userLabel="Rotation Slider">
-                                <rect key="frame" x="68" y="663" width="298" height="48"/>
+                                <rect key="frame" x="79" y="700" width="298" height="48"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <connections>
@@ -136,14 +136,14 @@
                                 </connections>
                             </containerView>
                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6fv-hd-1ZE" userLabel="Lateral Commands">
-                                <rect key="frame" x="798" y="493" width="206" height="206"/>
+                                <rect key="frame" x="798" y="542" width="206" height="206"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <connections>
                                     <segue destination="bA1-XH-u2U" kind="embed" id="lK0-ym-PF4"/>
                                 </connections>
                             </containerView>
-                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="dzn-gk-tVR">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dzn-gk-tVR">
                                 <rect key="frame" x="764" y="93" width="240" height="98"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Step" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aBJ-UY-u7M">
@@ -190,21 +190,33 @@
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
+                            <containerView opaque="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="VAl-2T-REM">
+                                <rect key="frame" x="20" y="93" width="256" height="144"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <connections>
+                                    <segue destination="LUS-Ou-H15" kind="embed" id="Qv3-VH-fWI"/>
+                                </connections>
+                            </containerView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="kUo-d4-RPJ" firstAttribute="top" secondItem="6fv-hd-1ZE" secondAttribute="bottom" constant="20" id="2fO-Se-VmO"/>
-                            <constraint firstItem="it6-1N-EKc" firstAttribute="bottom" secondItem="kUo-d4-RPJ" secondAttribute="top" id="FeD-ez-ZsR"/>
+                            <constraint firstAttribute="bottom" secondItem="dzn-gk-tVR" secondAttribute="bottom" constant="577" id="0gR-kl-i5m"/>
+                            <constraint firstItem="dzn-gk-tVR" firstAttribute="trailing" secondItem="6fv-hd-1ZE" secondAttribute="trailing" id="KFz-VG-Jqc"/>
+                            <constraint firstItem="it6-1N-EKc" firstAttribute="bottom" secondItem="kUo-d4-RPJ" secondAttribute="top" id="KP8-dv-OLv"/>
                             <constraint firstAttribute="trailing" secondItem="Ftw-HF-cR4" secondAttribute="trailing" id="Kce-yM-7zg"/>
-                            <constraint firstItem="it6-1N-EKc" firstAttribute="top" secondItem="Ftw-HF-cR4" secondAttribute="bottom" id="Ox1-IQ-nVw"/>
-                            <constraint firstItem="it6-1N-EKc" firstAttribute="centerX" secondItem="Ftw-HF-cR4" secondAttribute="centerX" id="Rxg-hv-HaV"/>
-                            <constraint firstItem="6fv-hd-1ZE" firstAttribute="leading" secondItem="SBc-q4-Qws" secondAttribute="leadingMargin" constant="778" id="SQU-U9-kMx"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="6fv-hd-1ZE" secondAttribute="trailing" id="ULu-dr-Zmh"/>
+                            <constraint firstItem="dzn-gk-tVR" firstAttribute="top" secondItem="Ftw-HF-cR4" secondAttribute="bottom" constant="18" id="LHm-td-Zk8"/>
                             <constraint firstItem="Ftw-HF-cR4" firstAttribute="top" secondItem="llt-1G-RT1" secondAttribute="bottom" id="UYk-N9-kE0"/>
                             <constraint firstAttribute="bottom" secondItem="Ftw-HF-cR4" secondAttribute="bottom" constant="693" id="XK5-h1-Iij"/>
                             <constraint firstItem="Ftw-HF-cR4" firstAttribute="leading" secondItem="SBc-q4-Qws" secondAttribute="leading" id="XdW-uM-aUj"/>
-                            <constraint firstItem="6fv-hd-1ZE" firstAttribute="top" secondItem="llt-1G-RT1" secondAttribute="bottom" constant="473" id="glX-G2-GIK"/>
-                            <constraint firstItem="it6-1N-EKc" firstAttribute="leading" secondItem="Ftw-HF-cR4" secondAttribute="leading" id="kBt-Pk-edN"/>
+                            <constraint firstItem="6fv-hd-1ZE" firstAttribute="top" secondItem="SBc-q4-Qws" secondAttribute="top" constant="542" id="aXz-0n-pqK"/>
+                            <constraint firstItem="it6-1N-EKc" firstAttribute="top" secondItem="Ftw-HF-cR4" secondAttribute="bottom" id="d5k-cH-Ioa"/>
+                            <constraint firstAttribute="bottom" secondItem="6fv-hd-1ZE" secondAttribute="bottom" constant="20" symbolic="YES" id="drm-m5-9Bi"/>
+                            <constraint firstItem="it6-1N-EKc" firstAttribute="centerX" secondItem="Ftw-HF-cR4" secondAttribute="centerX" id="mLP-0Z-Unq"/>
+                            <constraint firstItem="6fv-hd-1ZE" firstAttribute="leading" secondItem="SBc-q4-Qws" secondAttribute="leading" constant="798" id="nhA-0F-HgP"/>
+                            <constraint firstItem="it6-1N-EKc" firstAttribute="leading" secondItem="Ftw-HF-cR4" secondAttribute="leading" id="nma-Zw-NYJ"/>
+                            <constraint firstItem="dzn-gk-tVR" firstAttribute="leading" secondItem="SBc-q4-Qws" secondAttribute="leading" constant="764" id="uG6-Gb-U12"/>
+                            <constraint firstItem="6fv-hd-1ZE" firstAttribute="trailing" secondItem="SBc-q4-Qws" secondAttribute="trailingMargin" id="vrV-AL-FyJ"/>
                         </constraints>
                     </view>
                     <tabBarItem key="tabBarItem" title="Map" id="xPU-ng-IcZ" userLabel="Map"/>
@@ -222,103 +234,6 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="f5n-xx-WEw" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1074" y="3"/>
-        </scene>
-        <!--Video Feed-->
-        <scene sceneID="FTM-WW-UuW">
-            <objects>
-                <viewController title="Video Feed" id="lGD-MD-FCz" customClass="VideoFeedViewController" customModule="Sparrow" customModuleProvider="target" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="gZW-O4-AOv"/>
-                        <viewControllerLayoutGuide type="bottom" id="Yis-tj-vGm"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="ncH-Oh-fPS">
-                        <rect key="frame" x="0.0" y="0.0" width="1024" height="768"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="kQt-cz-3dm" userLabel="Control Bar">
-                                <rect key="frame" x="0.0" y="20" width="1024" height="55"/>
-                                <connections>
-                                    <segue destination="oap-Pp-LXB" kind="embed" id="d78-ZE-q6L"/>
-                                </connections>
-                            </containerView>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="stanford" translatesAutoresizingMaskIntoConstraints="NO" id="fd7-dc-5A4" userLabel="Image Still">
-                                <rect key="frame" x="0.0" y="76" width="1024" height="643"/>
-                                <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                            </imageView>
-                            <containerView opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="RkD-kr-bP7" userLabel="Rotation Slider">
-                                <rect key="frame" x="68" y="663" width="298" height="48"/>
-                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                <connections>
-                                    <segue destination="M3z-Vg-ycn" kind="embed" id="DOK-FB-rSf"/>
-                                </connections>
-                            </containerView>
-                            <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Gt1-Ts-64k" userLabel="Lateral Commands">
-                                <rect key="frame" x="798" y="493" width="206" height="206"/>
-                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                <connections>
-                                    <segue destination="bA1-XH-u2U" kind="embed" id="iHh-ZV-Mch"/>
-                                </connections>
-                            </containerView>
-                            <containerView opaque="NO" contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="hJF-0f-oEV" userLabel="Altitude Slider">
-                                <rect key="frame" x="20" y="474" width="79" height="179"/>
-                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                <connections>
-                                    <segue destination="vRM-lx-WyO" kind="embed" id="hep-eL-Bf7"/>
-                                </connections>
-                            </containerView>
-                        </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <constraints>
-                            <constraint firstItem="fd7-dc-5A4" firstAttribute="trailing" secondItem="kQt-cz-3dm" secondAttribute="trailing" id="8o3-WU-1o5"/>
-                            <constraint firstAttribute="trailing" secondItem="hJF-0f-oEV" secondAttribute="trailing" constant="925" id="9fh-Ok-l6K"/>
-                            <constraint firstItem="Gt1-Ts-64k" firstAttribute="top" secondItem="gZW-O4-AOv" secondAttribute="bottom" constant="473" id="FR4-Us-dh5"/>
-                            <constraint firstAttribute="bottom" secondItem="hJF-0f-oEV" secondAttribute="bottom" constant="107" id="HXZ-JK-tBO"/>
-                            <constraint firstItem="Gt1-Ts-64k" firstAttribute="leading" secondItem="ncH-Oh-fPS" secondAttribute="leadingMargin" constant="778" id="Ij7-wy-eZk"/>
-                            <constraint firstItem="hJF-0f-oEV" firstAttribute="top" secondItem="ncH-Oh-fPS" secondAttribute="top" constant="482" id="Jet-Pq-rYI"/>
-                            <constraint firstItem="kQt-cz-3dm" firstAttribute="top" secondItem="gZW-O4-AOv" secondAttribute="bottom" id="L7C-lg-abO"/>
-                            <constraint firstItem="Yis-tj-vGm" firstAttribute="top" secondItem="Gt1-Ts-64k" secondAttribute="bottom" constant="20" id="QOV-Wh-f03"/>
-                            <constraint firstItem="fd7-dc-5A4" firstAttribute="leading" secondItem="ncH-Oh-fPS" secondAttribute="leading" id="Qd5-KA-Zp5"/>
-                            <constraint firstItem="RkD-kr-bP7" firstAttribute="top" secondItem="hJF-0f-oEV" secondAttribute="bottom" constant="2" id="YE8-VM-9f7"/>
-                            <constraint firstItem="fd7-dc-5A4" firstAttribute="bottom" secondItem="Yis-tj-vGm" secondAttribute="top" id="bfi-60-Yev"/>
-                            <constraint firstItem="fd7-dc-5A4" firstAttribute="leading" secondItem="kQt-cz-3dm" secondAttribute="leading" id="hd6-Tb-ry5"/>
-                            <constraint firstAttribute="trailing" secondItem="fd7-dc-5A4" secondAttribute="trailing" id="otf-Kq-zrp"/>
-                            <constraint firstItem="fd7-dc-5A4" firstAttribute="top" secondItem="kQt-cz-3dm" secondAttribute="bottom" constant="1" id="q1L-IH-RKe"/>
-                            <constraint firstAttribute="bottom" secondItem="kQt-cz-3dm" secondAttribute="bottom" constant="693" id="uIm-IA-5MB"/>
-                            <constraint firstItem="hJF-0f-oEV" firstAttribute="leading" secondItem="ncH-Oh-fPS" secondAttribute="leadingMargin" id="w6a-Lo-eZE"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="Gt1-Ts-64k" secondAttribute="trailing" id="yJx-tH-aP4"/>
-                        </constraints>
-                    </view>
-                    <tabBarItem key="tabBarItem" title="Video Feed" id="EP8-4O-TFh" userLabel="Video Feed"/>
-                    <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
-                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="iPad"/>
-                    <connections>
-                        <outlet property="videoImage" destination="fd7-dc-5A4" id="Gch-dP-WL8"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="ZJb-7T-sMq" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="276" y="2181"/>
-        </scene>
-        <!--Drone Tab Bar Controller-->
-        <scene sceneID="Z77-Y1-KVB">
-            <objects>
-                <tabBarController id="dlJ-eF-oDH" customClass="DroneTabBarController" customModule="Sparrow" customModuleProvider="target" sceneMemberID="viewController">
-                    <tabBar key="tabBar" contentMode="scaleToFill" id="m6E-Zn-h2Z">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="49"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                    </tabBar>
-                    <connections>
-                        <segue destination="lZr-Lc-zbu" kind="relationship" relationship="viewControllers" id="8mB-K4-7jD"/>
-                        <segue destination="lGD-MD-FCz" kind="relationship" relationship="viewControllers" id="UPQ-eL-Mpv"/>
-                    </connections>
-                </tabBarController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="uyn-Ss-ezT" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="144" y="941"/>
         </scene>
         <!--Control Bar View Controller-->
         <scene sceneID="kxZ-8T-4w3">
@@ -647,6 +562,30 @@
             </objects>
             <point key="canvasLocation" x="626" y="599"/>
         </scene>
+        <!--Video Feed View Controller-->
+        <scene sceneID="ywU-v7-Nvb">
+            <objects>
+                <viewController id="LUS-Ou-H15" customClass="VideoFeedViewController" customModule="Sparrow" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="PgJ-Wz-PUI">
+                        <rect key="frame" x="0.0" y="0.0" width="256" height="144"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="stanford" translatesAutoresizingMaskIntoConstraints="NO" id="2tZ-bY-vnc" userLabel="Image Still">
+                                <rect key="frame" x="0.0" y="0.0" width="256" height="144"/>
+                                <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                            </imageView>
+                        </subviews>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                        <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    </view>
+                    <connections>
+                        <outlet property="videoImage" destination="2tZ-bY-vnc" id="Mof-DN-LTg"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="muG-Hj-DR7" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="735" y="-591"/>
+        </scene>
     </scenes>
     <resources>
         <image name="alt_arrows" width="83" height="174"/>
@@ -654,10 +593,4 @@
         <image name="logo_icon" width="50" height="48"/>
         <image name="stanford" width="1200" height="674"/>
     </resources>
-    <inferredMetricsTieBreakers>
-        <segue reference="lK0-ym-PF4"/>
-        <segue reference="VN3-GM-F87"/>
-        <segue reference="i81-yK-5au"/>
-        <segue reference="AWe-JQ-cQK"/>
-    </inferredMetricsTieBreakers>
 </document>

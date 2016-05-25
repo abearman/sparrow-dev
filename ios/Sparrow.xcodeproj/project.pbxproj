@@ -64,7 +64,6 @@
 		BDD1F00A1CF296BD00DF3B52 /* LateralMovementViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDD1F0091CF296BD00DF3B52 /* LateralMovementViewController.swift */; };
 		BDD1F00E1CF37AD600DF3B52 /* ControlBarModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDD1F00D1CF37AD600DF3B52 /* ControlBarModel.swift */; };
 		BDD1F0141CF37BDC00DF3B52 /* SARMenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDD1F0131CF37BDC00DF3B52 /* SARMenuViewController.swift */; };
-		BDD1F0161CF37D0500DF3B52 /* DroneTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDD1F0151CF37D0500DF3B52 /* DroneTabBarController.swift */; };
 		BDD1F0181CF3952400DF3B52 /* RotationSliderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDD1F0171CF3952400DF3B52 /* RotationSliderViewController.swift */; };
 		BDD1F01A1CF3985000DF3B52 /* AltitudeSliderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDD1F0191CF3985000DF3B52 /* AltitudeSliderViewController.swift */; };
 		BDD1F01C1CF3B20A00DF3B52 /* UIColorExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDD1F01B1CF3B20A00DF3B52 /* UIColorExtensions.swift */; };
@@ -157,7 +156,6 @@
 		BDD1F0091CF296BD00DF3B52 /* LateralMovementViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LateralMovementViewController.swift; path = ../LateralMovementViewController.swift; sourceTree = "<group>"; };
 		BDD1F00D1CF37AD600DF3B52 /* ControlBarModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ControlBarModel.swift; sourceTree = "<group>"; };
 		BDD1F0131CF37BDC00DF3B52 /* SARMenuViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SARMenuViewController.swift; path = ../SARMenuViewController.swift; sourceTree = "<group>"; };
-		BDD1F0151CF37D0500DF3B52 /* DroneTabBarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DroneTabBarController.swift; sourceTree = "<group>"; };
 		BDD1F0171CF3952400DF3B52 /* RotationSliderViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RotationSliderViewController.swift; sourceTree = "<group>"; };
 		BDD1F0191CF3985000DF3B52 /* AltitudeSliderViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AltitudeSliderViewController.swift; sourceTree = "<group>"; };
 		BDD1F01B1CF3B20A00DF3B52 /* UIColorExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIColorExtensions.swift; sourceTree = "<group>"; };
@@ -217,7 +215,6 @@
 			isa = PBXGroup;
 			children = (
 				BDD1F0121CF37B7400DF3B52 /* Helper Swift Files */,
-				BDD1F0151CF37D0500DF3B52 /* DroneTabBarController.swift */,
 				BDD1F0051CF2797E00DF3B52 /* DroneViewController.swift */,
 				492AF8661CC9B34B00A805F3 /* MapViewController.swift */,
 				BDD1EFF91CF26CF300DF3B52 /* VideoFeedViewController.swift */,
@@ -540,7 +537,6 @@
 				BDD1F0061CF2797E00DF3B52 /* DroneViewController.swift in Sources */,
 				498188881CCADEB700029A6D /* SocketIOClientStatus.swift in Sources */,
 				492AF8A01CC9CE6600A805F3 /* JSONHelper.swift in Sources */,
-				BDD1F0161CF37D0500DF3B52 /* DroneTabBarController.swift in Sources */,
 				498188861CCADEB700029A6D /* SocketIOClient.swift in Sources */,
 				BDD1EFFA1CF26CF300DF3B52 /* VideoFeedViewController.swift in Sources */,
 				BDD1F00A1CF296BD00DF3B52 /* LateralMovementViewController.swift in Sources */,

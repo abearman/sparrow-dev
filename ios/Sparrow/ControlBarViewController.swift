@@ -11,7 +11,7 @@ import MapKit
 
 class ControlBarViewController: DroneViewController, UIPopoverPresentationControllerDelegate {
     
-    var droneTBC: DroneTabBarController?
+    var controlBarModel = ControlBarModel()
     
     @IBOutlet var coordinateReadingLabel: UILabel!
     @IBOutlet var altitudeReadingLabel: UILabel!
@@ -97,27 +97,27 @@ class ControlBarViewController: DroneViewController, UIPopoverPresentationContro
     
     var isInFlight: Bool {
         get {
-            return droneTBC!.controlBarModel.isInFlight
+            return controlBarModel.isInFlight
         } set {
-            droneTBC!.controlBarModel.isInFlight = newValue
+            controlBarModel.isInFlight = newValue
             updateLaunchButton()
         }
     }
     
     var isTakingOff: Bool {
         get {
-            return droneTBC!.controlBarModel.isTakingOff
+            return controlBarModel.isTakingOff
         } set {
-            droneTBC!.controlBarModel.isTakingOff = newValue
+            controlBarModel.isTakingOff = newValue
             updateLaunchButton()
         }
     }
     
     var isLanding: Bool {
         get {
-            return droneTBC!.controlBarModel.isLanding
+            return controlBarModel.isLanding
         } set {
-            droneTBC!.controlBarModel.isLanding = newValue
+            controlBarModel.isLanding = newValue
             updateLaunchButton()
         }
     }

@@ -10,11 +10,7 @@ import UIKit
 
 class VideoFeedViewController: DroneViewController {
     
-    @IBOutlet var videoImage: UIImageView! {
-        didSet {
-            //averageImageColor = videoImage.image?.averagePixelColor()
-        }
-    }
+    @IBOutlet var videoImage: UIImageView!
     
     private var averageImageColor: UIColor?
 
@@ -86,10 +82,10 @@ class VideoFeedViewController: DroneViewController {
             pixel_data[i].b = image_bytes[3 * i + 2]
         }
         
-         let width = 1280
-         let height = 720
-        //let width = 256
-        //let height = 144
+        //let width = 1280
+        //let height = 720
+        let width = 256
+        let height = 144
         let bitmapCount: Int = pixel_data.count
         let elementLength: Int = sizeof(PixelData)
         let render: CGColorRenderingIntent = CGColorRenderingIntent.RenderingIntentDefault

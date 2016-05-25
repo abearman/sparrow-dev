@@ -108,8 +108,8 @@ extension UIImage {
         print(color.greenColor())
         print(color.blueColor())
         
-        for i in 0 ..< Int(height) {
-            for j in 0 ..< Int(width) {
+        for _ in 0 ..< Int(height) {
+            for _ in 0 ..< Int(width) {
                 let pixel = currentPixel.memory
                 if red(pixel) == 0 && green(pixel) == 0 && blue(pixel) == 0 {
                     // Do nothing -- it's background

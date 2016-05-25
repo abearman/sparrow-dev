@@ -12,7 +12,7 @@ class DroneViewController: UIViewController {
     
     // The IP address that the server is running on
     
-    let HOSTNAME = "10.28.96.192"
+    let HOSTNAME = "10.30.117.154"
     let PORT = "5000"
     
     var states: Dictionary<String, String>?
@@ -70,17 +70,6 @@ class DroneViewController: UIViewController {
             NSUTF8StringEncoding)!
         request.HTTPBody = data
         HTTPsendRequest(request,callback: callback)
-    }
-    
-    override func viewDidLayoutSubviews() {
-        // Get tab bar controller
-        for childVC in self.childViewControllers {
-            if let controlBarVC = childVC as? ControlBarViewController {
-                if let droneTBC = self.tabBarController as? DroneTabBarController {
-                    controlBarVC.droneTBC = droneTBC
-                }
-            }
-        }
     }
     
     func imageWithImage(image:UIImage, scaledToSize newSize:CGSize) -> UIImage{
