@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10116" systemVersion="15B42" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="dlJ-eF-oDH">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="dlJ-eF-oDH">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
@@ -190,6 +190,15 @@
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="e6b-S7-R1K" userLabel="Overlay View">
+                                <rect key="frame" x="0.0" y="75" width="1025" height="693"/>
+                                <subviews>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="start_overlay" translatesAutoresizingMaskIntoConstraints="NO" id="byN-9x-TPs" userLabel="Overlay Image">
+                                        <rect key="frame" x="0.0" y="0.0" width="1031" height="693"/>
+                                    </imageView>
+                                </subviews>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -213,6 +222,7 @@
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="iPad"/>
                     <connections>
                         <outlet property="mapView" destination="it6-1N-EKc" id="NFJ-oK-7tM"/>
+                        <outlet property="overlayView" destination="e6b-S7-R1K" id="ssf-U2-Wgi"/>
                         <outlet property="sarControlCancelButton" destination="Klb-9H-dae" id="cyg-Ln-j03"/>
                         <outlet property="sarControlConfirmButton" destination="Hfu-xb-m3P" id="Q4S-E1-MK4"/>
                         <outlet property="sarControlView" destination="dzn-gk-tVR" id="RAK-YX-uq4"/>
@@ -653,6 +663,7 @@
         <image name="lateral_buttons" width="148" height="148"/>
         <image name="logo_icon" width="50" height="48"/>
         <image name="stanford" width="1200" height="674"/>
+        <image name="start_overlay" width="1024" height="768"/>
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="lK0-ym-PF4"/>

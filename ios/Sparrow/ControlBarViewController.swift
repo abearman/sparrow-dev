@@ -123,6 +123,7 @@ class ControlBarViewController: DroneViewController, UIPopoverPresentationContro
     }
     
     @IBAction func launchButtonClicked(sender: AnyObject) {
+        let mapViewController:MapViewController = self.parentViewController as! MapViewController
         // Takeoff command
         if (!isInFlight) {
             debugPrint("Sending take off request")
@@ -139,6 +140,7 @@ class ControlBarViewController: DroneViewController, UIPopoverPresentationContro
                     self.isTakingOff = false
                 }
             }
+            mapViewController.overlayView.hidden = true
             
             // Land command
         } else {
@@ -246,6 +248,8 @@ class ControlBarViewController: DroneViewController, UIPopoverPresentationContro
                     popoverTVC.popoverPresentationController?.permittedArrowDirections = UIPopoverArrowDirection.init(rawValue: 0)
                     popoverTVC.popoverPresentationController!.sourceRect = CGRectMake(CGRectGetMidX(self.view.bounds), CGRectGetMidY(self.view.bounds),0,0)
                     popoverTVC.pinLocations = droneVC.pinLocations
+                    let mapViewController:MapViewController = self.parentViewController as! MapViewController
+                    mapViewController.overlayView.hidden = false
                 }
             }
         }
