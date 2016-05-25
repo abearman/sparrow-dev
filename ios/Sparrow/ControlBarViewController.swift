@@ -64,24 +64,16 @@ class ControlBarViewController: DroneViewController, UIPopoverPresentationContro
     
     override func handleGPSPos(data: AnyObject) {
         super.handleGPSPos(data)
-        if let jsonData = processJSONData(data) {
-            let latitude = jsonData["lat"] as? Double
-            let longitude = jsonData["lon"] as? Double
-            let altitude = jsonData["alt"] as? Double
             
-            // Update coordinate label
-            if let latitudeVal = latitude {
-                if let longitudeVal = longitude {
-                    coordinateReadingLabel.text = "(" + String(format: "%.3f", latitudeVal) + "N, " + String(format: "%.3f", longitudeVal) + "W)"
-                }
-            }
-            
-            // Update altitude label
-            if var altitudeVal = altitude {
-                if altitudeVal < 0.0 { altitudeVal = 0.0 }
-                altitudeReadingLabel.text = String(format: "%.3f", altitudeVal) + " m"
-            }
+        // Update coordinate label
+        coordinateReadingLabel.text = "(" + String(format: "%.3f", latestLat) + "N, " + String(format: "%.3f", latestLong) + "W)"
+        
+        // Update altitude label
+        var altitudeVal = latestAlt
+        if altitudeVal < 0.0 {
+            altitudeVal = 0.0
         }
+        altitudeReadingLabel.text = String(format: "%.3f", altitudeVal) + " m"
     }
     
     // =================================== LAUNCH BUTTON ===================================

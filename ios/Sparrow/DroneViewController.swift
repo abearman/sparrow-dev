@@ -40,9 +40,29 @@ class DroneViewController: UIViewController {
     func connectToSocket() {
         socket.connect()
     }
+
+    var latestLat: Double = 0.0
+    var latestLong: Double = 0.0
+    var latestAlt: Double = 0.0
+    var latestYaw: Double = 0.0
     
     func handleGPSPos(data: AnyObject) {
         debugPrint("in handleGPSPos")
+        
+        if let jsonData = processJSONData(data) {
+            if let latitude = jsonData["lat"] as? Double {
+                latestLat = latitude
+            }
+            if let longitude = jsonData["lon"] as? Double {
+                latestLong = longitude
+            }
+            if let altitude = jsonData["alt"] as? Double {
+                latestAlt = altitude
+            }
+            if let yaw = jsonData["yaw"] as? Double {
+                latestYaw = yaw
+            }
+        }
     }
     
     func HTTPsendRequest(request: NSMutableURLRequest, callback: ((String, String?) -> Void)!) {
@@ -76,14 +96,16 @@ class DroneViewController: UIViewController {
         // Try to unpack JSON data
         if let arrData = data as? [AnyObject] {
             if !arrData.isEmpty {
-                if let encodedData = arrData[0].dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false) {
-                    do {
-                        if let jsonData: AnyObject = try NSJSONSerialization.JSONObjectWithData(encodedData, options: .AllowFragments) {
-                            return jsonData
+                if let dataString = arrData[0] as? String {
+                    if let encodedData = dataString.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false) {
+                        do {
+                            if let jsonData: AnyObject = try NSJSONSerialization.JSONObjectWithData(encodedData, options: .AllowFragments) {
+                                return jsonData
+                            }
+                        } catch {
+                            print("error serializing JSON: \(error)")
+                            
                         }
-                    } catch {
-                        print("error serializing JSON: \(error)")
-                        
                     }
                 }
             }

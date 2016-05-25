@@ -40,12 +40,15 @@ def listen_for_location_change(vehicle_location_params):
 			current_alt = mission_state.vehicle.location.global_relative_frame.alt
 			current_yaw = mission_state.vehicle.attitude.yaw
 			if (vehicle_location.lat != current_lat) or (vehicle_location.lon != current_lon) or (vehicle_location.alt != current_alt) or (vehicle_yaw != current_yaw):
-						loc = {
-							'lat': current_lat,
-							'lon': current_lon,
-							'alt': current_alt,
-							'yaw': current_yaw
-						}
+						# Altitude and yaw always work from drone; lat and lon might not be available if we're indoors.
+						loc = {}
+						if lat != 0.0: 
+							loc['lat'] = current_lat
+						if lon != 0.0:
+							loc['lon'] = current_lon
+						loc['alt'] = current_alt
+						loc['yaw'] = current_yaw
+						
 						json_loc = json.dumps(loc)
 						print "[socket][control][gps_pos]: ", str(json_loc)
 						socketio.emit("gps_pos_ack", json_loc, broadcast=True)

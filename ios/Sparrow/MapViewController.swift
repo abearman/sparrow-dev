@@ -48,8 +48,13 @@ class MapViewController: DroneViewController, MKMapViewDelegate {
     }
     
     
-// =================================== SERVER ===================================
+    // ============= OVERLAY ============= 
     
+    @IBAction func overlayExited(sender: AnyObject) {
+        overlayView.hidden = true
+    }
+    
+// =================================== SERVER ===================================
     
     override func initializeSocket() {
         super.initializeSocket()
@@ -65,21 +70,10 @@ class MapViewController: DroneViewController, MKMapViewDelegate {
     
     override func handleGPSPos(data: AnyObject) {
         super.handleGPSPos(data)
-        if let jsonData = processJSONData(data) {
-            let latitude = jsonData["lat"] as? Double
-            let longitude = jsonData["lon"] as? Double
-            let altitude = jsonData["alt"] as? Double
-            let yaw = jsonData["yaw"] as? Double
-            
-            latestLat = latitude!
-            latestLong = longitude!
-            latestAlt = altitude!
-            
-            
-            // Update MKMapView
-            let loc = CLLocationCoordinate2DMake(latitude!, longitude!)
-            onLocationUpdate(loc, yaw: yaw!)
-        }
+
+        // Update MKMapView
+        let loc = CLLocationCoordinate2DMake(latestLat, latestLong)
+        onLocationUpdate(loc, yaw: latestYaw)
     }
 
     
@@ -118,10 +112,6 @@ class MapViewController: DroneViewController, MKMapViewDelegate {
     var path: MKPolyline?
     var marker: MKAnnotation?
     var pinLocations: [MKAnnotation] = []
-    
-    var latestLat: Double = 0.0
-    var latestLong: Double = 0.0
-    var latestAlt: Double = 0.0
 
     func onLocationUpdate(newLoc: CLLocationCoordinate2D, yaw: Double) {
         self.locations.append(newLoc)
