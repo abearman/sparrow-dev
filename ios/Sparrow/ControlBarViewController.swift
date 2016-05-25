@@ -154,7 +154,9 @@ class ControlBarViewController: DroneViewController, UIPopoverPresentationContro
                     print(data)
                     self.isLanding = false
                     self.isInFlight = false
-                    self.performSegueWithIdentifier("summarySegue", sender: nil)
+                    dispatch_async(dispatch_get_main_queue()) { [weak self] in
+                        self?.performSegueWithIdentifier("summarySegue", sender: nil)
+                    }
                 }
             }
         }
