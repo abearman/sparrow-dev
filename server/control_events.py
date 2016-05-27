@@ -42,10 +42,11 @@ def listen_for_location_change(vehicle_location_params):
 			if (vehicle_location.lat != current_lat) or (vehicle_location.lon != current_lon) or (vehicle_location.alt != current_alt) or (vehicle_yaw != current_yaw):
 						# Altitude and yaw always work from drone; lat and lon might not be available if we're indoors.
 						loc = {}
-						if current_lat != 0.0: 
+						# If not using tango, get the gps locations from the drone. 
+						if not mission_state.using_tango:
 							loc['lat'] = current_lat
-						if current_lon != 0.0:
 							loc['lon'] = current_lon
+
 						loc['alt'] = current_alt
 						loc['yaw'] = current_yaw
 						

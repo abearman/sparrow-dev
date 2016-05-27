@@ -330,6 +330,8 @@ public class MainActivity extends Activity {
         mSocket.disconnect();
     }
 
+    boolean has_sent_origin = false;
+
     private void setTangoListeners() {
         // Select coordinate frame pairs
         final ArrayList<TangoCoordinateFramePair> framePairs = new ArrayList<TangoCoordinateFramePair>();
@@ -395,6 +397,11 @@ public class MainActivity extends Activity {
                             System.out.println("Emitting pose update");
                             System.out.println("Json: " + json);
                             mSocket.emit("pose_update", json);
+
+                            if (!has_sent_origin) {
+                                controlSocket.emit("gps_pos", json);
+                                has_sent_origin = true;
+                            }
                             //Log.i(TAG, logMsg);
                         } catch (Exception e) {
                             System.out.println("Exception when emitting");
