@@ -34,9 +34,9 @@ class MapViewController: DroneViewController, MKMapViewDelegate {
         let longPressRec = UILongPressGestureRecognizer(target: self, action: #selector(MapViewController.dropWaypoint(_:)))
         self.mapView.addGestureRecognizer(longPressRec)
         // TODO: remove dummy initial location below
-         let startLoc = CLLocationCoordinate2DMake(37.430020, -122.173302)
-         let startYaw = M_PI/2.0
-         onLocationUpdate(startLoc, yaw: startYaw)
+         //let startLoc = CLLocationCoordinate2DMake(37.430020, -122.173302)
+         //let startYaw = M_PI/2.0
+         //onLocationUpdate(startLoc, yaw: startYaw)
 
         debugPrint("Connecting to server control socket...")
         initializeSocket()
@@ -72,8 +72,10 @@ class MapViewController: DroneViewController, MKMapViewDelegate {
         super.handleGPSPos(data)
 
         // Update MKMapView
-        let loc = CLLocationCoordinate2DMake(latestLat, latestLong)
-        onLocationUpdate(loc, yaw: latestYaw)
+        if (latestLat != 0.0) && (latestLong != 0.0) {
+            let loc = CLLocationCoordinate2DMake(latestLat, latestLong)
+            onLocationUpdate(loc, yaw: latestYaw)
+        }
     }
 
     

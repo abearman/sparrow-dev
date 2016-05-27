@@ -337,7 +337,7 @@ bool ekf_position_ok()
 			//gcs_send_text_P(SEVERITY_HIGH, PSTR("pred_horiz_pos_abs is true"));
 		}
 		if (!filt_status.flags.const_pos_mode) {
-			//gcs_send_text_P(SEVERITY_HIGH, PSTR("const_pos_mode is false"));
+			gcs_send_text_P(SEVERITY_HIGH, PSTR("const_pos_mode is false"));
 		}	
 
     // if disarmed we accept a predicted horizontal position
