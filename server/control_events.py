@@ -229,13 +229,17 @@ def lateralChangeDiscrete(json):
 	direction = json['direction']
 	# args are x_vel, y_vel, z_vel, duration
 	if direction == "left":
-		send_ned_velocity(-1, 0, 0, 1)
-	elif direction == "right":
-		send_ned_velocity(1, 0, 0, 1)
-	elif direction == "forward":
+		#send_ned_velocity(-1, 0, 0, 1)
 		send_ned_velocity(0, -1, 0, 1)
-	elif direction == "back":
+	elif direction == "right":
+		#send_ned_velocity(1, 0, 0, 1)
 		send_ned_velocity(0, 1, 0, 1)
+	elif direction == "forward":
+		#send_ned_velocity(0, -1, 0, 1)
+		send_ned_velocity(1, 0, 0, 1)
+	elif direction == "back":
+		#send_ned_velocity(0, 1, 0, 1)
+		send_ned_velocity(-1, 0, 0, 1)
 	elif direction == "stop":
 		send_ned_velocity(0, 0, 0, 1)
 

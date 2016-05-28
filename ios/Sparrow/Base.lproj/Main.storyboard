@@ -555,7 +555,7 @@
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="alt_arrows" translatesAutoresizingMaskIntoConstraints="NO" id="Dsr-2a-ai7">
                                 <rect key="frame" x="2" y="2" width="74" height="151"/>
                             </imageView>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" restorationIdentifier="up" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FwE-V1-B21">
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" restorationIdentifier="up" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FwE-V1-B21" userLabel="Up Button">
                                 <rect key="frame" x="9" y="0.0" width="60" height="64"/>
                                 <state key="normal" title="Button"/>
                                 <connections>
@@ -564,7 +564,7 @@
                                     <action selector="altitudeButtonUp:" destination="vRM-lx-WyO" eventType="touchUpOutside" id="eDc-2t-7M4"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" restorationIdentifier="down" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6nh-vy-qXm">
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" restorationIdentifier="down" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6nh-vy-qXm" userLabel="Down Button">
                                 <rect key="frame" x="9" y="93" width="60" height="60"/>
                                 <state key="normal" title="Button"/>
                                 <connections>

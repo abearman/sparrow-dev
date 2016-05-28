@@ -27,16 +27,12 @@ class MapViewController: DroneViewController, MKMapViewDelegate {
         
         sarControlView.hidden = true
         mapView.delegate = self
-        mapView.rotateEnabled = false
+        //mapView.rotateEnabled = false
         mapView.showsCompass = true
         mapView.layer.borderWidth = 2
         mapView.layer.borderColor = UIColor.darkGrayColor().CGColor
         let longPressRec = UILongPressGestureRecognizer(target: self, action: #selector(MapViewController.dropWaypoint(_:)))
         self.mapView.addGestureRecognizer(longPressRec)
-        // TODO: remove dummy initial location below
-         //let startLoc = CLLocationCoordinate2DMake(37.430020, -122.173302)
-         //let startYaw = M_PI/2.0
-         //onLocationUpdate(startLoc, yaw: startYaw)
 
         debugPrint("Connecting to server control socket...")
         initializeSocket()
@@ -118,7 +114,7 @@ class MapViewController: DroneViewController, MKMapViewDelegate {
     func onLocationUpdate(newLoc: CLLocationCoordinate2D, yaw: Double) {
         self.locations.append(newLoc)
         
-        drawMarker(newLoc, yaw: yaw)
+        drawMarker(newLoc, droneHeading: yaw)
         
         if (locations.count == 1) {
             let region = MKCoordinateRegionMake(newLoc, MKCoordinateSpanMake(0.01, 0.01))
@@ -128,13 +124,29 @@ class MapViewController: DroneViewController, MKMapViewDelegate {
         drawPath()
     }
 
-    func drawMarker(coordinate: CLLocationCoordinate2D, yaw: Double) {
-        let newMarker = CurrentLocationAnnotation(coordinate: coordinate, angle: yaw)
+    func drawMarker(coordinate: CLLocationCoordinate2D, droneHeading: Double) {
+        print("Map heading: \(mapView.camera.heading)")  // This is in degrees
+        print("Drone yaw: \(radiansToDegrees(droneHeading))")  // This is in radians
+        let mapHeadingRadians = degreesToRadians(mapView.camera.heading)
+        let mapDroneYaw = -(mapHeadingRadians - droneHeading)
+        let newMarker = CurrentLocationAnnotation(coordinate: coordinate, angle: mapDroneYaw)
         mapView.addAnnotation(newMarker)
         if (marker != nil) {
             mapView.removeAnnotation(marker!)
         }
         marker = newMarker
+    }
+    
+    func degreesToRadians(degrees: Double) -> Double {
+        return degrees * M_PI / 180
+    }
+    
+    func radiansToDegrees(radians: Double) -> Double {
+        return radians * 180 / M_PI
+    }
+    
+    func mapView(mapView: MKMapView, regionWillChangeAnimated animated: Bool) {
+        drawMarker(CLLocationCoordinate2D(latitude: latestLat, longitude: latestLong), droneHeading: latestYaw)
     }
 
     func drawPath() {
