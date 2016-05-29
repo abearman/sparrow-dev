@@ -113,7 +113,6 @@ class MapViewController: DroneViewController, MKMapViewDelegate {
 
     func onLocationUpdate(newLoc: CLLocationCoordinate2D, yaw: Double) {
         self.locations.append(newLoc)
-        
         drawMarker(newLoc, droneHeading: yaw)
         
         if (locations.count == 1) {
@@ -122,6 +121,11 @@ class MapViewController: DroneViewController, MKMapViewDelegate {
         }
         
         drawPath()
+    }
+    
+    @IBAction func clearMap(sender: AnyObject) {
+        locations.removeAll()
+        mapView.removeOverlay(path!)
     }
 
     func drawMarker(coordinate: CLLocationCoordinate2D, droneHeading: Double) {
