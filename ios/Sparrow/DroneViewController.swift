@@ -12,7 +12,7 @@ class DroneViewController: UIViewController {
     
     // The IP address that the server is running on
     
-    let HOSTNAME = "10.30.113.50"
+    let HOSTNAME = "10.29.96.71"
     let PORT = "5000"
     
     var states: Dictionary<String, String>?

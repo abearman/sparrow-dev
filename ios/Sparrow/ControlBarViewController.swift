@@ -36,6 +36,7 @@ class ControlBarViewController: DroneViewController, UIPopoverPresentationContro
     
     override func viewDidAppear(animated: Bool) {
         updateLaunchButton()
+        updateWaypointButtons()
     }
 
     // =================================== SERVER ===================================
@@ -84,6 +85,7 @@ class ControlBarViewController: DroneViewController, UIPopoverPresentationContro
         } set {
             controlBarModel.isInFlight = newValue
             updateLaunchButton()
+            updateWaypointButtons()
         }
     }
     
@@ -93,6 +95,7 @@ class ControlBarViewController: DroneViewController, UIPopoverPresentationContro
         } set {
             controlBarModel.isTakingOff = newValue
             updateLaunchButton()
+            updateWaypointButtons()
         }
     }
     
@@ -102,6 +105,7 @@ class ControlBarViewController: DroneViewController, UIPopoverPresentationContro
         } set {
             controlBarModel.isLanding = newValue
             updateLaunchButton()
+            updateWaypointButtons()
         }
     }
     
@@ -170,6 +174,42 @@ class ControlBarViewController: DroneViewController, UIPopoverPresentationContro
                 self?.launchButton.enabled = false
             }
         }
+    }
+    
+    func updateWaypointButtons() {
+        dispatch_async(dispatch_get_main_queue()) { [weak self] in
+            let isInFlight = (self?.isInFlight)!
+            let isTakingOff = (self?.isTakingOff)!
+            let isLanding = (self?.isLanding)!
+            if !isInFlight && !isTakingOff && !isLanding {  // On ground, waiting for launch
+                self?.disableWaypointButtons()
+            } else if (isInFlight && isTakingOff && !isLanding) {  // Taking off
+                self?.disableWaypointButtons()
+            } else if (isInFlight && !isTakingOff && !isLanding) {  // In flight, waiting for land
+                self?.enableWaypointButtons()
+            } else if (isInFlight && !isTakingOff && isLanding) {  // Landing
+                self?.disableWaypointButtons()
+            }
+        }
+    }
+    
+    func disableWaypointButtons() {
+        waypointButton.enabled = false
+        waypointButton.alpha = 0.5
+        sarButton.enabled = false
+        sarButton.alpha = 0.5
+        dropPinButton.enabled = false
+        dropPinButton.alpha = 0.5
+    }
+    
+    func enableWaypointButtons() {
+        waypointButton.enabled = true
+        waypointButton.alpha = 1
+        sarButton.enabled = true
+        sarButton.alpha = 1
+        dropPinButton.enabled = true
+        dropPinButton.alpha = 1
+
     }
     
     // =================================== DROP PIN BUTTON ===================================
