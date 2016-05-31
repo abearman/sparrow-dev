@@ -34,6 +34,7 @@ class MapViewController: DroneViewController, MKMapViewDelegate, UITableViewData
         self.mapView.addGestureRecognizer(longPressRec)
         
         commandsQueueTableView.hidden = true
+        hideCommandsQueueButton.hidden = true
         
         debugPrint("Connecting to server control socket...")
         initializeSocket()
