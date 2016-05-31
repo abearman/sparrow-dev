@@ -8,7 +8,11 @@
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <customFonts key="customFonts">
+        <mutableArray key="Oswald-Bold.ttf">
+            <string>Oswald-Bold</string>
+        </mutableArray>
         <mutableArray key="Oswald-Light.ttf">
+            <string>Oswald-Light</string>
             <string>Oswald-Light</string>
             <string>Oswald-Light</string>
             <string>Oswald-Light</string>
@@ -114,13 +118,9 @@
                             <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="it6-1N-EKc">
                                 <rect key="frame" x="0.0" y="75" width="1025" height="693"/>
                             </mapView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="AMP-ij-b6p" userLabel="Clear Map">
-                                <rect key="frame" x="893" y="100" width="100" height="30"/>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="AMP-ij-b6p" userLabel="Clear Map">
+                                <rect key="frame" x="420" y="700" width="120" height="40"/>
                                 <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="30" id="4AZ-3G-xfB"/>
-                                    <constraint firstAttribute="width" constant="100" id="9yl-Wv-nzw"/>
-                                </constraints>
                                 <fontDescription key="fontDescription" name="Oswald-Light" family="Oswald" pointSize="23"/>
                                 <state key="normal" title="Clear Map">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -159,8 +159,49 @@
                                     <segue destination="bA1-XH-u2U" kind="embed" id="lK0-ym-PF4"/>
                                 </connections>
                             </containerView>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" allowsSelection="NO" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="1B1-IK-oG3">
+                                <rect key="frame" x="715" y="86" width="289" height="160"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="160" id="rHN-6o-GCK"/>
+                                </constraints>
+                                <color key="sectionIndexBackgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="Command Identifier" textLabel="emj-59-Ijo" style="IBUITableViewCellStyleDefault" id="AEc-hM-sC1">
+                                        <rect key="frame" x="0.0" y="28" width="289" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="AEc-hM-sC1" id="d8p-po-zv2">
+                                            <rect key="frame" x="0.0" y="0.0" width="289" height="44"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Title" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="emj-59-Ijo">
+                                                    <rect key="frame" x="15" y="0.0" width="259" height="44"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" name="Oswald-Light" family="Oswald" pointSize="20"/>
+                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </prototypes>
+                                <connections>
+                                    <outlet property="dataSource" destination="lZr-Lc-zbu" id="Hv6-Yo-AjI"/>
+                                    <outlet property="delegate" destination="lZr-Lc-zbu" id="hs9-Ya-2CU"/>
+                                </connections>
+                            </tableView>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="EHO-Dh-ex5" userLabel="Commands Queue X">
+                                <rect key="frame" x="971" y="86" width="33" height="33"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="20"/>
+                                <state key="normal" title="X">
+                                    <color key="titleColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="hideCommandsQueue:" destination="lZr-Lc-zbu" eventType="touchUpInside" id="myY-ff-asD"/>
+                                </connections>
+                            </button>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dzn-gk-tVR">
-                                <rect key="frame" x="764" y="93" width="240" height="98"/>
+                                <rect key="frame" x="467" y="86" width="240" height="98"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Step" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aBJ-UY-u7M">
                                         <rect key="frame" x="15" y="13" width="36" height="21"/>
@@ -175,7 +216,7 @@
                                             <action selector="stepSliderChanged:" destination="lZr-Lc-zbu" eventType="touchUpOutside" id="Pgg-U0-XSL"/>
                                         </connections>
                                     </slider>
-                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Klb-9H-dae" userLabel="Waypoint Button">
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Klb-9H-dae" userLabel="Cancel Button">
                                         <rect key="frame" x="7" y="54" width="111" height="36"/>
                                         <color key="backgroundColor" red="1" green="0.38325883776203218" blue="0.43442281662179161" alpha="1" colorSpace="calibratedRGB"/>
                                         <fontDescription key="fontDescription" name="Oswald-Light" family="Oswald" pointSize="23"/>
@@ -189,7 +230,7 @@
                                             <action selector="sarCancelButtonClicked:" destination="lZr-Lc-zbu" eventType="touchUpInside" id="HGr-vv-Wh5"/>
                                         </connections>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Hfu-xb-m3P" userLabel="Waypoint Button">
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Hfu-xb-m3P" userLabel="Confirm Button">
                                         <rect key="frame" x="122" y="54" width="111" height="36"/>
                                         <color key="backgroundColor" red="0.46666666670000001" green="0.86274509799999999" blue="0.58823529409999997" alpha="1" colorSpace="calibratedRGB"/>
                                         <fontDescription key="fontDescription" name="Oswald-Light" family="Oswald" pointSize="23"/>
@@ -206,8 +247,8 @@
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
-                            <containerView opaque="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="VAl-2T-REM">
-                                <rect key="frame" x="20" y="93" width="256" height="144"/>
+                            <containerView opaque="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="VAl-2T-REM" userLabel="Video Feed">
+                                <rect key="frame" x="20" y="83" width="256" height="144"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <connections>
@@ -217,9 +258,6 @@
                             <view alpha="0.90000000000000002" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="e6b-S7-R1K" userLabel="Overlay View">
                                 <rect key="frame" x="0.0" y="75" width="1025" height="693"/>
                                 <subviews>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="start_overlay" translatesAutoresizingMaskIntoConstraints="NO" id="WDk-lj-O3u">
-                                        <rect key="frame" x="0.0" y="0.0" width="1025" height="693"/>
-                                    </imageView>
                                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hT9-cq-jS7">
                                         <rect key="frame" x="984" y="8" width="33" height="33"/>
                                         <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="30"/>
@@ -230,30 +268,35 @@
                                             <action selector="overlayExited:" destination="lZr-Lc-zbu" eventType="touchUpInside" id="J13-qn-WFf"/>
                                         </connections>
                                     </button>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="start_overlay" translatesAutoresizingMaskIntoConstraints="NO" id="WDk-lj-O3u">
+                                        <rect key="frame" x="0.0" y="0.0" width="1025" height="693"/>
+                                    </imageView>
                                 </subviews>
                                 <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstAttribute="bottom" secondItem="dzn-gk-tVR" secondAttribute="bottom" constant="577" id="0gR-kl-i5m"/>
-                            <constraint firstItem="dzn-gk-tVR" firstAttribute="trailing" secondItem="6fv-hd-1ZE" secondAttribute="trailing" id="KFz-VG-Jqc"/>
+                            <constraint firstItem="dzn-gk-tVR" firstAttribute="top" secondItem="1B1-IK-oG3" secondAttribute="top" id="0l6-iW-yNh"/>
+                            <constraint firstItem="1B1-IK-oG3" firstAttribute="trailing" secondItem="6fv-hd-1ZE" secondAttribute="trailing" id="1yS-AE-EXi"/>
+                            <constraint firstItem="1B1-IK-oG3" firstAttribute="trailing" secondItem="SBc-q4-Qws" secondAttribute="trailingMargin" id="52J-sn-MoD"/>
+                            <constraint firstAttribute="trailing" secondItem="dzn-gk-tVR" secondAttribute="trailing" constant="317" id="9Hf-fR-Pqy"/>
+                            <constraint firstItem="1B1-IK-oG3" firstAttribute="top" secondItem="Ftw-HF-cR4" secondAttribute="bottom" constant="11" id="GRx-Aw-ab4"/>
+                            <constraint firstItem="dzn-gk-tVR" firstAttribute="leading" secondItem="SBc-q4-Qws" secondAttribute="leading" constant="467" id="KEs-SE-Mrh"/>
                             <constraint firstItem="it6-1N-EKc" firstAttribute="bottom" secondItem="kUo-d4-RPJ" secondAttribute="top" id="KP8-dv-OLv"/>
                             <constraint firstAttribute="trailing" secondItem="Ftw-HF-cR4" secondAttribute="trailing" id="Kce-yM-7zg"/>
-                            <constraint firstItem="dzn-gk-tVR" firstAttribute="top" secondItem="Ftw-HF-cR4" secondAttribute="bottom" constant="18" id="LHm-td-Zk8"/>
                             <constraint firstItem="Ftw-HF-cR4" firstAttribute="top" secondItem="llt-1G-RT1" secondAttribute="bottom" id="UYk-N9-kE0"/>
                             <constraint firstAttribute="bottom" secondItem="Ftw-HF-cR4" secondAttribute="bottom" constant="693" id="XK5-h1-Iij"/>
                             <constraint firstItem="Ftw-HF-cR4" firstAttribute="leading" secondItem="SBc-q4-Qws" secondAttribute="leading" id="XdW-uM-aUj"/>
+                            <constraint firstItem="1B1-IK-oG3" firstAttribute="leading" secondItem="dzn-gk-tVR" secondAttribute="trailing" constant="8" symbolic="YES" id="Xl2-kr-EL1"/>
                             <constraint firstItem="6fv-hd-1ZE" firstAttribute="top" secondItem="SBc-q4-Qws" secondAttribute="top" constant="542" id="aXz-0n-pqK"/>
                             <constraint firstItem="it6-1N-EKc" firstAttribute="top" secondItem="Ftw-HF-cR4" secondAttribute="bottom" id="d5k-cH-Ioa"/>
                             <constraint firstAttribute="bottom" secondItem="6fv-hd-1ZE" secondAttribute="bottom" constant="20" symbolic="YES" id="drm-m5-9Bi"/>
+                            <constraint firstAttribute="bottom" secondItem="dzn-gk-tVR" secondAttribute="bottom" constant="584" id="h5x-Sf-JeY"/>
                             <constraint firstItem="it6-1N-EKc" firstAttribute="centerX" secondItem="Ftw-HF-cR4" secondAttribute="centerX" id="mLP-0Z-Unq"/>
-                            <constraint firstItem="AMP-ij-b6p" firstAttribute="top" secondItem="Ftw-HF-cR4" secondAttribute="bottom" constant="25" id="mPE-wR-4TB"/>
                             <constraint firstItem="6fv-hd-1ZE" firstAttribute="leading" secondItem="SBc-q4-Qws" secondAttribute="leading" constant="798" id="nhA-0F-HgP"/>
                             <constraint firstItem="it6-1N-EKc" firstAttribute="leading" secondItem="Ftw-HF-cR4" secondAttribute="leading" id="nma-Zw-NYJ"/>
-                            <constraint firstItem="dzn-gk-tVR" firstAttribute="leading" secondItem="SBc-q4-Qws" secondAttribute="leading" constant="764" id="uG6-Gb-U12"/>
                             <constraint firstItem="6fv-hd-1ZE" firstAttribute="trailing" secondItem="SBc-q4-Qws" secondAttribute="trailingMargin" id="vrV-AL-FyJ"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="AMP-ij-b6p" secondAttribute="trailing" constant="11" id="yZ2-9I-h6l"/>
                         </constraints>
                     </view>
                     <tabBarItem key="tabBarItem" title="Map" id="xPU-ng-IcZ" userLabel="Map"/>
@@ -261,6 +304,8 @@
                     <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="iPad"/>
                     <connections>
+                        <outlet property="commandsQueueTableView" destination="1B1-IK-oG3" id="HAE-Zy-dol"/>
+                        <outlet property="hideCommandsQueueButton" destination="EHO-Dh-ex5" id="81O-9T-8Lf"/>
                         <outlet property="mapView" destination="it6-1N-EKc" id="NFJ-oK-7tM"/>
                         <outlet property="overlayView" destination="e6b-S7-R1K" id="ssf-U2-Wgi"/>
                         <outlet property="sarControlCancelButton" destination="Klb-9H-dae" id="cyg-Ln-j03"/>
@@ -313,26 +358,16 @@
                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qAA-h1-L42" userLabel="Waypoint Button">
-                                <rect key="frame" x="467" y="7" width="128" height="39"/>
-                                <color key="backgroundColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                <fontDescription key="fontDescription" name="Oswald-Light" family="Oswald" pointSize="23"/>
-                                <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                <inset key="contentEdgeInsets" minX="20" minY="0.0" maxX="20" maxY="0.0"/>
-                                <state key="normal" title="WAYPOINT">
-                                    <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                </state>
-                                <connections>
-                                    <action selector="waypointButtonToggle:" destination="oap-Pp-LXB" eventType="touchUpInside" id="HiC-qa-2gs"/>
-                                </connections>
-                            </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DRT-cW-FhC" userLabel="SAR Path Button">
-                                <rect key="frame" x="603" y="7" width="122" height="40"/>
+                                <rect key="frame" x="563" y="7" width="96" height="40"/>
                                 <color key="backgroundColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="96" id="pKb-oC-XUu"/>
+                                </constraints>
                                 <fontDescription key="fontDescription" name="Oswald-Light" family="Oswald" pointSize="23"/>
                                 <color key="tintColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
-                                <inset key="contentEdgeInsets" minX="20" minY="0.0" maxX="20" maxY="0.0"/>
-                                <state key="normal" title="SAR PATH">
+                                <inset key="contentEdgeInsets" minX="10" minY="0.0" maxX="10" maxY="0.0"/>
+                                <state key="normal" title="SAR Path">
                                     <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 </state>
                                 <connections>
@@ -342,12 +377,15 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="j84-sP-DcN" userLabel="Drop Pin Button">
-                                <rect key="frame" x="733" y="7" width="120" height="40"/>
+                                <rect key="frame" x="667" y="7" width="90" height="40"/>
                                 <color key="backgroundColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="90" id="hSW-06-HzJ"/>
+                                </constraints>
                                 <fontDescription key="fontDescription" name="Oswald-Light" family="Oswald" pointSize="23"/>
                                 <color key="tintColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
-                                <inset key="contentEdgeInsets" minX="20" minY="0.0" maxX="20" maxY="0.0"/>
-                                <state key="normal" title="DROP PIN">
+                                <inset key="contentEdgeInsets" minX="10" minY="0.0" maxX="10" maxY="0.0"/>
+                                <state key="normal" title="Drop Pin">
                                     <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 </state>
                                 <connections>
@@ -355,13 +393,9 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="f8G-UI-1Ji" userLabel="Launch Button">
-                                <rect key="frame" x="861" y="7" width="143" height="40"/>
+                                <rect key="frame" x="880" y="7" width="124" height="40"/>
                                 <color key="backgroundColor" red="0.46666666666666667" green="0.86274509803921573" blue="0.58823529411764708" alpha="1" colorSpace="calibratedRGB"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="143" id="jnf-ER-0lD"/>
-                                </constraints>
                                 <fontDescription key="fontDescription" name="Oswald-Medium" family="Oswald" pointSize="23"/>
-                                <inset key="contentEdgeInsets" minX="20" minY="0.0" maxX="20" maxY="0.0"/>
                                 <state key="normal" title="LAUNCH">
                                     <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 </state>
@@ -375,33 +409,70 @@
                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="iko-XD-Uf2" userLabel="Freeze Drone">
+                                <rect key="frame" x="765" y="7" width="107" height="40"/>
+                                <color key="backgroundColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="107" id="SZB-2N-Fev"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="Oswald-Bold" family="Oswald" pointSize="23"/>
+                                <inset key="contentEdgeInsets" minX="20" minY="0.0" maxX="20" maxY="0.0"/>
+                                <state key="normal" title="FREEZE">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="freezeButtonClicked:" destination="oap-Pp-LXB" eventType="touchUpInside" id="ZrS-kF-USo"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qAA-h1-L42" userLabel="Waypoint Button">
+                                <rect key="frame" x="458" y="7" width="97" height="40"/>
+                                <color key="backgroundColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="97" id="en6-sR-9Ze"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="Oswald-Light" family="Oswald" pointSize="23"/>
+                                <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <inset key="contentEdgeInsets" minX="10" minY="0.0" maxX="10" maxY="0.0"/>
+                                <state key="normal" title="Waypoint">
+                                    <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                </state>
+                                <connections>
+                                    <action selector="waypointButtonToggle:" destination="oap-Pp-LXB" eventType="touchUpInside" id="HiC-qa-2gs"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" red="0.1215686275" green="0.12941176469999999" blue="0.14117647059999999" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
-                            <constraint firstItem="j84-sP-DcN" firstAttribute="top" secondItem="DRT-cW-FhC" secondAttribute="top" id="0rg-W2-gEq"/>
-                            <constraint firstItem="f8G-UI-1Ji" firstAttribute="leading" secondItem="j84-sP-DcN" secondAttribute="trailing" constant="8" symbolic="YES" id="2il-Xb-9pH"/>
+                            <constraint firstItem="iko-XD-Uf2" firstAttribute="leading" secondItem="j84-sP-DcN" secondAttribute="trailing" constant="8" symbolic="YES" id="29e-8N-qit"/>
+                            <constraint firstItem="DRT-cW-FhC" firstAttribute="firstBaseline" secondItem="qAA-h1-L42" secondAttribute="baseline" id="3xr-ni-TDd"/>
+                            <constraint firstItem="j84-sP-DcN" firstAttribute="leading" secondItem="DRT-cW-FhC" secondAttribute="trailing" constant="8" symbolic="YES" id="43w-S5-jdb"/>
                             <constraint firstItem="gf4-sk-fBR" firstAttribute="baseline" secondItem="AjX-QD-ZDc" secondAttribute="baseline" id="6Lr-CO-lan"/>
-                            <constraint firstItem="DRT-cW-FhC" firstAttribute="leading" secondItem="qAA-h1-L42" secondAttribute="trailing" constant="8" symbolic="YES" id="ATn-H8-hQC"/>
+                            <constraint firstItem="DRT-cW-FhC" firstAttribute="top" secondItem="qAA-h1-L42" secondAttribute="top" id="AIi-2s-Ij4"/>
+                            <constraint firstItem="WbA-8u-IcK" firstAttribute="top" secondItem="qAA-h1-L42" secondAttribute="bottom" constant="8" symbolic="YES" id="BKC-RU-mCP"/>
+                            <constraint firstItem="iko-XD-Uf2" firstAttribute="top" secondItem="j84-sP-DcN" secondAttribute="top" id="CZm-J1-4ey"/>
+                            <constraint firstItem="iko-XD-Uf2" firstAttribute="firstBaseline" secondItem="j84-sP-DcN" secondAttribute="baseline" id="JFn-6F-Moe"/>
                             <constraint firstItem="gf4-sk-fBR" firstAttribute="centerY" secondItem="XSi-qw-Jys" secondAttribute="centerY" id="Jbr-o0-dPi"/>
-                            <constraint firstItem="qAA-h1-L42" firstAttribute="centerY" secondItem="CIh-XW-P1V" secondAttribute="centerY" id="NTL-gP-9uQ"/>
-                            <constraint firstItem="j84-sP-DcN" firstAttribute="baseline" secondItem="DRT-cW-FhC" secondAttribute="firstBaseline" id="Ny9-ZD-Kyw"/>
-                            <constraint firstItem="qAA-h1-L42" firstAttribute="top" secondItem="XSi-qw-Jys" secondAttribute="top" id="ReW-KW-hB2"/>
+                            <constraint firstItem="f8G-UI-1Ji" firstAttribute="firstBaseline" secondItem="iko-XD-Uf2" secondAttribute="baseline" id="Kv0-yd-b7A"/>
+                            <constraint firstItem="qAA-h1-L42" firstAttribute="top" secondItem="XSi-qw-Jys" secondAttribute="top" id="LPI-vV-mbg"/>
                             <constraint firstItem="CIh-XW-P1V" firstAttribute="leading" secondItem="AjX-QD-ZDc" secondAttribute="trailing" constant="8" symbolic="YES" id="S9W-xX-dF4"/>
-                            <constraint firstItem="j84-sP-DcN" firstAttribute="firstBaseline" secondItem="DRT-cW-FhC" secondAttribute="baseline" id="VNX-ol-Z4H"/>
-                            <constraint firstItem="f8G-UI-1Ji" firstAttribute="top" secondItem="j84-sP-DcN" secondAttribute="top" id="XxW-5v-6u3"/>
-                            <constraint firstItem="j84-sP-DcN" firstAttribute="leading" secondItem="DRT-cW-FhC" secondAttribute="trailing" constant="8" symbolic="YES" id="Y86-TE-AyS"/>
+                            <constraint firstItem="f8G-UI-1Ji" firstAttribute="top" secondItem="iko-XD-Uf2" secondAttribute="top" id="T3X-4Q-A5i"/>
+                            <constraint firstItem="j84-sP-DcN" firstAttribute="top" secondItem="DRT-cW-FhC" secondAttribute="top" id="Wey-zT-Wx2"/>
+                            <constraint firstItem="qAA-h1-L42" firstAttribute="leading" secondItem="FbI-ha-frU" secondAttribute="leading" constant="458" id="aDZ-23-psg"/>
                             <constraint firstAttribute="leadingMargin" secondItem="XSi-qw-Jys" secondAttribute="leading" id="awf-T5-87D"/>
+                            <constraint firstItem="j84-sP-DcN" firstAttribute="firstBaseline" secondItem="DRT-cW-FhC" secondAttribute="baseline" id="bH3-Oa-Otr"/>
                             <constraint firstItem="XSi-qw-Jys" firstAttribute="centerY" secondItem="FbI-ha-frU" secondAttribute="centerY" id="cCP-Yn-7Im"/>
+                            <constraint firstItem="DRT-cW-FhC" firstAttribute="leading" secondItem="qAA-h1-L42" secondAttribute="trailing" constant="8" symbolic="YES" id="cD0-hh-dlc"/>
                             <constraint firstItem="gf4-sk-fBR" firstAttribute="leading" secondItem="If3-Rp-Qj0" secondAttribute="trailing" constant="9" id="dBo-rI-gCB"/>
-                            <constraint firstItem="f8G-UI-1Ji" firstAttribute="top" secondItem="qAA-h1-L42" secondAttribute="top" id="gQD-hQ-XfJ"/>
+                            <constraint firstItem="f8G-UI-1Ji" firstAttribute="baseline" secondItem="j84-sP-DcN" secondAttribute="baseline" id="eJw-J6-w2q"/>
+                            <constraint firstItem="j84-sP-DcN" firstAttribute="baseline" secondItem="DRT-cW-FhC" secondAttribute="baseline" id="gMb-xG-Jpt"/>
                             <constraint firstItem="If3-Rp-Qj0" firstAttribute="leading" secondItem="XSi-qw-Jys" secondAttribute="trailing" constant="20" id="hFe-Tf-grd"/>
-                            <constraint firstItem="f8G-UI-1Ji" firstAttribute="baseline" secondItem="j84-sP-DcN" secondAttribute="baseline" id="hjU-fd-jma"/>
-                            <constraint firstItem="f8G-UI-1Ji" firstAttribute="firstBaseline" secondItem="j84-sP-DcN" secondAttribute="baseline" id="iXr-RJ-BVN"/>
                             <constraint firstItem="AjX-QD-ZDc" firstAttribute="baseline" secondItem="CIh-XW-P1V" secondAttribute="baseline" id="khp-Bh-HKf"/>
-                            <constraint firstItem="DRT-cW-FhC" firstAttribute="bottom" secondItem="XSi-qw-Jys" secondAttribute="bottom" id="kpA-TD-DuQ"/>
+                            <constraint firstItem="f8G-UI-1Ji" firstAttribute="trailing" secondItem="FbI-ha-frU" secondAttribute="trailingMargin" id="lfy-OW-76v"/>
                             <constraint firstItem="gf4-sk-fBR" firstAttribute="baseline" secondItem="If3-Rp-Qj0" secondAttribute="baseline" id="olG-i8-v70"/>
+                            <constraint firstItem="DRT-cW-FhC" firstAttribute="baseline" secondItem="qAA-h1-L42" secondAttribute="firstBaseline" id="pij-dk-aAv"/>
                             <constraint firstItem="AjX-QD-ZDc" firstAttribute="leading" secondItem="gf4-sk-fBR" secondAttribute="trailing" constant="27" id="tRG-Qq-jHu"/>
-                            <constraint firstItem="qAA-h1-L42" firstAttribute="leading" secondItem="FbI-ha-frU" secondAttribute="leading" constant="467" id="upQ-fL-znV"/>
+                            <constraint firstItem="f8G-UI-1Ji" firstAttribute="leading" secondItem="iko-XD-Uf2" secondAttribute="trailing" constant="8" symbolic="YES" id="wOW-oM-4XZ"/>
+                            <constraint firstItem="iko-XD-Uf2" firstAttribute="baseline" secondItem="qAA-h1-L42" secondAttribute="baseline" id="zM6-Ci-uv4"/>
                         </constraints>
                     </view>
                     <connections>
@@ -627,6 +698,39 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="muG-Hj-DR7" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="735" y="-591"/>
+        </scene>
+        <!--Collection View Controller-->
+        <scene sceneID="rEg-nz-QZF">
+            <objects>
+                <collectionViewController id="xqp-Ac-b2o" sceneMemberID="viewController">
+                    <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" id="kRh-Al-Emw">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="i3K-es-LnC">
+                            <size key="itemSize" width="50" height="50"/>
+                            <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                            <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                            <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                        </collectionViewFlowLayout>
+                        <cells>
+                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="A1Y-L9-lVu">
+                                <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                    <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                </view>
+                            </collectionViewCell>
+                        </cells>
+                        <connections>
+                            <outlet property="dataSource" destination="xqp-Ac-b2o" id="3cd-Mv-TfL"/>
+                            <outlet property="delegate" destination="xqp-Ac-b2o" id="hla-qr-LBp"/>
+                        </connections>
+                    </collectionView>
+                </collectionViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="DPs-ta-dYU" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
         </scene>
     </scenes>
     <resources>

@@ -10,7 +10,7 @@ import UIKit
 import Foundation
 import MapKit
 
-class MapViewController: DroneViewController, MKMapViewDelegate {
+class MapViewController: DroneViewController, MKMapViewDelegate, UITableViewDataSource, UITableViewDelegate {
         
     @IBOutlet weak var mapView: MKMapView!
     @IBOutlet weak var sarControlView: UIView!
@@ -27,13 +27,14 @@ class MapViewController: DroneViewController, MKMapViewDelegate {
         
         sarControlView.hidden = true
         mapView.delegate = self
-        //mapView.rotateEnabled = false
         mapView.showsCompass = true
         mapView.layer.borderWidth = 2
         mapView.layer.borderColor = UIColor.darkGrayColor().CGColor
         let longPressRec = UILongPressGestureRecognizer(target: self, action: #selector(MapViewController.dropWaypoint(_:)))
         self.mapView.addGestureRecognizer(longPressRec)
-
+        
+        commandsQueueTableView.hidden = true
+        
         debugPrint("Connecting to server control socket...")
         initializeSocket()
         connectToSocket()
@@ -76,6 +77,10 @@ class MapViewController: DroneViewController, MKMapViewDelegate {
 
     
 // =================================== MOVEMENT CONTROL ===================================
+    
+    @IBAction func stopDrone(sender: AnyObject) {
+        
+    }
 
     func dropWaypoint(gestureRecognizer: UILongPressGestureRecognizer) {
         for childVC in self.childViewControllers {
@@ -88,10 +93,13 @@ class MapViewController: DroneViewController, MKMapViewDelegate {
                     return;
                 }
                 
-                let touchPoint = gestureRecognizer.locationInView(self.mapView)
-                let loc = self.mapView.convertPoint(touchPoint, toCoordinateFromView: self.mapView)
+                let touchPoint = gestureRecognizer.locationInView(mapView)
+                let loc = mapView.convertPoint(touchPoint, toCoordinateFromView: mapView)
                 let waypoint = WaypointAnnotation(coordinate: loc)
-                self.mapView.addAnnotation(waypoint)
+                mapView.addAnnotation(waypoint)
+                
+                addCommandToQueue(String(format: "Waypoint at (%.03fN, %.03fW)", loc.latitude, loc.longitude))
+
                 let waypointArgs = [
                     "lat": loc.latitude,
                     "lon": loc.longitude
@@ -272,6 +280,9 @@ class MapViewController: DroneViewController, MKMapViewDelegate {
     
     @IBAction func sarConfirmButtonClicked(sender: AnyObject) {
         self.sarControlView.hidden = true
+        
+        addCommandToQueue("Navigate \(pathType) SAR path")
+        
         self.sarStepSlider.value = Float(DEFAULT_STEP)
         self.mapView.removeOverlay(sarPreviewPath!)
         self.sarLocations = []
@@ -312,6 +323,49 @@ class MapViewController: DroneViewController, MKMapViewDelegate {
         self.mapView.removeOverlay(sarPreviewPath!)
         self.sarLocations = []
         drawPreview()
+    }
+    
+    
+    //////////////// Commands queue ////////////////
+    
+    @IBOutlet var commandsQueueTableView: UITableView!
+    
+    var commandsQueue = [String]() {
+        didSet {
+            if (commandsQueue.count > 0) {
+                commandsQueueTableView.hidden = false
+                hideCommandsQueueButton.hidden = false
+            }
+            
+            commandsQueueTableView.reloadData()
+            let indexPath = NSIndexPath(forRow: commandsQueue.count - 1, inSection: 0)
+            commandsQueueTableView.scrollToRowAtIndexPath(indexPath, atScrollPosition: UITableViewScrollPosition.Bottom, animated: true)
+        }
+    }
+    
+    @IBOutlet var hideCommandsQueueButton: UIButton!
+    
+    @IBAction func hideCommandsQueue(sender: AnyObject) {
+        commandsQueueTableView.hidden = true
+        hideCommandsQueueButton.hidden = true
+    }
+    
+    func addCommandToQueue(command: String) {
+        commandsQueue.append(command)
+    }
+
+    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return commandsQueue.count
+    }
+    
+    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCellWithIdentifier("Command Identifier", forIndexPath: indexPath)
+        cell.textLabel?.text = commandsQueue[indexPath.row]
+        return cell
+    }
+    
+    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+        return 40.0
     }
     
     

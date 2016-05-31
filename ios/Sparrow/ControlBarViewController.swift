@@ -11,6 +11,8 @@ import MapKit
 
 class ControlBarViewController: DroneViewController, UIPopoverPresentationControllerDelegate {
     
+    var droneVC = MapViewController()
+    
     var controlBarModel = ControlBarModel()
     
     @IBOutlet var coordinateReadingLabel: UILabel!
@@ -32,6 +34,10 @@ class ControlBarViewController: DroneViewController, UIPopoverPresentationContro
         debugPrint("Connecting to server control socket...")
         initializeSocket()
         connectToSocket()
+    }
+    
+    override func viewDidLayoutSubviews() {
+        droneVC = self.parentViewController as! MapViewController
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -77,6 +83,17 @@ class ControlBarViewController: DroneViewController, UIPopoverPresentationContro
         altitudeReadingLabel.text = String(format: "%.3f", altitudeVal) + " m"
     }
     
+    // =================================== FREEZE BUTTON ===================================
+    
+    @IBAction func freezeButtonClicked(sender: AnyObject) {
+        debugPrint("Freeze button clicked")
+        let lateralCommandArgs = [
+            "direction": "stop"
+        ]
+        socket.emit("lateral_cmd", lateralCommandArgs)
+    }
+    
+    
     // =================================== LAUNCH BUTTON ===================================
     
     var isInFlight: Bool {
@@ -116,6 +133,8 @@ class ControlBarViewController: DroneViewController, UIPopoverPresentationContro
             debugPrint("Sending take off request")
             isInFlight = true
             isTakingOff = true
+            self.droneVC.addCommandToQueue("Launch drone")
+            
             HTTPPostJSON(buildSocketAddr + "/control/take_off", jsonObj: []) {
                 (data: String, error: String?) -> Void in
                 if error != nil {
@@ -133,6 +152,8 @@ class ControlBarViewController: DroneViewController, UIPopoverPresentationContro
         } else {
             debugPrint("Sending land request")
             isLanding = true
+            self.droneVC.addCommandToQueue("Land drone")
+            
             HTTPPostJSON(buildSocketAddr + "/control/land", jsonObj: []) {
                 (data: String, error: String?) -> Void in
                 if error != nil {
@@ -215,19 +236,19 @@ class ControlBarViewController: DroneViewController, UIPopoverPresentationContro
     // =================================== DROP PIN BUTTON ===================================
     
     @IBAction func dropPinButtonClicked(sender: AnyObject) {
-        if let droneVC = self.parentViewController as? MapViewController {
-            if let loc = droneVC.locations.last {
-                if (droneVC.pinLocations.count > 0 &&
-                    loc.latitude == droneVC.pinLocations.last!.coordinate.latitude &&
-                    loc.longitude == droneVC.pinLocations.last!.coordinate.longitude
-                    ) {
-                    return;
-                }
-                let pin = MKPointAnnotation()
-                pin.coordinate = loc
-                droneVC.pinLocations.append(pin)
-                droneVC.mapView.addAnnotation(pin)
+        if let loc = droneVC.locations.last {
+            if (droneVC.pinLocations.count > 0 &&
+                loc.latitude == droneVC.pinLocations.last!.coordinate.latitude &&
+                loc.longitude == droneVC.pinLocations.last!.coordinate.longitude
+                ) {
+                return;
             }
+            let pin = MKPointAnnotation()
+            pin.coordinate = loc
+            droneVC.pinLocations.append(pin)
+            droneVC.mapView.addAnnotation(pin)
+            
+            droneVC.addCommandToQueue(String(format: "Pin at (%.03fN, %.03fW)", loc.latitude, loc.longitude))
         }
     }
     
@@ -248,7 +269,6 @@ class ControlBarViewController: DroneViewController, UIPopoverPresentationContro
     
     func adaptivePresentationStyleForPresentationController(controller: UIPresentationController) -> UIModalPresentationStyle {
         return UIModalPresentationStyle.FullScreen
-        //return UIModalPresentationStyle.None
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {

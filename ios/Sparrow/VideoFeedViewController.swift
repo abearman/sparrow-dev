@@ -22,10 +22,6 @@ class VideoFeedViewController: DroneViewController {
         connectToSocket()
     }
     
-    override func viewDidAppear(animated: Bool) {
-        super.viewDidAppear(animated)
-    }
-    
     
     // =================================== SERVER ===================================
     

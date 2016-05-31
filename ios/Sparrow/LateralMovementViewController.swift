@@ -10,12 +10,19 @@ import UIKit
 
 class LateralMovementViewController: DroneViewController {
     
+    var droneVC = MapViewController()
+
     @IBOutlet var lateralButtonsView: UIImageView!
+    
+    override func viewDidLayoutSubviews() {
+        droneVC = self.parentViewController as! MapViewController
+    }
     
     @IBAction func lateralButtonDown(sender: AnyObject) {
         if let button = sender as? UIButton {
             if let buttonID = button.restorationIdentifier {
                 debugPrint("Lateral button %@ pressed", buttonID)
+                droneVC.addCommandToQueue("Move \(buttonID)")
                 let lateralCommandArgs = [
                     "direction": buttonID
                 ]

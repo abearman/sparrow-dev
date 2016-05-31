@@ -12,7 +12,7 @@ class DroneViewController: UIViewController {
     
     // The IP address that the server is running on
     
-    let HOSTNAME = "10.29.96.71"
+    let HOSTNAME = "10.28.96.47"
     let PORT = "5000"
     
     var states: Dictionary<String, String>?
@@ -120,5 +120,5 @@ class DroneViewController: UIViewController {
         UIGraphicsEndImageContext()
         return newImage
     }
-    
+        
 }

@@ -10,10 +10,17 @@ import UIKit
 
 class AltitudeSliderViewController: DroneViewController {
     
+    var droneVC = MapViewController()
+
+    override func viewDidLayoutSubviews() {
+        droneVC = self.parentViewController as! MapViewController
+    }
+    
     @IBAction func altitudeButtonDown(sender: AnyObject) {
         if let button = sender as? UIButton {
             if let buttonID = button.restorationIdentifier {
                 debugPrint("Altitude button %@ pressed", buttonID)
+                droneVC.addCommandToQueue("Move \(buttonID)")
                 let altitudeCommandArgs = [
                     "direction": buttonID
                 ]

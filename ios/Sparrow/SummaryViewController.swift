@@ -41,7 +41,6 @@ class SummaryViewController: UIViewController, MKMapViewDelegate {
             } else {
                 let pinIcon = MKAnnotationView(annotation: annotation, reuseIdentifier: "pinIcon")
                 pinIcon.image = UIImage(named: "pin_icon")
-                print("HEREERERERERER")
                 return pinIcon
             }
         }

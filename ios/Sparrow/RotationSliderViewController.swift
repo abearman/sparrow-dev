@@ -10,6 +10,12 @@ import UIKit
 
 class RotationSliderViewController: DroneViewController {
     
+    var droneVC = MapViewController()
+    
+    override func viewDidLayoutSubviews() {
+        droneVC = self.parentViewController as! MapViewController
+    }
+    
     @IBOutlet var rotationSlider: UISlider! {
         didSet {
             let thumbImage = UIImage(named:"slider_thumb")
@@ -23,7 +29,8 @@ class RotationSliderViewController: DroneViewController {
     }
     
     @IBAction func rotationSliderChange(sender: AnyObject) {
-        debugPrint("Rotation slider changed to %f", self.rotationSlider.value)
+        debugPrint("Rotation slider changed to %f", rotationSlider.value)
+        droneVC.addCommandToQueue(String(format: "Rotate %0.0f degrees", rotationSlider.value))
         let rotationCommandArgs = [
             "heading": self.rotationSlider.value
         ]

@@ -19,15 +19,15 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="logo.png" translatesAutoresizingMaskIntoConstraints="NO" id="rhu-Ex-D7G">
-                                <rect key="frame" x="50" y="270" width="500" height="80"/>
+                                <rect key="frame" x="40" y="270" width="520" height="80"/>
                             </imageView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="rhu-Ex-D7G" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="209-IJ-vfP"/>
                             <constraint firstItem="rhu-Ex-D7G" firstAttribute="top" secondItem="Llm-lL-Icb" secondAttribute="bottom" constant="250" id="3Ai-hg-h4l"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="rhu-Ex-D7G" secondAttribute="trailing" constant="30" id="RyL-dH-8CT"/>
-                            <constraint firstItem="rhu-Ex-D7G" firstAttribute="leading" secondItem="Ze5-6b-2t3" secondAttribute="leadingMargin" constant="30" id="a5K-JK-HXn"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="rhu-Ex-D7G" secondAttribute="trailing" constant="20" id="RyL-dH-8CT"/>
+                            <constraint firstItem="rhu-Ex-D7G" firstAttribute="leading" secondItem="Ze5-6b-2t3" secondAttribute="leadingMargin" constant="20" id="a5K-JK-HXn"/>
                             <constraint firstItem="rhu-Ex-D7G" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" id="das-wp-xz3"/>
                             <constraint firstItem="xb3-aO-Qok" firstAttribute="top" secondItem="rhu-Ex-D7G" secondAttribute="bottom" constant="250" id="fze-nb-viR"/>
                         </constraints>
