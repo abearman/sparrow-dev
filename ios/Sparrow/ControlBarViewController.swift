@@ -133,7 +133,7 @@ class ControlBarViewController: DroneViewController, UIPopoverPresentationContro
             debugPrint("Sending take off request")
             isInFlight = true
             isTakingOff = true
-            self.droneVC.addCommandToQueue("Launch drone")
+            self.droneVC.addCommandToQueue(LAUNCH_DRONE)
             
             HTTPPostJSON(buildSocketAddr + "/control/take_off", jsonObj: []) {
                 (data: String, error: String?) -> Void in
@@ -152,7 +152,7 @@ class ControlBarViewController: DroneViewController, UIPopoverPresentationContro
         } else {
             debugPrint("Sending land request")
             isLanding = true
-            self.droneVC.addCommandToQueue("Land drone")
+            self.droneVC.addCommandToQueue(LAND_DRONE)
             
             HTTPPostJSON(buildSocketAddr + "/control/land", jsonObj: []) {
                 (data: String, error: String?) -> Void in

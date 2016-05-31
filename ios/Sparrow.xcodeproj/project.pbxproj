@@ -58,6 +58,7 @@
 		49CC318F1CCB24D100E9A905 /* Oswald-RegularItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 49CC317F1CCB248400E9A905 /* Oswald-RegularItalic.ttf */; };
 		49CC31901CCB24D300E9A905 /* Oswald-Stencil.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 49CC31801CCB248400E9A905 /* Oswald-Stencil.ttf */; };
 		BD2DC7BB1CE5054C00AAC56B /* logo.png in Resources */ = {isa = PBXBuildFile; fileRef = BD2DC7BA1CE5054C00AAC56B /* logo.png */; };
+		BD8713BF1CFE5417003336AE /* CommandStrings.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD8713BE1CFE5417003336AE /* CommandStrings.swift */; };
 		BDD1EFFA1CF26CF300DF3B52 /* VideoFeedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDD1EFF91CF26CF300DF3B52 /* VideoFeedViewController.swift */; };
 		BDD1F0001CF2712000DF3B52 /* ControlBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDD1EFFF1CF2712000DF3B52 /* ControlBarViewController.swift */; };
 		BDD1F0061CF2797E00DF3B52 /* DroneViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDD1F0051CF2797E00DF3B52 /* DroneViewController.swift */; };
@@ -150,6 +151,7 @@
 		49CC317F1CCB248400E9A905 /* Oswald-RegularItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Oswald-RegularItalic.ttf"; sourceTree = "<group>"; };
 		49CC31801CCB248400E9A905 /* Oswald-Stencil.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Oswald-Stencil.ttf"; sourceTree = "<group>"; };
 		BD2DC7BA1CE5054C00AAC56B /* logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = logo.png; sourceTree = "<group>"; };
+		BD8713BE1CFE5417003336AE /* CommandStrings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommandStrings.swift; sourceTree = "<group>"; };
 		BDD1EFF91CF26CF300DF3B52 /* VideoFeedViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoFeedViewController.swift; sourceTree = "<group>"; };
 		BDD1EFFF1CF2712000DF3B52 /* ControlBarViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ControlBarViewController.swift; sourceTree = "<group>"; };
 		BDD1F0051CF2797E00DF3B52 /* DroneViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DroneViewController.swift; sourceTree = "<group>"; };
@@ -353,6 +355,7 @@
 				BDD1F0511CF520D500DF3B52 /* ImageExtensions.swift */,
 				BDD1F01B1CF3B20A00DF3B52 /* UIColorExtensions.swift */,
 				492AF89F1CC9CE6600A805F3 /* JSONHelper.swift */,
+				BD8713BE1CFE5417003336AE /* CommandStrings.swift */,
 			);
 			name = "Helper Swift Files";
 			sourceTree = "<group>";
@@ -544,6 +547,7 @@
 				4981888D1CCADEB700029A6D /* SocketTypes.swift in Sources */,
 				BDD1F0561CF630AD00DF3B52 /* SARMenuViewController.swift in Sources */,
 				BDD1F0001CF2712000DF3B52 /* ControlBarViewController.swift in Sources */,
+				BD8713BF1CFE5417003336AE /* CommandStrings.swift in Sources */,
 				C1C8124B1CD94B110087ED4D /* WaypointAnnotation.swift in Sources */,
 				BDD1F01A1CF3985000DF3B52 /* AltitudeSliderViewController.swift in Sources */,
 				498188891CCADEB700029A6D /* SocketLogger.swift in Sources */,

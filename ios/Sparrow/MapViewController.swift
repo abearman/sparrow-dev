@@ -107,6 +107,11 @@ class MapViewController: DroneViewController, MKMapViewDelegate, UITableViewData
                 ]
                 socket.emit("waypoint_cmd", waypointArgs)
                 
+                // Wait for waypoint command to complete
+                dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
+                    
+                }
+                    
                 controlBarVC.waypointButton.selected = false
                 controlBarVC.waypointButton.backgroundColor = UIColor(red: 21.0/255.0, green: 126.0/255.0, blue: 251.0/255.0, alpha: 1.0)
             }
@@ -282,7 +287,7 @@ class MapViewController: DroneViewController, MKMapViewDelegate, UITableViewData
     @IBAction func sarConfirmButtonClicked(sender: AnyObject) {
         self.sarControlView.hidden = true
         
-        addCommandToQueue("Navigate \(pathType) SAR path")
+        let commandIndex = addCommandToQueue("Navigate \(pathType) SAR path", color: UIColor.grayColor())
         
         self.sarStepSlider.value = Float(DEFAULT_STEP)
         self.mapView.removeOverlay(sarPreviewPath!)
@@ -309,6 +314,7 @@ class MapViewController: DroneViewController, MKMapViewDelegate, UITableViewData
                 sleep(UInt32(distance / 0.5)) // change back to 2
             }
             print("FINISHED SAR PATH")
+            self.commandsQueue[commandIndex].color = UIColor.blackColor()
         }
         
     }
@@ -331,7 +337,12 @@ class MapViewController: DroneViewController, MKMapViewDelegate, UITableViewData
     
     @IBOutlet var commandsQueueTableView: UITableView!
     
-    var commandsQueue = [String]() {
+    struct Command {
+        var command = ""
+        var color = UIColor.blackColor()
+    }
+    
+    var commandsQueue = [Command]() {
         didSet {
             if (commandsQueue.count > 0) {
                 commandsQueueTableView.hidden = false
@@ -351,8 +362,9 @@ class MapViewController: DroneViewController, MKMapViewDelegate, UITableViewData
         hideCommandsQueueButton.hidden = true
     }
     
-    func addCommandToQueue(command: String) {
-        commandsQueue.append(command)
+    func addCommandToQueue(command: String, color: UIColor = UIColor.blackColor()) -> Int {
+        commandsQueue.append(Command(command: command, color: color))
+        return commandsQueue.count - 1  // Returns the index of where the element was added
     }
 
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -361,8 +373,28 @@ class MapViewController: DroneViewController, MKMapViewDelegate, UITableViewData
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("Command Identifier", forIndexPath: indexPath)
-        cell.textLabel?.text = commandsQueue[indexPath.row]
+        let command = commandsQueue[indexPath.row]
+        cell.textLabel?.text = command.command
+        cell.textLabel?.textColor = command.color
+        if !isCommandDeletable(command.command) {
+            //
+        }
         return cell
+    }
+    
+    func isCommandDeletable(command:String )-> Bool {
+        return true
+    }
+    
+    // These two functions allows us to delete rows
+    func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
+        return true
+    }
+    
+    func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
+        if editingStyle == UITableViewCellEditingStyle.Delete {
+            commandsQueue.removeAtIndex(indexPath.row)  // This reloads the table view
+        }
     }
     
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
