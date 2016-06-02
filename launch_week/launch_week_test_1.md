@@ -1,4 +1,4 @@
-## Launch Week Summary
+## Launch Week Summary (5/12)
 
 For our launch week, we launched our app on Kevin Mott, a valuable contact with the profile of our target customer. Kevin is an Army Captain selected to the General Wayne A. Downing Scholarship; he has a wealth of combat experience learned in Iraq and Afghanistan, and has experience running SAR operations. He is currently at Stanford University studying International Policy.
 
