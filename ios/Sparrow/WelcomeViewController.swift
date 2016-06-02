@@ -23,13 +23,12 @@ class WelcomeViewController: UIViewController, UITextFieldDelegate {
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if let identifier = segue.identifier {
             if identifier == "Drone View" {
+                // Use the placeholder text if user didn't type a new IP address
+                DroneViewController.HOSTNAME = placeholderIPAddress
+                
                 if !(ipTextField.text?.isEmpty)! {
                     DroneViewController.HOSTNAME = ipTextField.text!
                 }
-                
-                // Otherwise just use the placeholder text
-                DroneViewController.HOSTNAME = placeholderIPAddress
-                
             }
         }
     }
