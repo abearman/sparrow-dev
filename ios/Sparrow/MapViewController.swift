@@ -30,8 +30,6 @@ class MapViewController: DroneViewController, MKMapViewDelegate, UITableViewData
         mapView.mapType = MKMapType.Standard
         mapView.delegate = self
         mapView.showsCompass = true
-        mapView.layer.borderWidth = 2
-        mapView.layer.borderColor = UIColor.darkGrayColor().CGColor
         let longPressRec = UILongPressGestureRecognizer(target: self, action: #selector(MapViewController.dropWaypoint(_:)))
         self.mapView.addGestureRecognizer(longPressRec)
         
