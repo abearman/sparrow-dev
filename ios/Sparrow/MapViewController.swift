@@ -26,6 +26,8 @@ class MapViewController: DroneViewController, MKMapViewDelegate, UITableViewData
         super.viewDidLoad()
         
         sarControlView.hidden = true
+        
+        mapView.mapType = MKMapType.Standard
         mapView.delegate = self
         mapView.showsCompass = true
         mapView.layer.borderWidth = 2
@@ -45,6 +47,24 @@ class MapViewController: DroneViewController, MKMapViewDelegate, UITableViewData
         super.didReceiveMemoryWarning()
     }
     
+    
+    // ============== MAP TYPE ================
+    
+    @IBOutlet weak var mapTypeButton: UIButton!
+    
+    @IBAction func toggleMapType(sender: AnyObject) {
+        if mapView.mapType == MKMapType.Standard {
+            mapView.mapType = MKMapType.Hybrid
+            dispatch_async(dispatch_get_main_queue()) { [weak self] in
+                self?.mapTypeButton.titleLabel?.text = "Street"
+            }
+        } else {
+            mapView.mapType = MKMapType.Standard
+            dispatch_async(dispatch_get_main_queue()) { [weak self] in
+                self?.mapTypeButton.titleLabel?.text = "Satellite"
+            }
+        }
+    }
     
     // ============= OVERLAY ============= 
     
