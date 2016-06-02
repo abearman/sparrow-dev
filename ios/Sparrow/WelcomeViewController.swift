@@ -12,23 +12,24 @@ class WelcomeViewController: UIViewController, UITextFieldDelegate {
     
     @IBOutlet weak var ipTextField: UITextField!
     
-    var ipAddress = "10.1.1.188"
+    var placeholderIPAddress = "10.1.1.188"
     
     override func viewDidLoad() {
         ipTextField.attributedPlaceholder =
-            NSAttributedString(string: ipAddress, attributes: [NSForegroundColorAttributeName: UIColor.darkGrayColor()])
+            NSAttributedString(string: placeholderIPAddress, attributes: [NSForegroundColorAttributeName: UIColor.darkGrayColor()])
     }
     
-    
+    // Sets up the IP address in the DroneVC
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if let identifier = segue.identifier {
             if identifier == "Drone View" {
                 if !(ipTextField.text?.isEmpty)! {
-                    ipAddress = ipTextField.text!
-                    
-                    // Set up the IP address in the DroneVC
-                    DroneViewController.HOSTNAME = ipAddress
+                    DroneViewController.HOSTNAME = ipTextField.text!
                 }
+                
+                // Otherwise just use the placeholder text
+                DroneViewController.HOSTNAME = placeholderIPAddress
+                
             }
         }
     }
