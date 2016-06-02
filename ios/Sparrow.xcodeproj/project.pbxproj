@@ -59,6 +59,7 @@
 		49CC31901CCB24D300E9A905 /* Oswald-Stencil.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 49CC31801CCB248400E9A905 /* Oswald-Stencil.ttf */; };
 		BD2DC7BB1CE5054C00AAC56B /* logo.png in Resources */ = {isa = PBXBuildFile; fileRef = BD2DC7BA1CE5054C00AAC56B /* logo.png */; };
 		BD8713BF1CFE5417003336AE /* CommandStrings.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD8713BE1CFE5417003336AE /* CommandStrings.swift */; };
+		BD8713C11D000C03003336AE /* WelcomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD8713C01D000C03003336AE /* WelcomeViewController.swift */; };
 		BDD1EFFA1CF26CF300DF3B52 /* VideoFeedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDD1EFF91CF26CF300DF3B52 /* VideoFeedViewController.swift */; };
 		BDD1F0001CF2712000DF3B52 /* ControlBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDD1EFFF1CF2712000DF3B52 /* ControlBarViewController.swift */; };
 		BDD1F0061CF2797E00DF3B52 /* DroneViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDD1F0051CF2797E00DF3B52 /* DroneViewController.swift */; };
@@ -152,6 +153,7 @@
 		49CC31801CCB248400E9A905 /* Oswald-Stencil.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Oswald-Stencil.ttf"; sourceTree = "<group>"; };
 		BD2DC7BA1CE5054C00AAC56B /* logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = logo.png; sourceTree = "<group>"; };
 		BD8713BE1CFE5417003336AE /* CommandStrings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommandStrings.swift; sourceTree = "<group>"; };
+		BD8713C01D000C03003336AE /* WelcomeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WelcomeViewController.swift; sourceTree = "<group>"; };
 		BDD1EFF91CF26CF300DF3B52 /* VideoFeedViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoFeedViewController.swift; sourceTree = "<group>"; };
 		BDD1EFFF1CF2712000DF3B52 /* ControlBarViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ControlBarViewController.swift; sourceTree = "<group>"; };
 		BDD1F0051CF2797E00DF3B52 /* DroneViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DroneViewController.swift; sourceTree = "<group>"; };
@@ -217,9 +219,7 @@
 			isa = PBXGroup;
 			children = (
 				BDD1F0121CF37B7400DF3B52 /* Helper Swift Files */,
-				BDD1F0051CF2797E00DF3B52 /* DroneViewController.swift */,
-				492AF8661CC9B34B00A805F3 /* MapViewController.swift */,
-				BDD1EFF91CF26CF300DF3B52 /* VideoFeedViewController.swift */,
+				BD8713C21D000C0F003336AE /* Major View Controllers */,
 				BDD1F00F1CF37ADF00DF3B52 /* Manual Controls */,
 				BDD1F0111CF37B4900DF3B52 /* Map View */,
 				492AF8681CC9B34B00A805F3 /* Main.storyboard */,
@@ -313,6 +313,17 @@
 				49CC31801CCB248400E9A905 /* Oswald-Stencil.ttf */,
 			);
 			name = Fonts;
+			sourceTree = "<group>";
+		};
+		BD8713C21D000C0F003336AE /* Major View Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				BD8713C01D000C03003336AE /* WelcomeViewController.swift */,
+				BDD1F0051CF2797E00DF3B52 /* DroneViewController.swift */,
+				492AF8661CC9B34B00A805F3 /* MapViewController.swift */,
+				BDD1EFF91CF26CF300DF3B52 /* VideoFeedViewController.swift */,
+			);
+			name = "Major View Controllers";
 			sourceTree = "<group>";
 		};
 		BDD1F00F1CF37ADF00DF3B52 /* Manual Controls */ = {
@@ -539,6 +550,7 @@
 				498188811CCADEB700029A6D /* SocketEnginePacketType.swift in Sources */,
 				BDD1F0061CF2797E00DF3B52 /* DroneViewController.swift in Sources */,
 				498188881CCADEB700029A6D /* SocketIOClientStatus.swift in Sources */,
+				BD8713C11D000C03003336AE /* WelcomeViewController.swift in Sources */,
 				492AF8A01CC9CE6600A805F3 /* JSONHelper.swift in Sources */,
 				498188861CCADEB700029A6D /* SocketIOClient.swift in Sources */,
 				BDD1EFFA1CF26CF300DF3B52 /* VideoFeedViewController.swift in Sources */,

@@ -26,18 +26,17 @@ class ControlBarViewController: DroneViewController, UIPopoverPresentationContro
         super.viewDidLoad()
         
         // Disable the launch button until a connection is received
-        launchButton.enabled = false
-        launchButton.alpha = 0.5
-        
+        disableLaunchButton()
+       
         waypointButton.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
-        
-        debugPrint("Connecting to server control socket...")
-        initializeSocket()
-        connectToSocket()
     }
     
     override func viewDidLayoutSubviews() {
         droneVC = self.parentViewController as! MapViewController
+        
+        debugPrint("Connecting to server control socket...")
+        initializeSocket()
+        connectToSocket()
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -54,9 +53,7 @@ class ControlBarViewController: DroneViewController, UIPopoverPresentationContro
         // Initializes launch button on connection
         socket.on("connect") {[weak self] data, ack in
             debugPrint("received connect event")
-            // Enable launch button
-            self?.launchButton.enabled = true
-            self?.launchButton.alpha = 1.0
+            self?.enableLaunchButton()
         }
         
         // Constant fetching for latest GPS coordinates
@@ -124,6 +121,16 @@ class ControlBarViewController: DroneViewController, UIPopoverPresentationContro
             updateLaunchButton()
             updateWaypointButtons()
         }
+    }
+    
+    func enableLaunchButton() {
+        launchButton.enabled = true
+        launchButton.alpha = 1.0
+    }
+    
+    func disableLaunchButton() {
+        launchButton.enabled = false
+        launchButton.alpha = 0.5
     }
     
     @IBAction func launchButtonClicked(sender: AnyObject) {

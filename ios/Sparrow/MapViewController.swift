@@ -42,11 +42,7 @@ class MapViewController: DroneViewController, MKMapViewDelegate, UITableViewData
         initializeSocket()
         connectToSocket()
     }
-    
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-    }
-    
+
     
     // ============== MAP TYPE ================
     

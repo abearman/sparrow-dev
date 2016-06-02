@@ -11,14 +11,15 @@ import UIKit
 class DroneViewController: UIViewController {
     
     // The IP address that the server is running on
+    // This is a class variable (should be the same across all instances)
+    static var HOSTNAME: String = ""
     
-    let HOSTNAME = "10.28.96.171"
     let PORT = "5000"
     
     var states: Dictionary<String, String>?
     
     lazy var buildSocketAddr: String = {
-        "http://\(self.HOSTNAME):\(self.PORT)"
+        "http://\(HOSTNAME):\(self.PORT)"
     }()
     
     lazy var socket: SocketIOClient = {
@@ -38,7 +39,10 @@ class DroneViewController: UIViewController {
     }
 
     func connectToSocket() {
-        socket.connect()
+        // Waits 100 seconds for the server to connect
+        socket.connect(timeoutAfter: 100, withTimeoutHandler: {
+            print("Socket timed out on connection")
+        })
     }
 
     var latestLat: Double = 0.0
