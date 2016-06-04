@@ -66,6 +66,11 @@ import com.github.nkzawa.emitter.Emitter;
 import com.github.nkzawa.socketio.client.IO;
 import com.github.nkzawa.socketio.client.Socket;
 
+import android.app.AlertDialog;
+import android.widget.EditText;
+import android.content.DialogInterface;
+import android.text.InputType;
+
 
 /**
  * Main Activity for the Tango Java Quickstart. Demonstrates establishing a
@@ -78,7 +83,7 @@ public class MainActivity extends Activity {
 
     private static final String TAG = MainActivity.class.getSimpleName();
 
-    private static final String addr = "10.1.1.188";
+    private static String addr = "10.1.1.188";
     private static final int port = 5000;
     private static final String sTranslationFormat = "x: %f y: %f z: %f";
     private static final String sRotationFormat = "i: %f j: %f k: %f l: %f";
@@ -124,6 +129,92 @@ public class MainActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Server IP Address");
+
+        // Set up the input
+        final EditText input = new EditText(this);
+        // Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
+        input.setInputType(InputType.TYPE_CLASS_TEXT);
+        builder.setView(input);
+
+        // Set up the buttons
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                addr = input.getText().toString();
+                try {
+
+                    mSocket = IO.socket("http://" + addr + ":" + port + "/pose");
+                    mSocket.on("path_for_interpolation_ack", onPathForInterpolationAck);
+                    mSocket.connect();
+
+                    controlSocket = IO.socket("http://" + addr + ":" + port);
+                    controlSocket.connect();
+
+                    System.out.println("Socket connection has been established");
+
+                } catch (URISyntaxException e) {
+                    e.printStackTrace();
+                }
+
+                JSONObject emptyJSON = new JSONObject();
+                try {
+                    mSocket.emit("path_for_interpolation", emptyJSON);
+                    System.out.println("emitting path for interpolation");
+                } catch (Exception e) {
+                    System.out.println("Exception when emitting path_for_interpolation");
+                    e.printStackTrace();
+                }
+
+                // get GPS location updates
+                // acquire a reference to the system Location Manager
+                LocationManager locationManager = (LocationManager) MainActivity.this.getSystemService(Context.LOCATION_SERVICE);
+
+                // define a listener that responds to location updates
+                LocationListener locationListener = new LocationListener() {
+                    public void onLocationChanged(Location location) {
+                        // called when a new location is found by the network location provider
+                        double latitude = location.getLatitude();
+                        double longitude = location.getLongitude();
+                        System.out.println("latitude: " + latitude);
+                        System.out.println("longitude: " + longitude);
+
+                        // create JSON object with location information
+                        JSONObject loc = new JSONObject();
+                        try {
+                            loc.put("lat", latitude);
+                            loc.put("long", longitude);
+                        } catch (JSONException e) {
+                            System.out.println("JSONException when converting latitude/longitude to JSON");
+                            e.printStackTrace();
+                        }
+
+                        // emit location information to server
+                        try {
+                            System.out.println("emitting gps position");
+                            controlSocket.emit("gps_pos", loc);
+                        } catch (Exception e) {
+                            System.out.println("Exception when emitting gps_pos");
+                            e.printStackTrace();
+                        }
+                    }
+
+                    public void onStatusChanged(String provider, int status, Bundle extras) {}
+
+                    public void onProviderEnabled(String provider) {}
+
+                    public void onProviderDisabled(String provider) {}
+                };
+
+                // register the listener with the location manager to receive location updates
+                locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, locationListener);
+            }
+        });
+
+        builder.show();
+
         setContentView(R.layout.activity_main);
 
         mTranslationTextView = (TextView) findViewById(R.id.translation_textview);
@@ -146,75 +237,6 @@ public class MainActivity extends Activity {
         mConfig.putBoolean(TangoConfig.KEY_BOOLEAN_DEPTH, true);
 
         this.httpclient = new DefaultHttpClient();
-
-        try {
-
-            mSocket = IO.socket("http://" + addr + ":" + port + "/pose");
-            mSocket.on("path_for_interpolation_ack", onPathForInterpolationAck);
-            mSocket.connect();
-
-            controlSocket = IO.socket("http://" + addr + ":" + port);
-            controlSocket.connect();
-
-            System.out.println("Socket connection has been established");
-
-        } catch (URISyntaxException e) {
-            e.printStackTrace();
-        }
-
-        JSONObject emptyJSON = new JSONObject();
-        try {
-            mSocket.emit("path_for_interpolation", emptyJSON);
-            System.out.println("emitting path for interpolation");
-        } catch (Exception e) {
-            System.out.println("Exception when emitting path_for_interpolation");
-            e.printStackTrace();
-        }
-
-
-        // get GPS location updates
-        // acquire a reference to the system Location Manager
-        LocationManager locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
-
-        // define a listener that responds to location updates
-        LocationListener locationListener = new LocationListener() {
-            public void onLocationChanged(Location location) {
-                // called when a new location is found by the network location provider
-                double latitude = location.getLatitude();
-                double longitude = location.getLongitude();
-                System.out.println("latitude: " + latitude);
-                System.out.println("longitude: " + longitude);
-
-                // create JSON object with location information
-                JSONObject loc = new JSONObject();
-                try {
-                    loc.put("lat", latitude);
-                    loc.put("long", longitude);
-                } catch (JSONException e) {
-                    System.out.println("JSONException when converting latitude/longitude to JSON");
-                    e.printStackTrace();
-                }
-
-                // emit location information to server
-                try {
-                    System.out.println("emitting gps position");
-                    controlSocket.emit("gps_pos", loc);
-                } catch (Exception e) {
-                    System.out.println("Exception when emitting gps_pos");
-                    e.printStackTrace();
-                }
-            }
-
-            public void onStatusChanged(String provider, int status, Bundle extras) {}
-
-            public void onProviderEnabled(String provider) {}
-
-            public void onProviderDisabled(String provider) {}
-        };
-
-        // register the listener with the location manager to receive location updates
-        locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, locationListener);
-
     }
 
     private Emitter.Listener onPathForInterpolationAck = new Emitter.Listener() {
