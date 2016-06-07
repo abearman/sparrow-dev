@@ -24,7 +24,8 @@ class SARMenuViewController: UITableViewController {
     // let STEP : Double = 3
     // let DEGREE_STEP = 0.00003
     let RADIAL_OFFSETS : [(dNorth: Double, dEast: Double)] =
-        [(0, 0), (1, 0), (1, 1), (-1, 1), (-1, -1), (2, -1), (2, 2), (-2, 2), (-2, -2), (3, -2), (3, 3)]
+        [(0, 0), (1, 0), (1, 1), (-1, 1), (-1, -1), (2, -1), (2, 2), (-2, 2)]
+    /* Additional radial points: (-2, -2), (3, -2), (3, 3) */
     let LINE_OFFSETS : [(dNorth: Double, dEast: Double)] =
         [(0, 0), (0, 1), (-4, 1), (-4, 2), (0, 2), (0, 3), (-4, 3), (-4, 4), (0, 4), (0, 5), (-4, 5)]
     let SECTOR_OFFSETS : [(dNorth: Double, dEast: Double)] =
