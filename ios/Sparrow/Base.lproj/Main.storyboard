@@ -658,14 +658,18 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="Server IP Address" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8oB-Mw-F6x">
-                                <rect key="frame" x="216" y="230" width="168" height="47"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Server IP Address" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8oB-Mw-F6x">
+                                <rect key="frame" x="216" y="28" width="168" height="47"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="168" id="ItK-iy-dbk"/>
+                                    <constraint firstAttribute="height" constant="47" id="k5n-0m-v4H"/>
+                                </constraints>
                                 <fontDescription key="fontDescription" name="Oswald-Regular" family="Oswald Regular" pointSize="25"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <view contentMode="scaleToFill" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="eW4-Nj-HMb" userLabel="Wrapper View">
-                                <rect key="frame" x="140" y="285" width="321" height="30"/>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="eW4-Nj-HMb" userLabel="Wrapper View">
+                                <rect key="frame" x="140" y="83" width="321" height="30"/>
                                 <subviews>
                                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="LD4-ru-QRc" userLabel="Text Field">
                                         <rect key="frame" x="0.0" y="0.0" width="283" height="30"/>
@@ -694,10 +698,12 @@
                         </subviews>
                         <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="8oB-Mw-F6x" firstAttribute="centerX" secondItem="ZZV-7N-w5Q" secondAttribute="centerX" id="KQF-Do-W4j"/>
-                            <constraint firstItem="eW4-Nj-HMb" firstAttribute="centerX" secondItem="ZZV-7N-w5Q" secondAttribute="centerX" id="Ou2-m9-wLP"/>
-                            <constraint firstItem="eW4-Nj-HMb" firstAttribute="centerY" secondItem="ZZV-7N-w5Q" secondAttribute="centerY" id="SkU-d6-IOi"/>
-                            <constraint firstItem="eW4-Nj-HMb" firstAttribute="top" secondItem="8oB-Mw-F6x" secondAttribute="bottom" constant="8" id="U7x-hu-vRJ"/>
+                            <constraint firstItem="8oB-Mw-F6x" firstAttribute="top" secondItem="jI6-qR-13j" secondAttribute="bottom" constant="8" symbolic="YES" id="Woj-jV-cZU"/>
+                            <constraint firstItem="rqD-vt-h4h" firstAttribute="top" secondItem="eW4-Nj-HMb" secondAttribute="bottom" constant="487" id="lZ7-If-LoZ"/>
+                            <constraint firstItem="eW4-Nj-HMb" firstAttribute="top" secondItem="8oB-Mw-F6x" secondAttribute="bottom" constant="8" symbolic="YES" id="nlF-Bm-obg"/>
+                            <constraint firstItem="8oB-Mw-F6x" firstAttribute="centerX" secondItem="eW4-Nj-HMb" secondAttribute="centerX" id="sx6-Ly-9X6"/>
+                            <constraint firstItem="8oB-Mw-F6x" firstAttribute="centerX" secondItem="ZZV-7N-w5Q" secondAttribute="centerX" id="uPf-oQ-PDN"/>
+                            <constraint firstItem="eW4-Nj-HMb" firstAttribute="leading" secondItem="ZZV-7N-w5Q" secondAttribute="leading" constant="140" id="vFu-kb-CBS"/>
                         </constraints>
                     </view>
                     <connections>
